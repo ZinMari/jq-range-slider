@@ -335,7 +335,7 @@ export default class SliderPresenter {
   }
 
   convertPixelToUnits(value) {
-    return Math.ceil((value / this.pixelInOneStep) * this.model.stepValue);
+    return Math.floor((value / this.pixelInOneStep) * this.model.stepValue);
   }
 
   setProgressBar() {
