@@ -1,7 +1,7 @@
 import SliderView from './View/SliderView';
 import SliderPresenter from './Presenter/SliderPresenter';
 import SliderModel from './Model/SliderModel';
-import './style.scss';
+import './jquery.alexandr.scss';
 
 (function ($) {
   const defaults = {
