@@ -1,5 +1,5 @@
 body {
-    background-color: #5f4444;
+    background-color: #27262b;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -47,10 +47,10 @@ body {
     position: absolute;
     left: 0;
     display: block;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     background-color: #f6f6f6;
-    border: 1px solid #c5c5c5;
+    border: 10px solid #c5c5c5;
     top: 50%;
     transform: translateY(-50%);
     border-radius: 50%;
@@ -90,10 +90,6 @@ body {
 
 .slider29__thumb:hover {
     background-color: #ededed;
-}
-
-.slider29__thumb--max {
-    background-color: #f04646;
 }
 
 .slider29__inputs {
@@ -169,9 +165,10 @@ body {
     width: 50px;
     height: 50px;
     background-color: #fff;
-    color: #5f4444;
+    color: #27262b;
 }
 
 .inputs {
     padding-bottom: 50px;
+    color: #f6f6f6;
 }
