@@ -18,44 +18,24 @@ import './style.scss';
     elemForInputMin: $('.inputs__item-min'),
     elemForInputMax: $('.inputs__item-max'),
   };
-  $.fn.alexander = function (options) {
-    var config = $.extend({}, defaults, options);
-    let jFirst = this.first();
-    class SliderAlex {
-      constructor({
-        slider,
-        minValue,
-        maxValue,
-        stepValue,
-        showMinMaxValue,
-        orientation,
-        type,
-        initialValues,
-        elemForShowValueMin,
-        elemForShowValueMax,
-        elemForInputMin,
-        elemForInputMax,
-      }) {
-        this.view = new SliderView({
-          slider,
-          showMinMaxValue,
-          orientation,
-          type,
-          initialValues,
-          elemForShowValueMin,
-          elemForShowValueMax,
-          elemForInputMin,
-          elemForInputMax,
-        });
-        this.model = new SliderModel({ minValue, maxValue, stepValue });
+
+  class Alexandr{
+    constructor(options){
+      this.config = $.extend({}, defaults, options);
+      this.init();
+    }  
+  }
+
+  Alexandr.prototype.init = function(){        
+        this.view = new SliderView({...this.config});
+        this.model = new SliderModel({...this.config});
         this.presenter = new SliderPresenter(this.view, this.model);
-      }
-    }
+  }
 
-    const a = new SliderAlex(config);
-
-    return jFirst;
+  $.fn.alexander = function (options) {
+    new Alexandr(options);
+    return this.first();
   };
 })(jQuery);
 
-$('.slider29').alexander({ maxValue: 10000 });
+$('.slider29').alexander();
