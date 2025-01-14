@@ -14,10 +14,17 @@ export default class SliderView {
     elemForShowValueMax,
     elemForInputMin,
     elemForInputMax,
+    lineClass,
+    progressBarClass,
+    thumbClass,
+    thumbMinClass,
+    thumbMaxClass,
+    showMinValueClass,
+    showMaxValueClass,
   }) {
     this.slider = slider;
-    this.sliderLine = new SliderLineView(slider);
-    this.sliderProgressBar = new SliderProgressBar(this.sliderLine.item);
+    this.sliderLine = new SliderLineView(slider, lineClass);
+    this.sliderProgressBar = new SliderProgressBar(this.sliderLine.item, progressBarClass);
     this.sliderThumbs = [];
     this.sliderOrientation = orientation;
     this.sliderInitialValues = initialValues;
@@ -29,19 +36,21 @@ export default class SliderView {
 
     // создать мин макс
     if (showMinMaxValue) {
-      this.sliderMinMaxValueLine = new SliderMinMaxValueLineView(slider);
+      this.sliderMinMaxValueLine = new SliderMinMaxValueLineView(slider, showMinValueClass, showMaxValueClass);
     }
 
     //создать кнопки
     if (this.type === 'double') {
       let min = new SliderThumbView(this.sliderLine.item);
-      min.item.addClass('slider29__thumb--min');
+      min.item.addClass(`slider29__thumb--min ${thumbMinClass}`);
       let max = new SliderThumbView(this.sliderLine.item);
-      max.item.addClass('slider29__thumb--max');
+      max.item.addClass(`slider29__thumb--max ${thumbMaxClass}`);
 
       this.sliderThumbs.push(min, max);
     } else {
-      this.sliderThumbs.push(new SliderThumbView(this.sliderLine.item));
+      let thumb = new SliderThumbView(this.sliderLine.item)
+      thumb.item.addClass(thumbClass);
+      this.sliderThumbs.push(thumb);
     }
 
     // установить ориентацию

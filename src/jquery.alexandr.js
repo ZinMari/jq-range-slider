@@ -17,6 +17,13 @@ import './jquery.alexandr.scss';
     elemForShowValueMax: $('.max'),
     elemForInputMin: $('.inputs__item-min'),
     elemForInputMax: $('.inputs__item-max'),
+    lineClass: '',
+    progressBarClass: '',
+    thumbClass: '',
+    thumbMinClass: '',
+    thumbMaxClass: '',
+    showMinValueClass: '',
+    showMaxValueClass: '',
   };
 
   class Alexandr{
