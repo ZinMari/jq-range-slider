@@ -12,11 +12,6 @@ export default class SliderPresenter {
     this.maxThumbPixelPosition = this.view.sliderLength;
 
     this.setInitialValues();
-
-    this.view.sliderThumbs.forEach((elem) => {
-      elem.item.on('mousedown', this.onThumbMouseDown);
-    });
-
     this.updateShowValues();
 
     //загрузить значения в линейку мин макс

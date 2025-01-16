@@ -62,6 +62,11 @@ export default class SliderView {
       this.sliderThumbs.push(thumb);
     }
 
+    //повесить на кнопки события
+    this.sliderThumbs.forEach((elem) => {
+      elem.item.on('mousedown', this.presenter.onThumbMouseDown);
+    });
+
     // установить ориентацию
     if (this.sliderOrientation === 'vertical') {
       this.setVerticalOrientation();
