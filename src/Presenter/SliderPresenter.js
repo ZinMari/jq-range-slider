@@ -95,7 +95,7 @@ export default class SliderPresenter {
     document.addEventListener('mouseup', onMouseUp);
   };
 
-  sliderLineClick(event) {
+  onSliderLineClick(event) {
     let sliderLineCoords = this.getCoords(this.view.sliderLine.item);
 
     // на скольких пикселях от линии произошел клик
