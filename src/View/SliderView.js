@@ -9,6 +9,7 @@ export default class SliderView {
     showMinMaxValue,
     orientation,
     type,
+    showInput,
     initialValues,
     elemForShowValueMin,
     elemForShowValueMax,
@@ -33,6 +34,8 @@ export default class SliderView {
     this.elemForInputMin = elemForInputMin;
     this.elemForInputMax = elemForInputMax;
     this.type = type;
+    this.showInput = showInput;
+    this.inputs = [];
     this.thumbClass = thumbClass;
     this.thumbMinClass = thumbMinClass;
     this.thumbMaxClass = thumbMaxClass;
@@ -60,6 +63,31 @@ export default class SliderView {
       let thumb = new SliderThumbView(this.sliderLine.item);
       thumb.item.addClass(this.thumbClass);
       this.sliderThumbs.push(thumb);
+    }
+
+    //создать инпуты для ввода
+    if (this.showInput) {
+      const inputsWrap = $('<div>', { class: 'alexandr__inputs' });
+      const minElement = $('<label>', { text: 'MIN' }).append(
+        $('<input>', { class: 'inputs__item alexandr__input-min' }),
+      );
+      inputsWrap.append(minElement);
+      this.inputs.push(minElement);
+      if (this.type === 'double') {
+        const maxElement = $('<label>', { text: 'MAX' }).append(
+          $('<input>', { class: 'inputs__item alexandr__input-max' }),
+        );
+        inputsWrap.append(maxElement);
+        this.inputs.push(maxElement);
+      }
+      $('.wrapp').prepend(inputsWrap);
+    }
+
+    //повесить события на инпуты
+    if (this.inputs.length) {
+      this.inputs.forEach((input) => {
+        input.on('change', this.presenter.onChangeInput);
+      });
     }
 
     //повесить на кнопки события

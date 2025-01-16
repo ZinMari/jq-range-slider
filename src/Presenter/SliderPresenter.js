@@ -13,129 +13,27 @@ export default class SliderPresenter {
 
     this.setInitialValues();
     this.updateShowValues();
+    this.setProgressBar();
+  }
 
-    //установить ввод значений
-    if (this.view.elemForInputMin) {
-      this.view.elemForInputMin.on('change', () => {
-        let val = parseInt(this.view.elemForInputMin.val());
-        val = Number.isNaN(val) ? 0 : val;
-        this.setValues(this.view.sliderThumbs[0].item, val);
-        this.view.elemForInputMin.val(this.convertPixelToUnits(this.minThumbPixelPosition));
-        this.setProgressBar();
-        this.updateShowValues();
-      });
+  onChangeInput = (event) => {
+    const currentInput = $(event.target);
+    let currentValue = parseInt(currentInput.val());
+    currentValue = Number.isNaN(currentValue) ? 0 : currentValue;
+
+    if (currentInput.hasClass('alexandr__input-min')) {
+      this.setValues(this.view.sliderThumbs[0].item, currentValue);
+      currentInput.val(this.convertPixelToUnits(this.minThumbPixelPosition));
     }
 
-    if (this.view.elemForInputMax && this.view.type === 'double') {
-      this.view.elemForInputMax.on('change', () => {
-        let val = parseInt(this.view.elemForInputMax.val());
-        val = Number.isNaN(val) ? 0 : val;
-        this.setValues(this.view.sliderThumbs[1].item, val);
-        this.view.elemForInputMax.val(this.convertPixelToUnits(this.maxThumbPixelPosition));
-        this.setProgressBar();
-        this.updateShowValues();
-      });
+    if (currentInput.hasClass('alexandr__input-max') && this.view.type === 'double') {
+      this.setValues(this.view.sliderThumbs[1].item, currentValue);
+      currentInput.val(this.convertPixelToUnits(this.maxThumbPixelPosition));
     }
 
     this.setProgressBar();
-  }
-  updateShowValues() {
-    if (this.view.elemForShowValueMax && this.view.type === 'double') {
-      this.view.elemForShowValueMax.text(this.convertPixelToUnits(this.maxThumbPixelPosition));
-    }
-    if (this.view.elemForShowValueMin) {
-      this.view.elemForShowValueMin.text(this.convertPixelToUnits(this.minThumbPixelPosition));
-    }
-    if (this.view.elemForInputMax && this.view.type === 'double') {
-      this.view.elemForInputMax.val(this.convertPixelToUnits(this.maxThumbPixelPosition));
-    }
-    if (this.view.elemForInputMin) {
-      this.view.elemForInputMin.val(this.convertPixelToUnits(this.minThumbPixelPosition));
-    }
-  }
-
-  sliderLineClick(event) {
-    let sliderLineCoords = this.getCoords(this.view.sliderLine.item);
-
-    // на скольких пикселях от линии произошел клик
-    let pixelClick =
-      this.moveDirection === 'left'
-        ? event.clientX - sliderLineCoords.left
-        : event.clientY - sliderLineCoords.top;
-
-    let stepLeft = this.equateValueToStep(pixelClick, this.pixelInOneStep);
-
-    if (this.view.type === 'single') {
-      this.view.sliderThumbs[0].item.css({ [this.moveDirection]: stepLeft });
-      this.minThumbPixelPosition = stepLeft;
-      this.setProgressBar();
-    }
-    if (this.view.type === 'double') {
-      const middlePixels =
-        this.minThumbPixelPosition + (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
-
-      if (stepLeft < middlePixels) {
-        this.view.sliderThumbs[0].item.css({ [this.moveDirection]: stepLeft });
-        this.minThumbPixelPosition = stepLeft;
-      } else {
-        this.view.sliderThumbs[1].item.css({ [this.moveDirection]: stepLeft });
-        this.maxThumbPixelPosition = stepLeft;
-      }
-      this.setProgressBar();
-    }
-  }
-
-  setValues(thumb, value) {
-    if (thumb.hasClass('slider29__thumb--max')) {
-      let pixel = this.convertUnitsToPixels(value);
-      let step = this.equateValueToStep(pixel, this.pixelInOneStep);
-      step =
-        step <= this.minThumbPixelPosition + this.pixelInOneStep
-          ? this.minThumbPixelPosition + this.pixelInOneStep
-          : step;
-      step = step >= this.view.sliderLength ? this.view.sliderLength : step;
-
-      this.view.sliderThumbs[1].item.css({
-        [this.moveDirection]: step,
-      });
-
-      this.maxThumbPixelPosition = step;
-    } else {
-      value = value <= this.model.minValue ? this.model.minValue : value;
-
-      value =
-        value >= this.model.maxValue - this.model.stepValue
-          ? this.model.maxValue - this.model.stepValue
-          : value;
-
-      let pixel = this.convertUnitsToPixels(value);
-      pixel =
-        pixel >= this.maxThumbPixelPosition - this.pixelInOneStep
-          ? this.maxThumbPixelPosition - this.pixelInOneStep
-          : pixel;
-      let step = this.equateValueToStep(pixel, this.pixelInOneStep);
-
-      this.view.sliderThumbs[0].item.css({ [this.moveDirection]: step });
-      this.minThumbPixelPosition = step;
-    }
-  }
-
-  setInitialValues() {
-    if (this.view.sliderInitialValues[0]) {
-      this.setValues(this.view.sliderThumbs[0].item, this.view.sliderInitialValues[0]);
-    }
-
-    if (this.view.type === 'double') {
-      if (this.view.sliderInitialValues[1]) {
-        this.setValues(this.view.sliderThumbs[1].item, this.view.sliderInitialValues[1]);
-      } else {
-        this.setValues(
-          this.view.sliderThumbs[1].item,
-          this.view.sliderInitialValues[0] + this.model.stepValue,
-        );
-      }
-    }
-  }
+    this.updateShowValues();
+  };
 
   onThumbMouseDown = (event) => {
     event.preventDefault();
@@ -196,6 +94,104 @@ export default class SliderPresenter {
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   };
+
+  sliderLineClick(event) {
+    let sliderLineCoords = this.getCoords(this.view.sliderLine.item);
+
+    // на скольких пикселях от линии произошел клик
+    let pixelClick =
+      this.moveDirection === 'left'
+        ? event.clientX - sliderLineCoords.left
+        : event.clientY - sliderLineCoords.top;
+
+    let stepLeft = this.equateValueToStep(pixelClick, this.pixelInOneStep);
+
+    if (this.view.type === 'single') {
+      this.view.sliderThumbs[0].item.css({ [this.moveDirection]: stepLeft });
+      this.minThumbPixelPosition = stepLeft;
+      this.setProgressBar();
+    }
+    if (this.view.type === 'double') {
+      const middlePixels =
+        this.minThumbPixelPosition + (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
+
+      if (stepLeft < middlePixels) {
+        this.view.sliderThumbs[0].item.css({ [this.moveDirection]: stepLeft });
+        this.minThumbPixelPosition = stepLeft;
+      } else {
+        this.view.sliderThumbs[1].item.css({ [this.moveDirection]: stepLeft });
+        this.maxThumbPixelPosition = stepLeft;
+      }
+      this.setProgressBar();
+    }
+  }
+
+  updateShowValues() {
+    if (this.view.elemForShowValueMax && this.view.type === 'double') {
+      this.view.elemForShowValueMax.text(this.convertPixelToUnits(this.maxThumbPixelPosition));
+    }
+    if (this.view.elemForShowValueMin) {
+      this.view.elemForShowValueMin.text(this.convertPixelToUnits(this.minThumbPixelPosition));
+    }
+    if (this.view.elemForInputMax && this.view.type === 'double') {
+      this.view.elemForInputMax.val(this.convertPixelToUnits(this.maxThumbPixelPosition));
+    }
+    if (this.view.elemForInputMin) {
+      this.view.elemForInputMin.val(this.convertPixelToUnits(this.minThumbPixelPosition));
+    }
+  }
+
+  setValues(thumb, value) {
+    if (thumb.hasClass('slider29__thumb--max')) {
+      let pixel = this.convertUnitsToPixels(value);
+      let step = this.equateValueToStep(pixel, this.pixelInOneStep);
+      step =
+        step <= this.minThumbPixelPosition + this.pixelInOneStep
+          ? this.minThumbPixelPosition + this.pixelInOneStep
+          : step;
+      step = step >= this.view.sliderLength ? this.view.sliderLength : step;
+
+      this.view.sliderThumbs[1].item.css({
+        [this.moveDirection]: step,
+      });
+
+      this.maxThumbPixelPosition = step;
+    } else {
+      value = value <= this.model.minValue ? this.model.minValue : value;
+
+      value =
+        value >= this.model.maxValue - this.model.stepValue
+          ? this.model.maxValue - this.model.stepValue
+          : value;
+
+      let pixel = this.convertUnitsToPixels(value);
+      pixel =
+        pixel >= this.maxThumbPixelPosition - this.pixelInOneStep
+          ? this.maxThumbPixelPosition - this.pixelInOneStep
+          : pixel;
+      let step = this.equateValueToStep(pixel, this.pixelInOneStep);
+
+      this.view.sliderThumbs[0].item.css({ [this.moveDirection]: step });
+      this.minThumbPixelPosition = step;
+    }
+  }
+
+  setInitialValues() {
+    if (this.view.sliderInitialValues[0]) {
+      this.setValues(this.view.sliderThumbs[0].item, this.view.sliderInitialValues[0]);
+    }
+
+    if (this.view.type === 'double') {
+      if (this.view.sliderInitialValues[1]) {
+        this.setValues(this.view.sliderThumbs[1].item, this.view.sliderInitialValues[1]);
+      } else {
+        this.setValues(
+          this.view.sliderThumbs[1].item,
+          this.view.sliderInitialValues[0] + this.model.stepValue,
+        );
+      }
+    }
+  }
 
   setMinMaxValue() {
     this.view.sliderMinMaxValueLine.min.text(this.model.minValue);
