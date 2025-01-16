@@ -67,6 +67,16 @@ export default class SliderView {
       elem.item.on('mousedown', this.presenter.onThumbMouseDown);
     });
 
+    //загрузить значения в линейку мин макс
+    if (this.sliderMinMaxValueLine) {
+      this.presenter.setMinMaxValue();
+    }
+
+    //клик по полосе
+    this.sliderLine.item.on('click', (event) => {
+      this.presenter.sliderLineClick(event);
+    });
+
     // установить ориентацию
     if (this.sliderOrientation === 'vertical') {
       this.setVerticalOrientation();

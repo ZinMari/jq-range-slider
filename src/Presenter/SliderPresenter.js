@@ -14,11 +14,6 @@ export default class SliderPresenter {
     this.setInitialValues();
     this.updateShowValues();
 
-    //загрузить значения в линейку мин макс
-    if (this.view.sliderMinMaxValueLine) {
-      this.setMinMaxValue();
-    }
-
     //установить ввод значений
     if (this.view.elemForInputMin) {
       this.view.elemForInputMin.on('change', () => {
@@ -41,10 +36,6 @@ export default class SliderPresenter {
         this.updateShowValues();
       });
     }
-
-    this.view.sliderLine.item.on('click', (event) => {
-      this.sliderLineClick(event);
-    });
 
     this.setProgressBar();
   }
