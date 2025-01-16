@@ -2,6 +2,9 @@ export default class SliderPresenter {
   constructor(view, model) {
     this.view = view;
     this.model = model;
+  }
+
+  init() {
     this.pixelInOneStep =
       (this.view.sliderLength / (this.model.maxValue - this.model.minValue)) * this.model.stepValue;
     this.moveDirection = this.view.sliderOrientation === 'vertical' ? 'top' : 'left';
@@ -50,7 +53,6 @@ export default class SliderPresenter {
 
     this.setProgressBar();
   }
-
   updateShowValues() {
     if (this.view.elemForShowValueMax && this.view.type === 'double') {
       this.view.elemForShowValueMax.text(this.convertPixelToUnits(this.maxThumbPixelPosition));

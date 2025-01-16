@@ -33,23 +33,32 @@ export default class SliderView {
     this.elemForInputMin = elemForInputMin;
     this.elemForInputMax = elemForInputMax;
     this.type = type;
-
+    this.thumbClass = thumbClass;
+    this.thumbMinClass = thumbMinClass;
+    this.thumbMaxClass = thumbMaxClass;
     // создать мин макс
     if (showMinMaxValue) {
-      this.sliderMinMaxValueLine = new SliderMinMaxValueLineView(slider, showMinValueClass, showMaxValueClass);
+      this.sliderMinMaxValueLine = new SliderMinMaxValueLineView(
+        slider,
+        showMinValueClass,
+        showMaxValueClass,
+      );
     }
+  }
 
+  init(presenter) {
+    this.presenter = presenter;
     //создать кнопки
     if (this.type === 'double') {
       let min = new SliderThumbView(this.sliderLine.item);
-      min.item.addClass(`slider29__thumb--min ${thumbMinClass}`);
+      min.item.addClass(`slider29__thumb--min ${this.thumbMinClass}`);
       let max = new SliderThumbView(this.sliderLine.item);
-      max.item.addClass(`slider29__thumb--max ${thumbMaxClass}`);
+      max.item.addClass(`slider29__thumb--max ${this.thumbMaxClass}`);
 
       this.sliderThumbs.push(min, max);
     } else {
-      let thumb = new SliderThumbView(this.sliderLine.item)
-      thumb.item.addClass(thumbClass);
+      let thumb = new SliderThumbView(this.sliderLine.item);
+      thumb.item.addClass(this.thumbClass);
       this.sliderThumbs.push(thumb);
     }
 
