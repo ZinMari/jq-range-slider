@@ -57,7 +57,7 @@ body {
     cursor: pointer;
 }
 
-.slider29__thumb::before {
+.slider29__thumb.flag::before {
     content: attr(data-value);
     position: absolute;
     top: -50px;
@@ -83,7 +83,7 @@ body {
     transform: translateX(-50%);
 }
 
-.slider29__thumb--vertical::before {
+.slider29__thumb--vertical.flag::before {
     left: -50px;
     top: 50%;
     transform: translateX(0) translateY(-50%);

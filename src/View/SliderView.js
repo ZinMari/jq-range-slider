@@ -67,6 +67,13 @@ export default class SliderView {
       this.sliderThumbs.push(thumb);
     }
 
+    //показать флажки
+    if (this.showValueFlag) {
+      $.each(this.sliderThumbs, function () {
+        this.item.addClass('flag');
+      });
+    }
+
     //создать инпуты для ввода
     if (this.showInput) {
       const inputsWrap = $('<div>', { class: 'alexandr__inputs' });
