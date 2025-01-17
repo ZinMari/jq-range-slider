@@ -83,6 +83,16 @@ export default class SliderView {
       $('.wrapp').prepend(inputsWrap);
     }
 
+    //загрузить значения в линейку мин макс
+    if (this.sliderMinMaxValueLine) {
+      this.presenter.setMinMaxValue();
+    }
+
+    // установить ориентацию
+    if (this.sliderOrientation === 'vertical') {
+      this.setVerticalOrientation();
+    }
+
     //повесить события на инпуты
     if (this.inputs.length) {
       this.inputs.forEach((input) => {
@@ -99,16 +109,6 @@ export default class SliderView {
     this.sliderLine.item.on('click', (event) => {
       this.presenter.onSliderLineClick(event);
     });
-
-    //загрузить значения в линейку мин макс
-    if (this.sliderMinMaxValueLine) {
-      this.presenter.setMinMaxValue();
-    }
-
-    // установить ориентацию
-    if (this.sliderOrientation === 'vertical') {
-      this.setVerticalOrientation();
-    }
 
     this.sliderLength =
       this.sliderOrientation === 'vertical'

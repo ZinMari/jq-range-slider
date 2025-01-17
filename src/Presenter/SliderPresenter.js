@@ -133,11 +133,16 @@ export default class SliderPresenter {
     if (this.view.elemForShowValueMin) {
       this.view.elemForShowValueMin.text(this.convertPixelToUnits(this.minThumbPixelPosition));
     }
-    if (this.view.elemForInputMax && this.view.type === 'double') {
-      this.view.elemForInputMax.val(this.convertPixelToUnits(this.maxThumbPixelPosition));
+
+    if (this.view.inputs[1] && this.view.type === 'double') {
+      this.view.inputs[1]
+        .children(':last')
+        .val(this.convertPixelToUnits(this.maxThumbPixelPosition));
     }
-    if (this.view.elemForInputMin) {
-      this.view.elemForInputMin.val(this.convertPixelToUnits(this.minThumbPixelPosition));
+    if (this.view.inputs[0]) {
+      this.view.inputs[0]
+        .children(':last')
+        .val(this.convertPixelToUnits(this.minThumbPixelPosition));
     }
   }
 
