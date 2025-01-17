@@ -225,56 +225,33 @@ export default class SliderPresenter {
     }
   }
 
-  getNewThumbCord(
-    event,
-    shiftClickThumb,
-    sliderLineCoords,
-    currentThumbCoords,
-    orientation,
-    sliderType,
-  ) {
-    if (orientation === 'vertical') {
-      return this._getNewThumbCord(
-        event.clientY,
-        shiftClickThumb,
-        sliderLineCoords.top,
-        sliderLineCoords.height,
-        currentThumbCoords.height,
-        this.pixelInOneStep,
-        sliderType,
-      );
+  getNewThumbCord(event, shiftClickThumb, sliderLineCoords, currentThumbCoords) {
+    let clientEvent;
+    let clientLineCoordsOffset;
+    let clientLineCoordsSize;
+    let clientThumbCoordsSize;
+    if (this.view.sliderOrientation === 'vertical') {
+      clientEvent = event.clientY;
+      clientLineCoordsOffset = sliderLineCoords.top;
+      clientLineCoordsSize = sliderLineCoords.height;
+      clientThumbCoordsSize = currentThumbCoords.height;
     } else {
-      return this._getNewThumbCord(
-        event.clientX,
-        shiftClickThumb,
-        sliderLineCoords.left,
-        sliderLineCoords.width,
-        currentThumbCoords.width,
-        this.pixelInOneStep,
-        sliderType,
-      );
+      clientEvent = event.clientX;
+      clientLineCoordsOffset = sliderLineCoords.left;
+      clientLineCoordsSize = sliderLineCoords.width;
+      clientThumbCoordsSize = currentThumbCoords.width;
     }
-  }
 
-  _getNewThumbCord(
-    eventClient,
-    shiftThumb,
-    sliderStartCoords,
-    sliderLength,
-    sliderThumbLength,
-    pixelInOneStep,
-    sliderType,
-  ) {
-    let newLeft = eventClient - shiftThumb - sliderStartCoords;
+    let newLeft = clientEvent - shiftClickThumb - clientLineCoordsOffset;
 
     //подгоним движение под шаг
-    newLeft = this.equateValueToStep(newLeft, pixelInOneStep);
+    newLeft = this.equateValueToStep(newLeft, this.pixelInOneStep);
 
     // курсор вышел из слайдера => оставить бегунок в его границах.
     if (newLeft < 0) {
       newLeft = 0;
     }
-    let rightEdge = sliderLength - sliderThumbLength;
+    let rightEdge = clientLineCoordsSize - clientThumbCoordsSize;
 
     if (newLeft > rightEdge) {
       newLeft = rightEdge;
