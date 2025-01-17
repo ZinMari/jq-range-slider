@@ -104,13 +104,17 @@ export default class SliderPresenter {
         ? event.clientX - sliderLineCoords.left
         : event.clientY - sliderLineCoords.top;
 
-    let stepLeft = this.equateValueToStep(pixelClick, this.pixelInOneStep);
+    this.moveThumbs(pixelClick);
+  }
+
+  moveThumbs(value) {
+    let stepLeft = this.equateValueToStep(value, this.pixelInOneStep);
 
     if (this.view.type === 'single') {
       this.view.sliderThumbs[0].item.css({ [this.moveDirection]: stepLeft });
       this.minThumbPixelPosition = stepLeft;
-      this.setProgressBar();
     }
+
     if (this.view.type === 'double') {
       const middlePixels =
         this.minThumbPixelPosition + (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
@@ -127,6 +131,13 @@ export default class SliderPresenter {
       this.updateFlagValues();
     }
   }
+
+  onRulerClick = (event) => {
+    const target = $(event.target);
+    if (target.attr('data-dividing')) {
+      this.moveThumbs(this.convertUnitsToPixels(target.attr('data-dividing')));
+    }
+  };
 
   updateShowValues() {
     if (this.view.elemForShowValueMax && this.view.type === 'double') {
@@ -162,6 +173,18 @@ export default class SliderPresenter {
         );
       }
     }
+  }
+
+  setValuesToRuler() {
+    const stepRuler =
+      (this.model.maxValue - this.model.minValue) / (this.view.sliderRuler.dividings.length - 1);
+
+    let currentValue = this.model.minValue;
+
+    $.each(this.view.sliderRuler.dividings, function () {
+      this.attr('data-dividing', Math.round(currentValue));
+      currentValue += stepRuler;
+    });
   }
 
   setValues(thumb, value) {

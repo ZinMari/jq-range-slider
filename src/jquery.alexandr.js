@@ -15,6 +15,7 @@ import './jquery.alexandr.scss';
     type: 'double',
     showInput: true,
     showValueFlag: true,
+    showRuler: true,
     initialValues: [200, 400],
     elemForShowValueMin: $('.min'),
     elemForShowValueMax: $('.max'),

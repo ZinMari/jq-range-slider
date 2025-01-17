@@ -1,6 +1,7 @@
 import SliderLineView from './SliderLineView';
 import SliderMinMaxValueLineView from './sliderMinMaxValueLineView';
 import SliderProgressBar from './SliderProgressbar';
+import SliderRulerView from './SliderRulerView';
 import SliderThumbView from './SliderThumbView';
 
 export default class SliderView {
@@ -11,6 +12,7 @@ export default class SliderView {
     type,
     showInput,
     showValueFlag,
+    showRuler,
     initialValues,
     elemForShowValueMin,
     elemForShowValueMax,
@@ -37,6 +39,7 @@ export default class SliderView {
     this.type = type;
     this.showInput = showInput;
     this.showValueFlag = showValueFlag;
+    this.showRuler = showRuler;
     this.inputs = [];
     this.thumbClass = thumbClass;
     this.thumbMinClass = thumbMinClass;
@@ -74,6 +77,11 @@ export default class SliderView {
       });
     }
 
+    // создать линейку
+    if (this.showRuler) {
+      this.sliderRuler = new SliderRulerView(this.slider);
+    }
+
     //создать инпуты для ввода
     if (this.showInput) {
       const inputsWrap = $('<div>', { class: 'alexandr__inputs' });
@@ -92,9 +100,14 @@ export default class SliderView {
       $('.wrapp').prepend(inputsWrap);
     }
 
-    //загрузить значения в линейку мин макс
+    //загрузить значения в полосу мин макс
     if (this.sliderMinMaxValueLine) {
       this.presenter.setMinMaxValue();
+    }
+
+    // загрузить значения в линейку
+    if (this.sliderRuler) {
+      this.presenter.setValuesToRuler();
     }
 
     // установить ориентацию
@@ -119,6 +132,11 @@ export default class SliderView {
       this.presenter.onSliderLineClick(event);
     });
 
+    //повесить событие на линейку
+    if (this.sliderRuler) {
+      this.sliderRuler.item.on('click', this.presenter.onRulerClick);
+    }
+
     this.sliderLength =
       this.sliderOrientation === 'vertical'
         ? this.slider.outerHeight() - this.sliderThumbs[0].item.outerHeight()
@@ -141,5 +159,13 @@ export default class SliderView {
     this.sliderThumbs.forEach((thumb) => {
       thumb.item.addClass('slider29__thumb--vertical');
     });
+
+    //повернуть линейку
+    if (this.sliderRuler) {
+      this.sliderRuler.item.addClass('alexandr__ruler--vertical');
+      this.sliderRuler.dividings.forEach((elem) => {
+        elem.addClass('alexandr__dividing--vertical');
+      });
+    }
   }
 }
