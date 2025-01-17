@@ -14,6 +14,7 @@ export default class SliderPresenter {
     this.setInitialValues();
     this.updateShowValues();
     this.setProgressBar();
+    this.updateFlagValues();
   }
 
   onChangeInput = (event) => {
@@ -80,10 +81,9 @@ export default class SliderPresenter {
       // отобзазим новое положение
       currenThumb.css({ [this.moveDirection]: value });
 
-      //
       this.setProgressBar();
-
       this.updateShowValues();
+      this.updateFlagValues();
     };
 
     function onMouseUp() {
@@ -123,6 +123,8 @@ export default class SliderPresenter {
         this.maxThumbPixelPosition = stepLeft;
       }
       this.setProgressBar();
+      this.updateShowValues();
+      this.updateFlagValues();
     }
   }
 
@@ -143,6 +145,22 @@ export default class SliderPresenter {
       this.view.inputs[0]
         .children(':last')
         .val(this.convertPixelToUnits(this.minThumbPixelPosition));
+    }
+  }
+
+  updateFlagValues() {
+    //загрузить значения в окошки
+    if (this.view.showValueFlag) {
+      this.view.sliderThumbs[0].item.attr(
+        'data-value',
+        this.convertPixelToUnits(this.minThumbPixelPosition),
+      );
+      if (this.view.type === 'double') {
+        this.view.sliderThumbs[1].item.attr(
+          'data-value',
+          this.convertPixelToUnits(this.maxThumbPixelPosition),
+        );
+      }
     }
   }
 

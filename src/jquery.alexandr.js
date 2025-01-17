@@ -14,6 +14,7 @@ import './jquery.alexandr.scss';
     orientation: 'horizontal',
     type: 'double',
     showInput: true,
+    showValueFlag: true,
     initialValues: [200, 400],
     elemForShowValueMin: $('.min'),
     elemForShowValueMax: $('.max'),

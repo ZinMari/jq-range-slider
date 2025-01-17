@@ -10,6 +10,7 @@ export default class SliderView {
     orientation,
     type,
     showInput,
+    showValueFlag,
     initialValues,
     elemForShowValueMin,
     elemForShowValueMax,
@@ -35,6 +36,7 @@ export default class SliderView {
     this.elemForInputMax = elemForInputMax;
     this.type = type;
     this.showInput = showInput;
+    this.showValueFlag = showValueFlag;
     this.inputs = [];
     this.thumbClass = thumbClass;
     this.thumbMinClass = thumbMinClass;
