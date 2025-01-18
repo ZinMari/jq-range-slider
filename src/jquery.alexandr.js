@@ -6,7 +6,6 @@ import './jquery.alexandr.scss';
 
 (function ($) {
   const defaults = {
-    slider: $('.slider29'),
     minValue: 0,
     maxValue: 400,
     stepValue: 50,
@@ -29,8 +28,9 @@ import './jquery.alexandr.scss';
   };
 
   class Alexandr {
-    constructor(options) {
+    constructor(element, options) {
       this.config = $.extend({}, defaults, options);
+      this.config.container = element;
       this.view = new SliderView({ ...this.config });
       this.model = new SliderModel({ ...this.config });
       this.presenter = new SliderPresenter(this.view, this.model);
@@ -44,9 +44,9 @@ import './jquery.alexandr.scss';
   };
 
   $.fn.alexander = function (options) {
-    new Alexandr(options);
+    new Alexandr(this.first(), options);
     return this.first();
   };
 })(jQuery);
 
-$('.slider29').alexander();
+$('.wrapp').alexander();

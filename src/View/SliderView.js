@@ -6,7 +6,7 @@ import SliderThumbView from './SliderThumbView';
 
 export default class SliderView {
   constructor({
-    slider,
+    container,
     showMinMaxValue,
     orientation,
     type,
@@ -26,8 +26,9 @@ export default class SliderView {
     showMinValueClass,
     showMaxValueClass,
   }) {
-    this.slider = slider;
-    this.sliderLine = new SliderLineView(slider, lineClass);
+    this.container = container;
+    this.slider = $('<div>', { class: 'alexandr' });
+    this.sliderLine = new SliderLineView(this.slider, lineClass);
     this.sliderProgressBar = new SliderProgressBar(this.sliderLine.item, progressBarClass);
     this.sliderThumbs = [];
     this.sliderOrientation = orientation;
@@ -47,7 +48,7 @@ export default class SliderView {
     // создать мин макс
     if (showMinMaxValue) {
       this.sliderMinMaxValueLine = new SliderMinMaxValueLineView(
-        slider,
+        this.slider,
         showMinValueClass,
         showMaxValueClass,
       );
@@ -56,6 +57,8 @@ export default class SliderView {
 
   init(presenter) {
     this.presenter = presenter;
+    this.container.append(this.slider);
+
     //создать кнопки
     if (this.type === 'double') {
       let min = new SliderThumbView(this.sliderLine.item);
@@ -97,7 +100,7 @@ export default class SliderView {
         inputsWrap.append(maxElement);
         this.inputs.push(maxElement);
       }
-      $('.wrapp').prepend(inputsWrap);
+      this.slider.prepend(inputsWrap);
     }
 
     //загрузить значения в полосу мин макс
