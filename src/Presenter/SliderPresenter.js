@@ -188,7 +188,7 @@ export default class SliderPresenter {
   }
 
   setValues(thumb, value) {
-    if (thumb.hasClass('slider29__thumb--max')) {
+    if (thumb.hasClass('alexandr__thumb--max')) {
       let pixel = this.convertUnitsToPixels(value);
       let step = this.equateValueToStep(pixel, this.pixelInOneStep);
       step =
@@ -302,7 +302,7 @@ export default class SliderPresenter {
   }
 
   saveThumbPosition(elem, value) {
-    if (elem.hasClass('slider29__thumb--max')) {
+    if (elem.hasClass('alexandr__thumb--max')) {
       this.maxThumbPixelPosition = +value.toFixed(2);
     } else {
       this.minThumbPixelPosition = +value.toFixed(2);
@@ -317,12 +317,12 @@ export default class SliderPresenter {
     pixelInOneStep,
   ) {
     if (
-      currenThumb.hasClass('slider29__thumb--min') &&
+      currenThumb.hasClass('alexandr__thumb--min') &&
       value >= maxThumbPixelPosition - pixelInOneStep
     ) {
       return maxThumbPixelPosition - pixelInOneStep;
     } else if (
-      currenThumb.hasClass('slider29__thumb--max') &&
+      currenThumb.hasClass('alexandr__thumb--max') &&
       value <= minThumbPixelPosition + pixelInOneStep
     ) {
       return this.minThumbPixelPosition + this.pixelInOneStep;

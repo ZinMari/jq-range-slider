@@ -62,9 +62,9 @@ export default class SliderView {
     //создать кнопки
     if (this.type === 'double') {
       let min = new SliderThumbView(this.sliderLine.item);
-      min.item.addClass(`slider29__thumb--min ${this.thumbMinClass}`);
+      min.item.addClass(`alexandr__thumb--min ${this.thumbMinClass}`);
       let max = new SliderThumbView(this.sliderLine.item);
-      max.item.addClass(`slider29__thumb--max ${this.thumbMaxClass}`);
+      max.item.addClass(`alexandr__thumb--max ${this.thumbMaxClass}`);
 
       this.sliderThumbs.push(min, max);
     } else {
@@ -148,19 +148,19 @@ export default class SliderView {
 
   setVerticalOrientation() {
     //повернем весь слайдер
-    this.slider.addClass('slider29--vertical');
+    this.slider.addClass('alexandr--vertical');
 
     //повернем линию
-    this.sliderLine.item.addClass('slider29__line--vertical');
+    this.sliderLine.item.addClass('alexandr__line--vertical');
 
     //повернем линию со значениями
     if (this.sliderMinMaxValueLine) {
-      this.sliderMinMaxValueLine.wrap.addClass('slider29__values--vertical');
+      this.sliderMinMaxValueLine.wrap.addClass('alexandr__values--vertical');
     }
 
     // //повернем кнопки
     this.sliderThumbs.forEach((thumb) => {
-      thumb.item.addClass('slider29__thumb--vertical');
+      thumb.item.addClass('alexandr__thumb--vertical');
     });
 
     //повернуть линейку

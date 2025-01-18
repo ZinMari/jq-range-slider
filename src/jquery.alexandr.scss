@@ -13,7 +13,7 @@ body {
     width: 1000px;
 }
 
-.slider29 {
+.alexandr {
     min-width: 100%;
     margin: 0;
     padding: 0;
@@ -23,11 +23,11 @@ body {
     gap: 20px;
 }
 
-.slider29--vertical {
+.alexandr--vertical {
     flex-direction: row;
 }
 
-.slider29__line {
+.alexandr__line {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -36,12 +36,12 @@ body {
     border: 1px solid #c5c5c5;
 }
 
-.slider29__line--vertical {
+.alexandr__line--vertical {
     height: 600px;
     width: 15px;
 }
 
-.slider29__thumb {
+.alexandr__thumb {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -58,7 +58,7 @@ body {
     cursor: pointer;
 }
 
-.slider29__thumb.flag::before {
+.alexandr__thumb.flag::before {
     content: attr(data-value);
     position: absolute;
     top: -50px;
@@ -77,53 +77,53 @@ body {
     color: white;
 }
 
-.slider29__thumb--vertical {
+.alexandr__thumb--vertical {
     top: 0;
     transform: translateY(0);
     left: 50%;
     transform: translateX(-50%);
 }
 
-.slider29__thumb--vertical.flag::before {
+.alexandr__thumb--vertical.flag::before {
     left: -50px;
     top: 50%;
     transform: translateX(0) translateY(-50%);
 }
 
-.slider29__thumb:hover {
+.alexandr__thumb:hover {
     background-color: #ededed;
 }
 
-.slider29__inputs {
+.alexandr__inputs {
     min-width: 100%;
     display: flex;
     justify-content: space-between;
 }
 
-.slider29__input {
+.alexandr__input {
     width: 40px;
 }
 
-.slider29__values {
+.alexandr__values {
     display: flex;
     justify-content: space-between;
     color: bisque;
 }
 
-.slider29__values--vertical {
+.alexandr__values--vertical {
     flex-direction: column;
 }
 
-.slider29__ruler {
+.alexandr__ruler {
     display: flex;
     justify-content: space-between;
 }
 
-.slider29__ruler--vertical {
+.alexandr__ruler--vertical {
     flex-direction: column;
 }
 
-.slider29__mark {
+.alexandr__mark {
     position: relative;
     display: block;
     width: 2px;
@@ -132,7 +132,7 @@ body {
     cursor: pointer;
 }
 
-.slider29__mark span {
+.alexandr__mark span {
     position: absolute;
     top: 120%;
     left: 50%;
@@ -141,19 +141,19 @@ body {
     color: bisque;
 }
 
-.slider29__mark--vertical {
+.alexandr__mark--vertical {
     width: 10px;
     height: 2px;
 }
 
-.slider29__mark--vertical span {
+.alexandr__mark--vertical span {
     left: 120%;
     transform: translateX(0);
     top: 50%;
     transform: translateY(-50%);
 }
 
-.slider29__progressbar {
+.alexandr__progressbar {
     display: block;
     position: absolute;
     background-color: #ffffff;
