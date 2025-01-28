@@ -5,7 +5,7 @@ import './jquery.alexandr.scss';
 // import './theme-dark.scss';
 
 (function ($) {
-  const defaults: alexandrSettings = {
+  const defaults: AlexandrSettings = {
     minValue: 0,
     maxValue: 400,
     stepValue: 50,
