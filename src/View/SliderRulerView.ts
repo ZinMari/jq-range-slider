@@ -1,5 +1,7 @@
 export default class SliderRulerView {
-  constructor(slider) {
+  item: any;
+  dividings: any;
+  constructor(slider: any) {
     this.item = $('<div>', { class: 'alexandr__ruler' });
     this.dividings = new Array(4);
 

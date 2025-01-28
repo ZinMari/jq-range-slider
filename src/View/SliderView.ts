@@ -5,6 +5,30 @@ import SliderRulerView from './SliderRulerView';
 import SliderThumbView from './SliderThumbView';
 
 export default class SliderView {
+  container: any;
+  slider: any;
+  sliderLine: any;
+  sliderProgressBar: any;
+  sliderThumbs: any;
+  sliderOrientation: any;
+  sliderInitialValues: any;
+  elemForShowValueMin: any;
+  elemForShowValueMax: any;
+  elemForInputMin: any;
+  elemForInputMax: any;
+  type: any;
+  showInput: any;
+  showValueFlag: any;
+  showRuler: any;
+  inputs: any;
+  thumbClass: any;
+  thumbMinClass: any;
+  thumbMaxClass: any;
+  sliderMinMaxValueLine: any;
+  presenter: any;
+  sliderRuler: any;
+  sliderLength: any;
+
   constructor({
     container,
     showMinMaxValue,
@@ -25,7 +49,7 @@ export default class SliderView {
     thumbMaxClass,
     showMinValueClass,
     showMaxValueClass,
-  }) {
+  }: any) {
     this.container = container;
     this.slider = $('<div>', { class: 'alexandr' });
     this.sliderLine = new SliderLineView(this.slider, lineClass);
@@ -55,7 +79,7 @@ export default class SliderView {
     }
   }
 
-  init(presenter) {
+  init(presenter: any) {
     this.presenter = presenter;
     this.container.append(this.slider);
 
@@ -120,18 +144,18 @@ export default class SliderView {
 
     //повесить события на инпуты
     if (this.inputs.length) {
-      this.inputs.forEach((input) => {
+      this.inputs.forEach((input: any) => {
         input.on('change', this.presenter.onChangeInput);
       });
     }
 
     //повесить на кнопки события
-    this.sliderThumbs.forEach((elem) => {
+    this.sliderThumbs.forEach((elem: any) => {
       elem.item.on('mousedown', this.presenter.onThumbMouseDown);
     });
 
     //повесить событие на линию
-    this.sliderLine.item.on('click', (event) => {
+    this.sliderLine.item.on('click', (event: any) => {
       this.presenter.onSliderLineClick(event);
     });
 
@@ -159,14 +183,14 @@ export default class SliderView {
     }
 
     // //повернем кнопки
-    this.sliderThumbs.forEach((thumb) => {
+    this.sliderThumbs.forEach((thumb: any) => {
       thumb.item.addClass('alexandr__thumb--vertical');
     });
 
     //повернуть линейку
     if (this.sliderRuler) {
       this.sliderRuler.item.addClass('alexandr__ruler--vertical');
-      this.sliderRuler.dividings.forEach((elem) => {
+      this.sliderRuler.dividings.forEach((elem: any) => {
         elem.addClass('alexandr__dividing--vertical');
       });
     }

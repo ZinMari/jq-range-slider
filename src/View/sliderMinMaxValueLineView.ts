@@ -1,5 +1,8 @@
 export default class SliderMinMaxValueLineView {
-  constructor(slider, showMinValueClass, showMaxValueClass) {
+  wrap: any;
+  min: any;
+  max: any;
+  constructor(slider: any, showMinValueClass: any, showMaxValueClass: any) {
     this.wrap = $('<div>').attr({ class: 'alexandr__values' });
     this.min = $('<span>').attr({ class: `alexandr__value--min ${showMinValueClass}` });
     this.max = $('<span>').attr({ class: `alexandr__value--max ${showMaxValueClass}` });
