@@ -63,6 +63,10 @@ interface BaseSubViewInterface {
   item: JQuery<HTMLElement>;
 }
 
+interface SliderRulerView extends BaseSubViewInterface {
+  dividings: JQuery<HTMLElement>[];
+  countDivivdings: number;
+}
 type ElementsCoords = {
   left: number;
   width: number;
