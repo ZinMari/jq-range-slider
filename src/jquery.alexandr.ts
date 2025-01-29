@@ -28,7 +28,7 @@ import './jquery.alexandr.scss';
   };
 
   class Alexandr {
-    config: any;
+    config: AlexandrSettings;
     view: any;
     model: Model;
     presenter: any;

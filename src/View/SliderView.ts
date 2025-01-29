@@ -49,7 +49,7 @@ export default class SliderView {
     thumbMaxClass,
     showMinValueClass,
     showMaxValueClass,
-  }: any) {
+  }: AlexandrSettings) {
     this.container = container;
     this.slider = $('<div>', { class: 'alexandr' });
     this.sliderLine = new SliderLineView(this.slider, lineClass);
