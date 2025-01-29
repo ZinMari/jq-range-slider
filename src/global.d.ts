@@ -13,8 +13,8 @@ interface AlexandrSettings {
   showValueFlag: boolean;
   showRuler: boolean;
   initialValues: [number, number?];
-  elemForShowValueMin: JQuery<Element>;
-  elemForShowValueMax: JQuery<Element>;
+  elemForShowValueMin: JQuery<HTMLElement>;
+  elemForShowValueMax: JQuery<HTMLElement>;
   lineClass: string;
   progressBarClass: string;
   thumbClass: string;
@@ -22,9 +22,9 @@ interface AlexandrSettings {
   thumbMaxClass: string;
   showMinValueClass: string;
   showMaxValueClass: string;
-  container?: JQuery<Element>;
-  elemForInputMin?: JQuery<Element>;
-  elemForInputMax?: JQuery<Element>;
+  container?: JQuery<HTMLElement>;
+  elemForInputMin?: JQuery<HTMLElement>;
+  elemForInputMax?: JQuery<HTMLElement>;
 }
 
 interface Model {
