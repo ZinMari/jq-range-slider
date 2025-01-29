@@ -1,11 +1,13 @@
 export default class SliderRulerView {
-  item: any;
-  dividings: any;
-  constructor(slider: any) {
-    this.item = $('<div>', { class: 'alexandr__ruler' });
-    this.dividings = new Array(4);
+  item: JQuery<HTMLElement>;
+  dividings: JQuery<HTMLElement>[];
+  countDivivdings: number = 4;
 
-    for (let i = 0; i < this.dividings.length; i++) {
+  constructor(slider: JQuery<HTMLElement>) {
+    this.item = $('<div>', { class: 'alexandr__ruler' });
+    this.dividings = new Array(this.countDivivdings);
+
+    for (let i = 0; i < this.countDivivdings; i++) {
       this.dividings[i] = $('<a>', { class: 'alexandr__dividing', href: '#' });
       this.item.append(this.dividings[i]);
     }
