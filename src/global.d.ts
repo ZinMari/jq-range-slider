@@ -33,32 +33,6 @@ interface Model {
   stepValue: number;
 }
 
-interface View {
-  container: any;
-  slider: any;
-  sliderLine: any;
-  sliderProgressBar: any;
-  sliderThumbs: any;
-  sliderOrientation: any;
-  sliderInitialValues: any;
-  elemForShowValueMin: any;
-  elemForShowValueMax: any;
-  elemForInputMin: any;
-  elemForInputMax: any;
-  type: any;
-  showInput: any;
-  showValueFlag: any;
-  showRuler: any;
-  inputs: any;
-  thumbClass: any;
-  thumbMinClass: any;
-  thumbMaxClass: any;
-  sliderMinMaxValueLine: any;
-  presenter: any;
-  sliderRuler: any;
-  sliderLength: any;
-}
-
 interface BaseSubViewInterface {
   item: JQuery<HTMLElement>;
 }
@@ -67,9 +41,42 @@ interface SliderRulerView extends BaseSubViewInterface {
   dividings: JQuery<HTMLElement>[];
   countDivivdings: number;
 }
+
+interface SliderMinMaxValueLineView {
+  wrap: JQuery<HTMLElement>;
+  min: JQuery<HTMLElement>;
+  max: JQuery<HTMLElement>;
+}
+
 type ElementsCoords = {
   left: number;
   width: number;
   top: number;
   height: number;
 };
+
+interface View {
+  container: JQuery<HTMLElement>;
+  slider: JQuery<HTMLElement>;
+  sliderLine: BaseSubViewInterface;
+  sliderProgressBar: BaseSubViewInterface;
+  sliderThumbs: BaseSubViewInterface[];
+  sliderOrientation: 'vertical' | 'horizontal';
+  sliderInitialValues: [number, number?];
+  elemForShowValueMin: JQuery<HTMLElement>;
+  elemForShowValueMax: JQuery<HTMLElement>;
+  elemForInputMin: JQuery<HTMLElement>;
+  elemForInputMax: JQuery<HTMLElement>;
+  type: 'single' | 'double';
+  showInput: boolean;
+  showValueFlag: boolean;
+  showRuler: boolean;
+  inputs: JQuery<HTMLElement>[];
+  thumbClass: string;
+  thumbMinClass: string;
+  thumbMaxClass: string;
+  sliderMinMaxValueLine: SliderMinMaxValueLineView;
+  presenter: any;
+  sliderRuler: SliderRulerView;
+  sliderLength: number;
+}
