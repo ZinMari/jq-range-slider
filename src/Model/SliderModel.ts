@@ -1,8 +1,8 @@
 export default class SliderModel {
-  minValue: any;
-  maxValue: any;
-  stepValue: any;
-  constructor({ minValue, maxValue, stepValue }: any) {
+  minValue: number;
+  maxValue: number;
+  stepValue: number;
+  constructor({ minValue, maxValue, stepValue }: AlexandrSettings) {
     this.minValue = minValue;
     this.maxValue = maxValue;
     this.stepValue = stepValue;
