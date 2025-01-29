@@ -24,7 +24,7 @@ export default class SliderView {
   thumbClass: any;
   thumbMinClass: any;
   thumbMaxClass: any;
-  sliderMinMaxValueLine: any;
+  sliderMinMaxValueLine: SliderMinMaxValueLineView;
   presenter: any;
   sliderRuler: any;
   sliderLength: any;
