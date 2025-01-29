@@ -1,4 +1,4 @@
-export default class SliderProgressBar {
+export default class SliderProgressBar implements BaseSubViewInterface {
   item: JQuery<HTMLElement>;
   constructor(sliderLine: JQuery<HTMLElement>, progressBarClass: string) {
     this.item = $('<span>', { class: `alexandr__progressbar ${progressBarClass}` });

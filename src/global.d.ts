@@ -33,6 +33,36 @@ interface Model {
   stepValue: number;
 }
 
+interface View {
+  container: any;
+  slider: any;
+  sliderLine: any;
+  sliderProgressBar: any;
+  sliderThumbs: any;
+  sliderOrientation: any;
+  sliderInitialValues: any;
+  elemForShowValueMin: any;
+  elemForShowValueMax: any;
+  elemForInputMin: any;
+  elemForInputMax: any;
+  type: any;
+  showInput: any;
+  showValueFlag: any;
+  showRuler: any;
+  inputs: any;
+  thumbClass: any;
+  thumbMinClass: any;
+  thumbMaxClass: any;
+  sliderMinMaxValueLine: any;
+  presenter: any;
+  sliderRuler: any;
+  sliderLength: any;
+}
+
+interface BaseSubViewInterface {
+  item: JQuery<HTMLElement>;
+}
+
 type ElementsCoords = {
   left: number;
   width: number;

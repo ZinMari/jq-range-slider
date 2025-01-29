@@ -1,4 +1,4 @@
-export default class SliderRulerView {
+export default class SliderRulerView implements BaseSubViewInterface {
   item: JQuery<HTMLElement>;
   dividings: JQuery<HTMLElement>[];
   countDivivdings: number = 4;
