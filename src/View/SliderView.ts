@@ -5,29 +5,29 @@ import SliderRulerView from './SliderRulerView';
 import SliderThumbView from './SliderThumbView';
 
 export default class SliderView {
-  container: any;
-  slider: any;
-  sliderLine: any;
-  sliderProgressBar: any;
-  sliderThumbs: any;
-  sliderOrientation: any;
-  sliderInitialValues: any;
-  elemForShowValueMin: any;
-  elemForShowValueMax: any;
-  elemForInputMin: any;
-  elemForInputMax: any;
-  type: any;
-  showInput: any;
-  showValueFlag: any;
-  showRuler: any;
-  inputs: any;
-  thumbClass: any;
-  thumbMinClass: any;
-  thumbMaxClass: any;
+  container: JQuery<HTMLElement>;
+  slider: JQuery<HTMLElement>;
+  sliderLine: BaseSubViewInterface;
+  sliderProgressBar: BaseSubViewInterface;
+  sliderThumbs: BaseSubViewInterface[];
+  sliderOrientation: 'vertical' | 'horizontal';
+  sliderInitialValues: [number, number?];
+  elemForShowValueMin: JQuery<HTMLElement>;
+  elemForShowValueMax: JQuery<HTMLElement>;
+  elemForInputMin: JQuery<HTMLElement>;
+  elemForInputMax: JQuery<HTMLElement>;
+  type: 'single' | 'double';
+  showInput: boolean;
+  showValueFlag: boolean;
+  showRuler: boolean;
+  inputs: JQuery<HTMLElement>[];
+  thumbClass: string;
+  thumbMinClass: string;
+  thumbMaxClass: string;
   sliderMinMaxValueLine: SliderMinMaxValueLineView;
   presenter: any;
-  sliderRuler: any;
-  sliderLength: any;
+  sliderRuler: SliderRulerView;
+  sliderLength: number;
 
   constructor({
     container,
