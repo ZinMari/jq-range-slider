@@ -32,3 +32,10 @@ interface Model {
   maxValue: number;
   stepValue: number;
 }
+
+type ElementsCoords = {
+  left: number;
+  width: number;
+  top: number;
+  height: number;
+};
