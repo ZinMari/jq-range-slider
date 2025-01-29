@@ -1,12 +1,12 @@
 export default class SliderPresenter {
   view: any;
-  model: any;
+  model: Model;
   pixelInOneStep: any;
   moveDirection: any;
   minThumbPixelPosition: any;
   maxThumbPixelPosition: any;
 
-  constructor(view: any, model: any) {
+  constructor(view: any, model: Model) {
     this.view = view;
     this.model = model;
   }

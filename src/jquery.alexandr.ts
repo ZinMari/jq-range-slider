@@ -30,7 +30,7 @@ import './jquery.alexandr.scss';
   class Alexandr {
     config: any;
     view: any;
-    model: any;
+    model: Model;
     presenter: any;
     init: any;
     constructor(element: any, options: any) {

@@ -26,3 +26,9 @@ interface AlexandrSettings {
   elemForInputMin?: JQuery<Element>;
   elemForInputMax?: JQuery<Element>;
 }
+
+interface Model {
+  minValue: number;
+  maxValue: number;
+  stepValue: number;
+}
