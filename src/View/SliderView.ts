@@ -5,6 +5,30 @@ import SliderRulerView from './SliderRulerView';
 import SliderThumbView from './SliderThumbView';
 
 export default class SliderView {
+  container: JQuery<HTMLElement>;
+  slider: JQuery<HTMLElement>;
+  sliderLine: BaseSubViewInterface;
+  sliderProgressBar: BaseSubViewInterface;
+  sliderThumbs: BaseSubViewInterface[];
+  sliderOrientation: 'vertical' | 'horizontal';
+  sliderInitialValues: [number, number?];
+  elemForShowValueMin: JQuery<HTMLElement>;
+  elemForShowValueMax: JQuery<HTMLElement>;
+  elemForInputMin: JQuery<HTMLElement>;
+  elemForInputMax: JQuery<HTMLElement>;
+  type: 'single' | 'double';
+  showInput: boolean;
+  showValueFlag: boolean;
+  showRuler: boolean;
+  inputs: JQuery<HTMLElement>[];
+  thumbClass: string;
+  thumbMinClass: string;
+  thumbMaxClass: string;
+  sliderMinMaxValueLine: SliderMinMaxValueLineView;
+  presenter: any;
+  sliderRuler: SliderRulerView;
+  sliderLength: number;
+
   constructor({
     container,
     showMinMaxValue,
@@ -25,7 +49,7 @@ export default class SliderView {
     thumbMaxClass,
     showMinValueClass,
     showMaxValueClass,
-  }) {
+  }: AlexandrSettings) {
     this.container = container;
     this.slider = $('<div>', { class: 'alexandr' });
     this.sliderLine = new SliderLineView(this.slider, lineClass);
@@ -55,7 +79,7 @@ export default class SliderView {
     }
   }
 
-  init(presenter) {
+  init(presenter: any) {
     this.presenter = presenter;
     this.container.append(this.slider);
 
@@ -120,18 +144,18 @@ export default class SliderView {
 
     //повесить события на инпуты
     if (this.inputs.length) {
-      this.inputs.forEach((input) => {
+      this.inputs.forEach((input: any) => {
         input.on('change', this.presenter.onChangeInput);
       });
     }
 
     //повесить на кнопки события
-    this.sliderThumbs.forEach((elem) => {
+    this.sliderThumbs.forEach((elem: any) => {
       elem.item.on('mousedown', this.presenter.onThumbMouseDown);
     });
 
     //повесить событие на линию
-    this.sliderLine.item.on('click', (event) => {
+    this.sliderLine.item.on('click', (event: any) => {
       this.presenter.onSliderLineClick(event);
     });
 
@@ -159,14 +183,14 @@ export default class SliderView {
     }
 
     // //повернем кнопки
-    this.sliderThumbs.forEach((thumb) => {
+    this.sliderThumbs.forEach((thumb: any) => {
       thumb.item.addClass('alexandr__thumb--vertical');
     });
 
     //повернуть линейку
     if (this.sliderRuler) {
       this.sliderRuler.item.addClass('alexandr__ruler--vertical');
-      this.sliderRuler.dividings.forEach((elem) => {
+      this.sliderRuler.dividings.forEach((elem: any) => {
         elem.addClass('alexandr__dividing--vertical');
       });
     }

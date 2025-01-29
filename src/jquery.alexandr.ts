@@ -5,7 +5,7 @@ import './jquery.alexandr.scss';
 // import './theme-dark.scss';
 
 (function ($) {
-  const defaults = {
+  const defaults: AlexandrSettings = {
     minValue: 0,
     maxValue: 400,
     stepValue: 50,
@@ -28,7 +28,12 @@ import './jquery.alexandr.scss';
   };
 
   class Alexandr {
-    constructor(element, options) {
+    config: AlexandrSettings;
+    view: View;
+    model: Model;
+    presenter: any;
+    init: any;
+    constructor(element: any, options: any) {
       this.config = $.extend({}, defaults, options);
       this.config.container = element;
       this.view = new SliderView({ ...this.config });
@@ -43,10 +48,10 @@ import './jquery.alexandr.scss';
     this.presenter.init();
   };
 
-  $.fn.alexander = function (options) {
+  $.fn.alexandr = function (options): JQuery {
     new Alexandr(this.first(), options);
     return this.first();
   };
 })(jQuery);
 
-$('.wrapp').alexander();
+$('.wrapp').alexandr({});

@@ -1,10 +1,17 @@
 export default class SliderPresenter {
-  constructor(view, model) {
+  view: any;
+  model: Model;
+  pixelInOneStep: number;
+  moveDirection: 'top' | 'left';
+  minThumbPixelPosition: number;
+  maxThumbPixelPosition: number;
+
+  constructor(view: any, model: Model) {
     this.view = view;
     this.model = model;
   }
 
-  init() {
+  init(): void {
     this.pixelInOneStep =
       (this.view.sliderLength / (this.model.maxValue - this.model.minValue)) * this.model.stepValue;
     this.moveDirection = this.view.sliderOrientation === 'vertical' ? 'top' : 'left';
@@ -17,9 +24,9 @@ export default class SliderPresenter {
     this.updateFlagValues();
   }
 
-  onChangeInput = (event) => {
+  onChangeInput = (event: Event): void => {
     const currentInput = $(event.target);
-    let currentValue = parseInt(currentInput.val());
+    let currentValue = parseInt(currentInput.val().toString());
     currentValue = Number.isNaN(currentValue) ? 0 : currentValue;
 
     if (currentInput.hasClass('alexandr__input-min')) {
@@ -36,32 +43,26 @@ export default class SliderPresenter {
     this.updateShowValues();
   };
 
-  onThumbMouseDown = (event) => {
+  onThumbMouseDown = (event: MouseEvent): void => {
     event.preventDefault();
     // получу координаты элементов
     let sliderLineCoords = this.getCoords(this.view.sliderLine.item);
-    let minThumbCoords = this.getCoords(this.view.sliderThumbs[0].item);
-    let maxThumbCoords = this.view.sliderThumbs[1]
-      ? this.getCoords(this.view.sliderThumbs[1].item)
-      : null;
     let currenThumb = $(event.target);
     let currentThumbCoords = this.getCoords(currenThumb);
 
     // разница между кликом и началок кнопки
-    let shiftClickThumb = this.getShiftThumb(
+    let shiftClickThumb: number = this.getShiftThumb(
       event,
       currentThumbCoords,
       this.view.sliderOrientation,
     );
 
-    const onMouseMove = (event) => {
-      let value = this.getNewThumbCord(
+    const onMouseMove = (event: MouseEvent): void => {
+      let value: number = this.getNewThumbCord(
         event,
         shiftClickThumb,
         sliderLineCoords,
         currentThumbCoords,
-        this.view.sliderOrientation,
-        this.view.type,
       );
 
       // проверим, чтобы не сталкивались
@@ -95,7 +96,7 @@ export default class SliderPresenter {
     document.addEventListener('mouseup', onMouseUp);
   };
 
-  onSliderLineClick(event) {
+  onSliderLineClick(event: MouseEvent): void {
     let sliderLineCoords = this.getCoords(this.view.sliderLine.item);
 
     // на скольких пикселях от линии произошел клик
@@ -107,7 +108,7 @@ export default class SliderPresenter {
     this.moveThumbs(pixelClick);
   }
 
-  moveThumbs(value) {
+  moveThumbs(value: number): void {
     let stepLeft = this.equateValueToStep(value, this.pixelInOneStep);
 
     if (this.view.type === 'single') {
@@ -132,14 +133,14 @@ export default class SliderPresenter {
     }
   }
 
-  onRulerClick = (event) => {
+  onRulerClick = (event: MouseEvent): void => {
     const target = $(event.target);
     if (target.attr('data-dividing')) {
-      this.moveThumbs(this.convertUnitsToPixels(target.attr('data-dividing')));
+      this.moveThumbs(this.convertUnitsToPixels(Number(target.attr('data-dividing'))));
     }
   };
 
-  updateShowValues() {
+  updateShowValues(): void {
     if (this.view.elemForShowValueMax && this.view.type === 'double') {
       this.view.elemForShowValueMax.text(this.convertPixelToUnits(this.maxThumbPixelPosition));
     }
@@ -159,7 +160,7 @@ export default class SliderPresenter {
     }
   }
 
-  updateFlagValues() {
+  updateFlagValues(): void {
     //загрузить значения в окошки
     if (this.view.showValueFlag) {
       this.view.sliderThumbs[0].item.attr(
@@ -175,7 +176,7 @@ export default class SliderPresenter {
     }
   }
 
-  setValuesToRuler() {
+  setValuesToRuler(): void {
     const stepRuler =
       (this.model.maxValue - this.model.minValue) / (this.view.sliderRuler.dividings.length - 1);
 
@@ -187,7 +188,7 @@ export default class SliderPresenter {
     });
   }
 
-  setValues(thumb, value) {
+  setValues(thumb: JQuery<HTMLElement>, value: number): void {
     if (thumb.hasClass('alexandr__thumb--max')) {
       let pixel = this.convertUnitsToPixels(value);
       let step = this.equateValueToStep(pixel, this.pixelInOneStep);
@@ -222,7 +223,7 @@ export default class SliderPresenter {
     }
   }
 
-  setInitialValues() {
+  setInitialValues(): void {
     if (this.view.sliderInitialValues[0]) {
       this.setValues(this.view.sliderThumbs[0].item, this.view.sliderInitialValues[0]);
     }
@@ -239,12 +240,12 @@ export default class SliderPresenter {
     }
   }
 
-  setMinMaxValue() {
+  setMinMaxValue(): void {
     this.view.sliderMinMaxValueLine.min.text(this.model.minValue);
     this.view.sliderMinMaxValueLine.max.text(this.model.maxValue);
   }
 
-  getCoords(elem) {
+  getCoords(elem: JQuery<EventTarget>): ElementsCoords {
     let boxLeft = elem.offset().left;
     let boxRight = boxLeft + elem.outerWidth();
     let boxTop = elem.offset().top;
@@ -258,7 +259,11 @@ export default class SliderPresenter {
     };
   }
 
-  getShiftThumb(event, currentThumbCoords, orientation) {
+  getShiftThumb(
+    event: MouseEvent,
+    currentThumbCoords: ElementsCoords,
+    orientation: string,
+  ): number {
     if (orientation === 'vertical') {
       return event.pageY - currentThumbCoords.top;
     } else {
@@ -266,7 +271,12 @@ export default class SliderPresenter {
     }
   }
 
-  getNewThumbCord(event, shiftClickThumb, sliderLineCoords, currentThumbCoords) {
+  getNewThumbCord(
+    event: MouseEvent,
+    shiftClickThumb: number,
+    sliderLineCoords: ElementsCoords,
+    currentThumbCoords: ElementsCoords,
+  ): number {
     let clientEvent;
     let clientLineCoordsOffset;
     let clientLineCoordsSize;
@@ -301,7 +311,7 @@ export default class SliderPresenter {
     return newLeft;
   }
 
-  saveThumbPosition(elem, value) {
+  saveThumbPosition(elem: JQuery<EventTarget>, value: number): void {
     if (elem.hasClass('alexandr__thumb--max')) {
       this.maxThumbPixelPosition = +value.toFixed(2);
     } else {
@@ -310,12 +320,12 @@ export default class SliderPresenter {
   }
 
   validateDoubleThumbValue(
-    currenThumb,
-    value,
-    minThumbPixelPosition,
-    maxThumbPixelPosition,
-    pixelInOneStep,
-  ) {
+    currenThumb: JQuery<EventTarget>,
+    value: number,
+    minThumbPixelPosition: number,
+    maxThumbPixelPosition: number,
+    pixelInOneStep: number,
+  ): number {
     if (
       currenThumb.hasClass('alexandr__thumb--min') &&
       value >= maxThumbPixelPosition - pixelInOneStep
@@ -331,21 +341,21 @@ export default class SliderPresenter {
     return value;
   }
 
-  equateValueToStep(value, pixelInOneStep) {
+  equateValueToStep(value: number, pixelInOneStep: number): number {
     return Math.round(value / pixelInOneStep) * pixelInOneStep;
   }
 
-  convertUnitsToPixels(value) {
+  convertUnitsToPixels(value: number): number {
     let withMinvalue = value - this.model.minValue;
     let pixels = withMinvalue * (this.pixelInOneStep / this.model.stepValue);
     return pixels;
   }
 
-  convertPixelToUnits(value) {
+  convertPixelToUnits(value: number): number {
     return Math.floor((value / this.pixelInOneStep) * this.model.stepValue);
   }
 
-  setProgressBar() {
+  setProgressBar(): void {
     if (this.view.type === 'single') {
       if (this.view.sliderOrientation === 'vertical') {
         let coordsThumbStart =
