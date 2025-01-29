@@ -22,4 +22,7 @@ interface AlexandrSettings {
   thumbMaxClass: string;
   showMinValueClass: string;
   showMaxValueClass: string;
+  container?: JQuery<Element>;
+  elemForInputMin?: JQuery<Element>;
+  elemForInputMax?: JQuery<Element>;
 }
