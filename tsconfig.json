@@ -8,11 +8,11 @@
       "allowJs": true,
       "moduleResolution": "node",
       "allowSyntheticDefaultImports": true,
-      "esModuleInterop": true
+      "esModuleInterop": true,
     },
     "ts-node": {
         "compilerOptions": {
           "module": "CommonJS"
         }
-    }
+    },
   }
