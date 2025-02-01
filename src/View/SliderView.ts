@@ -25,7 +25,7 @@ export default class SliderView {
   thumbMinClass: string;
   thumbMaxClass: string;
   sliderMinMaxValueLine: SliderMinMaxValueLineView;
-  presenter: any;
+  presenter: Presenter;
   sliderRuler: SliderRulerView;
   sliderLength: number;
 
@@ -79,7 +79,7 @@ export default class SliderView {
     }
   }
 
-  init(presenter: any) {
+  init(presenter: Presenter) {
     this.presenter = presenter;
     this.container.append(this.slider);
 
@@ -144,18 +144,18 @@ export default class SliderView {
 
     //повесить события на инпуты
     if (this.inputs.length) {
-      this.inputs.forEach((input: any) => {
+      this.inputs.forEach((input) => {
         input.on('change', this.presenter.onChangeInput);
       });
     }
 
     //повесить на кнопки события
-    this.sliderThumbs.forEach((elem: any) => {
+    this.sliderThumbs.forEach((elem) => {
       elem.item.on('mousedown', this.presenter.onThumbMouseDown);
     });
 
     //повесить событие на линию
-    this.sliderLine.item.on('click', (event: any) => {
+    this.sliderLine.item.on('click', (event: Event) => {
       this.presenter.onSliderLineClick(event);
     });
 
@@ -183,14 +183,14 @@ export default class SliderView {
     }
 
     // //повернем кнопки
-    this.sliderThumbs.forEach((thumb: any) => {
+    this.sliderThumbs.forEach((thumb: BaseSubViewInterface) => {
       thumb.item.addClass('alexandr__thumb--vertical');
     });
 
     //повернуть линейку
     if (this.sliderRuler) {
       this.sliderRuler.item.addClass('alexandr__ruler--vertical');
-      this.sliderRuler.dividings.forEach((elem: any) => {
+      this.sliderRuler.dividings.forEach((elem) => {
         elem.addClass('alexandr__dividing--vertical');
       });
     }

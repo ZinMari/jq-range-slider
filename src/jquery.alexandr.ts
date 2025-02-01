@@ -31,9 +31,9 @@ import './jquery.alexandr.scss';
     config: AlexandrSettings;
     view: View;
     model: Model;
-    presenter: any;
-    init: any;
-    constructor(element: any, options: any) {
+    presenter: Presenter;
+    init: () => void;
+    constructor(element: JQuery<HTMLElement>, options: AlexandrSettings | undefined) {
       this.config = $.extend({}, defaults, options);
       this.config.container = element;
       this.view = new SliderView({ ...this.config });
@@ -54,4 +54,4 @@ import './jquery.alexandr.scss';
   };
 })(jQuery);
 
-$('.wrapp').alexandr({});
+$('.wrapp').alexandr();

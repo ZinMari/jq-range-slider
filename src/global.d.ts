@@ -3,25 +3,25 @@ interface JQuery {
 }
 
 interface AlexandrSettings {
-  minValue: number;
-  maxValue: number;
-  stepValue: number;
-  showMinMaxValue: boolean;
-  orientation: 'vertical' | 'horizontal';
-  type: 'single' | 'double';
-  showInput: boolean;
-  showValueFlag: boolean;
-  showRuler: boolean;
-  initialValues: [number, number?];
-  elemForShowValueMin: JQuery<HTMLElement>;
-  elemForShowValueMax: JQuery<HTMLElement>;
-  lineClass: string;
-  progressBarClass: string;
-  thumbClass: string;
-  thumbMinClass: string;
-  thumbMaxClass: string;
-  showMinValueClass: string;
-  showMaxValueClass: string;
+  minValue?: number;
+  maxValue?: number;
+  stepValue?: number;
+  showMinMaxValue?: boolean;
+  orientation?: 'vertical' | 'horizontal';
+  type?: 'single' | 'double';
+  showInput?: boolean;
+  showValueFlag?: boolean;
+  showRuler?: boolean;
+  initialValues?: [number, number?];
+  elemForShowValueMin?: JQuery<HTMLElement>;
+  elemForShowValueMax?: JQuery<HTMLElement>;
+  lineClass?: string;
+  progressBarClass?: string;
+  thumbClass?: string;
+  thumbMinClass?: string;
+  thumbMaxClass?: string;
+  showMinValueClass?: string;
+  showMaxValueClass?: string;
   container?: JQuery<HTMLElement>;
   elemForInputMin?: JQuery<HTMLElement>;
   elemForInputMax?: JQuery<HTMLElement>;
@@ -76,7 +76,22 @@ interface View {
   thumbMinClass: string;
   thumbMaxClass: string;
   sliderMinMaxValueLine: SliderMinMaxValueLineView;
-  presenter: any;
+  presenter: Presenter;
   sliderRuler: SliderRulerView;
   sliderLength: number;
+}
+
+interface Presenter {
+  view: View;
+  model: Model;
+  pixelInOneStep: number;
+  moveDirection: 'top' | 'left';
+  minThumbPixelPosition: number;
+  maxThumbPixelPosition: number;
+  setMinMaxValue: () => void;
+  setValuesToRuler: () => void;
+  onChangeInput: (event: Event) => void;
+  onThumbMouseDown: (event: Event) => void;
+  onSliderLineClick: (event: Event) => void;
+  onRulerClick: (event: Event) => void;
 }
