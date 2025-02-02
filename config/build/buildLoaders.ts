@@ -16,5 +16,10 @@ export function buildLoaders(options: BuildOptions): ModuleOptions['rules'] {
     exclude: /node_modules/,
   };
 
-  return [scssLoader, tsLoader];
+  const pugLoader = {
+    test: /\.pug$/,
+    loader: 'pug-loader',
+  };
+
+  return [pugLoader, scssLoader, tsLoader];
 }
