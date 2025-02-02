@@ -4,7 +4,6 @@
  */
 
 import type { Config } from 'jest';
-import $ from 'jquery';
 
 const config: Config = {
   clearMocks: true,
