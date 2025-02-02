@@ -75,8 +75,8 @@ interface EnvVariables {
 export default (env: EnvVariables) => {
   const paths: BuildPaths = {
     output: path.resolve(__dirname, 'build'),
-    entry: path.resolve(__dirname, 'src', 'jquery.alexandr.ts'),
-    html: path.resolve(__dirname, 'src', 'index.html'),
+    entry: path.resolve(__dirname, 'src', 'alexandr', 'jquery.alexandr.ts'),
+    html: path.resolve(__dirname, 'src', 'alexandr', 'index.html'),
   };
   const config: webpack.Configuration = buildWebpack({
     port: env.port ?? 3000,
