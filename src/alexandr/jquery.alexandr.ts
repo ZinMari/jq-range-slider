@@ -6,8 +6,8 @@ import './jquery.alexandr.scss';
 
 (function ($) {
   const defaults: AlexandrSettings = {
-    minValue: 0,
-    maxValue: 400,
+    minValue: -500,
+    maxValue: -100,
     stepValue: 50,
     showMinMaxValue: true,
     orientation: 'horizontal',
@@ -52,6 +52,7 @@ import './jquery.alexandr.scss';
     new Alexandr(this.first(), options);
     return this.first();
   };
+  
 })(jQuery);
 
 $('.wrapp').alexandr();

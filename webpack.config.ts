@@ -12,7 +12,7 @@ export default (env: EnvVariables) => {
   const paths: BuildPaths = {
     output: path.resolve(__dirname, 'build'),
     entry: path.resolve(__dirname, 'src', 'alexandr', 'jquery.alexandr.ts'),
-    html: path.resolve(__dirname, 'src', 'alexandr', 'index.pug'),
+    html: path.resolve(__dirname, 'src', 'page', 'index.pug'),
   };
   const config: webpack.Configuration = buildWebpack({
     port: env.port ?? 3000,
