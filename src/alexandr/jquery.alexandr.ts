@@ -32,21 +32,18 @@ import './jquery.alexandr.scss';
     view: View;
     model: Model;
     presenter: Presenter;
-    init: () => void;
+    
     constructor(element: JQuery<HTMLElement>, options: AlexandrSettings | undefined) {
       this.config = $.extend({}, defaults, options);
       this.config.container = element;
       this.view = new SliderView({ ...this.config });
       this.model = new SliderModel({ ...this.config });
       this.presenter = new SliderPresenter(this.view, this.model);
-      this.init();
+
+      this.view.init(this.presenter);
+      this.presenter.init();
     }
   }
-
-  Alexandr.prototype.init = function () {
-    this.view.init(this.presenter);
-    this.presenter.init();
-  };
 
   $.fn.alexandr = function (options): JQuery {
     new Alexandr(this.first(), options);

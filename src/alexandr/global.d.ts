@@ -79,6 +79,7 @@ interface View {
   presenter: Presenter;
   sliderRuler: SliderRulerView;
   sliderLength: number;
+  init: any;
 }
 
 interface Presenter {
@@ -94,4 +95,5 @@ interface Presenter {
   onThumbMouseDown: (event: Event) => void;
   onSliderLineClick: (event: Event) => void;
   onRulerClick: (event: Event) => void;
+  init: any;
 }
