@@ -41,6 +41,7 @@ export default class SliderPresenter implements Presenter {
 
     this.setProgressBar();
     this.updateShowValues();
+    this.updateFlagValues();
   };
 
   onThumbMouseDown = (event: MouseEvent): void => {
@@ -352,7 +353,7 @@ export default class SliderPresenter implements Presenter {
   }
 
   convertPixelToUnits(value: number): number {
-    return Math.floor((value / this.pixelInOneStep) * this.model.stepValue);
+    return Math.floor((value / this.pixelInOneStep) * this.model.stepValue + this.model.minValue);
   }
 
   setProgressBar(): void {
