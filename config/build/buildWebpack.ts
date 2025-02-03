@@ -13,7 +13,6 @@ export function buildWebpack(options: BuildOptions): webpack.Configuration {
     entry: paths.entry,
     output: {
       path: paths.output,
-      filename: 'bundle.[contenthash].js',
       clean: true,
     },
     plugins: buildPlaguins(options),

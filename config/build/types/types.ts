@@ -1,5 +1,5 @@
 export interface BuildPaths {
-  entry: string;
+  entry: any;
   html: string;
   output: string;
 }
