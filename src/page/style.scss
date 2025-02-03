@@ -1,0 +1,12 @@
+@use './components/slider-block/slider-block';
+
+html {
+    background-color: #27262b;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
