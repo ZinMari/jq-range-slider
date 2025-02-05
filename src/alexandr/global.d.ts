@@ -31,6 +31,8 @@ interface Model {
   minValue: number;
   maxValue: number;
   stepValue: number;
+  startInitialValues: number[];
+  type: 'double' | 'single';
 }
 
 interface BaseSubViewInterface {

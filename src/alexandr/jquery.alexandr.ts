@@ -6,16 +6,16 @@ import './jquery.alexandr.scss';
 
 (function ($) {
   const defaults: AlexandrSettings = {
-    minValue: -500,
-    maxValue: -100,
-    stepValue: 50,
+    minValue: 100,
+    maxValue: 1000,
+    stepValue: 20,
     showMinMaxValue: true,
     orientation: 'horizontal',
     type: 'double',
     showInput: true,
     showValueFlag: true,
     showRuler: true,
-    initialValues: [200, 400],
+    initialValues: [1, 1],
     elemForShowValueMin: $('.min'),
     elemForShowValueMax: $('.max'),
     lineClass: '',
@@ -32,7 +32,7 @@ import './jquery.alexandr.scss';
     view: View;
     model: Model;
     presenter: Presenter;
-    
+
     constructor(element: JQuery<HTMLElement>, options: AlexandrSettings | undefined) {
       this.config = $.extend({}, defaults, options);
       this.config.container = element;
@@ -49,7 +49,6 @@ import './jquery.alexandr.scss';
     new Alexandr(this.first(), options);
     return this.first();
   };
-  
 })(jQuery);
 
-$('.wrapp').alexandr();
+$('body').alexandr();
