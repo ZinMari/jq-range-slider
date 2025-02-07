@@ -33,6 +33,7 @@ interface Model {
   stepValue: number;
   startInitialValues: number[];
   type: 'double' | 'single';
+  init: (options: AlexandrSettings)=>void;
 }
 
 interface BaseSubViewInterface {
