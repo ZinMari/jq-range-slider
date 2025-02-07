@@ -69,6 +69,7 @@ export default class SliderView {
     this.thumbClass = thumbClass;
     this.thumbMinClass = thumbMinClass;
     this.thumbMaxClass = thumbMaxClass;
+    this.container.append(this.slider);
     // создать мин макс
     if (showMinMaxValue) {
       this.sliderMinMaxValueLine = new SliderMinMaxValueLineView(
@@ -77,11 +78,6 @@ export default class SliderView {
         showMaxValueClass,
       );
     }
-  }
-
-  init2(presenter: Presenter) {
-    this.presenter = presenter;
-    this.container.append(this.slider);
 
     //создать кнопки
     if (this.type === 'double') {
@@ -127,6 +123,15 @@ export default class SliderView {
       this.slider.prepend(inputsWrap);
     }
 
+    // установить ориентацию
+    if (this.sliderOrientation === 'vertical') {
+      this.setVerticalOrientation();
+    }
+  }
+
+  init2(presenter: Presenter) {
+    this.presenter = presenter;
+
     //загрузить значения в полосу мин макс
     if (this.sliderMinMaxValueLine) {
       this.presenter.setMinMaxValue();
@@ -137,11 +142,7 @@ export default class SliderView {
       this.presenter.setValuesToRuler();
     }
 
-    // установить ориентацию
-    if (this.sliderOrientation === 'vertical') {
-      this.setVerticalOrientation();
-    }
-
+    
     //повесить события на инпуты
     if (this.inputs.length) {
       this.inputs.forEach((input) => {
