@@ -56,4 +56,12 @@ export default class SliderModel {
 
     console.log(arrValues);
   }
+
+  init({ minValue, maxValue, stepValue, initialValues, type }: AlexandrSettings){
+    this.minValue = this.setMinValue(minValue, maxValue);
+    this.maxValue = this.setMaxValue(minValue, maxValue);
+    this.stepValue = this.setStepValue(stepValue);
+    this.startInitialValues = this.setInitialValues(initialValues);
+    this.type = type;
+  }
 }
