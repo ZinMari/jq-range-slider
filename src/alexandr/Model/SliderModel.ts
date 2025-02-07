@@ -5,14 +5,6 @@ export default class SliderModel {
   startInitialValues: number[];
   type: 'double' | 'single';
 
-  constructor({ minValue, maxValue, stepValue, initialValues, type }: AlexandrSettings) {
-    this.minValue = this.setMinValue(minValue, maxValue);
-    this.maxValue = this.setMaxValue(minValue, maxValue);
-    this.stepValue = this.setStepValue(stepValue);
-    this.startInitialValues = this.setInitialValues(initialValues);
-    this.type = type;
-  }
-
   setMinValue(minValue: number, maxValue: number): number {
     if (minValue >= maxValue) {
       return maxValue - 100;
@@ -57,7 +49,7 @@ export default class SliderModel {
     console.log(arrValues);
   }
 
-  init({ minValue, maxValue, stepValue, initialValues, type }: AlexandrSettings){
+  init({ minValue, maxValue, stepValue, initialValues, type }: AlexandrSettings):void{
     this.minValue = this.setMinValue(minValue, maxValue);
     this.maxValue = this.setMaxValue(minValue, maxValue);
     this.stepValue = this.setStepValue(stepValue);
