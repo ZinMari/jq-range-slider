@@ -29,7 +29,7 @@ export default class SliderView {
   sliderRuler: SliderRulerView;
   sliderLength: number;
 
-  constructor({
+  init({
     container,
     showMinMaxValue,
     orientation,
@@ -49,7 +49,7 @@ export default class SliderView {
     thumbMaxClass,
     showMinValueClass,
     showMaxValueClass,
-  }: AlexandrSettings) {
+  }: AlexandrSettings){
     this.container = container;
     this.slider = $('<div>', { class: 'alexandr' });
     this.sliderLine = new SliderLineView(this.slider, lineClass);
@@ -79,7 +79,7 @@ export default class SliderView {
     }
   }
 
-  init(presenter: Presenter) {
+  init2(presenter: Presenter) {
     this.presenter = presenter;
     this.container.append(this.slider);
 

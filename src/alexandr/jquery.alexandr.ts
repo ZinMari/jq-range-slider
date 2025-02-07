@@ -36,15 +36,8 @@ import './jquery.alexandr.scss';
     constructor(element: JQuery<HTMLElement>, options: AlexandrSettings | undefined) {
       this.config = $.extend({}, defaults, options);
       this.config.container = element;
-      this.view = new SliderView({ ...this.config });
-      this.model = new SliderModel();
-      this.presenter = new SliderPresenter(this.view, this.model);
-
-
-      
-      this.model.init({ ...this.config })
-      this.view.init(this.presenter);
-      this.presenter.init();
+      this.presenter = new SliderPresenter(new SliderView(), new SliderModel());
+      this.presenter.init(this.config);
     }
   }
 

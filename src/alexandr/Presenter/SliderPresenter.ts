@@ -11,7 +11,11 @@ export default class SliderPresenter implements Presenter {
     this.model = model;
   }
 
-  init(): void {
+  init(config: AlexandrSettings): void {
+    this.model.init({ ...config })
+    this.view.init({ ...config });
+    this.view.init2(this);
+
     this.pixelInOneStep =
       (this.view.sliderLength / (this.model.maxValue - this.model.minValue)) * this.model.stepValue;
     this.moveDirection = this.view.sliderOrientation === 'vertical' ? 'top' : 'left';

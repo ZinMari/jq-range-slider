@@ -82,6 +82,7 @@ interface View {
   presenter: Presenter;
   sliderRuler: SliderRulerView;
   sliderLength: number;
+  init2: any;
   init: any;
 }
 
@@ -98,5 +99,5 @@ interface Presenter {
   onThumbMouseDown: (event: Event) => void;
   onSliderLineClick: (event: Event) => void;
   onRulerClick: (event: Event) => void;
-  init: any;
+  init: (options: AlexandrSettings)=>void;
 }
