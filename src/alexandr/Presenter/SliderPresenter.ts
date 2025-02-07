@@ -353,7 +353,7 @@ export default class SliderPresenter implements Presenter {
   }
 
   convertPixelToUnits(value: number): number {
-    return Math.floor((value / this.pixelInOneStep) * this.model.stepValue + this.model.minValue);
+    return Math.round((value / this.pixelInOneStep) * this.model.stepValue + this.model.minValue);
   }
 
   setProgressBar(): void {
