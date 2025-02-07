@@ -27,22 +27,13 @@ import './jquery.alexandr.scss';
     showMaxValueClass: '',
   };
 
-  class Alexandr {
-    config: AlexandrSettings;
-    view: View;
-    model: Model;
-    presenter: Presenter;
-
-    constructor(element: JQuery<HTMLElement>, options: AlexandrSettings | undefined) {
-      this.config = $.extend({}, defaults, options);
-      this.config.container = element;
-      this.presenter = new SliderPresenter(new SliderView(), new SliderModel());
-      this.presenter.init(this.config);
-    }
-  }
-
   $.fn.alexandr = function (options): JQuery {
-    new Alexandr(this.first(), options);
+    const config = $.extend({}, defaults, options);
+    config.container = this;
+
+    const presenter = new SliderPresenter(new SliderView(), new SliderModel());
+    presenter.init(config);
+
     return this.first();
   };
 })(jQuery);
