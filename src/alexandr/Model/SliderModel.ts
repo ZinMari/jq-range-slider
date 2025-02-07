@@ -5,29 +5,29 @@ export default class SliderModel {
   startInitialValues: number[];
   type: 'double' | 'single';
 
-  setMinValue(minValue: number, maxValue: number): number {
+  setMinValue(minValue: number, maxValue: number): void {
     if (minValue >= maxValue) {
-      return maxValue - 100;
+      this.minValue =  maxValue - 100;
     } else {
-      return minValue;
+      this.minValue =  minValue;
     }
   }
 
-  setMaxValue(minValue: number, maxValue: number): number {
+  setMaxValue(minValue: number, maxValue: number): void {
     if (maxValue <= minValue) {
-      return minValue + 100;
+      this.maxValue =  minValue + 100;
     } else {
-      return maxValue;
+      this.maxValue =  maxValue;
     }
   }
 
-  setStepValue(value: number): number {
+  setStepValue(value: number): void {
     if (value <= 0) {
-      return 1;
+      this.stepValue =  1;
     } else if (value >= Math.abs(this.maxValue - this.minValue)) {
-      return Math.abs(this.maxValue - this.minValue);
+      this.stepValue =  Math.abs(this.maxValue - this.minValue);
     } else {
-      return value;
+      this.stepValue =  value;
     }
   }
 
@@ -42,18 +42,16 @@ export default class SliderModel {
       }
     });
 
-    return arrValues[0] === arrValues[1]
+    this.startInitialValues =  arrValues[0] === arrValues[1]
       ? [arrValues[0], arrValues[0] + this.stepValue]
       : arrValues;
-
-    console.log(arrValues);
   }
 
   init({ minValue, maxValue, stepValue, initialValues, type }: AlexandrSettings):void{
-    this.minValue = this.setMinValue(minValue, maxValue);
-    this.maxValue = this.setMaxValue(minValue, maxValue);
-    this.stepValue = this.setStepValue(stepValue);
-    this.startInitialValues = this.setInitialValues(initialValues);
+    this.setMinValue(minValue, maxValue);
+    this.setMaxValue(minValue, maxValue);
+    this.setStepValue(stepValue);
+    this.setInitialValues(initialValues);
     this.type = type;
   }
 }
