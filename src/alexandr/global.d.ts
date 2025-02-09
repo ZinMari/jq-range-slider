@@ -31,9 +31,10 @@ interface Model {
   minValue: number;
   maxValue: number;
   stepValue: number;
-  startInitialValues: number[];
+  minPosition: number;
+  maxPosition: number;
   type: 'double' | 'single';
-  init: (options: AlexandrSettings)=>void;
+  init: (options: AlexandrSettings) => void;
 }
 
 interface BaseSubViewInterface {
