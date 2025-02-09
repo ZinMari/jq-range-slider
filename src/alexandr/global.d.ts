@@ -6,13 +6,14 @@ interface AlexandrSettings {
   minValue?: number;
   maxValue?: number;
   stepValue?: number;
+  minPosition: number;
+  maxPosition: number;
   showMinMaxValue?: boolean;
   orientation?: 'vertical' | 'horizontal';
   type?: 'single' | 'double';
   showInput?: boolean;
   showValueFlag?: boolean;
   showRuler?: boolean;
-  initialValues?: [number, number?];
   elemForShowValueMin?: JQuery<HTMLElement>;
   elemForShowValueMax?: JQuery<HTMLElement>;
   lineClass?: string;
@@ -100,5 +101,5 @@ interface Presenter {
   onThumbMouseDown: (event: Event) => void;
   onSliderLineClick: (event: Event) => void;
   onRulerClick: (event: Event) => void;
-  init: (options: AlexandrSettings)=>void;
+  init: (options: AlexandrSettings) => void;
 }

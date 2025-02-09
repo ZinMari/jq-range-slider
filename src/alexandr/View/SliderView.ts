@@ -28,6 +28,8 @@ export default class SliderView {
   presenter: Presenter;
   sliderRuler: SliderRulerView;
   sliderLength: number;
+  sliderMinPosition: number;
+  sliderMaxPosition: number;
 
   init({
     container,
@@ -37,7 +39,6 @@ export default class SliderView {
     showInput,
     showValueFlag,
     showRuler,
-    initialValues,
     elemForShowValueMin,
     elemForShowValueMax,
     elemForInputMin,
@@ -49,14 +50,13 @@ export default class SliderView {
     thumbMaxClass,
     showMinValueClass,
     showMaxValueClass,
-  }: AlexandrSettings){
+  }: AlexandrSettings) {
     this.container = container;
     this.slider = $('<div>', { class: 'alexandr' });
     this.sliderLine = new SliderLineView(this.slider, lineClass);
     this.sliderProgressBar = new SliderProgressBar(this.sliderLine.item, progressBarClass);
     this.sliderThumbs = [];
     this.sliderOrientation = orientation;
-    this.sliderInitialValues = initialValues;
     this.elemForShowValueMin = elemForShowValueMin;
     this.elemForShowValueMax = elemForShowValueMax;
     this.elemForInputMin = elemForInputMin;
@@ -142,7 +142,6 @@ export default class SliderView {
       this.presenter.setValuesToRuler();
     }
 
-    
     //повесить события на инпуты
     if (this.inputs.length) {
       this.inputs.forEach((input) => {
