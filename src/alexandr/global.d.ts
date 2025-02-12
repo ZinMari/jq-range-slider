@@ -84,7 +84,6 @@ interface View {
   presenter: Presenter;
   sliderRuler: SliderRulerView;
   sliderLength: number;
-  init2: any;
   init: any;
 }
 

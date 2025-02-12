@@ -8,7 +8,7 @@ import './jquery.alexandr.scss';
   const defaults: AlexandrSettings = {
     minValue: 100,
     maxValue: 1000,
-    stepValue: 20,
+    stepValue: 50,
     showMinMaxValue: true,
     orientation: 'horizontal',
     type: 'double',
@@ -34,6 +34,7 @@ import './jquery.alexandr.scss';
 
     const presenter = new SliderPresenter(new SliderView(), new SliderModel());
     presenter.init(config);
+    presenter.model.setMaxPosition(100);
 
     return this.first();
   };
