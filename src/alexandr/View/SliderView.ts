@@ -5,150 +5,94 @@ import SliderRulerView from './SliderRulerView';
 import SliderThumbView from './SliderThumbView';
 
 export default class SliderView {
-  container: JQuery<HTMLElement>;
-  slider: JQuery<HTMLElement>;
-  sliderLine: BaseSubViewInterface;
-  sliderProgressBar: BaseSubViewInterface;
-  sliderThumbs: BaseSubViewInterface[];
-  sliderOrientation: 'vertical' | 'horizontal';
-  sliderInitialValues: [number, number?];
-  elemForShowValueMin: JQuery<HTMLElement>;
-  elemForShowValueMax: JQuery<HTMLElement>;
-  elemForInputMin: JQuery<HTMLElement>;
-  elemForInputMax: JQuery<HTMLElement>;
-  type: 'single' | 'double';
-  showInput: boolean;
-  showValueFlag: boolean;
-  showRuler: boolean;
-  inputs: JQuery<HTMLElement>[];
-  thumbClass: string;
-  thumbMinClass: string;
-  thumbMaxClass: string;
-  sliderMinMaxValueLine: SliderMinMaxValueLineView;
-  presenter: Presenter;
-  sliderRuler: SliderRulerView;
+  slider: any;
+  thumbs: any;
+  container: any;
+  line: any;
+  moveDirection: any;
+  orientation: any;
+  type: any;
+  pixelInOneStep: any;
   sliderLength: number;
-  sliderMinPosition: number;
-  sliderMaxPosition: number;
-  pixelInOneStep: number;
-  moveDirection: 'top' | 'left';
+  minThumbPixelPosition: any;
+  maxThumbPixelPosition: any;
+  showMinMaxValue: any;
+  sliderMinMaxValueLine: any;
+  showMinValueClass: any;
+  showMaxValueClass: any;
+
+  constructor() {
+    this.slider = $('<div>', { class: 'alexandr' });
+    this.thumbs = [];
+  }
 
   init({
-    container,
-    showMinMaxValue,
-    orientation,
     type,
-    showInput,
-    showValueFlag,
-    showRuler,
-    elemForShowValueMin,
-    elemForShowValueMax,
-    elemForInputMin,
-    elemForInputMax,
+    container,
     lineClass,
-    progressBarClass,
-    thumbClass,
     thumbMinClass,
     thumbMaxClass,
+    thumbClass,
+    orientation,
+    showMinMaxValue,
     showMinValueClass,
     showMaxValueClass,
-  }: AlexandrSettings) {
+  }: any) {
     this.container = container;
-    this.slider = $('<div>', { class: 'alexandr' });
-    this.sliderLine = new SliderLineView(this.slider, lineClass);
-    this.sliderProgressBar = new SliderProgressBar(this.sliderLine.item, progressBarClass);
-    this.sliderThumbs = [];
-    this.sliderOrientation = orientation;
-    this.elemForShowValueMin = elemForShowValueMin;
-    this.elemForShowValueMax = elemForShowValueMax;
-    this.elemForInputMin = elemForInputMin;
-    this.elemForInputMax = elemForInputMax;
     this.type = type;
-    this.showInput = showInput;
-    this.showValueFlag = showValueFlag;
-    this.showRuler = showRuler;
-    this.inputs = [];
-    this.thumbClass = thumbClass;
-    this.thumbMinClass = thumbMinClass;
-    this.thumbMaxClass = thumbMaxClass;
+    this.line = new SliderLineView(this.slider, lineClass);
+    this.orientation = orientation;
+    this.moveDirection = this.orientation === 'vertical' ? 'top' : 'left';
+    this.showMinMaxValue = showMinMaxValue;
+
+    //создам кнопки
+    if (this.type === 'double') {
+      let min = new SliderThumbView(this.line.item);
+      min.item.addClass(`alexandr__thumb--min ${thumbMinClass}`);
+      let max = new SliderThumbView(this.line.item);
+      max.item.addClass(`alexandr__thumb--max ${thumbMaxClass}`);
+
+      this.thumbs.push(min, max);
+    } else {
+      let thumb = new SliderThumbView(this.line.item);
+      thumb.item.addClass(thumbClass);
+      this.thumbs.push(thumb);
+    }
+
+    //добавлю слайдер на страницу
     this.container.append(this.slider);
-    this.moveDirection = this.sliderOrientation === 'vertical' ? 'top' : 'left';
+
+    //получу размер слайдера
+    this.sliderLength =
+      this.orientation === 'vertical'
+        ? this.slider.outerHeight() - this.thumbs[0].item.outerHeight()
+        : this.slider.outerWidth() - this.thumbs[0].item.outerWidth();
+
     // создать мин макс
-    if (showMinMaxValue) {
+    if (this.showMinMaxValue) {
       this.sliderMinMaxValueLine = new SliderMinMaxValueLineView(
         this.slider,
         showMinValueClass,
         showMaxValueClass,
       );
     }
-
-    //создать кнопки
-    if (this.type === 'double') {
-      let min = new SliderThumbView(this.sliderLine.item);
-      min.item.addClass(`alexandr__thumb--min ${this.thumbMinClass}`);
-      let max = new SliderThumbView(this.sliderLine.item);
-      max.item.addClass(`alexandr__thumb--max ${this.thumbMaxClass}`);
-
-      this.sliderThumbs.push(min, max);
-    } else {
-      let thumb = new SliderThumbView(this.sliderLine.item);
-      thumb.item.addClass(this.thumbClass);
-      this.sliderThumbs.push(thumb);
-    }
-
-    //показать флажки
-    if (this.showValueFlag) {
-      $.each(this.sliderThumbs, function () {
-        this.item.addClass('flag');
-      });
-    }
-
-    // создать линейку
-    if (this.showRuler) {
-      this.sliderRuler = new SliderRulerView(this.slider);
-    }
-
-    //создать инпуты для ввода
-    if (this.showInput) {
-      const inputsWrap = $('<div>', { class: 'alexandr__inputs' });
-      const minElement = $('<label>', { text: 'MIN' }).append(
-        $('<input>', { class: 'inputs__item alexandr__input-min' }),
-      );
-      inputsWrap.append(minElement);
-      this.inputs.push(minElement);
-      if (this.type === 'double') {
-        const maxElement = $('<label>', { text: 'MAX' }).append(
-          $('<input>', { class: 'inputs__item alexandr__input-max' }),
-        );
-        inputsWrap.append(maxElement);
-        this.inputs.push(maxElement);
-      }
-      this.slider.prepend(inputsWrap);
-    }
-
-    this.sliderLength =
-      this.sliderOrientation === 'vertical'
-        ? this.slider.outerHeight() - this.sliderThumbs[0].item.outerHeight()
-        : this.slider.outerWidth() - this.sliderThumbs[0].item.outerWidth();
   }
 
   bindThumbsMove(handler: any) {
     //повесить на кнопки события
-    this.sliderThumbs.forEach((elem) => {
-      elem.item.on('mousedown', (event) => {
+    this.thumbs.forEach((elem: any) => {
+      elem.item.on('mousedown', (event: any) => {
         event.preventDefault();
         // получу координаты элементов
-        let sliderLineCoords = this._getCoords(this.sliderLine.item);
+        let sliderLineCoords = this._getCoords(this.line.item);
         let currenThumb = $(event.target);
         let currentThumbCoords = this._getCoords(currenThumb);
-
-        console.log(currenThumb);
 
         // разница между кликом и началок кнопки
         let shiftClickThumb: number = this._getShiftThumb(
           event,
           currentThumbCoords,
-          this.sliderOrientation,
+          this.orientation,
         );
 
         const onMouseMove = (event: MouseEvent): void => {
@@ -159,9 +103,20 @@ export default class SliderView {
             currentThumbCoords,
           );
 
+          // проверим, чтобы не сталкивались
+          if (this.type === 'double') {
+            value = this.validateDoubleThumbValue(
+              currenThumb,
+              value,
+              this.minThumbPixelPosition,
+              this.maxThumbPixelPosition,
+              this.pixelInOneStep,
+            );
+          }
+
           if (currenThumb.prop('classList').contains('alexandr__thumb--max')) {
             handler('max', value);
-          } else {
+          } else if (currenThumb.prop('classList').contains('alexandr__thumb--min')) {
             handler('min', value);
           }
         };
@@ -177,15 +132,24 @@ export default class SliderView {
     });
   }
 
-  updateThumbsPosition(type: 'min' | 'max', newPosition: any) {
-    if (type === 'min') {
-      this.sliderThumbs[0].item.css({ [this.moveDirection]: newPosition });
-    } else if (type === 'max') {
-      this.sliderThumbs[1].item.css({ [this.moveDirection]: newPosition });
+  updateThumbsPosition(thumb: 'min' | 'max', position: number) {
+    if (thumb === 'min') {
+      this.minThumbPixelPosition = position;
+      this.thumbs[0].item.css({ [this.moveDirection]: position });
+    } else if (thumb === 'max') {
+      this.maxThumbPixelPosition = position;
+      this.thumbs[1].item.css({ [this.moveDirection]: position });
     }
   }
 
-  _getCoords(elem: JQuery<EventTarget>): ElementsCoords {
+  updateMinMaxValueLine(min: number, max: number) {
+    if (this.sliderMinMaxValueLine) {
+      this.sliderMinMaxValueLine.min.text(min);
+      this.sliderMinMaxValueLine.max.text(max);
+    }
+  }
+
+  _getCoords(elem: any) {
     let boxLeft = elem.offset().left;
     let boxRight = boxLeft + elem.outerWidth();
     let boxTop = elem.offset().top;
@@ -199,7 +163,7 @@ export default class SliderView {
     };
   }
 
-  _getShiftThumb(event: any, currentThumbCoords: ElementsCoords, orientation: string): number {
+  _getShiftThumb(event: any, currentThumbCoords: any, orientation: string): number {
     if (orientation === 'vertical') {
       return event.pageY - currentThumbCoords.top;
     } else {
@@ -207,25 +171,22 @@ export default class SliderView {
     }
   }
 
-  getPixelInOneStep(stepValue: number, maxValue: number, minValue: number) {
-    this.pixelInOneStep = (this.sliderLength / (maxValue - minValue)) * stepValue;
-  }
-
-  _equateValueToStep(value: number, pixelInOneStep: number): number {
-    return Math.round(value / pixelInOneStep) * pixelInOneStep;
+  setPixelInOneStep(min: number, max: number, step: number) {
+    this.pixelInOneStep = (this.sliderLength / (max - min)) * step;
+    console.log(this.pixelInOneStep);
   }
 
   _getNewThumbCord(
     event: any,
     shiftClickThumb: number,
-    sliderLineCoords: ElementsCoords,
-    currentThumbCoords: ElementsCoords,
+    sliderLineCoords: any,
+    currentThumbCoords: any,
   ): number {
     let clientEvent;
     let clientLineCoordsOffset;
     let clientLineCoordsSize;
     let clientThumbCoordsSize;
-    if (this.sliderOrientation === 'vertical') {
+    if (this.orientation === 'vertical') {
       clientEvent = event.clientY;
       clientLineCoordsOffset = sliderLineCoords.top;
       clientLineCoordsSize = sliderLineCoords.height;
@@ -240,7 +201,7 @@ export default class SliderView {
     let newLeft = clientEvent - shiftClickThumb - clientLineCoordsOffset;
 
     //подгоним движение под шаг
-    newLeft = this._equateValueToStep(newLeft, this.pixelInOneStep);
+    newLeft = this.equateValueToStep(newLeft, this.pixelInOneStep);
 
     // курсор вышел из слайдера => оставить бегунок в его границах.
     if (newLeft < 0) {
@@ -253,5 +214,31 @@ export default class SliderView {
     }
 
     return newLeft;
+  }
+
+  equateValueToStep(value: number, pixelInOneStep: number): number {
+    return Math.round(value / pixelInOneStep) * pixelInOneStep;
+  }
+
+  validateDoubleThumbValue(
+    currenThumb: JQuery<EventTarget>,
+    value: number,
+    minThumbPixelPosition: number,
+    maxThumbPixelPosition: number,
+    pixelInOneStep: number,
+  ): number {
+    if (
+      currenThumb.hasClass('alexandr__thumb--min') &&
+      value >= maxThumbPixelPosition - pixelInOneStep
+    ) {
+      return maxThumbPixelPosition - pixelInOneStep;
+    } else if (
+      currenThumb.hasClass('alexandr__thumb--max') &&
+      value <= minThumbPixelPosition + pixelInOneStep
+    ) {
+      return this.minThumbPixelPosition + this.pixelInOneStep;
+    }
+
+    return value;
   }
 }

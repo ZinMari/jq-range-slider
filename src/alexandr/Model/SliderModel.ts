@@ -1,87 +1,64 @@
 export default class SliderModel {
   minValue: number;
   maxValue: number;
-  stepValue: number;
   minPosition: number;
   maxPosition: number;
-  type: 'double' | 'single';
-  onStepValueChanged: any;
-  onThumbPositionChanged: any;
+  stepValue: number;
+  onThumbsPositionChanged: any;
+  onStepValueChenged: any;
+  onMinMaxValuesChanged: any;
 
-  setMinValue(minValue: number, maxValue: number): void {
-    if (minValue >= maxValue) {
-      this.minValue = maxValue - 100;
-    } else {
-      this.minValue = minValue;
-    }
-
-    this.onStepValueChanged(this.stepValue, this.maxValue, this.minValue);
+  init({ minValue, maxValue, minPosition, maxPosition, stepValue }: any) {
+    this.setMinValue(minValue);
+    this.setMaxValue(maxValue);
+    this.setStepValue(stepValue);
+    this.setMinPosition(minPosition);
+    this.setMaxPosition(maxPosition);
+    this.setMaxPosition(maxPosition);
   }
 
-  setMaxValue(minValue: number, maxValue: number): void {
-    if (maxValue <= minValue) {
-      this.maxValue = minValue + 100;
-    } else {
-      this.maxValue = maxValue;
-    }
+  setMinValue(minValue: number) {
+    this.minValue = minValue;
 
-    this.onStepValueChanged(this.stepValue, this.maxValue, this.minValue);
+    this.onMinMaxValuesChanged?.(this.minValue, this.maxValue);
+    this.onStepValueChenged?.(this.minValue, this.maxValue, this.stepValue);
   }
 
-  setStepValue(value: number): void {
-    if (value <= 0) {
-      this.stepValue = 1;
-    } else if (value >= Math.abs(this.maxValue - this.minValue)) {
-      this.stepValue = Math.abs(this.maxValue - this.minValue);
-    } else {
-      this.stepValue = value;
-    }
+  setMaxValue(maxValue: number) {
+    this.maxValue = maxValue;
 
-    this.onStepValueChanged(this.stepValue, this.maxValue, this.minValue);
+    this.onMinMaxValuesChanged?.(this.minValue, this.maxValue);
+    this.onStepValueChenged?.(this.minValue, this.maxValue, this.stepValue);
+  }
+
+  setStepValue(stepValue: number) {
+    this.stepValue = stepValue;
+
+    this.onStepValueChenged?.(this.minValue, this.maxValue, this.stepValue);
   }
 
   setMinPosition(minPosition: number) {
-    if (minPosition <= this.minValue) {
-      this.minPosition = this.minValue;
-    } else if (minPosition >= this.maxValue) {
-      this.minPosition = this.maxValue - this.stepValue;
-    } else {
-      this.minPosition = minPosition;
-    }
+    this.minPosition = minPosition;
+    console.log(this.minPosition);
 
-    if (this.onThumbPositionChanged) {
-      this.onThumbPositionChanged('min', this.minPosition);
-    }
+    this.onThumbsPositionChanged?.('min', this.minPosition);
   }
 
   setMaxPosition(maxPosition: number) {
-    if (maxPosition <= this.minPosition) {
-      this.maxPosition = this.minPosition + this.stepValue;
-    } else if (maxPosition >= this.maxValue) {
-      this.maxPosition = this.maxValue;
-    } else {
-      this.maxPosition = maxPosition;
-    }
+    this.maxPosition = maxPosition;
 
-    if (this.onThumbPositionChanged) {
-      this.onThumbPositionChanged('max', this.maxPosition);
-    }
+    this.onThumbsPositionChanged?.('max', this.maxPosition);
   }
 
-  init({ minValue, maxValue, stepValue, minPosition, maxPosition, type }: AlexandrSettings): void {
-    this.setMinValue(minValue, maxValue);
-    this.setMaxValue(minValue, maxValue);
-    this.setMinPosition(minPosition);
-    this.setMaxPosition(maxPosition);
-    this.setStepValue(stepValue);
-    this.type = type;
+  bindThumbsPositionChanged(callback: any) {
+    this.onThumbsPositionChanged = callback;
   }
 
   bindStepValueChanged(callback: any) {
-    this.onStepValueChanged = callback;
+    this.onStepValueChenged = callback;
   }
 
-  bindThumbPositionChanged(callback: any) {
-    this.onThumbPositionChanged = callback;
+  bindMinMaxValuesChanged(callback: any) {
+    this.onMinMaxValuesChanged = callback;
   }
 }

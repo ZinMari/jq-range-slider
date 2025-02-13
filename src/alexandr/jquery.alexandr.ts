@@ -6,8 +6,8 @@ import './jquery.alexandr.scss';
 
 (function ($) {
   const defaults: AlexandrSettings = {
-    minValue: 100,
-    maxValue: 1000,
+    minValue: 500,
+    maxValue: 800,
     stepValue: 50,
     showMinMaxValue: true,
     orientation: 'horizontal',
@@ -15,7 +15,7 @@ import './jquery.alexandr.scss';
     showInput: true,
     showValueFlag: true,
     showRuler: true,
-    minPosition: 30,
+    minPosition: 100,
     maxPosition: 100,
     elemForShowValueMin: $('.min'),
     elemForShowValueMax: $('.max'),
@@ -34,10 +34,9 @@ import './jquery.alexandr.scss';
 
     const presenter = new SliderPresenter(new SliderView(), new SliderModel());
     presenter.init(config);
-    presenter.model.setMaxPosition(100);
 
     return this.first();
   };
 })(jQuery);
 
-$('body').alexandr();
+$('.container').alexandr();

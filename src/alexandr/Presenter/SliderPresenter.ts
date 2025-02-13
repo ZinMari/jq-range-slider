@@ -1,10 +1,6 @@
 export default class SliderPresenter {
   view: any;
   model: any;
-  pixelInOneStep: number;
-  moveDirection: 'top' | 'left';
-  minThumbPixelPosition: number;
-  maxThumbPixelPosition: number;
 
   constructor(view: any, model: any) {
     this.view = view;
@@ -12,33 +8,55 @@ export default class SliderPresenter {
   }
 
   init(config: AlexandrSettings): void {
-    this.model.bindStepValueChanged(this.onStepValueChanged);
-
-    this.model.init({ ...config });
     this.view.init({ ...config });
+    this.model.init({ ...config });
 
-    this.view.bindThumbsMove(this.handleThumbsMove);
-    this.model.bindThumbPositionChanged(this.onThumbsPositionChanged);
+    this.view.setPixelInOneStep(this.model.minValue, this.model.maxValue, this.model.stepValue);
+    this.model.bindStepValueChanged(this.onStepValueChenged);
 
-    //Методы которые единожды нужно вызвать, чтобы установить начальные значения
-    this.onStepValueChanged(this.model.stepValue, this.model.maxValue, this.model.minValue);
-    this.onThumbsPositionChanged('min', this.model.minPosition);
-    this.onThumbsPositionChanged('max', this.model.maxPosition);
+    // один раз вызовем метод для установки начальных значений, и далее  свяжем метод с моделью
+    this.view.updateThumbsPosition('min', this.model.minPosition);
+    this.view.updateThumbsPosition('max', this.model.maxPosition);
+    this.model.bindThumbsPositionChanged(this.onThumbsPositionChanged);
+
+    // один раз вызовем метод для установки начальных значений, и далее  свяжем метод с моделью
+    this.view.updateMinMaxValueLine(this.model.minValue, this.model.maxValue);
+    this.model.bindMinMaxValuesChanged(this.onMinMaxValuesChanged);
+
+    //свяжу обработчик события с моделью
+    this.view.bindThumbsMove(this.handleThumbsPositionChanged);
   }
 
-  handleThumbsMove = (type: 'min' | 'max', position: any) => {
-    if (type === 'min') {
-      this.model.setMinPosition(position);
-    } else if (type === 'max') {
-      this.model.setMaxPosition(position);
+  onThumbsPositionChanged = (thumb: 'min' | 'max', position: number) => {
+    this.view.updateThumbsPosition(thumb, this.convertUnitsToPixels(position));
+  };
+
+  onStepValueChenged = (min: number, max: number, step: number) => {
+    this.view.setPixelInOneStep(min, max, step);
+  };
+
+  onMinMaxValuesChanged = (min: number, max: number) => {
+    //обновим значения в линейке
+    this.view.updateMinMaxValueLine(min, max);
+  };
+
+  handleThumbsPositionChanged = (thumb: 'min' | 'max', position: number) => {
+    if (thumb === 'min') {
+      this.model.setMinPosition(this.convertPixelToUnits(position));
+    } else if (thumb === 'max') {
+      this.model.setMaxPosition(this.convertPixelToUnits(position));
     }
   };
 
-  onStepValueChanged = (stepValue: number, maxValue: number, minValue: number) => {
-    this.view.getPixelInOneStep(stepValue, maxValue, minValue);
-  };
+  convertUnitsToPixels(value: number): number {
+    let withMinvalue = value - this.model.minValue;
+    let pixels = withMinvalue * (this.view.pixelInOneStep / this.model.stepValue);
+    return pixels;
+  }
 
-  onThumbsPositionChanged = (type: 'min' | 'max', newPosition: any) => {
-    this.view.updateThumbsPosition(type, newPosition);
-  };
+  convertPixelToUnits(value: number): number {
+    return Math.round(
+      (value / this.view.pixelInOneStep) * this.model.stepValue + this.model.minValue,
+    );
+  }
 }
