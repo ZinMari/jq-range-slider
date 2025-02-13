@@ -30,6 +30,7 @@ export default class SliderPresenter {
 
     //свяжу обработчик события с моделью
     this.view.bindThumbsMove(this.handleThumbsPositionChanged);
+    this.view.bindLineClick(this.handleThumbsPositionChanged);
     this.view.bindInputsChange(this.handleInputsChange);
   }
 
