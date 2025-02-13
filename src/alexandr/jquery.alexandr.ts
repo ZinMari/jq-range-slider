@@ -6,14 +6,14 @@ import './jquery.alexandr.scss';
 
 (function ($) {
   const defaults: AlexandrSettings = {
-    minValue: 500,
-    maxValue: 800,
+    minValue: 0,
+    maxValue: 1000,
     stepValue: 50,
     showMinMaxValue: true,
     orientation: 'horizontal',
     type: 'double',
     showInput: true,
-    showValueFlag: true,
+    showValueFlag: false,
     showRuler: true,
     minPosition: 100,
     maxPosition: 100,

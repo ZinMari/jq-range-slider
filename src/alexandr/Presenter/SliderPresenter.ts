@@ -26,6 +26,7 @@ export default class SliderPresenter {
 
     //свяжу обработчик события с моделью
     this.view.bindThumbsMove(this.handleThumbsPositionChanged);
+    this.view.bindInputsChange(this.handleInputsChange);
   }
 
   onThumbsPositionChanged = (thumb: 'min' | 'max', position: number) => {
@@ -49,6 +50,14 @@ export default class SliderPresenter {
       this.model.setMinPosition(this.convertPixelToUnits(position));
     } else if (thumb === 'max') {
       this.model.setMaxPosition(this.convertPixelToUnits(position));
+    }
+  };
+
+  handleInputsChange = (input: 'min' | 'max', value: number) => {
+    if (input === 'min') {
+      this.model.setMinPosition(value);
+    } else if (input === 'max') {
+      this.model.setMaxPosition(value);
     }
   };
 
