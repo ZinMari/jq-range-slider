@@ -158,6 +158,15 @@ export default class SliderView {
     }
   }
 
+  updateRulerValue(min: number, max: number) {
+    const stepRuler = (max - min) / (this.ruler.dividings.length - 1);
+
+    $.each(this.ruler.dividings, function () {
+      this.attr('data-dividing', Math.round(min));
+      min += stepRuler;
+    });
+  }
+
   _getCoords(elem: any) {
     let boxLeft = elem.offset().left;
     let boxRight = boxLeft + elem.outerWidth();

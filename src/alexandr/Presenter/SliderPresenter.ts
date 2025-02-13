@@ -21,6 +21,7 @@ export default class SliderPresenter {
 
     // один раз вызовем метод для установки начальных значений, и далее  свяжем метод с моделью
     this.view.updateMinMaxValueLine(this.model.minValue, this.model.maxValue);
+    this.view.updateRulerValue(this.model.minValue, this.model.maxValue);
     this.model.bindMinMaxValuesChanged(this.onMinMaxValuesChanged);
 
     //свяжу обработчик события с моделью
@@ -36,8 +37,11 @@ export default class SliderPresenter {
   };
 
   onMinMaxValuesChanged = (min: number, max: number) => {
-    //обновим значения в линейке
+    //обновим значения в линии
     this.view.updateMinMaxValueLine(min, max);
+
+    //обновим значения в линейке
+    this.view.updateRulerValue(min, max);
   };
 
   handleThumbsPositionChanged = (thumb: 'min' | 'max', position: number) => {
