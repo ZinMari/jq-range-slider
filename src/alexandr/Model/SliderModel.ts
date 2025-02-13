@@ -4,17 +4,20 @@ export default class SliderModel {
   minPosition: number;
   maxPosition: number;
   stepValue: number;
+  type: 'single' | 'double';
   onThumbsPositionChanged: any;
   onStepValueChenged: any;
   onMinMaxValuesChanged: any;
 
-  init({ minValue, maxValue, minPosition, maxPosition, stepValue }: any) {
+  init({ minValue, maxValue, minPosition, maxPosition, stepValue, type }: any) {
+    this.type = type;
     this.setStepValue(stepValue);
     this.setMinValue(minValue);
     this.setMaxValue(maxValue);
     this.setMinPosition(minPosition);
-    this.setMaxPosition(maxPosition);
-    this.setMaxPosition(maxPosition);
+    if (this.type === 'double') {
+      this.setMaxPosition(maxPosition);
+    }
   }
 
   setMinValue(minValue: number) {
@@ -37,18 +40,30 @@ export default class SliderModel {
   }
 
   setMinPosition(minPosition: number) {
-    // приравниваем значения к шагу
-    this.minPosition = this.equateValueToStep(minPosition);
-    // проверю чтобы не столкнулись
-    this.minPosition = this.validateDoubleValue('min', this.minPosition);
+    const typeValue = 'min';
+
+    let newPosition = this.equateValueToStep(minPosition);
+
+    newPosition = this.validatePosition(newPosition);
+
+    if (this.type === 'double') {
+      newPosition = this.validateDoublePosition(typeValue, newPosition);
+    }
+    this.minPosition = newPosition;
     this.onThumbsPositionChanged?.('min', this.minPosition);
   }
 
   setMaxPosition(maxPosition: number) {
-    // приравниваем значения к шагу
-    this.maxPosition = this.equateValueToStep(maxPosition);
-    // проверю чтобы не столкнулись
-    this.maxPosition = this.validateDoubleValue('max', this.maxPosition);
+    const typeValue = 'max';
+    let newPosition = this.equateValueToStep(maxPosition);
+
+    newPosition = this.validatePosition(newPosition);
+
+    if (this.type === 'double') {
+      newPosition = this.validateDoublePosition(typeValue, newPosition);
+    }
+
+    this.maxPosition = newPosition;
     this.onThumbsPositionChanged?.('max', this.maxPosition);
   }
 
@@ -64,16 +79,30 @@ export default class SliderModel {
     this.onMinMaxValuesChanged = callback;
   }
 
-  equateValueToStep = (value: number) => {
-    return Math.round(value / this.stepValue) * this.stepValue;
-  };
+  validatePosition(value: number): number {
+    let validateValue;
 
-  validateDoubleValue(type: 'min' | 'max', value: number) {
-    if (type === 'min' && value >= this.maxPosition - this.stepValue) {
+    //проверю на пограничное минимальное
+    validateValue = value <= this.minValue ? this.minValue : value;
+
+    //проверю на пограничное максимальное
+    validateValue = validateValue >= this.maxValue ? this.maxValue : validateValue;
+
+    return validateValue;
+  }
+
+  validateDoublePosition(type: 'min' | 'max', value: number): number {
+    if (type === 'min' && value >= this.maxPosition) {
       return this.maxPosition - this.stepValue;
-    } else if (type === 'max' && value <= this.minPosition + this.stepValue) {
+    }
+    if (type === 'max' && value <= this.minPosition) {
       return this.minPosition + this.stepValue;
     }
+
     return value;
+  }
+
+  equateValueToStep(value: number): number {
+    return Math.round(value / this.stepValue) * this.stepValue;
   }
 }

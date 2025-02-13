@@ -6,17 +6,17 @@ import './jquery.alexandr.scss';
 
 (function ($) {
   const defaults: AlexandrSettings = {
-    minValue: 0,
-    maxValue: 1000,
-    stepValue: 50,
+    minValue: -10,
+    maxValue: 100,
+    stepValue: 10,
     showMinMaxValue: true,
     orientation: 'horizontal',
     type: 'double',
     showInput: true,
-    showValueFlag: false,
+    showValueFlag: true,
     showRuler: true,
-    minPosition: 100,
-    maxPosition: 100,
+    minPosition: 10,
+    maxPosition: 20,
     elemForShowValueMin: $('.min'),
     elemForShowValueMax: $('.max'),
     lineClass: '',

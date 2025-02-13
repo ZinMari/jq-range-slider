@@ -158,7 +158,7 @@ export default class SliderView {
 
           if (currenThumb.prop('classList').contains('alexandr__thumb--max')) {
             handler('max', value);
-          } else if (currenThumb.prop('classList').contains('alexandr__thumb--min')) {
+          } else {
             handler('min', value);
           }
         };
@@ -197,7 +197,7 @@ export default class SliderView {
     if (thumb === 'min') {
       this.minThumbPixelPosition = position;
       this.thumbs[0].item.css({ [this.moveDirection]: position });
-    } else if (thumb === 'max') {
+    } else if (this.type === 'double' && thumb === 'max') {
       this.maxThumbPixelPosition = position;
       this.thumbs[1].item.css({ [this.moveDirection]: position });
     }
@@ -217,6 +217,27 @@ export default class SliderView {
       this.attr('data-dividing', Math.round(min));
       min += stepRuler;
     });
+  }
+
+  updateFlagValues(thumb: 'min' | 'max', position: number) {
+    //загрузить значения в окошки
+    if (this.showValueFlag) {
+      if (thumb === 'min') {
+        this.thumbs[0].item.attr('data-value', position);
+      } else if (this.type === 'double' && thumb === 'max') {
+        this.thumbs[1].item.attr('data-value', position);
+      }
+    }
+  }
+
+  updateInputsValue(type: 'min' | 'max', value: number) {
+    if (this.showInput) {
+      if (type === 'min' && this.inputs[0]) {
+        this.inputs[0].children(':last').val(value);
+      } else if (type === 'max' && this.inputs[1]) {
+        this.inputs[1].children(':last').val(value);
+      }
+    }
   }
 
   _getCoords(elem: any) {
@@ -243,7 +264,6 @@ export default class SliderView {
 
   setPixelInOneStep(min: number, max: number, step: number) {
     this.pixelInOneStep = (this.sliderLength / (max - min)) * step;
-    console.log(this.pixelInOneStep);
   }
 
   _getNewThumbCord(
@@ -308,7 +328,7 @@ export default class SliderView {
     ) {
       return this.minThumbPixelPosition + this.pixelInOneStep;
     }
-
+    console.log(this.minThumbPixelPosition + this.pixelInOneStep);
     return value;
   }
 }

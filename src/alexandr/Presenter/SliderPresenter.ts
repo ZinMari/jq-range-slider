@@ -15,8 +15,12 @@ export default class SliderPresenter {
     this.model.bindStepValueChanged(this.onStepValueChenged);
 
     // один раз вызовем метод для установки начальных значений, и далее  свяжем метод с моделью
-    this.view.updateThumbsPosition('min', this.model.minPosition);
-    this.view.updateThumbsPosition('max', this.model.maxPosition);
+    this.view.updateThumbsPosition('min', this.convertUnitsToPixels(this.model.minPosition));
+    this.view.updateThumbsPosition('max', this.convertUnitsToPixels(this.model.maxPosition));
+    this.view.updateFlagValues('min', this.model.minPosition);
+    this.view.updateFlagValues('max', this.model.maxPosition);
+    this.view.updateInputsValue('max', this.model.maxPosition);
+    this.view.updateInputsValue('min', this.model.minPosition);
     this.model.bindThumbsPositionChanged(this.onThumbsPositionChanged);
 
     // один раз вызовем метод для установки начальных значений, и далее  свяжем метод с моделью
@@ -31,6 +35,8 @@ export default class SliderPresenter {
 
   onThumbsPositionChanged = (thumb: 'min' | 'max', position: number) => {
     this.view.updateThumbsPosition(thumb, this.convertUnitsToPixels(position));
+    this.view.updateFlagValues(thumb, position);
+    this.view.updateInputsValue(thumb, position);
   };
 
   onStepValueChenged = (min: number, max: number, step: number) => {
