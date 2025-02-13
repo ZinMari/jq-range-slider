@@ -20,6 +20,8 @@ export default class SliderView {
   sliderMinMaxValueLine: any;
   showMinValueClass: any;
   showMaxValueClass: any;
+  showRuler: any;
+  ruler: any;
 
   constructor() {
     this.slider = $('<div>', { class: 'alexandr' });
@@ -37,6 +39,7 @@ export default class SliderView {
     showMinMaxValue,
     showMinValueClass,
     showMaxValueClass,
+    showRuler,
   }: any) {
     this.container = container;
     this.type = type;
@@ -44,6 +47,7 @@ export default class SliderView {
     this.orientation = orientation;
     this.moveDirection = this.orientation === 'vertical' ? 'top' : 'left';
     this.showMinMaxValue = showMinMaxValue;
+    this.showRuler = showRuler;
 
     //создам кнопки
     if (this.type === 'double') {
@@ -75,6 +79,11 @@ export default class SliderView {
         showMinValueClass,
         showMaxValueClass,
       );
+    }
+
+    // создать линейку
+    if (this.showRuler) {
+      this.ruler = new SliderRulerView(this.slider);
     }
   }
 
