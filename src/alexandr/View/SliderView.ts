@@ -196,33 +196,16 @@ export default class SliderView {
   bindLineClick(handler: any) {
     //повесить событие на линию
     this.line.item.on('click', (event: any) => {
-      let sliderLineCoords = this._getCoords(this.line.item);
-
-      // на скольких пикселях от линии произошел клик
-      let pixelClick =
-        this.moveDirection === 'left'
-          ? event.clientX - sliderLineCoords.left
-          : event.clientY - sliderLineCoords.top;
-
-      let stepLeft = this.equateValueToStep(pixelClick);
-
-      if (this.type === 'single') {
-        this.thumbs[0].item.css({ [this.moveDirection]: stepLeft });
-        handler('min', stepLeft);
-      }
-
-      if (this.type === 'double') {
-        const middlePixels =
-          this.minThumbPixelPosition +
-          (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
-
-        if (stepLeft < middlePixels) {
-          handler('min', stepLeft);
-        } else {
-          handler('max', stepLeft);
-        }
-      }
+      this._handleSliderClick(event, handler);
     });
+  }
+
+  bindRulerClick(handler: any) {
+    if (this.showRuler) {
+      this.ruler.item.on('click', (event: any) => {
+        this._handleSliderClick(event, handler);
+      });
+    }
   }
 
   updateThumbsPosition(thumb: 'min' | 'max', position: number) {
@@ -360,7 +343,33 @@ export default class SliderView {
     ) {
       return this.minThumbPixelPosition + this.pixelInOneStep;
     }
-    console.log(this.minThumbPixelPosition + this.pixelInOneStep);
     return value;
+  }
+
+  _handleSliderClick(event: any, handler: any) {
+    let sliderLineCoords = this._getCoords(this.line.item);
+
+    // на скольких пикселях от линии произошел клик
+    let pixelClick =
+      this.moveDirection === 'left'
+        ? event.clientX - sliderLineCoords.left
+        : event.clientY - sliderLineCoords.top;
+
+    let stepLeft = this.equateValueToStep(pixelClick);
+
+    if (this.type === 'single') {
+      handler('min', stepLeft);
+    }
+
+    if (this.type === 'double') {
+      const middlePixels =
+        this.minThumbPixelPosition + (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
+
+      if (stepLeft < middlePixels) {
+        handler('min', stepLeft);
+      } else {
+        handler('max', stepLeft);
+      }
+    }
   }
 }
