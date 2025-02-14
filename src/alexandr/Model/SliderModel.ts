@@ -56,7 +56,6 @@ export default class SliderModel {
   setMaxPosition(maxPosition: number) {
     const typeValue = 'max';
     let newPosition = this.equateValueToStep(maxPosition);
-
     newPosition = this.validatePosition(newPosition);
 
     if (this.type === 'double') {

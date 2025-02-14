@@ -25,6 +25,7 @@ export default class SliderView {
   showInput: any;
   inputs: any;
   showValueFlag: any;
+  progressbar: any;
 
   constructor() {
     this.slider = $('<div>', { class: 'alexandr' });
@@ -46,6 +47,7 @@ export default class SliderView {
     showRuler,
     showInput,
     showValueFlag,
+    progressBarClass,
   }: any) {
     this.container = container;
     this.type = type;
@@ -56,6 +58,7 @@ export default class SliderView {
     this.showRuler = showRuler;
     this.showInput = showInput;
     this.showValueFlag = showValueFlag;
+    this.progressbar = new SliderProgressBar(this.line.item, progressBarClass);
 
     //создам кнопки
     if (this.type === 'double') {
@@ -75,10 +78,7 @@ export default class SliderView {
     this.container.append(this.slider);
 
     //получу размер слайдера
-    this.sliderLength =
-      this.orientation === 'vertical'
-        ? this.slider.outerHeight() - this.thumbs[0].item.outerHeight()
-        : this.slider.outerWidth() - this.thumbs[0].item.outerWidth();
+    this.sliderLength = this.slider.outerWidth() - this.thumbs[0].item.outerWidth();
 
     // создать мин макс
     if (this.showMinMaxValue) {
@@ -117,6 +117,11 @@ export default class SliderView {
       $.each(this.thumbs, function () {
         this.item.addClass('flag');
       });
+    }
+
+    // установить ориентацию
+    if (this.orientation === 'vertical') {
+      this.setVerticalOrientation();
     }
   }
 
@@ -216,6 +221,8 @@ export default class SliderView {
       this.maxThumbPixelPosition = position;
       this.thumbs[1].item.css({ [this.moveDirection]: position });
     }
+
+    this._setProgressBar();
   }
 
   updateMinMaxValueLine(min: number, max: number) {
@@ -292,12 +299,13 @@ export default class SliderView {
     let clientLineCoordsSize;
     let clientThumbCoordsSize;
     if (this.orientation === 'vertical') {
-      clientEvent = event.clientY;
+      clientEvent = event.pageY;
+
       clientLineCoordsOffset = sliderLineCoords.top;
       clientLineCoordsSize = sliderLineCoords.height;
       clientThumbCoordsSize = currentThumbCoords.height;
     } else {
-      clientEvent = event.clientX;
+      clientEvent = event.pageX;
       clientLineCoordsOffset = sliderLineCoords.left;
       clientLineCoordsSize = sliderLineCoords.width;
       clientThumbCoordsSize = currentThumbCoords.width;
@@ -352,8 +360,8 @@ export default class SliderView {
     // на скольких пикселях от линии произошел клик
     let pixelClick =
       this.moveDirection === 'left'
-        ? event.clientX - sliderLineCoords.left
-        : event.clientY - sliderLineCoords.top;
+        ? event.pageX - sliderLineCoords.left
+        : event.pageY - sliderLineCoords.top;
 
     let stepLeft = this.equateValueToStep(pixelClick);
 
@@ -370,6 +378,89 @@ export default class SliderView {
       } else {
         handler('max', stepLeft);
       }
+    }
+  }
+
+  _setProgressBar(): void {
+    if (this.type === 'single') {
+      if (this.orientation === 'vertical') {
+        let coordsThumbStart =
+          this.minThumbPixelPosition + this.thumbs[0].item.outerHeight() / 2 + 'px';
+
+        console.log(coordsThumbStart);
+
+        this.progressbar.item.css({
+          top: 0,
+          width: '100%',
+          height: coordsThumbStart,
+        });
+      }
+
+      if (this.orientation === 'horizontal') {
+        let coordsThumbStart =
+          this.minThumbPixelPosition + this.thumbs[0].item.outerWidth() / 2 + 'px';
+        this.progressbar.item.css({
+          left: 0,
+          height: '100%',
+          width: coordsThumbStart,
+        });
+      }
+    }
+
+    if (this.type === 'double') {
+      if (this.orientation === 'vertical') {
+        let coordsThumbMin = this.minThumbPixelPosition + this.thumbs[0].item.outerHeight() / 2;
+        let coordsThumbMax = this.maxThumbPixelPosition + this.thumbs[1].item.outerHeight() / 2;
+
+        this.progressbar.item.css({
+          left: 0,
+          height: coordsThumbMax - coordsThumbMin + 'px',
+          width: '100%',
+          top: coordsThumbMin,
+        });
+      }
+
+      if (this.orientation === 'horizontal') {
+        let coordsThumbMin = this.minThumbPixelPosition + this.thumbs[0].item.outerWidth() / 2;
+        let coordsThumbMax = this.maxThumbPixelPosition + this.thumbs[1].item.outerWidth() / 2;
+
+        this.progressbar.item.css({
+          left: coordsThumbMin + 'px',
+          height: '100%',
+          width: coordsThumbMax - coordsThumbMin + 'px',
+        });
+      }
+    }
+  }
+
+  setVerticalOrientation() {
+    const height = this.slider.outerWidth();
+
+    //повернем весь слайдер
+    this.slider.addClass('alexandr--vertical');
+    this.slider.height(height);
+
+    //повернем линию
+    this.line.item.addClass('alexandr__line--vertical');
+    this.line.item.height(height);
+
+    //повернем линию со значениями
+    if (this.sliderMinMaxValueLine) {
+      this.sliderMinMaxValueLine.wrap.addClass('alexandr__values--vertical');
+      this.sliderMinMaxValueLine.wrap.height(height);
+    }
+
+    // //повернем кнопки
+    this.thumbs.forEach((thumb: BaseSubViewInterface) => {
+      thumb.item.addClass('alexandr__thumb--vertical');
+    });
+
+    //повернуть линейку
+    if (this.ruler) {
+      this.ruler.item.addClass('alexandr__ruler--vertical');
+      this.ruler.dividings.forEach((elem: any) => {
+        elem.addClass('alexandr__dividing--vertical');
+      });
     }
   }
 }
