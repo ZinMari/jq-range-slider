@@ -5,6 +5,14 @@ import './jquery.alexandr.scss';
 // import './theme-dark.scss';
 
 (function ($) {
+  class Alexandr {
+    presenter: any;
+    constructor(options: any) {
+      this.presenter = new SliderPresenter(new SliderView(), new SliderModel());
+      this.presenter.init(options);
+    }
+  }
+
   const defaults: AlexandrSettings = {
     minValue: 0,
     maxValue: 100,
@@ -28,14 +36,15 @@ import './jquery.alexandr.scss';
     showMaxValueClass: '',
   };
 
-  $.fn.alexandr = function (options): JQuery {
+  $.fn.alexandr = function (options) {
     const config = $.extend({}, defaults, options);
     config.container = this;
 
-    const presenter = new SliderPresenter(new SliderView(), new SliderModel());
-    presenter.init(config);
-
-    return this.first();
+    return this.each(function () {
+      if (!$(this).data('alexandr')) {
+        $(this).data('alexandr', new Alexandr(config));
+      }
+    });
   };
 })(jQuery);
 
