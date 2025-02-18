@@ -36,7 +36,7 @@ import './jquery.alexandr.scss';
     showMaxValueClass: '',
   };
 
-  $.fn.alexandr = function (options) {
+  $.fn.alexandr = function (options: any) {
     const config = $.extend({}, defaults, options);
     config.container = this;
 

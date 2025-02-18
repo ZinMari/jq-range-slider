@@ -1,5 +1,10 @@
 interface JQuery {
-  alexandr(props?: object): JQuery;
+  alexandr: any;
+  //   alexandr(props?: object): JQuery;
+}
+
+interface JQueryStatic {
+  alexandr: any;
 }
 
 interface AlexandrSettings {
