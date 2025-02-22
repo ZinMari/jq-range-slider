@@ -25,20 +25,19 @@ import './jquery.alexandr.scss';
         return options && name ? options[name] : options;
       }
 
-      //   if (!target.hasClass(this.markerClassName)) {
-      //     return;
-      //   }
+      options = options || {};
 
-      //   options = options || {};
+      if (typeof options === 'string') {
+        const name = options;
+        options = {};
+        options[name] = value;
+      }
 
-      //   if (typeof options === 'string') {
-      //     const name = options;
-      //     options = {};
-      //     options[name] = value;
-      //   }
+      $.extend(inst, options);
 
-      //   $.extend(inst.options, options);
+      this._refresh(target);
     },
+    _refresh(target: any) {},
   });
 
   function isNotChained(method: any, otherArgs: any) {
@@ -55,6 +54,7 @@ import './jquery.alexandr.scss';
 
     if (isNotChained(options, otherArgs)) {
       const plugin = $(this).data('alexandr');
+
       return plugin['_' + options + 'Plugin'].apply(plugin, [this[0]].concat(otherArgs));
     }
 
@@ -62,7 +62,15 @@ import './jquery.alexandr.scss';
     config.container = this;
 
     return this.each(function () {
-      if (!$(this).data('alexandr')) {
+      if (typeof options === 'string') {
+        const plugin = $(this).data('alexandr');
+
+        if (!plugin['_' + options + 'Plugin']) {
+          throw 'Unknown method: ' + options;
+        }
+
+        plugin['_' + options + 'Plugin'].apply(plugin, [this].concat(otherArgs));
+      } else if (!$(this).data('alexandr')) {
         $(this).data('alexandr', new Alexandr(config));
         $(this).data('alexandrOptions', config);
       }
@@ -96,6 +104,7 @@ import './jquery.alexandr.scss';
 $.fn.alexandr.defaults.minValue = 10;
 
 $('.container').alexandr();
-console.log($('.container').alexandr('option'));
+
+$('.container').alexandr('option', 'minValue', '1');
 
 $('.container1').alexandr({ orientation: 'horizontal', type: 'single' });
