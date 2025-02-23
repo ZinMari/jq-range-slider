@@ -37,7 +37,16 @@ import './jquery.alexandr.scss';
 
       this._refresh(target);
     },
-    _refresh(target: any) {},
+    _refreshPlugin(target: any) {},
+    _destroyPlugin(target: any) {
+      target = $(target);
+
+      target.removeData('alexandr', 'alexandrOptions').removeData('alexandrOptions');
+
+      target.find('.alexandr').remove();
+
+      return target;
+    },
   });
 
   function isNotChained(method: any, otherArgs: any) {
@@ -62,7 +71,7 @@ import './jquery.alexandr.scss';
     config.container = this;
 
     return this.each(function () {
-      if (typeof options === 'string') {
+      if (typeof options === 'string' && $(this).data('alexandr')) {
         const plugin = $(this).data('alexandr');
 
         if (!plugin['_' + options + 'Plugin']) {
@@ -101,10 +110,6 @@ import './jquery.alexandr.scss';
   };
 })(jQuery);
 
-$.fn.alexandr.defaults.minValue = 10;
-
 $('.container').alexandr();
 
-$('.container').alexandr('option', 'minValue', '1');
-
-$('.container1').alexandr({ orientation: 'horizontal', type: 'single' });
+$('.container1').alexandr({ orientation: 'horizontal' });
