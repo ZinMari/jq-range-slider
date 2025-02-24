@@ -14,6 +14,10 @@ import './jquery.alexandr.scss';
   }
 
   $.extend(Alexandr.prototype, {
+    _initPlugin(target: any, options: any){
+      $(this).data('alexandr', new Alexandr(options));
+      $(this).data('alexandrOptions', options);
+    },
     _optionPlugin(target: any, options: any, value: any) {
       target = $(target);
 
@@ -33,18 +37,19 @@ import './jquery.alexandr.scss';
         options[name] = value;
       }
 
-      $.extend(inst, options);
 
-      this._refresh(target);
+      this._refreshPlugin(target, $.extend(inst, options));
     },
-    _refreshPlugin(target: any) {},
+
+    _refreshPlugin(target: any, options: any) {
+      this._destroyPlugin(target);
+      this._initPlugin(target, options);
+    },
+
     _destroyPlugin(target: any) {
       target = $(target);
-
       target.removeData('alexandr', 'alexandrOptions').removeData('alexandrOptions');
-
       target.find('.alexandr').remove();
-
       return target;
     },
   });
@@ -91,7 +96,7 @@ import './jquery.alexandr.scss';
     maxValue: 100,
     stepValue: 10,
     showMinMaxValue: true,
-    orientation: 'vertical',
+    orientation: 'horizontal',
     type: 'double',
     showInput: true,
     showValueFlag: true,
@@ -111,5 +116,3 @@ import './jquery.alexandr.scss';
 })(jQuery);
 
 $('.container').alexandr();
-
-$('.container1').alexandr({ orientation: 'horizontal' });
