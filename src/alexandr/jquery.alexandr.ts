@@ -15,8 +15,10 @@ import './jquery.alexandr.scss';
 
   $.extend(Alexandr.prototype, {
     _initPlugin(target: any, options: any){
-      $(this).data('alexandr', new Alexandr(options));
-      $(this).data('alexandrOptions', options);
+      $(target).data('alexandr', new Alexandr(options));
+      $(target).data('alexandrOptions', options);
+
+      return $(target)
     },
     _optionPlugin(target: any, options: any, value: any) {
       target = $(target);
@@ -115,4 +117,3 @@ import './jquery.alexandr.scss';
   };
 })(jQuery);
 
-$('.container').alexandr();
