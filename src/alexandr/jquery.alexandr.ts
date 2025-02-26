@@ -94,15 +94,15 @@ import './jquery.alexandr.scss';
   };
 
   $.fn.alexandr.defaults = {
-    minValue: 0,
-    maxValue: 100,
+    minValue: -10,
+    maxValue: 1000,
     stepValue: 10,
     showMinMaxValue: true,
     orientation: 'horizontal',
     type: 'double',
-    showInput: true,
+    showInput: false,
     showValueFlag: true,
-    showRuler: true,
+    showRuler: false,
     minPosition: 10,
     maxPosition: 20,
     elemForShowValueMin: $('.min'),
@@ -116,4 +116,3 @@ import './jquery.alexandr.scss';
     showMaxValueClass: '',
   };
 })(jQuery);
-

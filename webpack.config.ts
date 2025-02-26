@@ -12,8 +12,8 @@ export default (env: EnvVariables) => {
   const paths: BuildPaths = {
     output: path.resolve(__dirname, 'build'),
     entry: {
-      index: path.resolve(__dirname, 'src', 'page', 'index.ts'),
       'jquery.alexandr': path.resolve(__dirname, 'src', 'alexandr', 'jquery.alexandr.ts'),
+      index: path.resolve(__dirname, 'src', 'page', 'index.ts'),
     },
     html: path.resolve(__dirname, 'src', 'page', 'index.pug'),
   };
