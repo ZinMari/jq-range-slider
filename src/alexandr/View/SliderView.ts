@@ -233,12 +233,14 @@ export default class SliderView {
   }
 
   updateRulerValue(min: number, max: number) {
-    const stepRuler = (max - min) / (this.ruler.dividings.length - 1);
+    if(this.showRuler){
+      const stepRuler = (max - min) / (this.ruler.dividings.length - 1);
 
-    $.each(this.ruler.dividings, function () {
-      this.attr('data-dividing', Math.round(min));
-      min += stepRuler;
-    });
+      $.each(this.ruler.dividings, function () {
+        this.attr('data-dividing', Math.round(min));
+        min += stepRuler;
+      });}
+    
   }
 
   updateFlagValues(thumb: 'min' | 'max', position: number) {
