@@ -6,7 +6,29 @@ html {
 }
 
 .container {
-    width: 500px;
+    width: 1000px;
     margin: 0 auto;
     padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
 }   
+
+.slider-block {
+    width: 100%;
+    display: flex;
+    border: 1px solid white;
+    gap: 10px;
+    padding: 50px 10px ;
+}
+
+.slider-block__slider {
+    flex-basis: 50%;
+}
+
+.form {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

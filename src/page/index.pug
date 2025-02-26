@@ -9,6 +9,60 @@ html(lang="ru")
     title Show Slider
   body
     .container
-      +slider-block
-    .container1
+      .slider-block.slider1
+        .slider-block__slider
+        .slider-block__panel
+          form.slider-block__form.form
+            fieldset.form__block
+              legend Тип: 
+                label
+                  input(type='radio' name='type', value='single')
+                  |       Одинарный
+                label
+                  input(type='radio' name='type', value='double')
+                  |       Двойной
+            fieldset.form__block
+              legend Ориентация: 
+                label
+                  input(type='radio' name='orientation', value='horizontal')
+                  |       Горизонтальный
+                label
+                  input(type='radio' name='orientation', value='vertical' )
+                  |       Вертикальный
+            fieldset.form__block
+              legend Мин. значение слайдера: 
+                label
+                  input(type='number' name='minValue')
+            fieldset.form__block
+              legend Макс. значение слайдера: 
+                label
+                  input(type='number' name='maxValue')
+            fieldset.form__block
+              legend Мин. положение ползунка: 
+                label
+                  input(type='number' name='minPosition')
+            fieldset.form__block
+              legend Макс. положение ползунка: 
+                label
+                  input(type='number' name='maxPosition')
+            fieldset.form__block
+              legend Шаг: 
+                label
+                  input(type='number' name='stepValue')
+            fieldset.form__block
+              legend Флажки: 
+                label
+                  input(type='checkbox' name='showValueFlag')
+                  |       Показать
+            fieldset.form__block
+              legend Линейка: 
+                label
+                  input(type='checkbox' name='showRuler')
+                  |       Показать
+      .slider-block.slider2
+        .slider-block__slider
+        .slider-block__panel Тут будет панелька
+
+
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer")
 </html>
