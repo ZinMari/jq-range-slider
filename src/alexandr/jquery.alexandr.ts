@@ -101,7 +101,7 @@ import './jquery.alexandr.scss';
     orientation: 'horizontal',
     type: 'double',
     showValueFlag: true,
-    showRuler: false,
+    showRuler: true,
     minPosition: 10,
     maxPosition: 20,
     elemForShowValueMin: $('.min'),
