@@ -22,15 +22,15 @@ export default class SliderView {
   showMaxValueClass: any;
   showRuler: any;
   ruler: any;
-  showInput: any;
   inputs: any;
   showValueFlag: any;
   progressbar: any;
+  controlsMinThumb: any;
+  controlsMaxThumb: any;
 
   constructor() {
     this.slider = $('<div>', { class: 'alexandr' });
     this.thumbs = [];
-    this.inputs = [];
   }
 
   init({
@@ -45,9 +45,10 @@ export default class SliderView {
     showMinValueClass,
     showMaxValueClass,
     showRuler,
-    showInput,
     showValueFlag,
     progressBarClass,
+    controlsMinThumb,
+    controlsMaxThumb,
   }: any) {
     this.container = container;
     this.type = type;
@@ -56,9 +57,10 @@ export default class SliderView {
     this.moveDirection = this.orientation === 'vertical' ? 'top' : 'left';
     this.showMinMaxValue = showMinMaxValue;
     this.showRuler = showRuler;
-    this.showInput = showInput;
     this.showValueFlag = showValueFlag;
     this.progressbar = new SliderProgressBar(this.line.item, progressBarClass);
+    this.controlsMinThumb = controlsMinThumb;
+    this.controlsMaxThumb = controlsMaxThumb;
 
     //создам кнопки
     if (this.type === 'double') {
@@ -92,24 +94,6 @@ export default class SliderView {
     // создать линейку
     if (this.showRuler) {
       this.ruler = new SliderRulerView(this.slider);
-    }
-
-    //создать инпуты для ввода
-    if (this.showInput) {
-      const inputsWrap = $('<div>', { class: 'alexandr__inputs' });
-      const minElement = $('<label>', { text: 'MIN' }).append(
-        $('<input>', { class: 'inputs__item alexandr__input-min' }),
-      );
-      inputsWrap.append(minElement);
-      this.inputs.push(minElement);
-      if (this.type === 'double') {
-        const maxElement = $('<label>', { text: 'MAX' }).append(
-          $('<input>', { class: 'inputs__item alexandr__input-max' }),
-        );
-        inputsWrap.append(maxElement);
-        this.inputs.push(maxElement);
-      }
-      this.slider.prepend(inputsWrap);
     }
 
     //показать флажки
@@ -181,20 +165,30 @@ export default class SliderView {
 
   bindInputsChange(handler: any) {
     //повесить события на инпуты
-    if (this.inputs.length) {
-      this.inputs.forEach((input: any) => {
-        input.on('change', (event: any) => {
-          const currentInput = $(event.target);
-          let currentValue = parseInt(currentInput.val().toString());
-          currentValue = Number.isNaN(currentValue) ? 0 : currentValue;
-
-          if (currentInput.hasClass('alexandr__input-min')) {
+    if(this.controlsMinThumb.length){
+      $.each(this.controlsMinThumb, function(){
+        $.each(this, function(){
+          $(this).on('change', (event: any) => {
+            const currentInput = $(event.target);
+            let currentValue = parseInt(currentInput.val().toString());
+            currentValue = Number.isNaN(currentValue) ? 0 : currentValue;   
             handler('min', currentValue);
-          } else if (currentInput.hasClass('alexandr__input-max') && this.type === 'double') {
+          });
+        })
+      })
+    }
+
+    if(this.controlsMaxThumb.length){
+      $.each(this.controlsMaxThumb, function(){
+        $.each(this, function(){
+          $(this).on('change', (event: any) => {
+            const currentInput = $(event.target);
+            let currentValue = parseInt(currentInput.val().toString());
+            currentValue = Number.isNaN(currentValue) ? 0 : currentValue;   
             handler('max', currentValue);
-          }
-        });
-      });
+          });
+        })
+      })
     }
   }
 
@@ -255,12 +249,20 @@ export default class SliderView {
   }
 
   updateInputsValue(type: 'min' | 'max', value: number) {
-    if (this.showInput) {
-      if (type === 'min' && this.inputs[0]) {
-        this.inputs[0].children(':last').val(value);
-      } else if (type === 'max' && this.inputs[1]) {
-        this.inputs[1].children(':last').val(value);
-      }
+    if(type ==='min' && this.controlsMinThumb.length){
+      $.each(this.controlsMinThumb, function(){
+        $.each(this, function(){
+          $(this).val(value);
+        })
+      })
+    }
+
+    if(type ==='max' && this.controlsMaxThumb.length){
+      $.each(this.controlsMaxThumb, function(){
+        $.each(this, function(){
+          $(this).val(value);
+        })
+      })
     }
   }
 
@@ -388,8 +390,6 @@ export default class SliderView {
       if (this.orientation === 'vertical') {
         let coordsThumbStart =
           this.minThumbPixelPosition + this.thumbs[0].item.outerHeight() / 2 + 'px';
-
-        console.log(coordsThumbStart);
 
         this.progressbar.item.css({
           top: 0,

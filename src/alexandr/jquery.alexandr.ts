@@ -100,7 +100,6 @@ import './jquery.alexandr.scss';
     showMinMaxValue: true,
     orientation: 'horizontal',
     type: 'double',
-    showInput: false,
     showValueFlag: true,
     showRuler: false,
     minPosition: 10,
@@ -114,5 +113,7 @@ import './jquery.alexandr.scss';
     thumbMaxClass: '',
     showMinValueClass: '',
     showMaxValueClass: '',
+    controlsMinThumb: [],
+    controlsMaxThumb: [],
   };
 })(jQuery);
