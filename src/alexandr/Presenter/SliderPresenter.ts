@@ -1,6 +1,6 @@
 export default class SliderPresenter {
   view: any;
-  model: any;
+  model: Model;
 
   constructor(view: any, model: any) {
     this.view = view;
