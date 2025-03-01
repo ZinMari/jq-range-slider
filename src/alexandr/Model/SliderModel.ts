@@ -12,11 +12,11 @@ export default class SliderModel {
   init({ minValue, maxValue, minPosition, maxPosition, stepValue, type }: any) {
     this.type = type;
     this.setStepValue(stepValue);
-    this.setMinValue(minValue);
-    this.setMaxValue(maxValue);
-    this.setMinPosition(minPosition);
+    this.setMinValue(+minValue);
+    this.setMaxValue(+maxValue);
+    this.setMinPosition(+minPosition);
     if (this.type === 'double') {
-      this.setMaxPosition(maxPosition);
+      this.setMaxPosition(+maxPosition);
     }
   }
 
