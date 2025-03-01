@@ -6,7 +6,7 @@ import './jquery.alexandr.scss';
 
 (function ($) {
   class Alexandr {
-    presenter: any;
+    presenter: Presenter;
     constructor(options: any) {
       this.presenter = new SliderPresenter(new SliderView(), new SliderModel());
       this.presenter.init(options);

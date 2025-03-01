@@ -135,15 +135,12 @@ interface View {
 interface Presenter {
   view: View;
   model: Model;
-  pixelInOneStep: number;
-  moveDirection: 'top' | 'left';
-  minThumbPixelPosition: number;
-  maxThumbPixelPosition: number;
-  setMinMaxValue: () => void;
-  setValuesToRuler: () => void;
-  onChangeInput: (event: Event) => void;
-  onThumbMouseDown: (event: Event) => void;
-  onSliderLineClick: (event: Event) => void;
-  onRulerClick: (event: Event) => void;
-  init: (options: AlexandrSettings) => void;
+  init: any;
+  onThumbsPositionChanged: (thumb: 'min' | 'max', position: number) => void;
+  onStepValueChenged :(min: number, max: number, step: number) =>void;
+  onMinMaxValuesChanged : (min: number, max: number) => void;
+  handleThumbsPositionChanged : (thumb: 'min' | 'max', position: number) =>void;
+  handleInputsChange: (input: 'min' | 'max', value: number) => void;
+  convertUnitsToPixels: (value: number)=> number;
+  convertPixelToUnits: (value: number)=> number;
 }
