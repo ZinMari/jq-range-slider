@@ -33,8 +33,13 @@ function setValueToPanel(slider: any){
 }
 
 function onChangePanelValue(event: any){
-    event.preventDefault()
-    const target = $(event.target);
+    event.preventDefault();
+    const target = $(event.target); 
+
+    if(target.hasClass('form__controlMinThumb') || target.hasClass('form__controlMaxThumb')){
+        return;
+    }
+
     if(target.attr('type') === 'checkbox'){
         $(this).find('.slider-complex__slider').alexandr('option', {[target.attr('name')]: target.prop('checked')});
     } else {
