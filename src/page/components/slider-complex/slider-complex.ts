@@ -1,7 +1,8 @@
-function initSlider(slider: any){
+function initSlider(slider: any, options: any){
     $(slider).children('.slider-complex__slider').alexandr({
         controlsMinThumb: [$(slider).find('.form__controlMinThumb')],
-        controlsMaxThumb: [$(slider).find('.form__controlMaxThumb')]
+        controlsMaxThumb: [$(slider).find('.form__controlMaxThumb')],
+        ...options
     });
 }
 
@@ -41,8 +42,8 @@ function onChangePanelValue(event: any){
     }
 }
 
-export default function initSliderComplex(slider: any){
-    initSlider(slider);
+export default function initSliderComplex(slider: any, options: any){
+    initSlider(slider, options);
     setValueToPanel(slider)
     $(slider).on('change', onChangePanelValue);
 }

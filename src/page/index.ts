@@ -4,7 +4,7 @@ import initSliderComplex from './components/slider-complex/slider-complex';
 
 
 
-initSliderComplex('.slider1');
-initSliderComplex('.slider2');
-initSliderComplex('.slider3');
-initSliderComplex('.slider4');
+initSliderComplex('.slider1', {type: 'single'});
+initSliderComplex('.slider2', {orientation: 'vertical'});
+initSliderComplex('.slider3', {minValue: 500, max: 1000, orientation: 'vertical'});
+initSliderComplex('.slider4', {showValueFlag: false, showRuler: false, type: 'single', minPosition: 900});
