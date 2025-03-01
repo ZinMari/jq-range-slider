@@ -1,0 +1,18 @@
+.slider-complex {
+    width: 100%;
+    display: flex;
+    border: 1px solid white;
+    gap: 10px;
+    padding: 50px 10px;
+
+    &__slider {
+        flex-basis: 50%;
+    }
+}
+
+.form {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

@@ -1,0 +1,57 @@
+mixin slider-complex({sliderClass})
+  -
+    const classes = [
+      'slider-complex',
+      sliderClass
+    ]
+  div(class=[...classes])
+        .slider-complex__slider
+        .slider-complex__panel
+          form.slider-complex__form.form
+            fieldset.form__block
+              legend Тип: 
+                label
+                  input(type='radio' name='type', value='single')
+                  |       Одинарный
+                label
+                  input(type='radio' name='type', value='double')
+                  |       Двойной
+            fieldset.form__block
+              legend Ориентация: 
+                label
+                  input(type='radio' name='orientation', value='horizontal')
+                  |       Горизонтальный
+                label
+                  input(type='radio' name='orientation', value='vertical' )
+                  |       Вертикальный
+            fieldset.form__block
+              legend Мин. значение слайдера: 
+                label
+                  input(type='number' name='minValue')
+            fieldset.form__block
+              legend Макс. значение слайдера: 
+                label
+                  input(type='number' name='maxValue')
+            fieldset.form__block
+              legend Мин. положение ползунка: 
+                label
+                  input.form__controlMinThumb( type='number')
+            fieldset.form__block
+              legend Макс. положение ползунка: 
+                label
+                  input.form__controlMaxThumb( type='number')
+            fieldset.form__block
+              legend Шаг: 
+                label
+                  input(type='number' name='stepValue')
+            fieldset.form__block
+              legend Флажки: 
+                label
+                  input(type='checkbox' name='showValueFlag')
+                  |       Показать
+            fieldset.form__block
+              legend Линейка: 
+                label
+                  input(type='checkbox' name='showRuler')
+                  |       Показать
+      
