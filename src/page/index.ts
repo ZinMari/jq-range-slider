@@ -1,26 +1,11 @@
 import './style.scss'
 
-// $('.slider1 .slider-block__slider').alexandr({
-//     controlsMinThumb: [$('.form__controlMinThumb')],
-//     controlsMaxThumb: [$('.form__controlMaxThumb')],
-// });
-// $('.slider2 .slider-block__slider').alexandr();
-
-
-function initSliderPanel(slider: any){
-    const controlsMinThumb = slider.children('.form__controlMinThumb');
-    const controlsMaxThumb = slider.children('.form__controlMaxThumb');
-    const panel = slider.children('.slider-block__panel');
-
+function initSlider(slider: any){
     $(slider).children('.slider-block__slider').alexandr({
-        controlsMinThumb,
-        controlsMaxThumb,
+        controlsMinThumb: [$(slider).find('.form__controlMinThumb')],
+        controlsMaxThumb: [$(slider).find('.form__controlMaxThumb')]
     });
 }
-
-initSliderPanel('.slider1');
-initSliderPanel('.slider2');
-
 
 function setValueToPanel(slider: any, panel: any){
     const sliderOptions = $(slider).alexandr('option');
@@ -47,6 +32,12 @@ function setValueToPanel(slider: any, panel: any){
         }
     })
 }
+
+initSlider('.slider1');
+initSlider('.slider2');
+
+
+
 
 setValueToPanel('.slider1 .slider-block__slider', '.slider1 .slider-block__panel')
 
