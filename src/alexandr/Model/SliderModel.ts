@@ -5,41 +5,41 @@ export default class SliderModel {
   maxPosition: number;
   stepValue: number;
   type: 'single' | 'double';
-  onThumbsPositionChanged: any;
-  onStepValueChenged: any;
-  onMinMaxValuesChanged: any;
+  onThumbsPositionChanged?: (type: 'min' | 'max', position: number) => void;
+  onStepValueChenged?: (minValue: number, maxValue: number, stepValue: number) => void;
+  onMinMaxValuesChanged?: (minValue: number, maxValue: number) => void;
 
-  init({ minValue, maxValue, minPosition, maxPosition, stepValue, type }: any) {
+  init({ minValue, maxValue, minPosition, maxPosition, stepValue, type }: { minValue: number; maxValue: number; minPosition: number; maxPosition?: number; stepValue: number; type: 'single' | 'double'; }) {
     this.type = type;
     this.setStepValue(stepValue);
     this.setMinValue(+minValue);
     this.setMaxValue(+maxValue);
     this.setMinPosition(+minPosition);
     if (this.type === 'double') {
-      this.setMaxPosition(+maxPosition);
+      this.setMaxPosition(+maxPosition!);
     }
   }
 
-  setMinValue(minValue: number) {
+  setMinValue(minValue: number): void {
     this.minValue = minValue;
 
     this.onMinMaxValuesChanged?.(this.minValue, this.maxValue);
     this.onStepValueChenged?.(this.minValue, this.maxValue, this.stepValue);
   }
 
-  setMaxValue(maxValue: number) {
+  setMaxValue(maxValue: number): void {
     this.maxValue = maxValue;
 
     this.onMinMaxValuesChanged?.(this.minValue, this.maxValue);
     this.onStepValueChenged?.(this.minValue, this.maxValue, this.stepValue);
   }
 
-  setStepValue(stepValue: number) {
+  setStepValue(stepValue: number):void {
     this.stepValue = stepValue;
     this.onStepValueChenged?.(this.minValue, this.maxValue, this.stepValue);
   }
 
-  setMinPosition(minPosition: number) {
+  setMinPosition(minPosition: number):void {
     const typeValue = 'min';
 
     let newPosition = this.equateValueToStep(minPosition);
@@ -53,7 +53,7 @@ export default class SliderModel {
     this.onThumbsPositionChanged?.('min', this.minPosition);
   }
 
-  setMaxPosition(maxPosition: number) {
+  setMaxPosition(maxPosition: number):void {
     const typeValue = 'max';
     let newPosition = this.equateValueToStep(maxPosition);
     newPosition = this.validatePosition(newPosition);
@@ -66,15 +66,15 @@ export default class SliderModel {
     this.onThumbsPositionChanged?.('max', this.maxPosition);
   }
 
-  bindThumbsPositionChanged(callback: any) {
+  bindThumbsPositionChanged(callback: (type: 'min' | 'max', position: number) => void): void {
     this.onThumbsPositionChanged = callback;
   }
 
-  bindStepValueChanged(callback: any) {
+  bindStepValueChanged(callback: (minValue: number, maxValue: number, stepValue: number) => void): void {
     this.onStepValueChenged = callback;
   }
 
-  bindMinMaxValuesChanged(callback: any) {
+  bindMinMaxValuesChanged(callback: (minValue: number, maxValue: number) => void): void {
     this.onMinMaxValuesChanged = callback;
   }
 
