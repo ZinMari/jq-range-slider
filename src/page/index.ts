@@ -7,9 +7,9 @@ function initSlider(slider: any){
     });
 }
 
-function setValueToPanel(slider: any, panel: any){
-    const sliderOptions = $(slider).alexandr('option');
-    panel = $(panel);
+function setValueToPanel(slider: any){
+    const panel = $(slider).find('.slider-block__panel');
+    const sliderOptions = $(slider).find('.slider-block__slider').alexandr('option');
     const inputs = panel.find('input');
 
     $.each(inputs, function(){
@@ -32,14 +32,6 @@ function setValueToPanel(slider: any, panel: any){
         }
     })
 }
-
-initSlider('.slider1');
-initSlider('.slider2');
-
-
-
-
-setValueToPanel('.slider1 .slider-block__slider', '.slider1 .slider-block__panel')
 
 function onChangePanelValue(event: any){
     event.preventDefault()
