@@ -43,11 +43,12 @@ function onChangePanelValue(event: any){
     }
 }
 
-initSlider('.slider1');
-initSlider('.slider2');
+function initSliderComplex(slider: any){
+    initSlider(slider);
+    setValueToPanel(slider)
+    $(slider).on('change', onChangePanelValue);
+}
 
-setValueToPanel('.slider1')
-setValueToPanel('.slider2')
 
-$('.slider1').on('change', onChangePanelValue);
-$('.slider2').on('change', onChangePanelValue);
+initSliderComplex('.slider1');
+initSliderComplex('.slider2');
