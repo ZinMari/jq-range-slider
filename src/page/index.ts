@@ -36,15 +36,18 @@ function setValueToPanel(slider: any){
 function onChangePanelValue(event: any){
     event.preventDefault()
     const target = $(event.target);
-
-
     if(target.attr('type') === 'checkbox'){
-        $('.slider1 .slider-block__slider').alexandr('option', {[target.attr('name')]: target.prop('checked')});
+        $(this).find('.slider-block__slider').alexandr('option', {[target.attr('name')]: target.prop('checked')});
     } else {
-        $('.slider1 .slider-block__slider').alexandr('option', {[target.attr('name')]: target.val()});
+        $(this).find('.slider-block__slider').alexandr('option', {[target.attr('name')]: target.val()});
     }
-    console.log(target.attr('name'))
-    console.log(target.val())
 }
 
-$('.form__block').on('change', onChangePanelValue)
+initSlider('.slider1');
+initSlider('.slider2');
+
+setValueToPanel('.slider1')
+setValueToPanel('.slider2')
+
+$('.slider1').on('change', onChangePanelValue);
+$('.slider2').on('change', onChangePanelValue);
