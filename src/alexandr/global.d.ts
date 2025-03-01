@@ -79,30 +79,57 @@ type ElementsCoords = {
 };
 
 interface View {
-  container: JQuery<HTMLElement>;
   slider: JQuery<HTMLElement>;
-  sliderLine: BaseSubViewInterface;
-  sliderProgressBar: BaseSubViewInterface;
-  sliderThumbs: BaseSubViewInterface[];
-  sliderOrientation: 'vertical' | 'horizontal';
-  sliderInitialValues: [number, number?];
-  elemForShowValueMin: JQuery<HTMLElement>;
-  elemForShowValueMax: JQuery<HTMLElement>;
-  elemForInputMin: JQuery<HTMLElement>;
-  elemForInputMax: JQuery<HTMLElement>;
-  type: 'single' | 'double';
-  showInput: boolean;
-  showValueFlag: boolean;
-  showRuler: boolean;
-  inputs: JQuery<HTMLElement>[];
-  thumbClass: string;
-  thumbMinClass: string;
-  thumbMaxClass: string;
-  sliderMinMaxValueLine: SliderMinMaxValueLineView;
-  presenter: Presenter;
-  sliderRuler: SliderRulerView;
-  sliderLength: number;
-  init: any;
+    thumbs: Array<BaseSubViewInterface>;
+    container: JQuery<HTMLElement>;
+    line: BaseSubViewInterface;
+    moveDirection: 'top' | 'left';
+    orientation: 'horizontal' | 'vertical';
+    type: 'single' | 'double';
+    pixelInOneStep: number;
+    sliderLength: number;
+    minThumbPixelPosition: number | undefined;
+    maxThumbPixelPosition: number | undefined;
+    showMinMaxValue: boolean;
+    sliderMinMaxValueLine: SliderMinMaxValueLineView;
+    showMinValueClass: string;
+    showMaxValueClass: string;
+    showRuler: boolean;
+    ruler: SliderRulerView;
+    showValueFlag: boolean;
+    progressbar: BaseSubViewInterface;
+    controlsMinThumb:  Array<JQuery<HTMLElement>>;
+    controlsMaxThumb:  Array<JQuery<HTMLElement>>;
+    init: any;
+    bindThumbsMove: (handler:(type:'min'|'max', value:number) => void)=>void;
+    bindInputsChange: (handler:(type:'min'|'max', value:number) => void)=>void;
+    bindLineClick:(handler:(type:'min'|'max', value:number) => void) =>void;
+    bindRulerClick: (handler:(type:'min'|'max', value:number) => void) =>void;
+    updateThumbsPosition: (thumb:'min'|'max', position:number) =>void;
+    updateMinMaxValueLine: (min:number,max:number) =>void;
+    updateRulerValue: (min:number,max:number) =>void;
+    updateFlagValues: (thumb:'min'|'max',position:number) =>void;
+    updateInputsValue: (type:'min'|'max',value:number) =>void;
+    _getCoords: (elem:JQuery<EventTarget>)=> ElementsCoords;
+    _getShiftThumb: (event: JQueryEventObject, currentThumbCoords: ElementsCoords, orientation: string)=> number;
+    setPixelInOneStep: (min: number, max: number, step: number) =>void;
+    _getNewThumbCord: (
+      event: MouseEvent,
+      shiftClickThumb: number,
+      sliderLineCoords: ElementsCoords,
+      currentThumbCoords: ElementsCoords,
+    )=> number;
+    equateValueToStep: (value: number)=> number;
+    validateDoubleThumbValue: (
+      currenThumb: JQuery<EventTarget>,
+      value: number,
+      minThumbPixelPosition: number,
+      maxThumbPixelPosition: number,
+      pixelInOneStep: number,
+    )=> number;
+    _handleSliderClick: (event: JQueryEventObject, handler:(type:'min'|'max',value:number)=>void)=>void;
+    _setProgressBar: ()=> void;
+    setVerticalOrientation: ()=> void;
 }
 
 interface Presenter {
