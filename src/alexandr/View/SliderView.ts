@@ -5,28 +5,27 @@ import SliderRulerView from './SliderRulerView';
 import SliderThumbView from './SliderThumbView';
 
 export default class SliderView {
-  slider: any;
-  thumbs: any;
-  container: any;
-  line: any;
-  moveDirection: any;
-  orientation: any;
-  type: any;
-  pixelInOneStep: any;
+  slider: JQuery<HTMLElement>;
+  thumbs: Array<BaseSubViewInterface>;
+  container: JQuery<HTMLElement>;
+  line: BaseSubViewInterface;
+  moveDirection: 'top' | 'left';
+  orientation: 'horizontal' | 'vertical';
+  type: 'single' | 'double';
+  pixelInOneStep: number;
   sliderLength: number;
-  minThumbPixelPosition: any;
-  maxThumbPixelPosition: any;
-  showMinMaxValue: any;
-  sliderMinMaxValueLine: any;
-  showMinValueClass: any;
-  showMaxValueClass: any;
-  showRuler: any;
-  ruler: any;
-  inputs: any;
-  showValueFlag: any;
-  progressbar: any;
-  controlsMinThumb: any;
-  controlsMaxThumb: any;
+  minThumbPixelPosition: number | undefined;
+  maxThumbPixelPosition: number | undefined;
+  showMinMaxValue: boolean;
+  sliderMinMaxValueLine: SliderMinMaxValueLineView;
+  showMinValueClass: string;
+  showMaxValueClass: string;
+  showRuler: boolean;
+  ruler: SliderRulerView;
+  showValueFlag: boolean;
+  progressbar: BaseSubViewInterface;
+  controlsMinThumb:  Array<JQuery<HTMLElement>>;
+  controlsMaxThumb:  Array<JQuery<HTMLElement>>;
 
   constructor() {
     this.slider = $('<div>', { class: 'alexandr' });
@@ -49,7 +48,23 @@ export default class SliderView {
     progressBarClass,
     controlsMinThumb,
     controlsMaxThumb,
-  }: any) {
+  }: {
+    type: 'single' | 'double', 
+    container:JQuery<HTMLElement>, 
+    lineClass:string, 
+    thumbMinClass:string, 
+    thumbMaxClass:string,  
+    thumbClass:string,  
+    orientation:'horizontal' | 'vertical',  
+    showMinMaxValue:boolean,  
+    showMinValueClass:string,  
+    showMaxValueClass:string,  
+    showRuler:boolean,  
+    showValueFlag:boolean,  
+    progressBarClass:string,  
+    controlsMinThumb:Array<JQuery<HTMLElement>>,   
+    controlsMaxThumb:Array<JQuery<HTMLElement>>
+ }) {
     this.container = container;
     this.type = type;
     this.line = new SliderLineView(this.slider, lineClass);
@@ -109,10 +124,10 @@ export default class SliderView {
     }
   }
 
-  bindThumbsMove(handler: any) {
+  bindThumbsMove(handler:(type:'min'|'max', value:number) => void) {
     //повесить на кнопки события
-    this.thumbs.forEach((elem: any) => {
-      elem.item.on('mousedown', (event: any) => {
+    this.thumbs.forEach((elem: BaseSubViewInterface) => {
+      elem.item.on('mousedown', (event: JQueryEventObject) => {
         event.preventDefault();
         // получу координаты элементов
         let sliderLineCoords = this._getCoords(this.line.item);
@@ -163,12 +178,12 @@ export default class SliderView {
     });
   }
 
-  bindInputsChange(handler: any) {
+  bindInputsChange(handler:(type:'min'|'max', value:number) => void) {
     //повесить события на инпуты
     if(this.controlsMinThumb.length){
       $.each(this.controlsMinThumb, function(){
         $.each(this, function(){
-          $(this).on('change', (event: any) => {
+          $(this).on('change', (event: JQueryEventObject) => {
             const currentInput = $(event.target);
             let currentValue = parseInt(currentInput.val().toString());
             currentValue = Number.isNaN(currentValue) ? 0 : currentValue;   
@@ -181,7 +196,7 @@ export default class SliderView {
     if(this.controlsMaxThumb.length){
       $.each(this.controlsMaxThumb, function(){
         $.each(this, function(){
-          $(this).on('change', (event: any) => {
+          $(this).on('change', (event: JQueryEventObject) => {
             const currentInput = $(event.target);
             let currentValue = parseInt(currentInput.val().toString());
             currentValue = Number.isNaN(currentValue) ? 0 : currentValue;   
@@ -192,22 +207,22 @@ export default class SliderView {
     }
   }
 
-  bindLineClick(handler: any) {
+  bindLineClick(handler:(type:'min'|'max', value:number) => void) {
     //повесить событие на линию
-    this.line.item.on('click', (event: any) => {
+    this.line.item.on('click', (event: JQueryEventObject) => {
       this._handleSliderClick(event, handler);
     });
   }
 
-  bindRulerClick(handler: any) {
+  bindRulerClick(handler:(type:'min'|'max', value:number) => void) {
     if (this.showRuler) {
-      this.ruler.item.on('click', (event: any) => {
+      this.ruler.item.on('click', (event: JQueryEventObject) => {
         this._handleSliderClick(event, handler);
       });
     }
   }
 
-  updateThumbsPosition(thumb: 'min' | 'max', position: number) {
+  updateThumbsPosition(thumb:'min'|'max', position:number): void {
     if (thumb === 'min') {
       this.minThumbPixelPosition = position;
       this.thumbs[0].item.css({ [this.moveDirection]: position });
@@ -219,14 +234,14 @@ export default class SliderView {
     this._setProgressBar();
   }
 
-  updateMinMaxValueLine(min: number, max: number) {
+  updateMinMaxValueLine(min:number,max:number):void {
     if (this.sliderMinMaxValueLine) {
       this.sliderMinMaxValueLine.min.text(min);
       this.sliderMinMaxValueLine.max.text(max);
     }
   }
 
-  updateRulerValue(min: number, max: number) {
+  updateRulerValue(min:number,max:number):void{
     if(this.showRuler){
       const stepRuler = (max - min) / (this.ruler.dividings.length - 1);
 
@@ -237,7 +252,7 @@ export default class SliderView {
     
   }
 
-  updateFlagValues(thumb: 'min' | 'max', position: number) {
+  updateFlagValues(thumb:'min'|'max',position:number):void{
     //загрузить значения в окошки
     if (this.showValueFlag) {
       if (thumb === 'min') {
@@ -248,7 +263,7 @@ export default class SliderView {
     }
   }
 
-  updateInputsValue(type: 'min' | 'max', value: number) {
+  updateInputsValue(type:'min'|'max',value:number):void{
     if(type ==='min' && this.controlsMinThumb.length){
       $.each(this.controlsMinThumb, function(){
         $.each(this, function(){
@@ -266,7 +281,7 @@ export default class SliderView {
     }
   }
 
-  _getCoords(elem: any) {
+  _getCoords(elem:JQuery<EventTarget>): ElementsCoords {
     let boxLeft = elem.offset().left;
     let boxRight = boxLeft + elem.outerWidth();
     let boxTop = elem.offset().top;
@@ -280,7 +295,7 @@ export default class SliderView {
     };
   }
 
-  _getShiftThumb(event: any, currentThumbCoords: any, orientation: string): number {
+  _getShiftThumb(event: JQueryEventObject, currentThumbCoords: ElementsCoords, orientation: string): number {
     if (orientation === 'vertical') {
       return event.pageY - currentThumbCoords.top;
     } else {
@@ -288,15 +303,15 @@ export default class SliderView {
     }
   }
 
-  setPixelInOneStep(min: number, max: number, step: number) {
+  setPixelInOneStep(min: number, max: number, step: number):void {
     this.pixelInOneStep = (this.sliderLength / (max - min)) * step;
   }
 
   _getNewThumbCord(
-    event: any,
+    event: MouseEvent,
     shiftClickThumb: number,
-    sliderLineCoords: any,
-    currentThumbCoords: any,
+    sliderLineCoords: ElementsCoords,
+    currentThumbCoords: ElementsCoords,
   ): number {
     let clientEvent;
     let clientLineCoordsOffset;
@@ -358,7 +373,7 @@ export default class SliderView {
     return value;
   }
 
-  _handleSliderClick(event: any, handler: any) {
+  _handleSliderClick(event: JQueryEventObject, handler:(type:'min'|'max',value:number)=>void) {
     let sliderLineCoords = this._getCoords(this.line.item);
 
     // на скольких пикселях от линии произошел клик
@@ -435,7 +450,7 @@ export default class SliderView {
     }
   }
 
-  setVerticalOrientation() {
+  setVerticalOrientation(): void {
     const height = this.slider.outerWidth();
 
     //повернем весь слайдер
@@ -460,7 +475,7 @@ export default class SliderView {
     //повернуть линейку
     if (this.ruler) {
       this.ruler.item.addClass('alexandr__ruler--vertical');
-      this.ruler.dividings.forEach((elem: any) => {
+      this.ruler.dividings.forEach((elem: JQuery<HTMLElement>) => {
         elem.addClass('alexandr__dividing--vertical');
       });
     }
