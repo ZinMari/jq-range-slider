@@ -7,56 +7,56 @@ import './jquery.alexandr.scss';
 (function ($) {
   class Alexandr {
     presenter: Presenter;
-    constructor(options: any) {
+    constructor(options: AlexandrSettings) {
       this.presenter = new SliderPresenter(new SliderView(), new SliderModel());
       this.presenter.init(options);
     }
   }
 
   $.extend(Alexandr.prototype, {
-    _initPlugin(target: any, options: any){
+    _initPlugin(target: HTMLElement, options: AlexandrSettings): JQuery<HTMLElement>{
       $(target).data('alexandr', new Alexandr(options));
       $(target).data('alexandrOptions', options);
 
       return $(target)
     },
-    _optionPlugin(target: any, options: any, value: any) {
+    _optionPlugin(target: JQuery<HTMLElement>, options: AlexandrSettingsKeys | AlexandrSettings, value?: string): string | number | boolean | JQuery<HTMLElement> | [JQuery<HTMLElement>] | AlexandrSettings{
       target = $(target);
 
-      const inst = target.data('alexandrOptions');
+      const inst: AlexandrSettings | undefined = target.data('alexandrOptions');
 
       if (!options || (typeof options == 'string' && value == null)) {
-        var name = options;
+        const name: AlexandrSettingsKeys = options as AlexandrSettingsKeys;
         options = inst || {};
         return options && name ? options[name] : options;
       }
 
       options = options || {};
 
-      if (typeof options === 'string') {
-        const name = options;
-        options = {};
-        options[name] = value;
-      }
+      // if (typeof options === 'string') {
+      //   const name: AlexandrSettingsKeys = options as AlexandrSettingsKeys;
+      //   options = {};
+      //   options[name] = value;
+      // }
 
 
       this._refreshPlugin(target, $.extend(inst, options));
     },
 
-    _refreshPlugin(target: any, options: any) {
+    _refreshPlugin(target: JQuery<HTMLElement>, options: AlexandrSettings) {
       this._destroyPlugin(target);
       this._initPlugin(target, options);
     },
 
-    _destroyPlugin(target: any) {
+    _destroyPlugin(target: JQuery<HTMLElement>) {
       target = $(target);
-      target.removeData('alexandr', 'alexandrOptions').removeData('alexandrOptions');
+      target.removeData('alexandr').removeData('alexandrOptions');
       target.find('.alexandr').remove();
       return target;
     },
   });
 
-  function isNotChained(method: any, otherArgs: any) {
+  function isNotChained(method: string| AlexandrSettings, otherArgs: Array<string> | undefined): boolean {
     if (
       method === 'option' &&
       (otherArgs.length === 0 || (otherArgs.length === 1 && typeof otherArgs[0] === 'string'))
@@ -65,7 +65,7 @@ import './jquery.alexandr.scss';
     }
   }
 
-  $.fn.alexandr = function (options: any) {
+  $.fn.alexandr = function (options: string | AlexandrSettings): JQuery<HTMLElement> {
     const otherArgs = Array.prototype.slice.call(arguments, 1);
 
     if (isNotChained(options, otherArgs)) {

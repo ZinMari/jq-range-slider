@@ -1,5 +1,5 @@
 interface JQuery {
-  alexandr: any;
+  alexandr: any | ((options: string | AlexandrSettings)=> JQuery<HTMLElement>);
 }
 
 interface JQueryStatic {
@@ -7,30 +7,30 @@ interface JQueryStatic {
 }
 
 interface AlexandrSettings {
-  minValue?: number;
-  maxValue?: number;
-  stepValue?: number;
-  minPosition: number;
-  maxPosition: number;
-  showMinMaxValue?: boolean;
-  orientation?: 'vertical' | 'horizontal';
-  type?: 'single' | 'double';
-  showInput?: boolean;
-  showValueFlag?: boolean;
-  showRuler?: boolean;
-  elemForShowValueMin?: JQuery<HTMLElement>;
-  elemForShowValueMax?: JQuery<HTMLElement>;
-  lineClass?: string;
-  progressBarClass?: string;
-  thumbClass?: string;
-  thumbMinClass?: string;
-  thumbMaxClass?: string;
-  showMinValueClass?: string;
-  showMaxValueClass?: string;
-  container?: JQuery<HTMLElement>;
-  elemForInputMin?: JQuery<HTMLElement>;
-  elemForInputMax?: JQuery<HTMLElement>;
+    minValue?: number,
+    maxValue?: number,
+    stepValue?: number,
+    showMinMaxValue?: boolean,
+    showValueFlag?: boolean,
+    showRuler?: boolean,
+    minPosition?: number,
+    maxPosition?: number,
+    elemForShowValueMin?: JQuery<HTMLElement>,
+    elemForShowValueMax?: JQuery<HTMLElement>,
+    lineClass?: string,
+    progressBarClass?: string,
+    thumbClass?: string,
+    thumbMinClass?: string,
+    thumbMaxClass?: string,
+    showMinValueClass?: string,
+    showMaxValueClass?: string,
+    controlsMinThumb?: [JQuery<HTMLElement>],
+    controlsMaxThumb?: [JQuery<HTMLElement>],
+    orientation?: 'horizontal' | 'vertical';
+    type?: 'single' | 'double';
 }
+
+type AlexandrSettingsKeys = 'minValue' | 'maxValue' | 'stepValue' | 'showMinMaxValue' | 'orientation' | 'type'| 'showValueFlag'| 'showRuler'| 'minPosition'| 'maxPosition'| 'elemForShowValueMin'| 'elemForShowValueMax'| 'lineClass'| 'progressBarClass'| 'thumbClass'| 'thumbMinClass'| 'thumbMaxClass'| 'showMinValueClass'| 'showMaxValueClass'| 'controlsMinThumb'| 'controlsMaxThumb'
 
 interface Model {
   minValue: number;
