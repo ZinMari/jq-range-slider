@@ -2,10 +2,6 @@ interface JQuery {
   alexandr: any | ((options: string | AlexandrSettings)=> JQuery<HTMLElement>);
 }
 
-interface JQueryStatic {
-  alexandr: any;
-}
-
 interface AlexandrSettings {
     minValue?: number,
     maxValue?: number,
