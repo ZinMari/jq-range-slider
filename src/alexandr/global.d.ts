@@ -3,6 +3,7 @@ interface JQuery {
 }
 
 interface AlexandrSettings {
+    [key: string]: number | JQuery<HTMLElement> | boolean | string | [JQuery<HTMLElement>];
     minValue?: number,
     maxValue?: number,
     container?: JQuery<HTMLElement>,
