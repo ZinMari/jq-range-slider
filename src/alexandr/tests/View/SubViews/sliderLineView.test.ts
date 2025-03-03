@@ -1,5 +1,4 @@
 import '@testing-library/jest-dom';
-import { screen, queryHelpers } from '@testing-library/dom';
 import SliderLineView from '../../../View/SliderLineView';
 
 describe('Slider line class', () => {
