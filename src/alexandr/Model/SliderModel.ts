@@ -9,7 +9,7 @@ export default class SliderModel {
   onStepValueChenged?: (minValue: number, maxValue: number, stepValue: number) => void;
   onMinMaxValuesChanged?: (minValue: number, maxValue: number) => void;
 
-  init({ minValue, maxValue, minPosition, maxPosition, stepValue, type }: { minValue: number; maxValue: number; minPosition: number; maxPosition?: number; stepValue: number; type: 'single' | 'double'; }) {
+  init({ minValue, maxValue, minPosition, maxPosition, stepValue, type }: AlexandrSettings) {
     this.type = type;
     this.setStepValue(stepValue);
     this.setMinValue(+minValue);

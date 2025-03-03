@@ -48,23 +48,7 @@ export default class SliderView {
     progressBarClass,
     controlsMinThumb,
     controlsMaxThumb,
-  }: {
-    type: 'single' | 'double', 
-    container:JQuery<HTMLElement>, 
-    lineClass:string, 
-    thumbMinClass:string, 
-    thumbMaxClass:string,  
-    thumbClass:string,  
-    orientation:'horizontal' | 'vertical',  
-    showMinMaxValue:boolean,  
-    showMinValueClass:string,  
-    showMaxValueClass:string,  
-    showRuler:boolean,  
-    showValueFlag:boolean,  
-    progressBarClass:string,  
-    controlsMinThumb:Array<JQuery<HTMLElement>>,   
-    controlsMaxThumb:Array<JQuery<HTMLElement>>
- }) {
+  }: AlexandrSettings) {
     this.container = container;
     this.type = type;
     this.line = new SliderLineView(this.slider, lineClass);
