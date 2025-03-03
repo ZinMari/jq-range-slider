@@ -28,7 +28,7 @@ export default class SliderModel {
   }
 
   setMaxValue(maxValue: number): void {
-    this.maxValue = maxValue;
+    this.maxValue = maxValue <= this.minValue ? this.minValue + this.stepValue : maxValue;
 
     this.onMinMaxValuesChanged?.(this.minValue, this.maxValue);
     this.onStepValueChenged?.(this.minValue, this.maxValue, this.stepValue);
