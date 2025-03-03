@@ -5,6 +5,7 @@ interface JQuery {
 interface AlexandrSettings {
     minValue?: number,
     maxValue?: number,
+    container?: JQuery<HTMLElement>,
     stepValue?: number,
     showMinMaxValue?: boolean,
     showValueFlag?: boolean,
@@ -38,7 +39,7 @@ interface Model {
   onThumbsPositionChanged?: (type: 'min' | 'max', position: number) => void;
   onStepValueChenged?: (minValue: number, maxValue: number, stepValue: number) => void;
   onMinMaxValuesChanged?: (minValue: number, maxValue: number) => void;
-  init: any;
+  init: (options: AlexandrSettings) => void;
   setMinValue: (minValue: number) => void;
   setMaxValue: (maxValue: number) => void;
   setStepValue: (stepValue: number) => void;
@@ -96,7 +97,7 @@ interface View {
     progressbar: BaseSubViewInterface;
     controlsMinThumb:  Array<JQuery<HTMLElement>>;
     controlsMaxThumb:  Array<JQuery<HTMLElement>>;
-    init: any;
+    init: (options: AlexandrSettings) => void;
     bindThumbsMove: (handler:(type:'min'|'max', value:number) => void)=>void;
     bindInputsChange: (handler:(type:'min'|'max', value:number) => void)=>void;
     bindLineClick:(handler:(type:'min'|'max', value:number) => void) =>void;
@@ -131,7 +132,7 @@ interface View {
 interface Presenter {
   view: View;
   model: Model;
-  init: any;
+  init: (options: AlexandrSettings) => void;
   onThumbsPositionChanged: (thumb: 'min' | 'max', position: number) => void;
   onStepValueChenged :(min: number, max: number, step: number) =>void;
   onMinMaxValuesChanged : (min: number, max: number) => void;
