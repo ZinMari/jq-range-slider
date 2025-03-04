@@ -18,6 +18,14 @@ export default class SliderModel {
     if (this.type === 'double') {
       this.setMaxPosition(+maxPosition!);
     }
+
+    return {
+      minValue: this.minValue,
+      maxValue:   this.maxValue,
+      minPosition:   this.minPosition,
+      maxPosition:   this.maxPosition,
+      stepValue:   this.stepValue
+    }
   }
 
   setMinValue(minValue: number): void {

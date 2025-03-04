@@ -7,9 +7,9 @@ export default class SliderPresenter {
     this.model = model;
   }
 
-  init(config: AlexandrSettings): void {
+  init(config: AlexandrSettings) {
     this.view.init({ ...config });
-    this.model.init({ ...config });
+    const upgradeModelOptions = this.model.init({ ...config });
 
     this.view.setPixelInOneStep(this.model.minValue, this.model.maxValue, this.model.stepValue);
     this.model.bindStepValueChanged(this.onStepValueChenged);
@@ -33,6 +33,8 @@ export default class SliderPresenter {
     this.view.bindLineClick(this.handleThumbsPositionChanged);
     this.view.bindRulerClick(this.handleThumbsPositionChanged);
     this.view.bindInputsChange(this.handleInputsChange);
+
+    return upgradeModelOptions;
   }
 
   onThumbsPositionChanged = (thumb: 'min' | 'max', position: number) => {

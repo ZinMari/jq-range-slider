@@ -7,18 +7,20 @@ import './jquery.alexandr.scss';
 (function ($) {
   class Alexandr {
     presenter: Presenter;
+    upgradeModelValues: any;
     constructor(options: AlexandrSettings) {
       this.presenter = new SliderPresenter(new SliderView(), new SliderModel());
-      this.presenter.init(options);
+      this.upgradeModelValues = this.presenter.init(options);
     }
   }
 
   $.extend(Alexandr.prototype, {
     _initPlugin(target: HTMLElement, options: AlexandrSettings): JQuery<HTMLElement>{
-      $(target).data('alexandr', new Alexandr(options));
-      $(target).data('alexandrOptions', options);
 
-      return $(target)
+      const alexandr = new Alexandr(options);
+      $(target).data('alexandr', alexandr);
+      $(target).data('alexandrOptions', $.extend(options, alexandr.upgradeModelValues));
+     return $(target)
     },
     _optionPlugin(target: JQuery<HTMLElement>, options: AlexandrSettingsKeys | AlexandrSettings, value?: string): string | number | boolean | JQuery<HTMLElement> | [JQuery<HTMLElement>] | AlexandrSettings{
       target = $(target);
@@ -87,14 +89,15 @@ import './jquery.alexandr.scss';
 
         plugin['_' + options + 'Plugin'].apply(plugin, [this].concat(otherArgs));
       } else if (!$(this).data('alexandr')) {
-        $(this).data('alexandr', new Alexandr(config));
-        $(this).data('alexandrOptions', config);
+        const alexandr = new Alexandr(config);
+        $(this).data('alexandr', alexandr);
+        $(this).data('alexandrOptions', $.extend(config, alexandr.upgradeModelValues));
       }
     });
   };
 
   $.fn.alexandr.defaults = {
-    minValue: -10,
+    minValue: 1000,
     maxValue: 1000,
     stepValue: 10,
     showMinMaxValue: true,
