@@ -43,6 +43,51 @@ describe('Модель:', ()=>{
             expect(model.stepValue).toBeGreaterThan(0);
         });
     });
+
+    describe('Корректно обрабатывается NaN:', () => {
+        test('minValue не равно NaN при переданном NaN', () => {
+            const model: Model = new Model();
+            const settings = {
+                minValue: NaN,
+            }
+            model.init(settings)
+            expect(model.minValue).not.toBeNaN();
+        });
+        test('stepValue не равно NaN при переданном NaN', () => {
+            const model: Model = new Model();
+            const settings = {
+                stepValue: NaN
+            }
+            model.init(settings)
+            expect(model.stepValue).not.toBeNaN();
+        });
+        test('maxValue не равно NaN при переданном NaN', () => {
+            const model: Model = new Model();
+            const settings = {
+                maxValue: NaN
+            }
+            model.init(settings)
+            expect(model.maxValue).not.toBeNaN();
+        });
+        test('minPosition не равно NaN при переданном NaN', () => {
+            const model: Model = new Model();
+            const settings = {
+                minPosition: NaN
+            }
+            model.init(settings)
+            expect(model.minPosition).not.toBeNaN();
+        });
+        test('maxPosition не равно NaN при переданном NaN', () => {
+            const model: Model = new Model();
+            const settings = {
+                maxPosition: NaN
+            }
+            model.init(settings)
+            expect(model.maxPosition).not.toBeNaN();
+        });
+    });
+
+
 })
 
 
