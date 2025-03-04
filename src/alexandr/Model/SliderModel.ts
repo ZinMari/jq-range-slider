@@ -11,7 +11,7 @@ export default class SliderModel {
 
   init({ minValue, maxValue, minPosition, maxPosition, stepValue, type }: AlexandrSettings) {
     this.type = type;
-    this.setStepValue(stepValue);
+    this.setStepValue(+stepValue);
     this.setMinValue(+minValue);
     this.setMaxValue(+maxValue);
     this.setMinPosition(+minPosition);
@@ -29,20 +29,20 @@ export default class SliderModel {
   }
 
   setMinValue(minValue: number): void {
-    this.minValue = minValue;
+    this.minValue = minValue || 0;
 
     this.onMinMaxValuesChanged?.(this.minValue, this.maxValue);
     this.onStepValueChenged?.(this.minValue, this.maxValue, this.stepValue);
   }
 
   setMaxValue(maxValue: number): void {
-    this.maxValue = maxValue <= this.minValue ? this.minValue + this.stepValue : maxValue;
+    this.maxValue = maxValue <= this.minValue || Number.isNaN(maxValue) ? this.minValue + this.stepValue : maxValue;
     this.onMinMaxValuesChanged?.(this.minValue, this.maxValue);
     this.onStepValueChenged?.(this.minValue, this.maxValue, this.stepValue);
   }
 
   setStepValue(stepValue: number):void {
-    this.stepValue = stepValue <= 0 ? 1 : stepValue;
+    this.stepValue = stepValue <= 0 || Number.isNaN(stepValue)? 1 : stepValue;
     this.onStepValueChenged?.(this.minValue, this.maxValue, this.stepValue);
   }
 
