@@ -50,7 +50,6 @@ export default class SliderModel {
     const typeValue = 'min';
 
     let newPosition = this.equateValueToStep(minPosition);
-
     newPosition = this.validatePosition(newPosition);
 
     if (this.type === 'double') {
@@ -109,6 +108,6 @@ export default class SliderModel {
   }
 
   equateValueToStep(value: number): number {
-    return Math.round(value / this.stepValue) * this.stepValue;
+    return Math.round(value / this.stepValue) * this.stepValue || this.minValue;
   }
 }
