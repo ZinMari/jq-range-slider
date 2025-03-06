@@ -9,7 +9,8 @@
     "start:prod": "webpack serve --env mode=production",
     "start:dev": "webpack serve --env mode=development",
     "test": "jest --coverage",
-    "test:model": "jest ./src/alexandr/tests/Model/Model.test.ts --coverage"
+    "test:model": "jest ./src/alexandr/tests/Model/Model.test.ts --coverage",
+    "test:presenter": "jest ./src/alexandr/tests/Presenter/Presenter.test.ts --coverage"
   },
   "keywords": [],
   "author": "",
