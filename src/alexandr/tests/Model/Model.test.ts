@@ -1,4 +1,3 @@
-import '@testing-library/jest-dom';
 import Model from '../../Model/SliderModel';
 
 describe('Модель:', ()=>{
@@ -87,6 +86,89 @@ describe('Модель:', ()=>{
         });
     });
 
+    describe('Функции для обновления модели были назначены:', () => {
+        const model: Model = new Model();
+
+        test('onThumbsPositionChanged', () => {
+            model.bindThumbsPositionChanged(function(){});
+            expect(model.onThumbsPositionChanged).toBeDefined();
+        });
+
+        test('onStepValueChenged', () => {
+            model.bindStepValueChanged(function(){});
+            expect(model.onStepValueChenged).toBeDefined();
+        });
+
+        test('onMinMaxValuesChanged', () => {
+            model.bindMinMaxValuesChanged(function(){});
+            expect(model.onMinMaxValuesChanged).toBeDefined();
+        });
+
+        test('onMinMaxValuesChanged', () => {
+            model.bindMinMaxValuesChanged(function(){});
+            expect(model.onMinMaxValuesChanged).toBeDefined();
+        });
+    });
+
+    describe('Функции для обновления модели были назначены:', () => {
+        const model: Model = new Model();
+
+        test('onThumbsPositionChanged', () => {
+            model.bindThumbsPositionChanged(function(){});
+            expect(model.onThumbsPositionChanged).toBeDefined();
+        });
+    });
+
+    describe('Функция для валидации положение ползунка всегда возвращает позицию в пределах диапазона слайдера:', () => {
+        test('при заданном диапазоне 0-100 и заданном положении ползунка 1000', () => {
+            const model: Model = new Model();
+            const settings: AlexandrSettings = {
+                minValue: 0,
+                maxValue: 100,
+                stepValue: 1,
+                minPosition: 1000,
+                type: 'single',
+            }
+            model.init(settings)
+            expect(model.minPosition).toBeLessThanOrEqual(model.maxValue);
+        });
+        test('при заданном диапазоне 0-100 и заданном положении ползунка -100', () => {
+            const model: Model = new Model();
+            const settings: AlexandrSettings = {
+                minValue: 0,
+                maxValue: 100,
+                stepValue: 1,
+                minPosition: -100,
+                type: 'single',
+            }
+            model.init(settings)
+            expect(model.minPosition).toBeLessThanOrEqual(model.maxValue);
+        });
+        test('при заданном диапазоне 0-100 и заданном положении двойного ползунка 1000', () => {
+            const model: Model = new Model();
+            const settings: AlexandrSettings = {
+                minValue: 0,
+                maxValue: 100,
+                stepValue: 1,
+                maxPosition: 1000,
+                type: 'double',
+            }
+            model.init(settings)
+            expect(model.maxPosition).toBeLessThanOrEqual(model.maxValue);
+        });
+        test('при заданном диапазоне 0-100 и заданном положении двойного ползунка -100', () => {
+            const model: Model = new Model();
+            const settings: AlexandrSettings = {
+                minValue: 0,
+                maxValue: 100,
+                stepValue: 1,
+                maxPosition: -100,
+                type: 'double',
+            }
+            model.init(settings)
+            expect(model.maxPosition).toBeLessThanOrEqual(model.maxValue);
+        });
+    });
 
 })
 
