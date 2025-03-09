@@ -49,6 +49,10 @@ export default class SliderView {
     controlsMinThumb,
     controlsMaxThumb,
   }: AlexandrSettings) {
+    
+    if(container[0].nodeName !== 'DIV'){
+      throw new Error("В качестве контенера может быть передан только div");
+    }
     this.container = container;
     this.type = type;
     this.line = new SliderLineView(this.slider, lineClass);
@@ -288,7 +292,7 @@ export default class SliderView {
   }
 
   setPixelInOneStep(min: number, max: number, step: number):void {
-    this.pixelInOneStep = (this.sliderLength / (max - min)) * step;
+    this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
   }
 
   _getNewThumbCord(
@@ -333,6 +337,9 @@ export default class SliderView {
   }
 
   equateValueToStep(value: number): number {
+    if(isNaN(value)) {
+      throw new Error ('Получено NaN');
+    }
     return Math.round(value / this.pixelInOneStep) * this.pixelInOneStep;
   }
 
