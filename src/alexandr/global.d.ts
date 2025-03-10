@@ -125,7 +125,7 @@ interface View {
       maxThumbPixelPosition: number,
       pixelInOneStep: number,
     )=> number;
-    _handleSliderClick: (event: JQueryEventObject, handler:(type:'min'|'max',value:number)=>void)=>void;
+    _handleSliderClick: (event: JQuery.Event, handler:(type:'min'|'max',value:number)=>void)=>void;
     _setProgressBar: ()=> void;
     setVerticalOrientation: ()=> void;
 }

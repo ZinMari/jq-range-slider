@@ -197,14 +197,14 @@ export default class SliderView {
 
   bindLineClick(handler:(type:'min'|'max', value:number) => void) {
     //повесить событие на линию
-    this.line.item.on('click', (event: JQueryEventObject) => {
+    this.line.item.on('click', (event: JQuery.Event) => {
       this._handleSliderClick(event, handler);
     });
   }
 
   bindRulerClick(handler:(type:'min'|'max', value:number) => void) {
     if (this.showRuler) {
-      this.ruler.item.on('click', (event: JQueryEventObject) => {
+      this.ruler.item.on('click', (event: JQuery.Event) => {
         this._handleSliderClick(event, handler);
       });
     }
@@ -340,6 +340,7 @@ export default class SliderView {
     if(isNaN(value)) {
       throw new Error ('Получено NaN');
     }
+    
     return Math.round(value / this.pixelInOneStep) * this.pixelInOneStep;
   }
 
@@ -364,7 +365,7 @@ export default class SliderView {
     return value;
   }
 
-  _handleSliderClick(event: JQueryEventObject, handler:(type:'min'|'max',value:number)=>void) {
+  _handleSliderClick(event: JQuery.Event, handler:(type:'min'|'max',value:number)=>void) {
     let sliderLineCoords = this._getCoords(this.line.item);
 
     // на скольких пикселях от линии произошел клик
