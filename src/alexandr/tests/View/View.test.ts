@@ -1,5 +1,8 @@
 import '@testing-library/jest-dom';
+import '@testing-library/dom';
+import userEvent from '@testing-library/user-event'
 import SliderView from '../../View/SliderView';
+import { fireEvent } from '@testing-library/dom';
 
 describe('Вид:', () => {
     const baseSettings: AlexandrSettings = {
@@ -47,6 +50,7 @@ describe('Вид:', () => {
                 expect(()=>{view.init($.extend({}, baseSettings, {container: $('<input>')}))}).toThrow();
             });
     });
+
     describe('При выборе вертикальной ориентации добавляются все необходимые классы:', ()=>{
         const view = new SliderView();
         view.init($.extend({}, baseSettings, {orientation: 'vertical'}))
@@ -56,6 +60,9 @@ describe('Вид:', () => {
         })
         test('Линия слайдера: ', ()=>{
             expect(view.line.item[0]).toHaveClass('alexandr__line--vertical')
+        })
+        test('Минимальное и максимальное значение: ', ()=>{
+            expect(view.sliderMinMaxValueLine.wrap[0]).toHaveClass('alexandr__values--vertical')
         })
     })
 
@@ -109,13 +116,13 @@ describe('Вид:', () => {
         const view = new SliderView();
         view.init(baseSettings); 
         
-        test('Минимального: ', ()=>{
+        test('Минимальное: ', ()=>{
             const oldMin = view.sliderMinMaxValueLine.min.text();
             const oldMax = view.sliderMinMaxValueLine.max.text();
 
             view.updateMinMaxValueLine(10, 100)
             expect(view.sliderMinMaxValueLine.min.text()).not.toBe(oldMin);
-            expect(view.sliderMinMaxValueLine.min.text()).not.toBe(oldMax);
+            expect(view.sliderMinMaxValueLine.max.text()).not.toBe(oldMax);
         })
     })
 
@@ -186,10 +193,114 @@ describe('Вид:', () => {
         })
     })
 
-    describe('Функция equateValueToStep выбросит ошибку при получении NaN:', ()=>{
+    describe('Функция equateValueToStep:', ()=>{
         const view = new SliderView();
-        view.init(baseSettings); 
+        view.init(baseSettings)
 
-        expect(()=>{view.equateValueToStep(NaN)}).toThrow();
+        test('выбросит ошибку при получении NaN:', ()=>{
+            expect(()=>{view.equateValueToStep(NaN)}).toThrow();
+        })
+
+        test('возвращает число:', ()=>{
+            expect(typeof view.equateValueToStep(60)).toBe('number');
+        })
+    })
+
+    describe('Инпуты получают значения:', ()=>{
+        const view = new SliderView();
+        view.init(baseSettings);
+        const user = userEvent.setup();
+
+        test('Минимальный', () => {
+            fireEvent.change(view.controlsMinThumb[0][0], { target: { value: 135 } });
+            expect(view.controlsMinThumb[0][0]).toHaveValue("135");
+        })
+
+        test('Максимальный', () => {  
+            fireEvent.change(view.controlsMaxThumb[0][0], { target: { value: 135 } });
+            expect(view.controlsMaxThumb[0][0]).toHaveValue("135");
+        })
+    })
+
+    describe('Инпуты вызывают коллбэк:', ()=>{
+        const view = new SliderView();
+        view.init(baseSettings);
+
+        const user = userEvent.setup();
+        
+        const mockCallback = jest.fn((type, value) => {});
+        view.bindInputsChange(mockCallback)
+
+        test('Минимальный', () => {
+            fireEvent.change(view.controlsMinThumb[0][0], { target: { value: 135 } });
+            expect(mockCallback).toHaveBeenCalledWith('min', 135 );
+        })
+
+        test('Максимальный', () => {
+            fireEvent.change(view.controlsMaxThumb[0][0], { target: { value: 135 } });
+            expect(mockCallback).toHaveBeenCalledWith('max', 135 );
+        })
+    })
+
+    describe('Функция _getCoords возвращает объект с требуемыми ключами:', ()=>{
+        const view = new SliderView();
+
+        test('Left', ()=>{
+            expect(Object.keys(view._getCoords($('<input>')))).toContain('left')
+        })
+    })
+
+    describe('Функция validateDoubleThumbValue: ',()=>{
+        const view = new SliderView();
+        view.init(baseSettings);
+
+        const args = {
+            currenThumb: view.thumbs[0],
+            value: 50,
+            minThumbPixelPosition: 0,
+            maxThumbPixelPosition: 50,
+            pixelInOneStep: 30,
+        }
+
+        test('не вернет одинаковые позиции для ползунков:', ()=>{
+            expect(view.validateDoubleThumbValue(view.thumbs[0].item, 50, 0 , 50, 30)).not.toBe(args.maxThumbPixelPosition)
+        })
+
+        test('вернет число:', ()=>{
+            expect(typeof view.validateDoubleThumbValue(view.thumbs[1].item, 50, 0 , 300, 30)).toBe('number')
+        })
+
+        test('не вернет одинаковые позиции для ползунков:', ()=>{
+            expect(typeof view.validateDoubleThumbValue(view.thumbs[1].item, -50, 0 , 300, 30)).toBe('number')
+        })
+    })
+
+    describe('Функция _setProgressBar: ', ()=>{
+        test('устанавливает ширину при вертикальной ориентации: ', ()=>{
+            const view = new SliderView();
+            view.init($.extend({}, baseSettings, {orientation: 'vertical'}));
+
+            const oldHeight = view.progressbar.item.css('width');
+            view._setProgressBar();
+            expect(view.progressbar.item.css('width')).not.toBe(oldHeight)
+        })
+
+        test('устанавливает ширину при вертикальной ориентации и одном ползунке: ', ()=>{
+            const view = new SliderView();
+            view.init($.extend({}, baseSettings, {orientation: 'vertical', type: 'single'}));
+            
+            const oldHeight = view.progressbar.item.css('width');
+            view._setProgressBar();
+            expect(view.progressbar.item.css('width')).not.toBe(oldHeight)
+        })
+
+        test('устанавливает высоту при горизонтальной ориентации и одном ползунке: ', ()=>{
+            const view = new SliderView();
+            view.init($.extend({}, baseSettings, {orientation: 'horizontal', type: 'single'}));
+            
+            const oldHeight = view.progressbar.item.css('height');
+            view._setProgressBar();
+            expect(view.progressbar.item.css('height')).not.toBe(oldHeight)
+        })
     })
 });
