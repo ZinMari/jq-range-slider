@@ -7,7 +7,11 @@ export function buildPlaguins({ mode, paths }: BuildOptions): webpack.Configurat
   const isDev = mode === 'development';
   const isProd = mode === 'production';
   const plugins: webpack.Configuration['plugins'] = [
-    new HtmlWebpackPlugin({ template: paths.html }),
+    new HtmlWebpackPlugin({ 
+      template: paths.html,
+      inject: true,
+      favicon: './src/page/favicon.ico'
+    }),
   ];
 
   if (isDev) {
