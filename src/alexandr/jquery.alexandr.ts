@@ -35,11 +35,12 @@ import './jquery.alexandr.scss';
 
       options = options || {};
 
-      // if (typeof options === 'string') {
-      //   const name: AlexandrSettingsKeys = options as AlexandrSettingsKeys;
-      //   options = {};
-      //   options[name] = value;
-      // }
+      if (typeof options === 'string') {
+        const name: AlexandrSettingsKeys = options as AlexandrSettingsKeys;
+        options = {
+          [name]: value
+        };
+      }
 
 
       this._refreshPlugin(target, $.extend(inst, options));
