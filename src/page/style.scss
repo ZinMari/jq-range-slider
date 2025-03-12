@@ -1,21 +1,24 @@
 @use './components/slider-complex/slider-complex';
 
-html {
+.page {
     background-color: #27262b;
     min-height: 100vh;
-}
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    color: white;
 
-.page__body {
-    margin: 0;
-    min-width: 360px;
-    min-height: 100%;
-}
+    &__body {
+        margin: 0;
+        min-width: 360px;
+        min-height: 100%;
+    }
 
-.container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 0 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-} 
+    &__container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+    } 
+}

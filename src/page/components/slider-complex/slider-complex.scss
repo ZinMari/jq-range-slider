@@ -1,9 +1,12 @@
 .slider-complex {
-    width: 100%;
     display: flex;
     border: 1px solid white;
-    gap: 30px;
+    gap: 50px;
     padding: 50px 10px;
+
+    @media(max-width: 930px){
+        flex-direction: column;
+    }
 
     &__slider {
         flex-basis: 50%;
@@ -11,7 +14,6 @@
 }
 
 .form {
-    color: white;
     display: flex;
     flex-direction: column;
     gap: 20px;
