@@ -11,7 +11,7 @@ export default class SliderPresenter {
     this.view.init({ ...config });
     const upgradeModelOptions = this.model.init({ ...config });
 
-    this.view.setPixelInOneStep(this.model.minValue, this.model.maxValue, this.model.stepValue);
+    this.view.setPixelInOneStep({min: this.model.minValue, max: this.model.maxValue, step: this.model.stepValue});
     this.model.bindStepValueChanged(this.onStepValueChenged);
 
     // один раз вызовем метод для установки начальных значений, и далее  свяжем метод с моделью
@@ -44,7 +44,7 @@ export default class SliderPresenter {
   };
 
   onStepValueChenged = (min: number, max: number, step: number) => {
-    this.view.setPixelInOneStep(min, max, step);
+    this.view.setPixelInOneStep({min, max, step});
   };
 
   onMinMaxValuesChanged = (min: number, max: number) => {

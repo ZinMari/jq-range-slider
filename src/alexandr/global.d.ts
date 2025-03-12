@@ -109,8 +109,8 @@ interface View {
     updateFlagValues: (thumb:'min'|'max',position:number) =>void;
     updateInputsValue: (type:'min'|'max',value:number) =>void;
     _getCoords: (elem:JQuery<EventTarget>)=> ElementsCoords;
-    _getShiftThumb: (event: JQueryEventObject, currentThumbCoords: ElementsCoords, orientation: string)=> number;
-    setPixelInOneStep: (min: number, max: number, step: number) =>void;
+    _getShiftThumb: (options: {event: JQueryEventObject, currentThumbCoords: ElementsCoords, orientation: string})=> number;
+    setPixelInOneStep: (options: {min: number, max: number, step: number}) =>void;
     _getNewThumbCord: (
       event: MouseEvent,
       shiftClickThumb: number,
@@ -119,12 +119,13 @@ interface View {
     )=> number;
     equateValueToStep: (value: number)=> number;
     validateDoubleThumbValue: (
-      currenThumb: JQuery<EventTarget>,
-      value: number,
-      minThumbPixelPosition: number,
-      maxThumbPixelPosition: number,
-      pixelInOneStep: number,
-    )=> number;
+      options: {
+        currenThumb: JQuery<EventTarget>, 
+        value: number, 
+        minThumbPixelPosition: number, 
+        maxThumbPixelPosition: number,
+        pixelInOneStep: number,
+      })=> number;
     _handleSliderClick: (event: JQuery.Event, handler:(type:'min'|'max',value:number)=>void)=>void;
     _setProgressBar: ()=> void;
     setVerticalOrientation: ()=> void;

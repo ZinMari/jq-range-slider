@@ -45,7 +45,7 @@ describe('Вид:', () => {
                 view.init($.extend({}, baseSettings, {type: 'single'}));
                 expect(view.thumbs.length).toBe(1);
             });
-            test('При передачи в кач-ве контейнера элемента, отличного от div - ошибка', () => {
+            test('При передачи в кач-ве контейнера элемента, отличного от div или article - ошибка', () => {
                 const view = new SliderView();
                 expect(()=>{view.init($.extend({}, baseSettings, {container: $('<input>')}))}).toThrow();
             });
@@ -188,7 +188,7 @@ describe('Вид:', () => {
         view.init(baseSettings); 
 
         test('при полученном отрицательном значении шага вернет 1: ', ()=>{
-            view.setPixelInOneStep(5, 10, -100);
+            view.setPixelInOneStep({min: 5, max: 10, step: -100});
             expect(view.pixelInOneStep).toBeGreaterThan(0);
         })
     })
@@ -263,15 +263,37 @@ describe('Вид:', () => {
         }
 
         test('не вернет одинаковые позиции для ползунков:', ()=>{
-            expect(view.validateDoubleThumbValue(view.thumbs[0].item, 50, 0 , 50, 30)).not.toBe(args.maxThumbPixelPosition)
+            expect(view.validateDoubleThumbValue({
+                currenThumb: view.thumbs[0].item,
+                value: 50,
+                minThumbPixelPosition: 0,
+                maxThumbPixelPosition: 50,
+                pixelInOneStep: 30,
+            })).not.toBe(args.maxThumbPixelPosition)
         })
+
+        
 
         test('вернет число:', ()=>{
-            expect(typeof view.validateDoubleThumbValue(view.thumbs[1].item, 50, 0 , 300, 30)).toBe('number')
+            expect(typeof view.validateDoubleThumbValue({
+                currenThumb: view.thumbs[1].item,
+                value: 50,
+                minThumbPixelPosition: 0,
+                maxThumbPixelPosition: 300,
+                pixelInOneStep: 30,
+            })).toBe('number')
         })
 
+       
+
         test('не вернет одинаковые позиции для ползунков:', ()=>{
-            expect(typeof view.validateDoubleThumbValue(view.thumbs[1].item, -50, 0 , 300, 30)).toBe('number')
+            expect(typeof view.validateDoubleThumbValue( {
+                currenThumb: view.thumbs[1].item,
+                value: -50,
+                minThumbPixelPosition: 0,
+                maxThumbPixelPosition: 300,
+                pixelInOneStep: 30,
+            })).toBe('number')
         })
     })
 

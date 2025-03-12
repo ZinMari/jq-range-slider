@@ -50,8 +50,8 @@ export default class SliderView {
     controlsMaxThumb,
   }: AlexandrSettings) {
     
-    if(container[0].nodeName !== 'DIV'){
-      throw new Error("В качестве контенера может быть передан только div");
+    if(container[0].nodeName !== 'DIV' && container[0].nodeName !== 'ARTICLE'){
+      throw new Error("В качестве контенера может быть передан только div или article");
     }
     this.container = container;
     this.type = type;
@@ -124,9 +124,11 @@ export default class SliderView {
 
         // разница между кликом и началок кнопки
         let shiftClickThumb: number = this._getShiftThumb(
-          event,
-          currentThumbCoords,
-          this.orientation,
+          {
+            event: event, 
+            currentThumbCoords: currentThumbCoords, 
+            orientation: this.orientation
+          }
         );
 
         const onMouseMove = (event: MouseEvent): void => {
@@ -140,11 +142,13 @@ export default class SliderView {
           // проверим, чтобы не сталкивались
           if (this.type === 'double') {
             value = this.validateDoubleThumbValue(
-              currenThumb,
-              value,
-              this.minThumbPixelPosition,
-              this.maxThumbPixelPosition,
-              this.pixelInOneStep,
+              {
+                currenThumb: currenThumb, 
+                value: value, 
+                minThumbPixelPosition: this.minThumbPixelPosition, 
+                maxThumbPixelPosition: this.maxThumbPixelPosition,
+                pixelInOneStep: this.pixelInOneStep,
+              }
             );
           }
 
@@ -283,7 +287,7 @@ export default class SliderView {
     };
   }
 
-  _getShiftThumb(event: JQueryEventObject, currentThumbCoords: ElementsCoords, orientation: string): number {
+  _getShiftThumb({event, currentThumbCoords, orientation} : {event: JQueryEventObject, currentThumbCoords: ElementsCoords, orientation: string}): number {
     if (orientation === 'vertical') {
       return event.pageY - currentThumbCoords.top;
     } else {
@@ -291,7 +295,7 @@ export default class SliderView {
     }
   }
 
-  setPixelInOneStep(min: number, max: number, step: number):void {
+  setPixelInOneStep({min, max, step} : {min: number, max: number, step: number}):void {
     this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
   }
 
@@ -345,11 +349,18 @@ export default class SliderView {
   }
 
   validateDoubleThumbValue(
-    currenThumb: JQuery<EventTarget>,
-    value: number,
-    minThumbPixelPosition: number,
-    maxThumbPixelPosition: number,
-    pixelInOneStep: number,
+    {currenThumb,
+    value,
+    minThumbPixelPosition,
+    maxThumbPixelPosition,
+    pixelInOneStep
+    }: {
+      currenThumb: JQuery<EventTarget>, 
+      value: number, 
+      minThumbPixelPosition: number, 
+      maxThumbPixelPosition: number,
+      pixelInOneStep: number,
+    }
   ): number {
     if (
       currenThumb.hasClass('alexandr__thumb--min') &&
