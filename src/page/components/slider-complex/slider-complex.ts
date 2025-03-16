@@ -1,14 +1,14 @@
 function initSlider(slider: string, options: AlexandrSettings): void{
     $(slider).children('.slider-complex__slider').alexandr({
-        controlsMinThumb: [$(slider).find('.form__controlMinThumb')],
-        controlsMaxThumb: [$(slider).find('.form__controlMaxThumb')],
+        controlsMinThumb: [$(slider).find('.js-form__controlMinThumb')],
+        controlsMaxThumb: [$(slider).find('.js-form__controlMaxThumb')],
         ...options
     });
 }
 
 function setValueToPanel(slider: string): void{
-    const panel: JQuery<HTMLElement> = $(slider).find('.slider-complex__panel');
-    const sliderOptions: AlexandrSettings = $(slider).find('.slider-complex__slider').alexandr('option');
+    const panel: JQuery<HTMLElement> = $(slider).find('.js-slider-complex__panel');
+    const sliderOptions: AlexandrSettings = $(slider).find('.js-slider-complex__slider').alexandr('option');
     const inputs: JQuery<HTMLElement> = panel.find('input');
 
     $.each(inputs, function(){
@@ -37,14 +37,14 @@ function onChangePanelValue(event: Event){
     event.preventDefault();
     const target: JQuery<EventTarget> = $(event.target); 
 
-    if(target.hasClass('form__controlMinThumb') || target.hasClass('form__controlMaxThumb')){
+    if(target.hasClass('js-form__controlMinThumb') || target.hasClass('js-form__controlMaxThumb')){
         return;
     }
 
     if(target.attr('type') === 'checkbox'){
-        target.closest('.slider-complex').find('.slider-complex__slider').alexandr('option', {[target.attr('name')]: target.prop('checked')});
+        target.closest('.js-slider-complex').find('.js-slider-complex__slider').alexandr('option', {[target.attr('name')]: target.prop('checked')});
     } else {
-        target.closest('.slider-complex').find('.slider-complex__slider').alexandr('option', {[target.attr('name')]: target.val()});
+        target.closest('.js-slider-complex').find('.js-slider-complex__slider').alexandr('option', {[target.attr('name')]: target.val()});
     }
 }
 
