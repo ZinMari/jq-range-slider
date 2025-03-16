@@ -123,8 +123,8 @@ class SliderView {
     event.preventDefault();
     // получу координаты элементов
     let sliderLineCoords = this._getCoords(this.line.item);
-    let currenThumb = $(event.target);
-    let currentThumbCoords = this._getCoords(currenThumb);
+    let $currenThumb = $(event.target);
+    let currentThumbCoords = this._getCoords($currenThumb);
 
     // разница между кликом и началок кнопки
     let shiftClickThumb: number = this._getShiftThumb(
@@ -147,7 +147,7 @@ class SliderView {
       if (this.type === 'double') {
         value = this.validateDoubleThumbValue(
           {
-            currenThumb: currenThumb, 
+            currenThumb: $currenThumb, 
             value: value, 
             minThumbPixelPosition: this.minThumbPixelPosition, 
             maxThumbPixelPosition: this.maxThumbPixelPosition,
@@ -156,7 +156,7 @@ class SliderView {
         );
       }
 
-      if (currenThumb.prop('classList').contains('alexandr__thumb--max')) {
+      if ($currenThumb.prop('classList').contains('alexandr__thumb--max')) {
         handler('max', value);
       } else {
         handler('min', value);
@@ -192,8 +192,8 @@ class SliderView {
   }
 
   _handlerInputsChange(event:any, handler:any, type: 'min' | 'max'){
-      const currentInput = $(event.target);
-      let currentValue = parseInt(currentInput.val().toString());
+      const $currentInput = $(event.target);
+      let currentValue = parseInt($currentInput.val().toString());
       currentValue = Number.isNaN(currentValue) ? 0 : currentValue;   
       handler(type, currentValue);
   }

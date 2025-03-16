@@ -7,11 +7,11 @@ function initSlider(slider: string, options: AlexandrSettings): void{
 }
 
 function setValueToPanel(slider: string): void{
-    const panel: JQuery<HTMLElement> = $(slider).find('.js-slider-complex__panel');
+    const $panel: JQuery<HTMLElement> = $(slider).find('.js-slider-complex__panel');
     const sliderOptions: AlexandrSettings = $(slider).find('.js-slider-complex__slider').alexandr('option');
-    const inputs: JQuery<HTMLElement> = panel.find('input');
+    const $inputs: JQuery<HTMLElement> = $panel.find('input');
 
-    $.each(inputs, function(){
+    $.each($inputs, function(){
         const attrName: string = $(this).attr('name');
         switch($(this).attr('type')){
             case 'radio': {
@@ -35,16 +35,16 @@ function setValueToPanel(slider: string): void{
 
 function onChangePanelValue(event: Event){
     event.preventDefault();
-    const target: JQuery<EventTarget> = $(event.target); 
+    const $target: JQuery<EventTarget> = $(event.target); 
 
-    if(target.hasClass('js-form__controlMinThumb') || target.hasClass('js-form__controlMaxThumb')){
+    if($target.hasClass('js-form__controlMinThumb') || $target.hasClass('js-form__controlMaxThumb')){
         return;
     }
 
-    if(target.attr('type') === 'checkbox'){
-        target.closest('.js-slider-complex').find('.js-slider-complex__slider').alexandr('option', {[target.attr('name')]: target.prop('checked')});
+    if($target.attr('type') === 'checkbox'){
+        $target.closest('.js-slider-complex').find('.js-slider-complex__slider').alexandr('option', {[$target.attr('name')]: $target.prop('checked')});
     } else {
-        target.closest('.js-slider-complex').find('.js-slider-complex__slider').alexandr('option', {[target.attr('name')]: target.val()});
+        $target.closest('.js-slider-complex').find('.js-slider-complex__slider').alexandr('option', {[$target.attr('name')]: $target.val()});
     }
 }
 
