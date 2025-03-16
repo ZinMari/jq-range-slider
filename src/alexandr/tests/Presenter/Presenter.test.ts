@@ -45,10 +45,10 @@ describe('Презентер:', ()=>{
 
     describe('При вызове функции init:', ()=>{
         const presenter: Presenter = new Presenter(new View(), new Model());
-        const result = presenter.init(baseSettings)
+        const resultMethod = presenter.init(baseSettings)
 
         test('возвращаетс объект', ()=>{
-            expect(typeof result).toBe('object')
+            expect(typeof resultMethod).toBe('object')
         })
 
         test('onThumbsPositionChanged изменяет минимальную позицию во view', ()=>{
