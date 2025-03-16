@@ -18,7 +18,6 @@ function setValueToPanel(slider: string): void{
                 if($(this).attr('value') === sliderOptions[attrName]){
                     $(this).attr('checked', 'true')
                 }
-
                 break;
             }
             case 'number': {
@@ -51,7 +50,7 @@ function onChangePanelValue(event: Event){
 function initSliderComplex(slider: string, options: AlexandrSettings){
     initSlider(slider, options);
     setValueToPanel(slider)
-    $(slider).on('change', onChangePanelValue);
+    $(slider).on('change.alexandr', onChangePanelValue);
 }
 
 export default initSliderComplex;

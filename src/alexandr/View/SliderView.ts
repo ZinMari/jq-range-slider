@@ -115,7 +115,7 @@ class SliderView {
   bindThumbsMove(handler:(type:'min'|'max', value:number) => void) {
     //повесить на кнопки события
     this.thumbs.forEach((elem: BaseSubViewInterface) => {
-      elem.item.on('mousedown', event => this._handlerThumbsMove(event, handler));
+      elem.item.on('mousedown.alexandr', event => this._handlerThumbsMove(event, handler));
     });
   }
 
@@ -177,7 +177,7 @@ class SliderView {
     if(this.controlsMinThumb.length){
       $.each(this.controlsMinThumb, (index, element)=>{
         $.each(element, (index, element)=>{
-          $(element).on('change', event => this._handlerInputsChange(event, handler, 'min'));
+          $(element).on('change.alexandr', event => this._handlerInputsChange(event, handler, 'min'));
         })
       })
     }
@@ -185,7 +185,7 @@ class SliderView {
     if(this.controlsMaxThumb.length){
       $.each(this.controlsMinThumb, (index, element)=>{
         $.each(element, (index, element)=>{
-          $(element).on('change', event => this._handlerInputsChange(event, handler, 'max'));
+          $(element).on('change.alexandr', event => this._handlerInputsChange(event, handler, 'max'));
         })
       })
     }
@@ -200,14 +200,14 @@ class SliderView {
 
   bindLineClick(handler:(type:'min'|'max', value:number) => void) {
     //повесить событие на линию
-    this.line.item.on('click', (event: JQuery.Event) => {
+    this.line.item.on('click.alexandr', (event: JQuery.Event) => {
       this._handleSliderClick(event, handler);
     });
   }
 
   bindRulerClick(handler:(type:'min'|'max', value:number) => void) {
     if (this.showRuler) {
-      this.ruler.item.on('click', (event: JQuery.Event) => {
+      this.ruler.item.on('click.alexandr', (event: JQuery.Event) => {
         this._handleSliderClick(event, handler);
       });
     }

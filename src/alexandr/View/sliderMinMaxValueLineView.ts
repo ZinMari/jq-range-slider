@@ -7,8 +7,7 @@ class SliderMinMaxValueLineView implements SliderMinMaxValueLineView {
     this.min = $('<span>').attr({ class: `alexandr__value--min ${showMinValueClass}` });
     this.max = $('<span>').attr({ class: `alexandr__value--max ${showMaxValueClass}` });
 
-    this.wrap.append(this.min);
-    this.wrap.append(this.max);
+    this.wrap.append(this.min, this.max);
     slider.prepend(this.wrap);
   }
 }
