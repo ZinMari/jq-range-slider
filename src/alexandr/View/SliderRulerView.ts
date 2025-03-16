@@ -1,4 +1,4 @@
-export default class SliderRulerView implements SliderRulerView {
+class SliderRulerView implements SliderRulerView {
   item: JQuery<HTMLElement>;
   dividings: JQuery<HTMLElement>[];
   countDivivdings: number = 4;
@@ -15,3 +15,5 @@ export default class SliderRulerView implements SliderRulerView {
     slider.append(this.item);
   }
 }
+
+export default SliderRulerView;

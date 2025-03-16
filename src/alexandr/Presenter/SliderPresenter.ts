@@ -1,4 +1,4 @@
-export default class SliderPresenter {
+class SliderPresenter {
   view: View;
   model: Model;
 
@@ -83,3 +83,5 @@ export default class SliderPresenter {
     );
   }
 }
+
+export default SliderPresenter;

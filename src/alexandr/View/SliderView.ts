@@ -4,7 +4,7 @@ import SliderProgressBar from './SliderProgressbar';
 import SliderRulerView from './SliderRulerView';
 import SliderThumbView from './SliderThumbView';
 
-export default class SliderView {
+class SliderView {
   slider: JQuery<HTMLElement>;
   thumbs: Array<BaseSubViewInterface>;
   container: JQuery<HTMLElement>;
@@ -485,3 +485,5 @@ export default class SliderView {
     }
   }
 }
+
+export default SliderView;

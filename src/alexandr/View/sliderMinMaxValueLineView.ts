@@ -1,4 +1,4 @@
-export default class SliderMinMaxValueLineView implements SliderMinMaxValueLineView {
+class SliderMinMaxValueLineView implements SliderMinMaxValueLineView {
   wrap: JQuery<HTMLElement>;
   min: JQuery<HTMLElement>;
   max: JQuery<HTMLElement>;
@@ -12,3 +12,5 @@ export default class SliderMinMaxValueLineView implements SliderMinMaxValueLineV
     slider.prepend(this.wrap);
   }
 }
+
+export default SliderMinMaxValueLineView;

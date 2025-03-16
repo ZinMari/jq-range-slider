@@ -1,4 +1,4 @@
-export default class SliderModel {
+class SliderModel {
   minValue: number;
   maxValue: number;
   minPosition: number;
@@ -111,3 +111,5 @@ export default class SliderModel {
     return Math.round(value / this.stepValue) * this.stepValue || this.minValue;
   }
 }
+
+export default SliderModel;

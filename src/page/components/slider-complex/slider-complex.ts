@@ -48,8 +48,10 @@ function onChangePanelValue(event: Event){
     }
 }
 
-export default function initSliderComplex(slider: string, options: AlexandrSettings){
+function initSliderComplex(slider: string, options: AlexandrSettings){
     initSlider(slider, options);
     setValueToPanel(slider)
     $(slider).on('change', onChangePanelValue);
 }
+
+export default initSliderComplex;
