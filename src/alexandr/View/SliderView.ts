@@ -1,3 +1,4 @@
+import { event } from 'jquery';
 import SliderLineView from './SliderLineView';
 import SliderMinMaxValueLineView from './sliderMinMaxValueLineView';
 import SliderProgressBar from './SliderProgressbar';
@@ -115,88 +116,87 @@ export default class SliderView {
   bindThumbsMove(handler:(type:'min'|'max', value:number) => void) {
     //повесить на кнопки события
     this.thumbs.forEach((elem: BaseSubViewInterface) => {
-      elem.item.on('mousedown', (event: JQueryEventObject) => {
-        event.preventDefault();
-        // получу координаты элементов
-        let sliderLineCoords = this._getCoords(this.line.item);
-        let currenThumb = $(event.target);
-        let currentThumbCoords = this._getCoords(currenThumb);
+      elem.item.on('mousedown', event => this._handlerThumbsMove(event, handler));
+    });
+  }
 
-        // разница между кликом и началок кнопки
-        let shiftClickThumb: number = this._getShiftThumb(
+  _handlerThumbsMove(event: any, handler: any){
+    event.preventDefault();
+    // получу координаты элементов
+    let sliderLineCoords = this._getCoords(this.line.item);
+    let currenThumb = $(event.target);
+    let currentThumbCoords = this._getCoords(currenThumb);
+
+    // разница между кликом и началок кнопки
+    let shiftClickThumb: number = this._getShiftThumb(
+      {
+        event: event, 
+        currentThumbCoords: currentThumbCoords, 
+        orientation: this.orientation
+      }
+    );
+
+    const onMouseMove = (event: MouseEvent): void => {
+      let value: number = this._getNewThumbCord(
+        event,
+        shiftClickThumb,
+        sliderLineCoords,
+        currentThumbCoords,
+      );
+
+      // проверим, чтобы не сталкивались
+      if (this.type === 'double') {
+        value = this.validateDoubleThumbValue(
           {
-            event: event, 
-            currentThumbCoords: currentThumbCoords, 
-            orientation: this.orientation
+            currenThumb: currenThumb, 
+            value: value, 
+            minThumbPixelPosition: this.minThumbPixelPosition, 
+            maxThumbPixelPosition: this.maxThumbPixelPosition,
+            pixelInOneStep: this.pixelInOneStep,
           }
         );
+      }
 
-        const onMouseMove = (event: MouseEvent): void => {
-          let value: number = this._getNewThumbCord(
-            event,
-            shiftClickThumb,
-            sliderLineCoords,
-            currentThumbCoords,
-          );
+      if (currenThumb.prop('classList').contains('alexandr__thumb--max')) {
+        handler('max', value);
+      } else {
+        handler('min', value);
+      }
+    };
 
-          // проверим, чтобы не сталкивались
-          if (this.type === 'double') {
-            value = this.validateDoubleThumbValue(
-              {
-                currenThumb: currenThumb, 
-                value: value, 
-                minThumbPixelPosition: this.minThumbPixelPosition, 
-                maxThumbPixelPosition: this.maxThumbPixelPosition,
-                pixelInOneStep: this.pixelInOneStep,
-              }
-            );
-          }
+    function onMouseUp() {
+      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', onMouseMove);
+    }
 
-          if (currenThumb.prop('classList').contains('alexandr__thumb--max')) {
-            handler('max', value);
-          } else {
-            handler('min', value);
-          }
-        };
-
-        function onMouseUp() {
-          document.removeEventListener('mouseup', onMouseUp);
-          document.removeEventListener('mousemove', onMouseMove);
-        }
-
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', onMouseUp);
-      });
-    });
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   }
 
   bindInputsChange(handler:(type:'min'|'max', value:number) => void) {
     //повесить события на инпуты
     if(this.controlsMinThumb.length){
-      $.each(this.controlsMinThumb, function(){
-        $.each(this, function(){
-          $(this).on('change', (event: JQueryEventObject) => {
-            const currentInput = $(event.target);
-            let currentValue = parseInt(currentInput.val().toString());
-            currentValue = Number.isNaN(currentValue) ? 0 : currentValue;   
-            handler('min', currentValue);
-          });
+      $.each(this.controlsMinThumb, (index, element)=>{
+        $.each(element, (index, element)=>{
+          $(element).on('change', event => this._handlerInputsChange(event, handler, 'min'));
         })
       })
     }
 
     if(this.controlsMaxThumb.length){
-      $.each(this.controlsMaxThumb, function(){
-        $.each(this, function(){
-          $(this).on('change', (event: JQueryEventObject) => {
-            const currentInput = $(event.target);
-            let currentValue = parseInt(currentInput.val().toString());
-            currentValue = Number.isNaN(currentValue) ? 0 : currentValue;   
-            handler('max', currentValue);
-          });
+      $.each(this.controlsMinThumb, (index, element)=>{
+        $.each(element, (index, element)=>{
+          $(element).on('change', event => this._handlerInputsChange(event, handler, 'max'));
         })
       })
     }
+  }
+
+  _handlerInputsChange(event:any, handler:any, type: 'min' | 'max'){
+      const currentInput = $(event.target);
+      let currentValue = parseInt(currentInput.val().toString());
+      currentValue = Number.isNaN(currentValue) ? 0 : currentValue;   
+      handler(type, currentValue);
   }
 
   bindLineClick(handler:(type:'min'|'max', value:number) => void) {
