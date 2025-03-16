@@ -1,4 +1,3 @@
-import { event } from 'jquery';
 import SliderLineView from './SliderLineView';
 import SliderMinMaxValueLineView from './sliderMinMaxValueLineView';
 import SliderProgressBar from './SliderProgressbar';
