@@ -214,6 +214,33 @@ export default class SliderView {
     }
   }
 
+  _handleSliderClick(event: JQuery.Event, handler:(type:'min'|'max',value:number)=>void) {
+    let sliderLineCoords = this._getCoords(this.line.item);
+
+    // на скольких пикселях от линии произошел клик
+    let pixelClick =
+      this.moveDirection === 'left'
+        ? event.pageX - sliderLineCoords.left
+        : event.pageY - sliderLineCoords.top;
+
+    let stepLeft = this.equateValueToStep(pixelClick);
+
+    if (this.type === 'single') {
+      handler('min', stepLeft);
+    }
+
+    if (this.type === 'double') {
+      const middlePixels =
+        this.minThumbPixelPosition + (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
+
+      if (stepLeft < middlePixels) {
+        handler('min', stepLeft);
+      } else {
+        handler('max', stepLeft);
+      }
+    }
+  }
+
   updateThumbsPosition(thumb:'min'|'max', position:number): void {
     if (thumb === 'min') {
       this.minThumbPixelPosition = position;
@@ -376,32 +403,7 @@ export default class SliderView {
     return value;
   }
 
-  _handleSliderClick(event: JQuery.Event, handler:(type:'min'|'max',value:number)=>void) {
-    let sliderLineCoords = this._getCoords(this.line.item);
-
-    // на скольких пикселях от линии произошел клик
-    let pixelClick =
-      this.moveDirection === 'left'
-        ? event.pageX - sliderLineCoords.left
-        : event.pageY - sliderLineCoords.top;
-
-    let stepLeft = this.equateValueToStep(pixelClick);
-
-    if (this.type === 'single') {
-      handler('min', stepLeft);
-    }
-
-    if (this.type === 'double') {
-      const middlePixels =
-        this.minThumbPixelPosition + (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
-
-      if (stepLeft < middlePixels) {
-        handler('min', stepLeft);
-      } else {
-        handler('max', stepLeft);
-      }
-    }
-  }
+  
 
   _setProgressBar(): void {
     if (this.type === 'single') {

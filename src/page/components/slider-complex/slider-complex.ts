@@ -42,9 +42,9 @@ function onChangePanelValue(event: Event){
     }
 
     if(target.attr('type') === 'checkbox'){
-        $(this).find('.slider-complex__slider').alexandr('option', {[target.attr('name')]: target.prop('checked')});
+        target.closest('.slider-complex').find('.slider-complex__slider').alexandr('option', {[target.attr('name')]: target.prop('checked')});
     } else {
-        $(this).find('.slider-complex__slider').alexandr('option', {[target.attr('name')]: target.val()});
+        target.closest('.slider-complex').find('.slider-complex__slider').alexandr('option', {[target.attr('name')]: target.val()});
     }
 }
 
