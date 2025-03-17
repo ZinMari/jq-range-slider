@@ -11,9 +11,9 @@ class SliderModel {
 
   init({ minValue, maxValue, minPosition, maxPosition, stepValue, type }: AlexandrSettings) {
     this.type = type;
-    this.setStepValue(+stepValue);
-    this.setMinValue(+minValue);
-    this.setMaxValue(+maxValue);
+    this._setStepValue(+stepValue);
+    this._setMinValue(+minValue);
+    this._setMaxValue(+maxValue);
     this.setMinPosition(+minPosition);
     if (this.type === 'double') {
       this.setMaxPosition(+maxPosition!);
@@ -28,20 +28,20 @@ class SliderModel {
     }
   }
 
-  setMinValue(minValue: number): void {
+  _setMinValue(minValue: number): void {
     this.minValue = minValue || 0;
 
     this.onMinMaxValuesChanged?.(this.minValue, this.maxValue);
     this.onStepValueChenged?.(this.minValue, this.maxValue, this.stepValue);
   }
 
-  setMaxValue(maxValue: number): void {
+  _setMaxValue(maxValue: number): void {
     this.maxValue = maxValue <= this.minValue || Number.isNaN(maxValue) ? this.minValue + this.stepValue : maxValue;
     this.onMinMaxValuesChanged?.(this.minValue, this.maxValue);
     this.onStepValueChenged?.(this.minValue, this.maxValue, this.stepValue);
   }
 
-  setStepValue(stepValue: number):void {
+  _setStepValue(stepValue: number):void {
     this.stepValue = stepValue <= 0 || Number.isNaN(stepValue)? 1 : stepValue;
     this.onStepValueChenged?.(this.minValue, this.maxValue, this.stepValue);
   }
@@ -49,11 +49,11 @@ class SliderModel {
   setMinPosition(minPosition: number):void {
     const typeValue = 'min';
 
-    let newPosition = this.equateValueToStep(minPosition);
-    newPosition = this.validatePosition(newPosition);
+    let newPosition = this._equateValueToStep(minPosition);
+    newPosition = this._validatePosition(newPosition);
 
     if (this.type === 'double') {
-      newPosition = this.validateDoublePosition(typeValue, newPosition);
+      newPosition = this._validateDoublePosition(typeValue, newPosition);
     }
     this.minPosition = newPosition;
     this.onThumbsPositionChanged?.('min', this.minPosition);
@@ -61,11 +61,11 @@ class SliderModel {
 
   setMaxPosition(maxPosition: number):void {
     const typeValue = 'max';
-    let newPosition = this.equateValueToStep(maxPosition);
-    newPosition = this.validatePosition(newPosition);
+    let newPosition = this._equateValueToStep(maxPosition);
+    newPosition = this._validatePosition(newPosition);
 
     if (this.type === 'double') {
-      newPosition = this.validateDoublePosition(typeValue, newPosition);
+      newPosition = this._validateDoublePosition(typeValue, newPosition);
     }
 
     this.maxPosition = newPosition;
@@ -84,7 +84,7 @@ class SliderModel {
     this.onMinMaxValuesChanged = callback;
   }
 
-  validatePosition(value: number): number {
+  _validatePosition(value: number): number {
     let validateValue;
 
     //проверю на пограничное минимальное
@@ -96,7 +96,7 @@ class SliderModel {
     return validateValue;
   }
 
-  validateDoublePosition(type: 'min' | 'max', value: number): number {
+  _validateDoublePosition(type: 'min' | 'max', value: number): number {
     if (type === 'min' && value >= this.maxPosition) {
       return this.maxPosition - this.stepValue;
     }
@@ -107,7 +107,7 @@ class SliderModel {
     return value;
   }
 
-  equateValueToStep(value: number): number {
+  _equateValueToStep(value: number): number {
     return Math.round(value / this.stepValue) * this.stepValue || this.minValue;
   }
 }

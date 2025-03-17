@@ -193,16 +193,16 @@ describe('Вид:', () => {
         })
     })
 
-    describe('Функция equateValueToStep:', ()=>{
+    describe('Функция _equateValueToStep:', ()=>{
         const view = new SliderView();
         view.init(baseSettings)
 
         test('выбросит ошибку при получении NaN:', ()=>{
-            expect(()=>{view.equateValueToStep(NaN)}).toThrow();
+            expect(()=>{view._equateValueToStep(NaN)}).toThrow();
         })
 
         test('возвращает число:', ()=>{
-            expect(typeof view.equateValueToStep(60)).toBe('number');
+            expect(typeof view._equateValueToStep(60)).toBe('number');
         })
     })
 
@@ -250,7 +250,7 @@ describe('Вид:', () => {
         })
     })
 
-    describe('Функция validateDoubleThumbValue: ',()=>{
+    describe('Функция _validateDoubleThumbValue: ',()=>{
         const view = new SliderView();
         view.init(baseSettings);
 
@@ -263,7 +263,7 @@ describe('Вид:', () => {
         }
 
         test('не вернет одинаковые позиции для ползунков:', ()=>{
-            expect(view.validateDoubleThumbValue({
+            expect(view._validateDoubleThumbValue({
                 currenThumb: view.thumbs[0].item,
                 value: 50,
                 minThumbPixelPosition: 0,
@@ -275,7 +275,7 @@ describe('Вид:', () => {
         
 
         test('вернет число:', ()=>{
-            expect(typeof view.validateDoubleThumbValue({
+            expect(typeof view._validateDoubleThumbValue({
                 currenThumb: view.thumbs[1].item,
                 value: 50,
                 minThumbPixelPosition: 0,
@@ -287,7 +287,7 @@ describe('Вид:', () => {
        
 
         test('не вернет одинаковые позиции для ползунков:', ()=>{
-            expect(typeof view.validateDoubleThumbValue( {
+            expect(typeof view._validateDoubleThumbValue( {
                 currenThumb: view.thumbs[1].item,
                 value: -50,
                 minThumbPixelPosition: 0,

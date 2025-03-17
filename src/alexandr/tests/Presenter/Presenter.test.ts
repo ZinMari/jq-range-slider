@@ -35,12 +35,12 @@ describe('Презентер:', ()=>{
         expect(presenter.model).toBeDefined();
     });
 
-    test('Функция convertUnitsToPixels всегда возвращает число', ()=>{
-        expect(typeof presenter.convertUnitsToPixels(NaN)).not.toBeNaN();
+    test('Функция _convertUnitsToPixels всегда возвращает число', ()=>{
+        expect(typeof presenter._convertUnitsToPixels(NaN)).not.toBeNaN();
     })
 
-    test('Функция convertPixelToUnits всегда возвращает число', ()=>{
-        expect(typeof presenter.convertPixelToUnits(NaN)).not.toBeNaN();
+    test('Функция _convertPixelToUnits всегда возвращает число', ()=>{
+        expect(typeof presenter._convertPixelToUnits(NaN)).not.toBeNaN();
     })
 
     describe('При вызове функции init:', ()=>{

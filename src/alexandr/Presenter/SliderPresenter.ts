@@ -13,20 +13,18 @@ class SliderPresenter {
 
     this.view.setPixelInOneStep({min: this.model.minValue, max: this.model.maxValue, step: this.model.stepValue});
     this.model.bindStepValueChanged(this.onStepValueChenged);
+    this.model.bindThumbsPositionChanged(this.onThumbsPositionChanged);
+    this.model.bindMinMaxValuesChanged(this.onMinMaxValuesChanged);
 
     // один раз вызовем метод для установки начальных значений, и далее  свяжем метод с моделью
-    this.view.updateThumbsPosition('min', this.convertUnitsToPixels(this.model.minPosition));
-    this.view.updateThumbsPosition('max', this.convertUnitsToPixels(this.model.maxPosition));
+    this.view.updateThumbsPosition('min', this._convertUnitsToPixels(this.model.minPosition));
+    this.view.updateThumbsPosition('max', this._convertUnitsToPixels(this.model.maxPosition));
     this.view.updateFlagValues('min', this.model.minPosition);
     this.view.updateFlagValues('max', this.model.maxPosition);
     this.view.updateInputsValue('max', this.model.maxPosition);
     this.view.updateInputsValue('min', this.model.minPosition);
-    this.model.bindThumbsPositionChanged(this.onThumbsPositionChanged);
-
-    // один раз вызовем метод для установки начальных значений, и далее  свяжем метод с моделью
     this.view.updateMinMaxValueLine(this.model.minValue, this.model.maxValue);
     this.view.updateRulerValue(this.model.minValue, this.model.maxValue);
-    this.model.bindMinMaxValuesChanged(this.onMinMaxValuesChanged);
 
     //свяжу обработчик события с моделью
     this.view.bindThumbsMove(this.handleThumbsPositionChanged);
@@ -38,7 +36,7 @@ class SliderPresenter {
   }
 
   onThumbsPositionChanged = (thumb: 'min' | 'max', position: number) => {
-    this.view.updateThumbsPosition(thumb, this.convertUnitsToPixels(position));
+    this.view.updateThumbsPosition(thumb, this._convertUnitsToPixels(position));
     this.view.updateFlagValues(thumb, position);
     this.view.updateInputsValue(thumb, position);
   };
@@ -57,9 +55,9 @@ class SliderPresenter {
 
   handleThumbsPositionChanged = (thumb: 'min' | 'max', position: number) => {
     if (thumb === 'min') {
-      this.model.setMinPosition(this.convertPixelToUnits(position));
+      this.model.setMinPosition(this._convertPixelToUnits(position));
     } else if (thumb === 'max') {
-      this.model.setMaxPosition(this.convertPixelToUnits(position));
+      this.model.setMaxPosition(this._convertPixelToUnits(position));
     }
   };
 
@@ -71,13 +69,13 @@ class SliderPresenter {
     }
   };
 
-  convertUnitsToPixels(value: number): number {
+  _convertUnitsToPixels(value: number): number {
     let withMinvalue = value - this.model.minValue;
     let pixels = withMinvalue * (this.view.pixelInOneStep / this.model.stepValue);
     return pixels;
   }
 
-  convertPixelToUnits(value: number): number {
+  _convertPixelToUnits(value: number): number {
     return Math.round(
       (value / this.view.pixelInOneStep) * this.model.stepValue + this.model.minValue,
     );

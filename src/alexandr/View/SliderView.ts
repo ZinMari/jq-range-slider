@@ -108,7 +108,7 @@ class SliderView {
 
     // установить ориентацию
     if (this.orientation === 'vertical') {
-      this.setVerticalOrientation();
+      this._setVerticalOrientation();
     }
   }
 
@@ -145,7 +145,7 @@ class SliderView {
 
       // проверим, чтобы не сталкивались
       if (this.type === 'double') {
-        value = this.validateDoubleThumbValue(
+        value = this._validateDoubleThumbValue(
           {
             currenThumb: $currenThumb, 
             value: value, 
@@ -222,7 +222,7 @@ class SliderView {
         ? event.pageX - sliderLineCoords.left
         : event.pageY - sliderLineCoords.top;
 
-    let stepLeft = this.equateValueToStep(pixelClick);
+    let stepLeft = this._equateValueToStep(pixelClick);
 
     if (this.type === 'single') {
       handler('min', stepLeft);
@@ -351,7 +351,7 @@ class SliderView {
     let newLeft = clientEvent - shiftClickThumb - clientLineCoordsOffset;
 
     //подгоним движение под шаг
-    newLeft = this.equateValueToStep(newLeft);
+    newLeft = this._equateValueToStep(newLeft);
 
     // курсор вышел из слайдера => оставить бегунок в его границах.
     if (newLeft < 0) {
@@ -366,7 +366,7 @@ class SliderView {
     return newLeft;
   }
 
-  equateValueToStep(value: number): number {
+  _equateValueToStep(value: number): number {
     if(isNaN(value)) {
       throw new Error ('Получено NaN');
     }
@@ -374,7 +374,7 @@ class SliderView {
     return Math.round(value / this.pixelInOneStep) * this.pixelInOneStep;
   }
 
-  validateDoubleThumbValue(
+  _validateDoubleThumbValue(
     {currenThumb,
     value,
     minThumbPixelPosition,
@@ -454,7 +454,7 @@ class SliderView {
     }
   }
 
-  setVerticalOrientation(): void {
+  _setVerticalOrientation(): void {
     const height = this.slider.outerWidth();
 
     //повернем весь слайдер
