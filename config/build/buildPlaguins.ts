@@ -1,6 +1,7 @@
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import { BuildOptions } from './types/types';
 
 export function buildPlaguins({ mode, paths }: BuildOptions): webpack.Configuration['plugins'] {
@@ -9,8 +10,6 @@ export function buildPlaguins({ mode, paths }: BuildOptions): webpack.Configurat
   const plugins: webpack.Configuration['plugins'] = [
     new HtmlWebpackPlugin({ 
       template: paths.html,
-      inject: true,
-      favicon: './src/page/favicon.ico'
     }),
   ];
 
@@ -28,6 +27,20 @@ export function buildPlaguins({ mode, paths }: BuildOptions): webpack.Configurat
       new MiniCssExtractPlugin({
         filename: 'css/[name].[contenthash:8].css',
         chunkFilename: 'css/[name].[contenthash:8].css',
+      }),
+      new FaviconsWebpackPlugin({
+        logo: './src/page/favicon.png',
+        mode: 'webapp',
+        devMode: 'webapp',
+        prefix: 'assets/favicons/',
+        cache: true,
+        inject: htmlPlugin => {
+          return true
+        },
+        favicons: {
+          background: '#fff',
+          theme_color: '#333'
+        }
       }),
     );
   }
