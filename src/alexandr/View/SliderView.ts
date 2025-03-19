@@ -115,7 +115,7 @@ class SliderView {
   bindThumbsMove(handler:(type:'min'|'max', value:number) => void) {
     //повесить на кнопки события
     this.thumbs.forEach((elem: BaseSubViewInterface) => {
-      elem.item.on('mousedown.alexandr', event => this._handlerThumbsMove(event, handler));
+      elem.item.on('pointerdown.alexandr', event => this._handlerThumbsMove(event, handler));
     });
   }
 
@@ -232,7 +232,8 @@ class SliderView {
       }
     );
 
-    const onMouseMove = (event: MouseEvent): void => {
+    const onMouseMove = (event: any): void => {
+      
       let value: number = this._getNewThumbCord(
         event,
         shiftClickThumb,
@@ -261,12 +262,13 @@ class SliderView {
     };
 
     function onMouseUp() {
-      document.removeEventListener('mouseup', onMouseUp);
-      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('pointerup', onMouseUp);
+      document.removeEventListener('pointermove', onMouseMove);
     }
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('pointermove', onMouseMove);
+    
+    document.addEventListener('pointerup', onMouseUp);
   }
 
   _handleSliderClick(event: JQuery.Event, handler:(type:'min'|'max',value:number)=>void) {
