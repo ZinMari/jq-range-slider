@@ -41,9 +41,6 @@ interface Model {
   onStepValueChenged?: (minValue: number, maxValue: number, stepValue: number) => void;
   onMinMaxValuesChanged?: (minValue: number, maxValue: number) => void;
   init: (options: AlexandrSettings) => void;
-  _setMinValue: (minValue: number) => void;
-  _setMaxValue: (maxValue: number) => void;
-  _setStepValue: (stepValue: number) => void;
   setMinPosition: (minPosition: number) => void;
   setMaxPosition: (setMaxPosition: number) => void;
   bindThumbsPositionChanged: (callback: (type: 'min' | 'max', position: number) => void)=> void;
@@ -52,6 +49,9 @@ interface Model {
   _validatePosition: (value: number)=> number;
   _validateDoublePosition: (type: 'min' | 'max', value: number)=> number;
   _equateValueToStep: (value: number)=> number;
+  _setMinValue: (minValue: number) => void;
+  _setMaxValue: (maxValue: number) => void;
+  _setStepValue: (stepValue: number) => void;
 }
 
 interface BaseSubViewInterface {
