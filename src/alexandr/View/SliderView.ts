@@ -108,7 +108,7 @@ class SliderView {
 
     // установить ориентацию
     if (this.orientation === 'vertical') {
-      this.setVerticalOrientation();
+      this._setVerticalOrientation();
     }
   }
 
@@ -117,59 +117,6 @@ class SliderView {
     this.thumbs.forEach((elem: BaseSubViewInterface) => {
       elem.item.on('mousedown.alexandr', event => this._handlerThumbsMove(event, handler));
     });
-  }
-
-  _handlerThumbsMove(event: any, handler: any){
-    event.preventDefault();
-    // получу координаты элементов
-    let sliderLineCoords = this._getCoords(this.line.item);
-    let $currenThumb = $(event.target);
-    let currentThumbCoords = this._getCoords($currenThumb);
-
-    // разница между кликом и началок кнопки
-    let shiftClickThumb: number = this._getShiftThumb(
-      {
-        event: event, 
-        currentThumbCoords: currentThumbCoords, 
-        orientation: this.orientation
-      }
-    );
-
-    const onMouseMove = (event: MouseEvent): void => {
-      let value: number = this._getNewThumbCord(
-        event,
-        shiftClickThumb,
-        sliderLineCoords,
-        currentThumbCoords,
-      );
-
-      // проверим, чтобы не сталкивались
-      if (this.type === 'double') {
-        value = this.validateDoubleThumbValue(
-          {
-            currenThumb: $currenThumb, 
-            value: value, 
-            minThumbPixelPosition: this.minThumbPixelPosition, 
-            maxThumbPixelPosition: this.maxThumbPixelPosition,
-            pixelInOneStep: this.pixelInOneStep,
-          }
-        );
-      }
-
-      if ($currenThumb.prop('classList').contains('alexandr__thumb--max')) {
-        handler('max', value);
-      } else {
-        handler('min', value);
-      }
-    };
-
-    function onMouseUp() {
-      document.removeEventListener('mouseup', onMouseUp);
-      document.removeEventListener('mousemove', onMouseMove);
-    }
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
   }
 
   bindInputsChange(handler:(type:'min'|'max', value:number) => void) {
@@ -191,13 +138,6 @@ class SliderView {
     }
   }
 
-  _handlerInputsChange(event:any, handler:any, type: 'min' | 'max'){
-      const $currentInput = $(event.target);
-      let currentValue = parseInt($currentInput.val().toString());
-      currentValue = Number.isNaN(currentValue) ? 0 : currentValue;   
-      handler(type, currentValue);
-  }
-
   bindLineClick(handler:(type:'min'|'max', value:number) => void) {
     //повесить событие на линию
     this.line.item.on('click.alexandr', (event: JQuery.Event) => {
@@ -210,33 +150,6 @@ class SliderView {
       this.ruler.item.on('click.alexandr', (event: JQuery.Event) => {
         this._handleSliderClick(event, handler);
       });
-    }
-  }
-
-  _handleSliderClick(event: JQuery.Event, handler:(type:'min'|'max',value:number)=>void) {
-    let sliderLineCoords = this._getCoords(this.line.item);
-
-    // на скольких пикселях от линии произошел клик
-    let pixelClick =
-      this.moveDirection === 'left'
-        ? event.pageX - sliderLineCoords.left
-        : event.pageY - sliderLineCoords.top;
-
-    let stepLeft = this.equateValueToStep(pixelClick);
-
-    if (this.type === 'single') {
-      handler('min', stepLeft);
-    }
-
-    if (this.type === 'double') {
-      const middlePixels =
-        this.minThumbPixelPosition + (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
-
-      if (stepLeft < middlePixels) {
-        handler('min', stepLeft);
-      } else {
-        handler('max', stepLeft);
-      }
     }
   }
 
@@ -299,6 +212,97 @@ class SliderView {
     }
   }
 
+  setPixelInOneStep({min, max, step} : {min: number, max: number, step: number}):void {
+    this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
+  }
+
+  _handlerThumbsMove(event: any, handler: any){
+    event.preventDefault();
+    // получу координаты элементов
+    let sliderLineCoords = this._getCoords(this.line.item);
+    let $currenThumb = $(event.target);
+    let currentThumbCoords = this._getCoords($currenThumb);
+
+    // разница между кликом и началок кнопки
+    let shiftClickThumb: number = this._getShiftThumb(
+      {
+        event: event, 
+        currentThumbCoords: currentThumbCoords, 
+        orientation: this.orientation
+      }
+    );
+
+    const onMouseMove = (event: MouseEvent): void => {
+      let value: number = this._getNewThumbCord(
+        event,
+        shiftClickThumb,
+        sliderLineCoords,
+        currentThumbCoords,
+      );
+
+      // проверим, чтобы не сталкивались
+      if (this.type === 'double') {
+        value = this._validateDoubleThumbValue(
+          {
+            currenThumb: $currenThumb, 
+            value: value, 
+            minThumbPixelPosition: this.minThumbPixelPosition, 
+            maxThumbPixelPosition: this.maxThumbPixelPosition,
+            pixelInOneStep: this.pixelInOneStep,
+          }
+        );
+      }
+
+      if ($currenThumb.prop('classList').contains('alexandr__thumb--max')) {
+        handler('max', value);
+      } else {
+        handler('min', value);
+      }
+    };
+
+    function onMouseUp() {
+      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', onMouseMove);
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  }
+
+  _handleSliderClick(event: JQuery.Event, handler:(type:'min'|'max',value:number)=>void) {
+    let sliderLineCoords = this._getCoords(this.line.item);
+
+    // на скольких пикселях от линии произошел клик
+    let pixelClick =
+      this.moveDirection === 'left'
+        ? event.pageX - sliderLineCoords.left
+        : event.pageY - sliderLineCoords.top;
+
+    let stepLeft = this._equateValueToStep(pixelClick);
+
+    if (this.type === 'single') {
+      handler('min', stepLeft);
+    }
+
+    if (this.type === 'double') {
+      const middlePixels =
+        this.minThumbPixelPosition + (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
+
+      if (stepLeft < middlePixels) {
+        handler('min', stepLeft);
+      } else {
+        handler('max', stepLeft);
+      }
+    }
+  }
+
+  _handlerInputsChange(event:any, handler:any, type: 'min' | 'max'){
+    const $currentInput = $(event.target);
+    let currentValue = parseInt($currentInput.val().toString());
+    currentValue = Number.isNaN(currentValue) ? 0 : currentValue;   
+    handler(type, currentValue);
+}
+
   _getCoords(elem:JQuery<EventTarget>): ElementsCoords {
     let boxLeft = elem.offset().left;
     let boxRight = boxLeft + elem.outerWidth();
@@ -319,10 +323,6 @@ class SliderView {
     } else {
       return event.pageX - currentThumbCoords.left;
     }
-  }
-
-  setPixelInOneStep({min, max, step} : {min: number, max: number, step: number}):void {
-    this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
   }
 
   _getNewThumbCord(
@@ -351,7 +351,7 @@ class SliderView {
     let newLeft = clientEvent - shiftClickThumb - clientLineCoordsOffset;
 
     //подгоним движение под шаг
-    newLeft = this.equateValueToStep(newLeft);
+    newLeft = this._equateValueToStep(newLeft);
 
     // курсор вышел из слайдера => оставить бегунок в его границах.
     if (newLeft < 0) {
@@ -366,7 +366,7 @@ class SliderView {
     return newLeft;
   }
 
-  equateValueToStep(value: number): number {
+  _equateValueToStep(value: number): number {
     if(isNaN(value)) {
       throw new Error ('Получено NaN');
     }
@@ -374,7 +374,7 @@ class SliderView {
     return Math.round(value / this.pixelInOneStep) * this.pixelInOneStep;
   }
 
-  validateDoubleThumbValue(
+  _validateDoubleThumbValue(
     {currenThumb,
     value,
     minThumbPixelPosition,
@@ -401,8 +401,6 @@ class SliderView {
     }
     return value;
   }
-
-  
 
   _setProgressBar(): void {
     if (this.type === 'single') {
@@ -454,7 +452,7 @@ class SliderView {
     }
   }
 
-  setVerticalOrientation(): void {
+  _setVerticalOrientation(): void {
     const height = this.slider.outerWidth();
 
     //повернем весь слайдер

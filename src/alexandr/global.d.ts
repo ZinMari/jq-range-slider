@@ -41,17 +41,17 @@ interface Model {
   onStepValueChenged?: (minValue: number, maxValue: number, stepValue: number) => void;
   onMinMaxValuesChanged?: (minValue: number, maxValue: number) => void;
   init: (options: AlexandrSettings) => void;
-  setMinValue: (minValue: number) => void;
-  setMaxValue: (maxValue: number) => void;
-  setStepValue: (stepValue: number) => void;
+  _setMinValue: (minValue: number) => void;
+  _setMaxValue: (maxValue: number) => void;
+  _setStepValue: (stepValue: number) => void;
   setMinPosition: (minPosition: number) => void;
   setMaxPosition: (setMaxPosition: number) => void;
   bindThumbsPositionChanged: (callback: (type: 'min' | 'max', position: number) => void)=> void;
   bindStepValueChanged: (callback: (minValue: number, maxValue: number, stepValue: number) => void)=> void;
   bindMinMaxValuesChanged: (callback: (minValue: number, maxValue: number) => void)=> void
-  validatePosition: (value: number)=> number;
-  validateDoublePosition: (type: 'min' | 'max', value: number)=> number;
-  equateValueToStep: (value: number)=> number;
+  _validatePosition: (value: number)=> number;
+  _validateDoublePosition: (type: 'min' | 'max', value: number)=> number;
+  _equateValueToStep: (value: number)=> number;
 }
 
 interface BaseSubViewInterface {
@@ -117,8 +117,8 @@ interface View {
       sliderLineCoords: ElementsCoords,
       currentThumbCoords: ElementsCoords,
     )=> number;
-    equateValueToStep: (value: number)=> number;
-    validateDoubleThumbValue: (
+    _equateValueToStep: (value: number)=> number;
+    _validateDoubleThumbValue: (
       options: {
         currenThumb: JQuery<EventTarget>, 
         value: number, 
@@ -128,7 +128,7 @@ interface View {
       })=> number;
     _handleSliderClick: (event: JQuery.Event, handler:(type:'min'|'max',value:number)=>void)=>void;
     _setProgressBar: ()=> void;
-    setVerticalOrientation: ()=> void;
+    _setVerticalOrientation: ()=> void;
 }
 
 interface Presenter {
@@ -140,6 +140,6 @@ interface Presenter {
   onMinMaxValuesChanged : (min: number, max: number) => void;
   handleThumbsPositionChanged : (thumb: 'min' | 'max', position: number) =>void;
   handleInputsChange: (input: 'min' | 'max', value: number) => void;
-  convertUnitsToPixels: (value: number)=> number;
-  convertPixelToUnits: (value: number)=> number;
+  _convertUnitsToPixels: (value: number)=> number;
+  _convertPixelToUnits: (value: number)=> number;
 }
