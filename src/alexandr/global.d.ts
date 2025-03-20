@@ -40,7 +40,13 @@ interface Model {
   onThumbsPositionChanged?: (type: 'min' | 'max', position: number) => void;
   onStepValueChenged?: (minValue: number, maxValue: number, stepValue: number) => void;
   onMinMaxValuesChanged?: (minValue: number, maxValue: number) => void;
-  init: (options: AlexandrSettings) => void;
+  init: (options: AlexandrSettings) =>  {
+    minValue: number;
+    maxValue: number;
+    minPosition: number;
+    maxPosition: number;
+    stepValue: number;
+  };
   setMinPosition: (minPosition: number) => void;
   setMaxPosition: (setMaxPosition: number) => void;
   bindThumbsPositionChanged: (callback: (type: 'min' | 'max', position: number) => void)=> void;
@@ -109,7 +115,7 @@ interface View {
     updateFlagValues: (thumb:'min'|'max',position:number) =>void;
     updateInputsValue: (type:'min'|'max',value:number) =>void;
     _getCoords: (elem:JQuery<EventTarget>)=> ElementsCoords;
-    _getShiftThumb: (options: {event: JQueryEventObject, currentThumbCoords: ElementsCoords, orientation: string})=> number;
+    _getShiftThumb: (options: {event: PointerEvent, currentThumbCoords: ElementsCoords, orientation: string})=> number;
     setPixelInOneStep: (options: {min: number, max: number, step: number}) =>void;
     _getNewThumbCord: (
       event: MouseEvent,
@@ -126,7 +132,7 @@ interface View {
         maxThumbPixelPosition: number,
         pixelInOneStep: number,
       })=> number;
-    _handleSliderClick: (event: JQuery.Event, handler:(type:'min'|'max',value:number)=>void)=>void;
+    _handleSliderClick: (event: MouseEvent, handler:(type:'min'|'max',value:number)=>void)=>void;
     _setProgressBar: ()=> void;
     _setVerticalOrientation: ()=> void;
 }
@@ -134,7 +140,13 @@ interface View {
 interface Presenter {
   view: View;
   model: Model;
-  init: (options: AlexandrSettings) => void;
+  init: (options: AlexandrSettings) =>  {
+    minValue: number;
+    maxValue: number;
+    minPosition: number;
+    maxPosition: number;
+    stepValue: number;
+  };
   onThumbsPositionChanged: (thumb: 'min' | 'max', position: number) => void;
   onStepValueChenged :(min: number, max: number, step: number) =>void;
   onMinMaxValuesChanged : (min: number, max: number) => void;

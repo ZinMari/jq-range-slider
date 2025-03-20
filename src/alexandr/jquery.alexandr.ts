@@ -7,7 +7,13 @@ import './jquery.alexandr.scss';
 (function ($) {
   class Alexandr {
     presenter: Presenter;
-    upgradeModelValues: any;
+    upgradeModelValues: {
+      minValue: number;
+      maxValue: number;
+      minPosition: number;
+      maxPosition: number;
+      stepValue: number;
+    };
     constructor(options: AlexandrSettings) {
       this.presenter = new SliderPresenter(new SliderView(), new SliderModel());
       this.upgradeModelValues = this.presenter.init(options);

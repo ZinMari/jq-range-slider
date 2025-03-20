@@ -131,7 +131,7 @@ describe('Вид:', () => {
         view.init(baseSettings); 
         
         
-        const oldValues:any = [];
+        const oldValues: string[] = [];
 
         $.each(view.ruler.dividings, function () {
             oldValues.push(this.attr('data-dividing'));

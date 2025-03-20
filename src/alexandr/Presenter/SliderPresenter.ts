@@ -7,7 +7,13 @@ class SliderPresenter {
     this.model = model;
   }
 
-  init(config: AlexandrSettings) {
+  init(config: AlexandrSettings):  {
+    minValue: number;
+    maxValue: number;
+    minPosition: number;
+    maxPosition: number;
+    stepValue: number;
+  } {
     this.view.init({ ...config });
     const upgradeModelOptions = this.model.init({ ...config });
 

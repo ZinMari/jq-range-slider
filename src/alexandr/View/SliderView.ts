@@ -115,7 +115,7 @@ class SliderView {
   bindThumbsMove(handler:(type:'min'|'max', value:number) => void) {
     //повесить на кнопки события
     this.thumbs.forEach((elem: BaseSubViewInterface) => {
-      elem.item.on('pointerdown.alexandr', event => this._handlerThumbsMove(event, handler));
+      elem.item[0].addEventListener('pointerdown', event => this._handlerThumbsMove(event, handler));
     });
   }
 
@@ -124,7 +124,7 @@ class SliderView {
     if(this.controlsMinThumb.length){
       $.each(this.controlsMinThumb, (index, element)=>{
         $.each(element, (index, element)=>{
-          $(element).on('change.alexandr', event => this._handlerInputsChange(event, handler, 'min'));
+          element.addEventListener('change', event => this._handlerInputsChange(event, handler, 'min'));
         })
       })
     }
@@ -132,7 +132,7 @@ class SliderView {
     if(this.controlsMaxThumb.length){
       $.each(this.controlsMinThumb, (index, element)=>{
         $.each(element, (index, element)=>{
-          $(element).on('change.alexandr', event => this._handlerInputsChange(event, handler, 'max'));
+          element.addEventListener('change', event => this._handlerInputsChange(event, handler, 'max'));
         })
       })
     }
@@ -140,16 +140,16 @@ class SliderView {
 
   bindLineClick(handler:(type:'min'|'max', value:number) => void) {
     //повесить событие на линию
-    this.line.item.on('click.alexandr', (event: JQuery.Event) => {
+    this.line.item[0].addEventListener('click', (event: MouseEvent) => {
       this._handleSliderClick(event, handler);
-    });
+    })
   }
 
   bindRulerClick(handler:(type:'min'|'max', value:number) => void) {
     if (this.showRuler) {
-      this.ruler.item.on('click.alexandr', (event: JQuery.Event) => {
+      this.ruler.item[0].addEventListener('click', (event: MouseEvent) => {
         this._handleSliderClick(event, handler);
-      });
+      })
     }
   }
 
@@ -216,7 +216,7 @@ class SliderView {
     this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
   }
 
-  _handlerThumbsMove(event: any, handler: any){
+  _handlerThumbsMove(event: PointerEvent, handler: (type:'min'|'max', value:number) => void){
     event.preventDefault();
     // получу координаты элементов
     let sliderLineCoords = this._getCoords(this.line.item);
@@ -232,7 +232,7 @@ class SliderView {
       }
     );
 
-    const onMouseMove = (event: any): void => {
+    const onMouseMove = (event: PointerEvent): void => {
       
       let value: number = this._getNewThumbCord(
         event,
@@ -271,7 +271,7 @@ class SliderView {
     document.addEventListener('pointerup', onMouseUp);
   }
 
-  _handleSliderClick(event: JQuery.Event, handler:(type:'min'|'max',value:number)=>void) {
+  _handleSliderClick(event: MouseEvent, handler:(type:'min'|'max',value:number)=>void) {
     let sliderLineCoords = this._getCoords(this.line.item);
 
     // на скольких пикселях от линии произошел клик
@@ -298,7 +298,7 @@ class SliderView {
     }
   }
 
-  _handlerInputsChange(event:any, handler:any, type: 'min' | 'max'){
+  _handlerInputsChange(event:Event, handler:(thumb: 'min' | 'max', position: number)=>void, type: 'min' | 'max'){
     const $currentInput = $(event.target);
     let currentValue = parseInt($currentInput.val().toString());
     currentValue = Number.isNaN(currentValue) ? 0 : currentValue;   
@@ -319,7 +319,7 @@ class SliderView {
     };
   }
 
-  _getShiftThumb({event, currentThumbCoords, orientation} : {event: JQueryEventObject, currentThumbCoords: ElementsCoords, orientation: string}): number {
+  _getShiftThumb({event, currentThumbCoords, orientation} : {event: PointerEvent, currentThumbCoords: ElementsCoords, orientation: string}): number {
     if (orientation === 'vertical') {
       return event.pageY - currentThumbCoords.top;
     } else {
