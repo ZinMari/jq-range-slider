@@ -110,16 +110,14 @@ import "./jquery.alexandr.scss";
 
   $.fn.alexandr = function (
     options: string | AlexandrSettings,
-    ...restOptions: []
   ): JQuery<HTMLElement> {
-    const otherArgs = Array.prototype.slice.call(restOptions, 1);
+    const otherArgs = Array.prototype.slice.call(arguments, 1);
 
     if (isNotChained(options, otherArgs)) {
       const plugin = $(this).data("alexandr");
-      return plugin["_" + options + "Plugin"].call(
+      return plugin["_" + options + "Plugin"].apply(
         plugin,
-        this[0],
-        ...otherArgs,
+        [this[0]].concat(otherArgs),
       );
     }
 
@@ -134,7 +132,10 @@ import "./jquery.alexandr.scss";
           throw "Unknown method: " + options;
         }
 
-        plugin["_" + options + "Plugin"].call(plugin, this[0], ...otherArgs);
+        plugin["_" + options + "Plugin"].apply(
+          plugin,
+          [this].concat(otherArgs),
+        );
       } else if (!sliderIsInitialized($(this))) {
         const alexandr = new Alexandr(config);
         $(this).data("alexandr", alexandr);
