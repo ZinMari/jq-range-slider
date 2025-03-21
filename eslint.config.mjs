@@ -30,25 +30,10 @@ export default defineConfig([
     },
   },
   { files: ["**/*.{js,mjs,cjs,ts}"], rules: { ...eslintConfigPrettier.rules } },
-
-  // { files: ["**/*.{js,mjs,cjs,ts}"] },
-  // {
-  //   files: ["**/*.{js,mjs,cjs,ts}"],
-  //   languageOptions: { globals: globals.browser },
-  // },
-  // {
-  //   files: ["**/*.{js,mjs,cjs,ts}"],
-  //   plugins: { js },
-  //   extends: ["js/recommended", "plugin:prettier/recommended"],
-  //   rules: {
-  //     "prettier/prettier": ["warn", { endOfLine: "auto" }],
-  //   },
-  // },
-  // tseslint.configs.recommended,
-  // {
-  //   rules: {
-  //     semi: "error",
-  //     "prefer-const": "error",
-  //   },
-  // },
+  {
+    rules: {
+      "prefer-rest-params": null,
+      "prefer-spread": null,
+    },
+  },
 ]);
