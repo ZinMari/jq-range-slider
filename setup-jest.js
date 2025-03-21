@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from "jquery";
 global.$ = $;
 
 // // If you want to mock bootstrap
