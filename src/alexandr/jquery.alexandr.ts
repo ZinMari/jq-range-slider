@@ -169,5 +169,6 @@ import "./jquery.alexandr.scss";
     showMaxValueClass: "",
     controlsMinThumb: [],
     controlsMaxThumb: [],
+    controlsStepValues: [],
   };
 })(jQuery);

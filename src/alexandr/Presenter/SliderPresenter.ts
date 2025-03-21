@@ -42,6 +42,7 @@ class SliderPresenter {
 
     this.view.updateMinMaxValueLine(this.model.minValue, this.model.maxValue);
     this.view.updateRulerValue(this.model.minValue, this.model.maxValue);
+    this.view.updateStepInputs(this.model.stepValue);
 
     //свяжу обработчик события с моделью
     this.view.bindThumbsMove(this.handleThumbsPositionChanged);
@@ -60,6 +61,7 @@ class SliderPresenter {
 
   onStepValueChenged = (min: number, max: number, step: number) => {
     this.view.setPixelInOneStep({ min, max, step });
+    this.view.updateStepInputs(step);
   };
 
   onMinMaxValuesChanged = (min: number, max: number) => {

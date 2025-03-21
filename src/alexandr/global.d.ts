@@ -34,6 +34,7 @@ interface AlexandrSettings {
   showMaxValueClass?: string;
   controlsMinThumb?: [JQuery<HTMLElement>];
   controlsMaxThumb?: [JQuery<HTMLElement>];
+  controlsStepValues?: [JQuery<HTMLElement>];
   orientation?: "horizontal" | "vertical";
   type?: "single" | "double";
 }
@@ -145,6 +146,7 @@ interface View {
   progressbar: BaseSubViewInterface;
   controlsMinThumb: Array<JQuery<HTMLElement>>;
   controlsMaxThumb: Array<JQuery<HTMLElement>>;
+  controlsStepValues: Array<JQuery<HTMLElement>>;
   init: (options: AlexandrSettings) => void;
   bindThumbsMove: (
     handler: (type: "min" | "max", value: number) => void,
@@ -163,6 +165,7 @@ interface View {
   updateRulerValue: (min: number, max: number) => void;
   updateFlagValues: (thumb: "min" | "max", position: number) => void;
   updateInputsValue: (type: "min" | "max", value: number) => void;
+  updateStepInputs: (value: number) => void;
   _getCoords: (elem: JQuery<EventTarget>) => ElementsCoords;
   _getShiftThumb: (options: {
     event: PointerEvent;

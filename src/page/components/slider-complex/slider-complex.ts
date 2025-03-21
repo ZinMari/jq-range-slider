@@ -4,6 +4,7 @@ function initSlider(slider: string, options: AlexandrSettings): void {
     .alexandr({
       controlsMinThumb: [$(slider).find(".js-form__controlMinThumb")],
       controlsMaxThumb: [$(slider).find(".js-form__controlMaxThumb")],
+      controlsStepValues: [$(slider).find(".js-form__controlStep")],
       ...options,
     });
 }

@@ -26,6 +26,7 @@ class SliderView {
   progressbar: BaseSubViewInterface;
   controlsMinThumb: Array<JQuery<HTMLElement>>;
   controlsMaxThumb: Array<JQuery<HTMLElement>>;
+  controlsStepValues: Array<JQuery<HTMLElement>>;
 
   constructor() {
     this.slider = $("<div>", { class: "alexandr" });
@@ -48,6 +49,7 @@ class SliderView {
     progressBarClass,
     controlsMinThumb,
     controlsMaxThumb,
+    controlsStepValues,
   }: AlexandrSettings) {
     if (
       container[0].nodeName !== "DIV" &&
@@ -68,6 +70,7 @@ class SliderView {
     this.progressbar = new SliderProgressBar(this.line.item, progressBarClass);
     this.controlsMinThumb = controlsMinThumb;
     this.controlsMaxThumb = controlsMaxThumb;
+    this.controlsStepValues = controlsStepValues;
 
     //создам кнопки
     if (this.type === "double") {
@@ -216,6 +219,16 @@ class SliderView {
 
     if (type === "max" && this.controlsMaxThumb.length) {
       $.each(this.controlsMaxThumb, function () {
+        $.each(this, function () {
+          $(this).val(value);
+        });
+      });
+    }
+  }
+
+  updateStepInputs(value: number): void {
+    if (this.controlsStepValues.length) {
+      $.each(this.controlsStepValues, function () {
         $.each(this, function () {
           $(this).val(value);
         });
