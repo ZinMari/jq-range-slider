@@ -4,7 +4,6 @@ import SliderView from "./View/SliderView";
 import SliderPresenter from "./Presenter/SliderPresenter";
 import SliderModel from "./Model/SliderModel";
 import "./jquery.alexandr.scss";
-// import './theme-dark.scss';
 
 (function ($) {
   class Alexandr {
