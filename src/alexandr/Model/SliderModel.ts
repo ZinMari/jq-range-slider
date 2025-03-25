@@ -28,9 +28,10 @@ class SliderModel {
     stepValue: number;
   } {
     this.type = type;
-    this._setMinValue(+minValue);
     this._setMaxValue(+maxValue);
+    this._setMinValue(+minValue);
     this._setStepValue(+stepValue);
+    this._setMaxValue(+maxValue);
     this.setMinPosition(+minPosition);
     if (this.type === "double") {
       this.setMaxPosition(+maxPosition!);

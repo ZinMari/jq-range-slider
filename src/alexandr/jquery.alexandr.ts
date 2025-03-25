@@ -149,7 +149,7 @@ import "./jquery.alexandr.scss";
 
   $.fn.alexandr.defaults = {
     minValue: 1000,
-    maxValue: 1000,
+    maxValue: 2000,
     stepValue: 10,
     showMinMaxValue: true,
     orientation: "horizontal",

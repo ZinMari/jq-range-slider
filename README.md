@@ -1,8 +1,11 @@
 # [Alexandr](https://mariezin.github.io/search-for-hotels/)
+
 Плагин слайдера для jQuery - контрол, который позволяет перетягиванием задавать числовое значение.
 
 ## Начало работы
+
 Для начала работы склонируйте все содержимое репозитория `https://github.com/MarieZin/alexandr.git` Затем запустите команду `npm i`, которая установит все необходимые зависимости. Далее доступны следующие команды:
+
 - `npm run build:dev` — сборка проекта в режиме разработки.
 - `npm run build:dev` — сборка продакшн-версии проекта.
 - `npm run start:prod` - запук сервера в продакшн-версии.
@@ -13,57 +16,69 @@
 - `npm run test:view` — запуск тестов вида
 
 ## Использование
+
 Слайдер применяется к div или article тегам:
-````html
+
+```html
 <div class="main">
-    <div class="div-slider">
-        <!-- Тут будет слайдер -->
-    </div>
-    <div class="article-slider">
-        <!-- Тут будет слайдер -->
-    </div>
-    <!-- Тут будет ошибка -->
-    <input class="input-slider">
+  <div class="div-slider">
+    <!-- Тут будет слайдер -->
+  </div>
+  <div class="article-slider">
+    <!-- Тут будет слайдер -->
+  </div>
+  <!-- Тут будет ошибка -->
+  <input class="input-slider" />
 </div>
-````
+```
 
 ### Инициализация:
-````html
+
+```html
 <div class="slider">
-    <!-- Тут будет слайдер -->
+  <!-- Тут будет слайдер -->
 </div>
-````
+```
+
 Инициализация без настроек - настройки будут взяты по умолчанию:
+
 ```javascript
 <script src="jquery.min.js"></script>
-<script src="rangeslider.min.js"></script>
+<script src="jquery.alexandr.js"></script>
 
 $('.slider').alexandr();
 ```
 
 Инициализация с пользовательскими настройками:
+
 ```javascript
-$('.slider').alexandr({
-    minValue: 0,
-    maxValue: 1000,
-    stepValue: 10,
+$(".slider").alexandr({
+  minValue: 0,
+  maxValue: 1000,
+  stepValue: 10,
 });
 ```
 
 ### Изменить настройки:
+
 Передать объект с настройками
+
 ```javascript
-$('.slider').alexandr({
-    minValue: 0,
-    maxValue: 1000,
-    stepValue: 10,
+$(".slider").alexandr({
+  minValue: 0,
+  maxValue: 1000,
+  stepValue: 10,
 });
 ```
+
 Передать отдельную опцию
+
 ```javascript
-$('.slider').alexandr('option', 'minValue', 5000);
+$(".slider").alexandr("option", "minValue", 5000);
 ```
+
 ### Доступные настройки:
+
 <table>
     <thead>
         <tr>
@@ -204,29 +219,35 @@ $('.slider').alexandr('option', 'minValue', 5000);
 </table>
 
 ### Получить опции слайдера:
+
 В виде объекта
+
 ```javascript
-$('.slider').alexandr('option');
+$(".slider").alexandr("option");
 ```
+
 В виде значения
+
 ```javascript
-$('.slider').alexandr('option', 'minValue');
+$(".slider").alexandr("option", "minValue");
 ```
 
 ### Убить слайдер:
+
 ```javascript
-$('.slider').alexandr('destroy');
+$(".slider").alexandr("destroy");
 ```
 
 ### Переопределить глобальные значения по умолчанию
-Функция должна вызываться перед применением плагина. Настройки, передаваемые этой функции, 
-добавляются в список значений по умолчанию и затем применяются 
+
+Функция должна вызываться перед применением плагина. Настройки, передаваемые этой функции,
+добавляются в список значений по умолчанию и затем применяются
 ко всем вновь создаваемым экземплярам плагина.
 
 ```javascript
 // переопределить настройки
-$.alexandr.setDefaults({max: 300, truncate: false});
+$.alexandr.setDefaults({ max: 300, truncate: false });
 
 // инициализировать слайдер
-$('.slider').alexandr();
+$(".slider").alexandr();
 ```
