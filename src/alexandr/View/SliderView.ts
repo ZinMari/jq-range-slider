@@ -297,7 +297,6 @@ class SliderView {
     }
 
     document.addEventListener("pointermove", onMouseMove);
-
     document.addEventListener("pointerup", onMouseUp);
   }
 
@@ -305,6 +304,12 @@ class SliderView {
     event: MouseEvent,
     handler: (type: "min" | "max", value: number) => void,
   ) {
+    const { target } = event;
+    if (target instanceof HTMLElement) {
+      if (target.classList.contains("alexandr__thumb")) {
+        return;
+      }
+    }
     const sliderLineCoords = this._getCoords(this.line.item);
 
     // на скольких пикселях от линии произошел клик
