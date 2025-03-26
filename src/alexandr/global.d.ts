@@ -177,12 +177,12 @@ interface View {
     max: number;
     step: number;
   }) => void;
-  _getNewThumbCord: (
+  _getNewThumbCord: ( options: {
     event: MouseEvent,
     shiftClickThumb: number,
     sliderLineCoords: ElementsCoords,
     currentThumbCoords: ElementsCoords,
-  ) => number;
+}) => number;
   _equateValueToStep: (value: number) => number;
   _validateDoubleThumbValue: (options: {
     currenThumb: JQuery<EventTarget>;
