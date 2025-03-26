@@ -140,9 +140,8 @@ class SliderView {
         });
       });
     }
-
     if (this.controlsMaxThumb.length) {
-      $.each(this.controlsMinThumb, (index, element) => {
+      $.each(this.controlsMaxThumb, (index, element) => {
         $.each(element, (index, element) => {
           element.addEventListener("change", event =>
             this._handlerInputsChange(event, handler, "max"),
