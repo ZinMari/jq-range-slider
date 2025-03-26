@@ -31,20 +31,20 @@ export function buildPlaguins({
         filename: "css/[name].[contenthash:8].css",
         chunkFilename: "css/[name].[contenthash:8].css",
       }),
-      // new FaviconsWebpackPlugin({
-      //   logo: './src/page/favicon.png',
-      //   mode: 'webapp',
-      //   devMode: 'webapp',
-      //   prefix: 'assets/favicons/',
-      //   cache: true,
-      //   inject: htmlPlugin => {
-      //     return true
-      //   },
-      //   favicons: {
-      //     background: '#fff',
-      //     theme_color: '#333'
-      //   }
-      // }),
+      new FaviconsWebpackPlugin({
+        logo: './src/page/favicon.png',
+        mode: 'webapp',
+        devMode: 'webapp',
+        prefix: 'assets/favicons/',
+        cache: true,
+        inject: htmlPlugin => {
+          return true
+        },
+        favicons: {
+          background: '#fff',
+          theme_color: '#333'
+        }
+      }),
     );
   }
   return plugins;
