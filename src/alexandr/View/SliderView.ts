@@ -265,12 +265,13 @@ class SliderView {
     });
 
     const onMouseMove = (event: PointerEvent): void => {
-      let value: number = this._getNewThumbCord(
-        event,
-        shiftClickThumb,
-        sliderLineCoords,
-        currentThumbCoords,
-      );
+      const options = {
+        event: event,
+        shiftClickThumb: shiftClickThumb,
+        sliderLineCoords: sliderLineCoords,
+        currentThumbCoords: currentThumbCoords,
+      }
+      let value: number = this._getNewThumbCord(options);
 
       // проверим, чтобы не сталкивались
       if (this.type === "double") {
@@ -377,11 +378,17 @@ class SliderView {
     }
   }
 
-  _getNewThumbCord(
+  _getNewThumbCord({
+    event,
+    shiftClickThumb,
+    sliderLineCoords,
+    currentThumbCoords
+  } : {
     event: MouseEvent,
     shiftClickThumb: number,
     sliderLineCoords: ElementsCoords,
-    currentThumbCoords: ElementsCoords,
+    currentThumbCoords: ElementsCoords
+  }
   ): number {
     let clientEvent;
     let clientLineCoordsOffset;

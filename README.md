@@ -251,3 +251,6 @@ $.alexandr.setDefaults({ max: 300, truncate: false });
 // инициализировать слайдер
 $(".slider").alexandr();
 ```
+
+
+### [UML диаграмма](https://app.diagrams.net/?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&dark=auto#HMarieZin%2Falexandr%2Fmain%2Fsrc%2FUml.drawio)
