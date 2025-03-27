@@ -1,4 +1,4 @@
-# [Alexandr](https://mariezin.github.io/alexandr/)
+# [Alexandr](https://zinmari.github.io/alexandr/)
 
 Плагин слайдера для jQuery - контрол, который позволяет перетягиванием задавать числовое значение.
 
