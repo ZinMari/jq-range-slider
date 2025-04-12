@@ -1,0 +1,15 @@
+.alexandr__line {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: relative;
+    height: 15px;
+    border: 1px solid #c5c5c5;
+
+    &_type {
+        &_vertical {
+            height: 100%;
+            width: 15px;
+        }
+    }
+}

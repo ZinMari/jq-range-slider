@@ -1,0 +1,11 @@
+.alexandr__values {
+    display: flex;
+    justify-content: space-between;
+    color: bisque;
+
+    &_type {
+        &_vertical {
+            flex-direction: column;
+        }
+    }
+  }
