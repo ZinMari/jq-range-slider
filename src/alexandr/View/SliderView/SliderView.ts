@@ -1,8 +1,8 @@
-import SliderLineView from "./SliderLineView";
-import SliderMinMaxValueLineView from "./sliderMinMaxValueLineView";
-import SliderProgressBar from "./SliderProgressbar";
-import SliderRulerView from "./SliderRulerView";
-import SliderThumbView from "./SliderThumbView";
+import SliderLineView from "../SliderLineView/SliderLineView";
+import SliderMinMaxValueLineView from "../SliderMinMaxValueLineView/SliderMinMaxValueLineView";
+import SliderProgressBar from "../SliderProgressbar/SliderProgressbar";
+import SliderRulerView from "../SliderRulerView/SliderRulerView";
+import SliderThumbView from "../SliderThumbView/SliderThumbView";
 
 class SliderView {
   slider: JQuery<HTMLElement>;

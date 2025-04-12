@@ -1,6 +1,6 @@
 /*eslint no-undef: "off"*/
 
-import SliderView from "./View/SliderView";
+import SliderView from "./View/SliderView/SliderView";
 import SliderPresenter from "./Presenter/SliderPresenter";
 import SliderModel from "./Model/SliderModel";
 import "./jquery.alexandr.scss";

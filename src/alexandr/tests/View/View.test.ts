@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { fireEvent } from "@testing-library/dom";
 
-import SliderView from "../../View/SliderView";
+import SliderView from "../../View/SliderView/SliderView";
 
 describe("Вид:", () => {
   const baseSettings: AlexandrSettings = {
