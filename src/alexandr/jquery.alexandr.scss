@@ -9,7 +9,7 @@
   touch-action: pan-y;
 }
 
-.alexandr--vertical {
+.alexandr_type_vertical {
   flex-direction: row;
 }
 
@@ -22,7 +22,7 @@
   border: 1px solid #c5c5c5;
 }
 
-.alexandr__line--vertical {
+.alexandr__line_type_vertical {
   height: 100%;
   width: 15px;
 }
@@ -63,14 +63,14 @@
   color: white;
 }
 
-.alexandr__thumb--vertical {
+.alexandr__thumb_type_vertical {
   top: 0;
   transform: translateY(0);
   left: 50%;
   transform: translateX(-50%);
 }
 
-.alexandr__thumb--vertical.flag::before {
+.alexandr__thumb_type_vertical.flag::before {
   left: -50px;
   top: 50%;
   transform: translateX(0) translateY(-50%);
@@ -96,7 +96,7 @@
   color: bisque;
 }
 
-.alexandr__values--vertical {
+.alexandr__values_type_vertical {
   flex-direction: column;
 }
 
@@ -106,7 +106,7 @@
   cursor: pointer;
 }
 
-.alexandr__ruler--vertical {
+.alexandr__ruler_type_vertical {
   flex-direction: column;
 }
 
@@ -171,7 +171,7 @@
   border-bottom: 5px solid #fff;
 }
 
-.alexandr__ruler--vertical {
+.alexandr__ruler_type_vertical {
   flex-direction: column;
   min-height: 100%;
   width: 30px;
@@ -196,12 +196,12 @@
   color: #fff;
   font-weight: 700;
 }
-.alexandr__dividing--vertical {
+.alexandr__dividing_type_vertical {
   width: 20px;
   height: 5px;
 }
 
-.alexandr__dividing--vertical::before {
+.alexandr__dividing_type_vertical::before {
   top: 50%;
   transform: translate(0, -50%);
   left: 35px;

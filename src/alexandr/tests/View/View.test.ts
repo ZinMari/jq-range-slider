@@ -57,14 +57,14 @@ describe("Вид:", () => {
     view.init($.extend({}, baseSettings, { orientation: "vertical" }));
 
     test("Слайдер: ", () => {
-      expect(view.slider[0]).toHaveClass("alexandr--vertical");
+      expect(view.slider[0]).toHaveClass("alexandr_type_vertical");
     });
     test("Линия слайдера: ", () => {
-      expect(view.line.item[0]).toHaveClass("alexandr__line--vertical");
+      expect(view.line.item[0]).toHaveClass("alexandr__line_type_vertical");
     });
     test("Минимальное и максимальное значение: ", () => {
       expect(view.sliderMinMaxValueLine.wrap[0]).toHaveClass(
-        "alexandr__values--vertical",
+        "alexandr__values_type_vertical",
       );
     });
   });

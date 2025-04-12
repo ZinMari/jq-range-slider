@@ -522,29 +522,29 @@ class SliderView {
     const height = this.slider.outerWidth();
 
     //повернем весь слайдер
-    this.slider.addClass("alexandr--vertical");
+    this.slider.addClass("alexandr_type_vertical");
     this.slider.height(height);
 
     //повернем линию
-    this.line.item.addClass("alexandr__line--vertical");
+    this.line.item.addClass("alexandr__line_type_vertical");
     this.line.item.height(height);
 
     //повернем линию со значениями
     if (this.sliderMinMaxValueLine) {
-      this.sliderMinMaxValueLine.wrap.addClass("alexandr__values--vertical");
+      this.sliderMinMaxValueLine.wrap.addClass("alexandr__values_type_vertical");
       this.sliderMinMaxValueLine.wrap.height(height);
     }
 
     // //повернем кнопки
     this.thumbs.forEach((thumb: BaseSubViewInterface) => {
-      thumb.item.addClass("alexandr__thumb--vertical");
+      thumb.item.addClass("alexandr__thumb_type_vertical");
     });
 
     //повернуть линейку
     if (this.ruler) {
-      this.ruler.item.addClass("alexandr__ruler--vertical");
+      this.ruler.item.addClass("alexandr__ruler_type_vertical");
       this.ruler.dividings.forEach((elem: JQuery<HTMLElement>) => {
-        elem.addClass("alexandr__dividing--vertical");
+        elem.addClass("alexandr__dividing_type_vertical");
       });
     }
   }
