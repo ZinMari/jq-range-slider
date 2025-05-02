@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 
-import SliderLineView from '../../../View/SliderLineView/SliderLineView';
+import SliderLineView from '../../../View/LineView/LineView';
 
 describe('Slider line class', () => {
   let wrappElement: JQuery<HTMLElement>;

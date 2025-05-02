@@ -1,4 +1,4 @@
-import Model from '../../Model/SliderModel';
+import Model from '../../Model/Model';
 
 describe('Модель:', ()=>{
     describe('Минимальное значение слайдера всегда меньше максимального:', () => {

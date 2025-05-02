@@ -1,6 +1,6 @@
-import Presenter from '../../Presenter/SliderPresenter';
-import Model from '../../Model/SliderModel';
-import View from '../../View/SliderView/SliderView';
+import Presenter from '../../Presenter/Presenter';
+import Model from '../../Model/Model';
+import View from '../../View/View/View';
 
 describe('Презентер:', ()=>{
     const presenter: Presenter = new Presenter(new View(), new Model());
