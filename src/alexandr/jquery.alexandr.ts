@@ -3,7 +3,12 @@
 import SliderView from "./View/View/View";
 import SliderPresenter from "./Presenter/Presenter";
 import SliderModel from "./Model/Model";
-import "./jquery.alexandr.scss";
+
+function requireAll(r: __WebpackModuleApi.RequireContext) {
+  return r.keys().map(r);
+}
+
+requireAll(require.context('./View/', true, /\.(scss)$/));
 
 (function ($) {
   class Alexandr {
