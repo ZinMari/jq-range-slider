@@ -1,4 +1,6 @@
-class Model{
+import Observer from "../Observer/Observer";
+
+class Model extends Observer{
   minValue: number;
   maxValue: number;
   minPosition: number;

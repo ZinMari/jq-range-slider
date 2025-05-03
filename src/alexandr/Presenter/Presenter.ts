@@ -1,4 +1,4 @@
-class SliderPresenter {
+class Presenter {
   view: View;
   model: Model;
 
@@ -17,8 +17,8 @@ class SliderPresenter {
     this.view.init({ ...config });
     const upgradeModelOptions = this.model.init({ ...config });
 
-
-
+    this.view.addSubscriber(this);
+    this.model.addSubscriber(this);
 
     this.view.setPixelInOneStep({
       min: this.model.minValue,
@@ -53,6 +53,10 @@ class SliderPresenter {
     this.view.bindInputsChange(this.handleInputsChange);
 
     return upgradeModelOptions;
+  }
+
+  update(info: any){
+    
   }
 
   onThumbsPositionChanged = (thumb: "min" | "max", position: number) => {
@@ -105,4 +109,4 @@ class SliderPresenter {
   }
 }
 
-export default SliderPresenter;
+export default Presenter;

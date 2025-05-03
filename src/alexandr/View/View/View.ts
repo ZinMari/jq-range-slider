@@ -1,10 +1,11 @@
+import Observer from "../../Observer/Observer";
 import LineView from "../LineView/LineView";
 import MinMaxValueLineView from "../MinMaxValueLineView/MinMaxValueLineView";
 import ProgressBar from "../ProgressbarView/ProgressbarView";
 import RulerView from "../RulerView/RulerView";
 import ThumbView from "../ThumbView/ThumbView";
 
-class View{
+class View extends Observer{
   slider: JQuery<HTMLElement>;
   thumbs: Array<BaseSubViewInterface>;
   container: JQuery<HTMLElement>;
@@ -29,6 +30,7 @@ class View{
   controlsStepValues: Array<JQuery<HTMLElement>>;
 
   constructor() {
+    super();
     this.slider = $("<div>", { class: "alexandr" });
     this.thumbs = [];
   }

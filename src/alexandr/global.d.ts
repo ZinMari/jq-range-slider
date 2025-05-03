@@ -62,7 +62,7 @@ type AlexandrSettingsKeys =
   | "controlsMinThumb"
   | "controlsMaxThumb";
 
-interface Model {
+interface Model extends Observer{
   minValue: number;
   maxValue: number;
   minPosition: number;
@@ -124,7 +124,7 @@ type ElementsCoords = {
   height: number;
 };
 
-interface View {
+interface View extends Observer{
   slider: JQuery<HTMLElement>;
   thumbs: Array<BaseSubViewInterface>;
   container: JQuery<HTMLElement>;
@@ -216,4 +216,11 @@ interface Presenter {
   handleInputsChange: (input: "min" | "max", value: number) => void;
   _convertUnitsToPixels: (value: number) => number;
   _convertPixelToUnits: (value: number) => number;
+  update: (event: string)=>void;
+}
+
+interface Observer {
+  subscriber: Presenter;
+  addSubscriber: (subscriber: Presenter)=> void;
+  notify: (info: any)=>void;
 }
