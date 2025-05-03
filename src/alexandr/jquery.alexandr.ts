@@ -1,8 +1,8 @@
 /*eslint no-undef: "off"*/
 
-import SliderView from "./View/View/View";
-import SliderPresenter from "./Presenter/Presenter";
-import SliderModel from "./Model/Model";
+import View from "./View/View/View";
+import Presenter from "./Presenter/Presenter";
+import Model from "./Model/Model";
 
 function requireAll(r: __WebpackModuleApi.RequireContext) {
   return r.keys().map(r);
@@ -21,7 +21,7 @@ requireAll(require.context('./View/', true, /\.(scss)$/));
       stepValue: number;
     };
     constructor(options: AlexandrSettings) {
-      this.presenter = new SliderPresenter(new SliderView(), new SliderModel());
+      this.presenter = new Presenter(new View(), new Model());
       this.upgradeModelValues = this.presenter.init(options);
     }
   }

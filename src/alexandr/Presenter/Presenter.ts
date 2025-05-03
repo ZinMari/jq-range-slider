@@ -17,6 +17,9 @@ class SliderPresenter {
     this.view.init({ ...config });
     const upgradeModelOptions = this.model.init({ ...config });
 
+
+
+
     this.view.setPixelInOneStep({
       min: this.model.minValue,
       max: this.model.maxValue,
@@ -39,7 +42,6 @@ class SliderPresenter {
     this.view.updateFlagValues("max", this.model.maxPosition);
     this.view.updateInputsValue("max", this.model.maxPosition);
     this.view.updateInputsValue("min", this.model.minPosition);
-
     this.view.updateMinMaxValueLine(this.model.minValue, this.model.maxValue);
     this.view.updateRulerValue(this.model.minValue, this.model.maxValue);
     this.view.updateStepInputs(this.model.stepValue);

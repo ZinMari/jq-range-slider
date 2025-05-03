@@ -1,4 +1,4 @@
-class SliderThumbView implements BaseSubViewInterface{
+class ThumbView implements BaseSubViewInterface{
   item: JQuery<HTMLElement>;
   constructor(sliderLine: JQuery<HTMLElement>) {
     this.item = $('<span>', { class: 'alexandr__thumb' });
@@ -6,4 +6,4 @@ class SliderThumbView implements BaseSubViewInterface{
   }
 }
 
-export default SliderThumbView;
+export default ThumbView;

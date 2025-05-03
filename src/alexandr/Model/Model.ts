@@ -1,4 +1,4 @@
-class SliderModel {
+class Model{
   minValue: number;
   maxValue: number;
   minPosition: number;
@@ -147,4 +147,4 @@ class SliderModel {
   }
 }
 
-export default SliderModel;
+export default Model;

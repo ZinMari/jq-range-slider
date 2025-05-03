@@ -1,4 +1,4 @@
-class SliderRulerView implements SliderRulerView {
+class RulerView implements RulerView {
   item: JQuery<HTMLElement>;
   dividings: JQuery<HTMLElement>[];
   countDivivdings: number = 4;
@@ -16,4 +16,4 @@ class SliderRulerView implements SliderRulerView {
   }
 }
 
-export default SliderRulerView;
+export default RulerView;

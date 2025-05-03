@@ -106,12 +106,12 @@ interface BaseSubViewInterface {
   item: JQuery<HTMLElement>;
 }
 
-interface SliderRulerView extends BaseSubViewInterface {
+interface RulerView extends BaseSubViewInterface {
   dividings: JQuery<HTMLElement>[];
   countDivivdings: number;
 }
 
-interface SliderMinMaxValueLineView {
+interface MinMaxValueLineView {
   wrap: JQuery<HTMLElement>;
   min: JQuery<HTMLElement>;
   max: JQuery<HTMLElement>;
@@ -137,11 +137,11 @@ interface View {
   minThumbPixelPosition: number | undefined;
   maxThumbPixelPosition: number | undefined;
   showMinMaxValue: boolean;
-  sliderMinMaxValueLine: SliderMinMaxValueLineView;
+  sliderMinMaxValueLine: MinMaxValueLineView;
   showMinValueClass: string;
   showMaxValueClass: string;
   showRuler: boolean;
-  ruler: SliderRulerView;
+  ruler: RulerView;
   showValueFlag: boolean;
   progressbar: BaseSubViewInterface;
   controlsMinThumb: Array<JQuery<HTMLElement>>;

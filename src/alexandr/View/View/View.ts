@@ -1,10 +1,10 @@
-import SliderLineView from "../LineView/LineView";
-import SliderMinMaxValueLineView from "../MinMaxValueLineView/MinMaxValueLineView";
-import SliderProgressBar from "../ProgressbarView/ProgressbarView";
-import SliderRulerView from "../RulerView/RulerView";
-import SliderThumbView from "../ThumbView/ThumbView";
+import LineView from "../LineView/LineView";
+import MinMaxValueLineView from "../MinMaxValueLineView/MinMaxValueLineView";
+import ProgressBar from "../ProgressbarView/ProgressbarView";
+import RulerView from "../RulerView/RulerView";
+import ThumbView from "../ThumbView/ThumbView";
 
-class SliderView {
+class View{
   slider: JQuery<HTMLElement>;
   thumbs: Array<BaseSubViewInterface>;
   container: JQuery<HTMLElement>;
@@ -17,11 +17,11 @@ class SliderView {
   minThumbPixelPosition: number | undefined;
   maxThumbPixelPosition: number | undefined;
   showMinMaxValue: boolean;
-  sliderMinMaxValueLine: SliderMinMaxValueLineView;
+  sliderMinMaxValueLine: MinMaxValueLineView;
   showMinValueClass: string;
   showMaxValueClass: string;
   showRuler: boolean;
-  ruler: SliderRulerView;
+  ruler: RulerView;
   showValueFlag: boolean;
   progressbar: BaseSubViewInterface;
   controlsMinThumb: Array<JQuery<HTMLElement>>;
@@ -61,27 +61,27 @@ class SliderView {
     }
     this.container = container;
     this.type = type;
-    this.line = new SliderLineView(this.slider, lineClass);
+    this.line = new LineView(this.slider, lineClass);
     this.orientation = orientation;
     this.moveDirection = this.orientation === "vertical" ? "top" : "left";
     this.showMinMaxValue = showMinMaxValue;
     this.showRuler = showRuler;
     this.showValueFlag = showValueFlag;
-    this.progressbar = new SliderProgressBar(this.line.item, progressBarClass);
+    this.progressbar = new ProgressBar(this.line.item, progressBarClass);
     this.controlsMinThumb = controlsMinThumb;
     this.controlsMaxThumb = controlsMaxThumb;
     this.controlsStepValues = controlsStepValues;
 
     //создам кнопки
     if (this.type === "double") {
-      const min = new SliderThumbView(this.line.item);
+      const min = new ThumbView(this.line.item);
       min.item.addClass(`alexandr__thumb--min ${thumbMinClass}`);
-      const max = new SliderThumbView(this.line.item);
+      const max = new ThumbView(this.line.item);
       max.item.addClass(`alexandr__thumb--max ${thumbMaxClass}`);
 
       this.thumbs.push(min, max);
     } else {
-      const thumb = new SliderThumbView(this.line.item);
+      const thumb = new ThumbView(this.line.item);
       thumb.item.addClass(thumbClass);
       this.thumbs.push(thumb);
     }
@@ -95,7 +95,7 @@ class SliderView {
 
     // создать мин макс
     if (this.showMinMaxValue) {
-      this.sliderMinMaxValueLine = new SliderMinMaxValueLineView(
+      this.sliderMinMaxValueLine = new MinMaxValueLineView(
         this.slider,
         showMinValueClass,
         showMaxValueClass,
@@ -104,7 +104,7 @@ class SliderView {
 
     // создать линейку
     if (this.showRuler) {
-      this.ruler = new SliderRulerView(this.slider);
+      this.ruler = new RulerView(this.slider);
     }
 
     //показать флажки
@@ -550,4 +550,4 @@ class SliderView {
   }
 }
 
-export default SliderView;
+export default View;

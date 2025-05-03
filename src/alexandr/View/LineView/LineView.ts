@@ -1,4 +1,4 @@
-class SliderLineView implements BaseSubViewInterface {
+class LineView implements BaseSubViewInterface {
   item: JQuery<HTMLElement>;
   constructor(slider: JQuery<HTMLElement>, lineClass: string) {
     this.item = $('<div>', { class: `alexandr__line ${lineClass}` });
@@ -6,4 +6,4 @@ class SliderLineView implements BaseSubViewInterface {
   }
 }
 
-export default SliderLineView;
+export default LineView;
