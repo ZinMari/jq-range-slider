@@ -120,24 +120,20 @@ class View extends Observer{
     if (this.orientation === "vertical") {
       this._setVerticalOrientation();
     }
-  }
 
-  bindThumbsMove(handler: (type: "min" | "max", value: number) => void) {
     //повесить на кнопки события
     this.thumbs.forEach((elem: BaseSubViewInterface) => {
       elem.item[0].addEventListener("pointerdown", event =>
-        this._handlerThumbsMove(event, handler),
+        this._handlerThumbsMove(event),
       );
     });
-  }
 
-  bindInputsChange(handler: (type: "min" | "max", value: number) => void) {
     //повесить события на инпуты
     if (this.controlsMinThumb.length) {
       $.each(this.controlsMinThumb, (index, element) => {
         $.each(element, (index, element) => {
           element.addEventListener("change", event =>
-            this._handlerInputsChange(event, handler, "min"),
+            this._handlerInputsChange(event, "min"),
           );
         });
       });
@@ -146,24 +142,20 @@ class View extends Observer{
       $.each(this.controlsMaxThumb, (index, element) => {
         $.each(element, (index, element) => {
           element.addEventListener("change", event =>
-            this._handlerInputsChange(event, handler, "max"),
+            this._handlerInputsChange(event, "max"),
           );
         });
       });
     }
-  }
 
-  bindLineClick(handler: (type: "min" | "max", value: number) => void) {
     //повесить событие на линию
     this.line.item[0].addEventListener("click", (event: MouseEvent) => {
-      this._handleSliderClick(event, handler);
+      this._handleSliderClick(event);
     });
-  }
 
-  bindRulerClick(handler: (type: "min" | "max", value: number) => void) {
     if (this.showRuler) {
       this.ruler.item[0].addEventListener("click", (event: MouseEvent) => {
-        this._handleSliderClick(event, handler);
+        this._handleSliderClick(event);
       });
     }
   }
@@ -250,8 +242,7 @@ class View extends Observer{
   }
 
   _handlerThumbsMove(
-    event: PointerEvent,
-    handler: (type: "min" | "max", value: number) => void,
+    event: PointerEvent
   ) {
     event.preventDefault();
     // получу координаты элементов
@@ -287,9 +278,9 @@ class View extends Observer{
       }
 
       if ($currenThumb.prop("classList").contains("alexandr__thumb--max")) {
-        handler("max", value);
+        this.notify("_handlerThumbsMove", "max", value)
       } else {
-        handler("min", value);
+        this.notify("_handlerThumbsMove", "min", value)
       }
     };
 
@@ -303,8 +294,7 @@ class View extends Observer{
   }
 
   _handleSliderClick(
-    event: MouseEvent,
-    handler: (type: "min" | "max", value: number) => void,
+    event: MouseEvent
   ) {
     const { target } = event;
     if (target instanceof HTMLElement) {
@@ -323,7 +313,7 @@ class View extends Observer{
     const stepLeft = this._equateValueToStep(pixelClick);
 
     if (this.type === "single") {
-      handler("min", stepLeft);
+      this.notify("_handleSliderClick" ,"min", stepLeft);
     }
 
     if (this.type === "double") {
@@ -332,22 +322,22 @@ class View extends Observer{
         (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
 
       if (stepLeft < middlePixels) {
-        handler("min", stepLeft);
+        this.notify("_handleSliderClick" ,"min", stepLeft);
       } else {
-        handler("max", stepLeft);
+        this.notify("_handleSliderClick" ,"max", stepLeft);
       }
     }
   }
 
   _handlerInputsChange(
     event: Event,
-    handler: (thumb: "min" | "max", position: number) => void,
     type: "min" | "max",
   ) {
     const $currentInput = $(event.target);
     let currentValue = parseInt($currentInput.val().toString());
     currentValue = Number.isNaN(currentValue) ? 0 : currentValue;
-    handler(type, currentValue);
+
+    this.notify('_handlerInputsChange', type, currentValue);
   }
 
   _getCoords(elem: JQuery<EventTarget>): ElementsCoords {

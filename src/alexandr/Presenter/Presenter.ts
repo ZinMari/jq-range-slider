@@ -20,42 +20,34 @@ class Presenter {
     this.view.addSubscriber(this);
     this.model.addSubscriber(this);
 
-    this.view.setPixelInOneStep({
-      min: this.model.minValue,
-      max: this.model.maxValue,
-      step: this.model.stepValue,
-    });
-
-    this.model.bindThumbsPositionChanged(this.onThumbsPositionChanged);
-    this.model.bindStepValueChanged(this.onStepValueChenged);
-    this.model.bindMinMaxValuesChanged(this.onMinMaxValuesChanged);
-
-    this.view.updateThumbsPosition(
-      "min",
-      this._convertUnitsToPixels(this.model.minPosition),
-    );
-    this.view.updateThumbsPosition(
-      "max",
-      this._convertUnitsToPixels(this.model.maxPosition),
-    );
-    this.view.updateFlagValues("min", this.model.minPosition);
-    this.view.updateFlagValues("max", this.model.maxPosition);
-    this.view.updateInputsValue("max", this.model.maxPosition);
-    this.view.updateInputsValue("min", this.model.minPosition);
-    this.view.updateMinMaxValueLine(this.model.minValue, this.model.maxValue);
-    this.view.updateRulerValue(this.model.minValue, this.model.maxValue);
-    this.view.updateStepInputs(this.model.stepValue);
-
-    //свяжу обработчик события с моделью
-    this.view.bindThumbsMove(this.handleThumbsPositionChanged);
-    this.view.bindLineClick(this.handleThumbsPositionChanged);
-    this.view.bindRulerClick(this.handleThumbsPositionChanged);
-    this.view.bindInputsChange(this.handleInputsChange);
+   this._setViewInitialValues();
 
     return upgradeModelOptions;
   }
 
-  update(info: any){
+  update(info1: any, info2: any, info3: any, info4: any){
+    switch(info1){
+      case '_handlerThumbsMove': {
+        this.handleThumbsPositionChanged(info2, info3);
+        break;
+      }
+      case '_handlerInputsChange': {
+        this.handleInputsChange(info2, info3);
+        break;
+      }
+      case '_handleSliderClick': {
+        this.handleThumbsPositionChanged(info2, info3);
+        break;
+      }
+      case 'onThumbsPositionChanged': {
+        this.onThumbsPositionChanged(info2, info3);
+        break;
+      }
+      case 'onStepValueChenged': {
+        this.onStepValueChenged(info2, info3, info4);
+        break;
+      }
+    }
     
   }
 
@@ -106,6 +98,30 @@ class Presenter {
       (value / this.view.pixelInOneStep) * this.model.stepValue +
         this.model.minValue,
     );
+  }
+
+  _setViewInitialValues(){
+    this.view.setPixelInOneStep({
+      min: this.model.minValue,
+      max: this.model.maxValue,
+      step: this.model.stepValue,
+    });
+
+    this.view.updateThumbsPosition(
+      "min",
+      this._convertUnitsToPixels(this.model.minPosition),
+    );
+    this.view.updateThumbsPosition(
+      "max",
+      this._convertUnitsToPixels(this.model.maxPosition),
+    );
+    this.view.updateFlagValues("min", this.model.minPosition);
+    this.view.updateFlagValues("max", this.model.maxPosition);
+    this.view.updateInputsValue("max", this.model.maxPosition);
+    this.view.updateInputsValue("min", this.model.minPosition);
+    this.view.updateMinMaxValueLine(this.model.minValue, this.model.maxValue);
+    this.view.updateRulerValue(this.model.minValue, this.model.maxValue);
+    this.view.updateStepInputs(this.model.stepValue);
   }
 }
 

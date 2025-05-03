@@ -5,8 +5,8 @@ class Observer {
     this.subscriber = subscriber
   }
 
-  notify(event: any){
-    this.subscriber.update(event);
+  notify(info?: any, info2?: any, info3?: any, info4?: any){
+    this.subscriber?.update(info, info2, info3, info4);
   }
 }
   

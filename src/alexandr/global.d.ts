@@ -69,13 +69,6 @@ interface Model extends Observer{
   maxPosition: number;
   stepValue: number;
   type: "single" | "double";
-  onThumbsPositionChanged?: (type: "min" | "max", position: number) => void;
-  onStepValueChenged?: (
-    minValue: number,
-    maxValue: number,
-    stepValue: number,
-  ) => void;
-  onMinMaxValuesChanged?: (minValue: number, maxValue: number) => void;
   init: (options: AlexandrSettings) => {
     minValue: number;
     maxValue: number;
@@ -85,15 +78,6 @@ interface Model extends Observer{
   };
   setMinPosition: (minPosition: number) => void;
   setMaxPosition: (setMaxPosition: number) => void;
-  bindThumbsPositionChanged: (
-    callback: (type: "min" | "max", position: number) => void,
-  ) => void;
-  bindStepValueChanged: (
-    callback: (minValue: number, maxValue: number, stepValue: number) => void,
-  ) => void;
-  bindMinMaxValuesChanged: (
-    callback: (minValue: number, maxValue: number) => void,
-  ) => void;
   _validatePosition: (value: number) => number;
   _validateDoublePosition: (type: "min" | "max", value: number) => number;
   _equateValueToStep: (value: number) => number;
@@ -148,18 +132,6 @@ interface View extends Observer{
   controlsMaxThumb: Array<JQuery<HTMLElement>>;
   controlsStepValues: Array<JQuery<HTMLElement>>;
   init: (options: AlexandrSettings) => void;
-  bindThumbsMove: (
-    handler: (type: "min" | "max", value: number) => void,
-  ) => void;
-  bindInputsChange: (
-    handler: (type: "min" | "max", value: number) => void,
-  ) => void;
-  bindLineClick: (
-    handler: (type: "min" | "max", value: number) => void,
-  ) => void;
-  bindRulerClick: (
-    handler: (type: "min" | "max", value: number) => void,
-  ) => void;
   updateThumbsPosition: (thumb: "min" | "max", position: number) => void;
   updateMinMaxValueLine: (min: number, max: number) => void;
   updateRulerValue: (min: number, max: number) => void;
@@ -216,11 +188,11 @@ interface Presenter {
   handleInputsChange: (input: "min" | "max", value: number) => void;
   _convertUnitsToPixels: (value: number) => number;
   _convertPixelToUnits: (value: number) => number;
-  update: (event: string)=>void;
+  update: (info?: any, info2?: any, info3?: any, info4?: any)=>void;
 }
 
 interface Observer {
   subscriber: Presenter;
   addSubscriber: (subscriber: Presenter)=> void;
-  notify: (info: any)=>void;
+  notify: (info?: any, info2?: any, info3?: any, info4?: any)=>void;
 }
