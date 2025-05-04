@@ -78,12 +78,6 @@ interface Model extends Observer {
   };
   setMinPosition: (minPosition: number) => void;
   setMaxPosition: (setMaxPosition: number) => void;
-  _validatePosition: (value: number) => number;
-  _validateDoublePosition: (type: "min" | "max", value: number) => number;
-  _equateValueToStep: (value: number) => number;
-  _setMinValue: (minValue: number) => void;
-  _setMaxValue: (maxValue: number) => void;
-  _setStepValue: (stepValue: number) => void;
 }
 
 interface BaseSubViewInterface {

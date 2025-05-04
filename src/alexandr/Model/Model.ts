@@ -75,7 +75,7 @@ class Model extends Observer {
     });
   }
 
-  _setMinValue(minValue: number): void {
+  private _setMinValue(minValue: number): void {
     this.minValue = minValue || 0;
 
     super.notify({
@@ -91,7 +91,7 @@ class Model extends Observer {
     });
   }
 
-  _setMaxValue(maxValue: number): void {
+  private _setMaxValue(maxValue: number): void {
     this.maxValue =
       maxValue <= this.minValue || Number.isNaN(maxValue)
         ? this.minValue + this.stepValue
@@ -109,7 +109,7 @@ class Model extends Observer {
     });
   }
 
-  _setStepValue(stepValue: number): void {
+  private _setStepValue(stepValue: number): void {
     const isValueLessThanZero = stepValue <= 0;
     const isValueGreaterThanMax = stepValue >= this.maxValue;
     const valueIsNaN = Number.isNaN(stepValue);
@@ -127,7 +127,7 @@ class Model extends Observer {
     });
   }
 
-  _validatePosition(value: number): number {
+  private _validatePosition(value: number): number {
     let validateValue;
 
     //проверю на пограничное минимальное
@@ -140,7 +140,7 @@ class Model extends Observer {
     return validateValue;
   }
 
-  _validateDoublePosition(type: "min" | "max", value: number): number {
+  private _validateDoublePosition(type: "min" | "max", value: number): number {
     if (type === "min" && value >= this.maxPosition) {
       return this.maxPosition - this.stepValue;
     }
@@ -151,7 +151,7 @@ class Model extends Observer {
     return value;
   }
 
-  _equateValueToStep(value: number): number {
+  private _equateValueToStep(value: number): number {
     return Math.round(value / this.stepValue) * this.stepValue || this.minValue;
   }
 }
