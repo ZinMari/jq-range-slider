@@ -8,10 +8,6 @@ class Model extends Observer {
   stepValue: number;
   type: "single" | "double";
 
-  constructor() {
-    super();
-  }
-
   init({
     minValue,
     maxValue,
@@ -55,7 +51,7 @@ class Model extends Observer {
     }
     this.minPosition = newPosition;
 
-    this.notify({
+    super.notify({
       event: "modelThumbsPositionChanged",
       type: "min",
       currentValue: this.minPosition,
@@ -72,7 +68,7 @@ class Model extends Observer {
     }
 
     this.maxPosition = newPosition;
-    this.notify({
+    super.notify({
       event: "modelThumbsPositionChanged",
       type: "max",
       currentValue: this.maxPosition,
@@ -82,12 +78,12 @@ class Model extends Observer {
   _setMinValue(minValue: number): void {
     this.minValue = minValue || 0;
 
-    this.notify({
+    super.notify({
       event: "modelMinMaxValuesChanged",
       min: this.minValue,
       max: this.maxValue,
     });
-    this.notify({
+    super.notify({
       event: "modelStepValueChenged",
       min: this.minValue,
       max: this.maxValue,
@@ -100,12 +96,12 @@ class Model extends Observer {
       maxValue <= this.minValue || Number.isNaN(maxValue)
         ? this.minValue + this.stepValue
         : maxValue;
-    this.notify({
+    super.notify({
       event: "modelMinMaxValuesChanged",
       min: this.minValue,
       max: this.maxValue,
     });
-    this.notify({
+    super.notify({
       event: "modelStepValueChenged",
       min: this.minValue,
       max: this.maxValue,
@@ -123,7 +119,7 @@ class Model extends Observer {
         ? 1
         : stepValue;
 
-    this.notify({
+    super.notify({
       event: "modelStepValueChenged",
       min: this.minValue,
       max: this.maxValue,
