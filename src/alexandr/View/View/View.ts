@@ -276,9 +276,17 @@ class View extends Observer {
       }
 
       if ($currenThumb.prop("classList").contains("alexandr__thumb--max")) {
-        this.notify("viewThumbsPositionChanged", "max", value);
+        this.notify({
+          event: "viewThumbsPositionChanged",
+          type: "max",
+          currentValue: value,
+        });
       } else {
-        this.notify("viewThumbsPositionChanged", "min", value);
+        this.notify({
+          event: "viewThumbsPositionChanged",
+          type: "min",
+          currentValue: value,
+        });
       }
     };
 
@@ -309,7 +317,11 @@ class View extends Observer {
     const stepLeft = this._equateValueToStep(pixelClick);
 
     if (this.type === "single") {
-      this.notify("viewThumbsPositionChanged", "min", stepLeft);
+      this.notify({
+        event: "viewThumbsPositionChanged",
+        type: "min",
+        currentValue: stepLeft,
+      });
     }
 
     if (this.type === "double") {
@@ -318,9 +330,17 @@ class View extends Observer {
         (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
 
       if (stepLeft < middlePixels) {
-        this.notify("viewThumbsPositionChanged", "min", stepLeft);
+        this.notify({
+          event: "viewThumbsPositionChanged",
+          type: "min",
+          currentValue: stepLeft,
+        });
       } else {
-        this.notify("viewThumbsPositionChanged", "max", stepLeft);
+        this.notify({
+          event: "viewThumbsPositionChanged",
+          type: "max",
+          currentValue: stepLeft,
+        });
       }
     }
   }
@@ -330,7 +350,11 @@ class View extends Observer {
     let currentValue = parseInt($currentInput.val().toString());
     currentValue = Number.isNaN(currentValue) ? 0 : currentValue;
 
-    this.notify("viewInputsValueChanged", type, currentValue);
+    this.notify({
+      event: "viewInputsValueChanged",
+      type: type,
+      currentValue: currentValue,
+    });
   }
 
   _getCoords(elem: JQuery<EventTarget>): ElementsCoords {

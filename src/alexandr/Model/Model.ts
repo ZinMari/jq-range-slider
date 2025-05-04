@@ -50,13 +50,16 @@ class Model extends Observer {
 
     let newPosition = this._equateValueToStep(minPosition);
     newPosition = this._validatePosition(newPosition);
-
     if (this.type === "double") {
       newPosition = this._validateDoublePosition(typeValue, newPosition);
     }
     this.minPosition = newPosition;
 
-    this.notify("modelThumbsPositionChanged", "min", this.minPosition);
+    this.notify({
+      event: "modelThumbsPositionChanged",
+      type: "min",
+      currentValue: this.minPosition,
+    });
   }
 
   setMaxPosition(maxPosition: number): void {
@@ -69,19 +72,27 @@ class Model extends Observer {
     }
 
     this.maxPosition = newPosition;
-    this.notify("modelThumbsPositionChanged", "max", this.maxPosition);
+    this.notify({
+      event: "modelThumbsPositionChanged",
+      type: "max",
+      currentValue: this.maxPosition,
+    });
   }
 
   _setMinValue(minValue: number): void {
     this.minValue = minValue || 0;
 
-    this.notify("modelMinMaxValuesChanged", this.minValue, this.maxValue);
-    this.notify(
-      "modelStepValueChenged",
-      this.minValue,
-      this.maxValue,
-      this.stepValue,
-    );
+    this.notify({
+      event: "modelMinMaxValuesChanged",
+      min: this.minValue,
+      max: this.maxValue,
+    });
+    this.notify({
+      event: "modelStepValueChenged",
+      min: this.minValue,
+      max: this.maxValue,
+      step: this.stepValue,
+    });
   }
 
   _setMaxValue(maxValue: number): void {
@@ -89,13 +100,17 @@ class Model extends Observer {
       maxValue <= this.minValue || Number.isNaN(maxValue)
         ? this.minValue + this.stepValue
         : maxValue;
-    this.notify("modelMinMaxValuesChanged", this.minValue, this.maxValue);
-    this.notify(
-      "modelStepValueChenged",
-      this.minValue,
-      this.maxValue,
-      this.stepValue,
-    );
+    this.notify({
+      event: "modelMinMaxValuesChanged",
+      min: this.minValue,
+      max: this.maxValue,
+    });
+    this.notify({
+      event: "modelStepValueChenged",
+      min: this.minValue,
+      max: this.maxValue,
+      step: this.stepValue,
+    });
   }
 
   _setStepValue(stepValue: number): void {
@@ -108,12 +123,12 @@ class Model extends Observer {
         ? 1
         : stepValue;
 
-    this.notify(
-      "modelStepValueChenged",
-      this.minValue,
-      this.maxValue,
-      this.stepValue,
-    );
+    this.notify({
+      event: "modelStepValueChenged",
+      min: this.minValue,
+      max: this.maxValue,
+      step: this.stepValue,
+    });
   }
 
   _validatePosition(value: number): number {

@@ -62,7 +62,7 @@ type AlexandrSettingsKeys =
   | "controlsMinThumb"
   | "controlsMaxThumb";
 
-interface Model extends Observer{
+interface Model extends Observer {
   minValue: number;
   maxValue: number;
   minPosition: number;
@@ -108,7 +108,7 @@ type ElementsCoords = {
   height: number;
 };
 
-interface View extends Observer{
+interface View extends Observer {
   slider: JQuery<HTMLElement>;
   thumbs: Array<BaseSubViewInterface>;
   container: JQuery<HTMLElement>;
@@ -149,12 +149,12 @@ interface View extends Observer{
     max: number;
     step: number;
   }) => void;
-  _getNewThumbCord: ( options: {
-    event: MouseEvent,
-    shiftClickThumb: number,
-    sliderLineCoords: ElementsCoords,
-    currentThumbCoords: ElementsCoords,
-}) => number;
+  _getNewThumbCord: (options: {
+    event: MouseEvent;
+    shiftClickThumb: number;
+    sliderLineCoords: ElementsCoords;
+    currentThumbCoords: ElementsCoords;
+  }) => number;
   _equateValueToStep: (value: number) => number;
   _validateDoubleThumbValue: (options: {
     currenThumb: JQuery<EventTarget>;
@@ -188,11 +188,20 @@ interface Presenter {
   handleInputsChange: (input: "min" | "max", value: number) => void;
   _convertUnitsToPixels: (value: number) => number;
   _convertPixelToUnits: (value: number) => number;
-  update: (info?: any, info2?: any, info3?: any, info4?: any)=>void;
+  update: (observerInfoObject: ObserverInfoObject) => void;
 }
 
 interface Observer {
   subscriber: Presenter;
-  addSubscriber: (subscriber: Presenter)=> void;
-  notify: (info?: any, info2?: any, info3?: any, info4?: any)=>void;
+  addSubscriber: (subscriber: Presenter) => void;
+  notify: (observerInfoObject: ObserverInfoObject) => void;
+}
+
+interface ObserverInfoObject {
+  event: string;
+  type?: "min" | "max";
+  currentValue?: number;
+  min?: number;
+  max?: number;
+  step?: number;
 }

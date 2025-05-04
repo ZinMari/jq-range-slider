@@ -25,26 +25,26 @@ class Presenter {
     return upgradeModelOptions;
   }
 
-  update(info1: any, info2: any, info3: any, info4: any) {
-    switch (info1) {
+  update({ event, type, currentValue, min, max, step }: ObserverInfoObject) {
+    switch (event) {
       case "viewThumbsPositionChanged": {
-        this.handleThumbsPositionChanged(info2, info3);
+        this.handleThumbsPositionChanged(type, currentValue);
         break;
       }
       case "viewInputsValueChanged": {
-        this.handleInputsChange(info2, info3);
+        this.handleInputsChange(type, currentValue);
         break;
       }
       case "modelThumbsPositionChanged": {
-        this.onThumbsPositionChanged(info2, info3);
+        this.onThumbsPositionChanged(type, currentValue);
         break;
       }
       case "modelStepValueChenged": {
-        this.onStepValueChenged(info2, info3, info4);
+        this.onStepValueChenged(min, max, step);
         break;
       }
       case "modelMinMaxValuesChanged": {
-        this.onMinMaxValuesChanged(info2, info3);
+        this.onMinMaxValuesChanged(min, max);
         break;
       }
     }

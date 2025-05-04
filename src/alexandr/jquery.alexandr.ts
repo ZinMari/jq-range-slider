@@ -8,7 +8,7 @@ function requireAll(r: __WebpackModuleApi.RequireContext) {
   return r.keys().map(r);
 }
 
-requireAll(require.context('./View/', true, /\.(scss)$/));
+requireAll(require.context("./View/", true, /\.(scss)$/));
 
 (function ($) {
   class Alexandr {
