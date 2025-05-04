@@ -103,28 +103,7 @@ type ElementsCoords = {
 };
 
 interface View extends Observer {
-  slider: JQuery<HTMLElement>;
-  thumbs: Array<BaseSubViewInterface>;
-  container: JQuery<HTMLElement>;
-  line: BaseSubViewInterface;
-  moveDirection: "top" | "left";
-  orientation: "horizontal" | "vertical";
-  type: "single" | "double";
   pixelInOneStep: number;
-  sliderLength: number;
-  minThumbPixelPosition: number | undefined;
-  maxThumbPixelPosition: number | undefined;
-  showMinMaxValue: boolean;
-  sliderMinMaxValueLine: MinMaxValueLineView;
-  showMinValueClass: string;
-  showMaxValueClass: string;
-  showRuler: boolean;
-  ruler: RulerView;
-  showValueFlag: boolean;
-  progressbar: BaseSubViewInterface;
-  controlsMinThumb: Array<JQuery<HTMLElement>>;
-  controlsMaxThumb: Array<JQuery<HTMLElement>>;
-  controlsStepValues: Array<JQuery<HTMLElement>>;
   init: (options: AlexandrSettings) => void;
   updateThumbsPosition: (thumb: "min" | "max", position: number) => void;
   updateMinMaxValueLine: (min: number, max: number) => void;
@@ -132,37 +111,11 @@ interface View extends Observer {
   updateFlagValues: (thumb: "min" | "max", position: number) => void;
   updateInputsValue: (type: "min" | "max", value: number) => void;
   updateStepInputs: (value: number) => void;
-  _getCoords: (elem: JQuery<EventTarget>) => ElementsCoords;
-  _getShiftThumb: (options: {
-    event: PointerEvent;
-    currentThumbCoords: ElementsCoords;
-    orientation: string;
-  }) => number;
   setPixelInOneStep: (options: {
     min: number;
     max: number;
     step: number;
   }) => void;
-  _getNewThumbCord: (options: {
-    event: MouseEvent;
-    shiftClickThumb: number;
-    sliderLineCoords: ElementsCoords;
-    currentThumbCoords: ElementsCoords;
-  }) => number;
-  _equateValueToStep: (value: number) => number;
-  _validateDoubleThumbValue: (options: {
-    currenThumb: JQuery<EventTarget>;
-    value: number;
-    minThumbPixelPosition: number;
-    maxThumbPixelPosition: number;
-    pixelInOneStep: number;
-  }) => number;
-  _handleSliderClick: (
-    event: MouseEvent,
-    handler: (type: "min" | "max", value: number) => void,
-  ) => void;
-  _setProgressBar: () => void;
-  _setVerticalOrientation: () => void;
 }
 
 interface Presenter {

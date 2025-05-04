@@ -6,28 +6,28 @@ import RulerView from "../RulerView/RulerView";
 import ThumbView from "../ThumbView/ThumbView";
 
 class View extends Observer {
-  slider: JQuery<HTMLElement>;
-  thumbs: Array<BaseSubViewInterface>;
-  container: JQuery<HTMLElement>;
-  line: BaseSubViewInterface;
-  moveDirection: "top" | "left";
-  orientation: "horizontal" | "vertical";
-  type: "single" | "double";
   pixelInOneStep: number;
-  sliderLength: number;
-  minThumbPixelPosition: number | undefined;
-  maxThumbPixelPosition: number | undefined;
-  showMinMaxValue: boolean;
-  sliderMinMaxValueLine: MinMaxValueLineView;
-  showMinValueClass: string;
-  showMaxValueClass: string;
-  showRuler: boolean;
-  ruler: RulerView;
-  showValueFlag: boolean;
-  progressbar: BaseSubViewInterface;
-  controlsMinThumb: Array<JQuery<HTMLElement>>;
-  controlsMaxThumb: Array<JQuery<HTMLElement>>;
-  controlsStepValues: Array<JQuery<HTMLElement>>;
+  private slider: JQuery<HTMLElement>;
+  private thumbs: Array<BaseSubViewInterface>;
+  private container: JQuery<HTMLElement>;
+  private line: BaseSubViewInterface;
+  private moveDirection: "top" | "left";
+  private orientation: "horizontal" | "vertical";
+  private type: "single" | "double";
+  private sliderLength: number;
+  private minThumbPixelPosition: number | undefined;
+  private maxThumbPixelPosition: number | undefined;
+  private showMinMaxValue: boolean;
+  private sliderMinMaxValueLine: MinMaxValueLineView;
+  private showMinValueClass: string;
+  private showMaxValueClass: string;
+  private showRuler: boolean;
+  private ruler: RulerView;
+  private showValueFlag: boolean;
+  private progressbar: BaseSubViewInterface;
+  private controlsMinThumb: Array<JQuery<HTMLElement>>;
+  private controlsMaxThumb: Array<JQuery<HTMLElement>>;
+  private controlsStepValues: Array<JQuery<HTMLElement>>;
 
   constructor() {
     super();
@@ -241,7 +241,7 @@ class View extends Observer {
     this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
   }
 
-  _handlerThumbsMove(event: PointerEvent) {
+  private _handlerThumbsMove(event: PointerEvent) {
     event.preventDefault();
     // получу координаты элементов
     const sliderLineCoords = this._getCoords(this.line.item);
@@ -299,7 +299,7 @@ class View extends Observer {
     document.addEventListener("pointerup", onMouseUp);
   }
 
-  _handleSliderClick(event: MouseEvent) {
+  private _handleSliderClick(event: MouseEvent) {
     const { target } = event;
     if (target instanceof HTMLElement) {
       if (target.classList.contains("alexandr__thumb")) {
@@ -345,7 +345,7 @@ class View extends Observer {
     }
   }
 
-  _handlerInputsChange(event: Event, type: "min" | "max") {
+  private _handlerInputsChange(event: Event, type: "min" | "max") {
     const $currentInput = $(event.target);
     let currentValue = parseInt($currentInput.val().toString());
     currentValue = Number.isNaN(currentValue) ? 0 : currentValue;
@@ -357,7 +357,7 @@ class View extends Observer {
     });
   }
 
-  _getCoords(elem: JQuery<EventTarget>): ElementsCoords {
+  private _getCoords(elem: JQuery<EventTarget>): ElementsCoords {
     const boxLeft = elem.offset().left;
     const boxRight = boxLeft + elem.outerWidth();
     const boxTop = elem.offset().top;
@@ -371,7 +371,7 @@ class View extends Observer {
     };
   }
 
-  _getShiftThumb({
+  private _getShiftThumb({
     event,
     currentThumbCoords,
     orientation,
@@ -387,7 +387,7 @@ class View extends Observer {
     }
   }
 
-  _getNewThumbCord({
+  private _getNewThumbCord({
     event,
     shiftClickThumb,
     sliderLineCoords,
@@ -433,7 +433,7 @@ class View extends Observer {
     return newLeft;
   }
 
-  _equateValueToStep(value: number): number {
+  private _equateValueToStep(value: number): number {
     if (isNaN(value)) {
       throw new Error("Получено NaN");
     }
@@ -441,7 +441,7 @@ class View extends Observer {
     return Math.round(value / this.pixelInOneStep) * this.pixelInOneStep;
   }
 
-  _validateDoubleThumbValue({
+  private _validateDoubleThumbValue({
     currenThumb,
     value,
     minThumbPixelPosition,
@@ -468,7 +468,7 @@ class View extends Observer {
     return value;
   }
 
-  _setProgressBar(): void {
+  private _setProgressBar(): void {
     if (this.type === "single") {
       if (this.orientation === "vertical") {
         const coordsThumbStart =
@@ -526,7 +526,7 @@ class View extends Observer {
     }
   }
 
-  _setVerticalOrientation(): void {
+  private _setVerticalOrientation(): void {
     const height = this.slider.outerWidth();
 
     //повернем весь слайдер
