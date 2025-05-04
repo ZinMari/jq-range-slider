@@ -5,7 +5,7 @@ import ProgressBar from "../ProgressbarView/ProgressbarView";
 import RulerView from "../RulerView/RulerView";
 import ThumbView from "../ThumbView/ThumbView";
 
-class View extends Observer{
+class View extends Observer {
   slider: JQuery<HTMLElement>;
   thumbs: Array<BaseSubViewInterface>;
   container: JQuery<HTMLElement>;
@@ -241,9 +241,7 @@ class View extends Observer{
     this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
   }
 
-  _handlerThumbsMove(
-    event: PointerEvent
-  ) {
+  _handlerThumbsMove(event: PointerEvent) {
     event.preventDefault();
     // получу координаты элементов
     const sliderLineCoords = this._getCoords(this.line.item);
@@ -263,7 +261,7 @@ class View extends Observer{
         shiftClickThumb: shiftClickThumb,
         sliderLineCoords: sliderLineCoords,
         currentThumbCoords: currentThumbCoords,
-      }
+      };
       let value: number = this._getNewThumbCord(options);
 
       // проверим, чтобы не сталкивались
@@ -278,9 +276,9 @@ class View extends Observer{
       }
 
       if ($currenThumb.prop("classList").contains("alexandr__thumb--max")) {
-        this.notify("_handlerThumbsMove", "max", value)
+        this.notify("viewThumbsPositionChanged", "max", value);
       } else {
-        this.notify("_handlerThumbsMove", "min", value)
+        this.notify("viewThumbsPositionChanged", "min", value);
       }
     };
 
@@ -293,9 +291,7 @@ class View extends Observer{
     document.addEventListener("pointerup", onMouseUp);
   }
 
-  _handleSliderClick(
-    event: MouseEvent
-  ) {
+  _handleSliderClick(event: MouseEvent) {
     const { target } = event;
     if (target instanceof HTMLElement) {
       if (target.classList.contains("alexandr__thumb")) {
@@ -313,7 +309,7 @@ class View extends Observer{
     const stepLeft = this._equateValueToStep(pixelClick);
 
     if (this.type === "single") {
-      this.notify("_handleSliderClick" ,"min", stepLeft);
+      this.notify("viewThumbsPositionChanged", "min", stepLeft);
     }
 
     if (this.type === "double") {
@@ -322,22 +318,19 @@ class View extends Observer{
         (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
 
       if (stepLeft < middlePixels) {
-        this.notify("_handleSliderClick" ,"min", stepLeft);
+        this.notify("viewThumbsPositionChanged", "min", stepLeft);
       } else {
-        this.notify("_handleSliderClick" ,"max", stepLeft);
+        this.notify("viewThumbsPositionChanged", "max", stepLeft);
       }
     }
   }
 
-  _handlerInputsChange(
-    event: Event,
-    type: "min" | "max",
-  ) {
+  _handlerInputsChange(event: Event, type: "min" | "max") {
     const $currentInput = $(event.target);
     let currentValue = parseInt($currentInput.val().toString());
     currentValue = Number.isNaN(currentValue) ? 0 : currentValue;
 
-    this.notify('_handlerInputsChange', type, currentValue);
+    this.notify("viewInputsValueChanged", type, currentValue);
   }
 
   _getCoords(elem: JQuery<EventTarget>): ElementsCoords {
@@ -374,14 +367,13 @@ class View extends Observer{
     event,
     shiftClickThumb,
     sliderLineCoords,
-    currentThumbCoords
-  } : {
-    event: MouseEvent,
-    shiftClickThumb: number,
-    sliderLineCoords: ElementsCoords,
-    currentThumbCoords: ElementsCoords
-  }
-  ): number {
+    currentThumbCoords,
+  }: {
+    event: MouseEvent;
+    shiftClickThumb: number;
+    sliderLineCoords: ElementsCoords;
+    currentThumbCoords: ElementsCoords;
+  }): number {
     let clientEvent;
     let clientLineCoordsOffset;
     let clientLineCoordsSize;
@@ -523,7 +515,9 @@ class View extends Observer{
 
     //повернем линию со значениями
     if (this.sliderMinMaxValueLine) {
-      this.sliderMinMaxValueLine.wrap.addClass("alexandr__values_type_vertical");
+      this.sliderMinMaxValueLine.wrap.addClass(
+        "alexandr__values_type_vertical",
+      );
       this.sliderMinMaxValueLine.wrap.height(height);
     }
 

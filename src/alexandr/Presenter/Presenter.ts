@@ -20,35 +20,34 @@ class Presenter {
     this.view.addSubscriber(this);
     this.model.addSubscriber(this);
 
-   this._setViewInitialValues();
+    this._setViewInitialValues();
 
     return upgradeModelOptions;
   }
 
-  update(info1: any, info2: any, info3: any, info4: any){
-    switch(info1){
-      case '_handlerThumbsMove': {
+  update(info1: any, info2: any, info3: any, info4: any) {
+    switch (info1) {
+      case "viewThumbsPositionChanged": {
         this.handleThumbsPositionChanged(info2, info3);
         break;
       }
-      case '_handlerInputsChange': {
+      case "viewInputsValueChanged": {
         this.handleInputsChange(info2, info3);
         break;
       }
-      case '_handleSliderClick': {
-        this.handleThumbsPositionChanged(info2, info3);
-        break;
-      }
-      case 'onThumbsPositionChanged': {
+      case "modelThumbsPositionChanged": {
         this.onThumbsPositionChanged(info2, info3);
         break;
       }
-      case 'onStepValueChenged': {
+      case "modelStepValueChenged": {
         this.onStepValueChenged(info2, info3, info4);
         break;
       }
+      case "modelMinMaxValuesChanged": {
+        this.onMinMaxValuesChanged(info2, info3);
+        break;
+      }
     }
-    
   }
 
   onThumbsPositionChanged = (thumb: "min" | "max", position: number) => {
@@ -63,10 +62,7 @@ class Presenter {
   };
 
   onMinMaxValuesChanged = (min: number, max: number) => {
-    //обновим значения в линии
     this.view.updateMinMaxValueLine(min, max);
-
-    //обновим значения в линейке
     this.view.updateRulerValue(min, max);
   };
 
@@ -100,7 +96,7 @@ class Presenter {
     );
   }
 
-  _setViewInitialValues(){
+  _setViewInitialValues() {
     this.view.setPixelInOneStep({
       min: this.model.minValue,
       max: this.model.maxValue,
