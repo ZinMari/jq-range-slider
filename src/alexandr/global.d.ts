@@ -166,8 +166,6 @@ interface View extends Observer {
 }
 
 interface Presenter {
-  view: View;
-  model: Model;
   init: (options: AlexandrSettings) => {
     minValue: number;
     maxValue: number;
@@ -175,13 +173,6 @@ interface Presenter {
     maxPosition: number;
     stepValue: number;
   };
-  onThumbsPositionChanged: (thumb: "min" | "max", position: number) => void;
-  onStepValueChenged: (min: number, max: number, step: number) => void;
-  onMinMaxValuesChanged: (min: number, max: number) => void;
-  handleThumbsPositionChanged: (thumb: "min" | "max", position: number) => void;
-  handleInputsChange: (input: "min" | "max", value: number) => void;
-  _convertUnitsToPixels: (value: number) => number;
-  _convertPixelToUnits: (value: number) => number;
   update: (observerInfoObject: ObserverInfoObject) => void;
 }
 

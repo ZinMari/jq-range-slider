@@ -1,8 +1,8 @@
 class Presenter {
-  view: View;
-  model: Model;
-
-  constructor(view: View, model: Model) {
+  constructor(
+    private view: View,
+    private model: Model,
+  ) {
     this.view = view;
     this.model = model;
   }
@@ -50,23 +50,29 @@ class Presenter {
     }
   }
 
-  onThumbsPositionChanged = (thumb: "min" | "max", position: number) => {
+  private onThumbsPositionChanged = (
+    thumb: "min" | "max",
+    position: number,
+  ) => {
     this.view.updateThumbsPosition(thumb, this._convertUnitsToPixels(position));
     this.view.updateFlagValues(thumb, position);
     this.view.updateInputsValue(thumb, position);
   };
 
-  onStepValueChenged = (min: number, max: number, step: number) => {
+  private onStepValueChenged = (min: number, max: number, step: number) => {
     this.view.setPixelInOneStep({ min, max, step });
     this.view.updateStepInputs(step);
   };
 
-  onMinMaxValuesChanged = (min: number, max: number) => {
+  private onMinMaxValuesChanged = (min: number, max: number) => {
     this.view.updateMinMaxValueLine(min, max);
     this.view.updateRulerValue(min, max);
   };
 
-  handleThumbsPositionChanged = (thumb: "min" | "max", position: number) => {
+  private handleThumbsPositionChanged = (
+    thumb: "min" | "max",
+    position: number,
+  ) => {
     if (thumb === "min") {
       this.model.setMinPosition(this._convertPixelToUnits(position));
     } else if (thumb === "max") {
@@ -74,7 +80,7 @@ class Presenter {
     }
   };
 
-  handleInputsChange = (input: "min" | "max", value: number) => {
+  private handleInputsChange = (input: "min" | "max", value: number) => {
     if (input === "min") {
       this.model.setMinPosition(value);
     } else if (input === "max") {
@@ -82,21 +88,21 @@ class Presenter {
     }
   };
 
-  _convertUnitsToPixels(value: number): number {
+  private _convertUnitsToPixels(value: number): number {
     const withMinvalue = value - this.model.minValue;
     const pixels =
       withMinvalue * (this.view.pixelInOneStep / this.model.stepValue);
     return pixels;
   }
 
-  _convertPixelToUnits(value: number): number {
+  private _convertPixelToUnits(value: number): number {
     return Math.round(
       (value / this.view.pixelInOneStep) * this.model.stepValue +
         this.model.minValue,
     );
   }
 
-  _setViewInitialValues() {
+  private _setViewInitialValues() {
     this.view.setPixelInOneStep({
       min: this.model.minValue,
       max: this.model.maxValue,
