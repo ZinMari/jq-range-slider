@@ -27,13 +27,13 @@ class Model extends Observer {
     stepValue: number;
   } {
     this.type = type;
-    this._setMaxValue(+maxValue);
-    this._setMinValue(+minValue);
-    this._setStepValue(+stepValue);
-    this._setMaxValue(+maxValue);
-    this.setMinPosition(+minPosition);
+    this._setMaxValue(Number(maxValue));
+    this._setMinValue(Number(minValue));
+    this._setStepValue(Number(stepValue));
+    this._setMaxValue(Number(maxValue));
+    this.setMinPosition(Number(minPosition));
     if (this.type === "double") {
-      this.setMaxPosition(+maxPosition!);
+      this.setMaxPosition(Number(maxPosition));
     }
 
     return {
