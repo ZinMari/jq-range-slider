@@ -76,7 +76,10 @@ class Model extends Observer {
   }
 
   setMinValue(minValue: number): void {
-    this.minValue = minValue || 0;
+    this.minValue =
+      minValue >= this.maxValue || Number.isNaN(minValue)
+        ? this.maxValue - this.stepValue
+        : minValue;
 
     super.notify({
       event: "modelMinMaxValuesChanged",
