@@ -28,48 +28,48 @@ class Presenter {
   update({ event, type, currentValue, min, max, step }: ObserverInfoObject) {
     switch (event) {
       case "viewThumbsPositionChanged": {
-        this.handleThumbsPositionChanged(type, currentValue);
+        this.viewThumbsPositionChanged(type, currentValue);
         break;
       }
-      case "viewInputsValueChanged": {
-        this.handleInputsChange(type, currentValue);
+      case "viewThumbsControlsChanged": {
+        this.viewThumbsControlsChanged(type, currentValue);
         break;
       }
       case "modelThumbsPositionChanged": {
-        this.onThumbsPositionChanged(type, currentValue);
+        this.modelThumbsPositionChanged(type, currentValue);
         break;
       }
       case "modelStepValueChenged": {
-        this.onStepValueChenged(min, max, step);
+        this.modelStepValueChenged(min, max, step);
         break;
       }
       case "modelMinMaxValuesChanged": {
-        this.onMinMaxValuesChanged(min, max);
+        this.modelMinMaxValuesChanged(min, max);
         break;
       }
     }
   }
 
-  private onThumbsPositionChanged = (
+  private modelThumbsPositionChanged = (
     thumb: "min" | "max",
     position: number,
   ) => {
     this.view.updateThumbsPosition(thumb, this._convertUnitsToPixels(position));
     this.view.updateFlagValues(thumb, position);
-    this.view.updateInputsValue(thumb, position);
+    this.view.updateThumbsControlsValue(thumb, position);
   };
 
-  private onStepValueChenged = (min: number, max: number, step: number) => {
+  private modelStepValueChenged = (min: number, max: number, step: number) => {
     this.view.setPixelInOneStep({ min, max, step });
     this.view.updateStepInputs(step);
   };
 
-  private onMinMaxValuesChanged = (min: number, max: number) => {
+  private modelMinMaxValuesChanged = (min: number, max: number) => {
     this.view.updateMinMaxValueLine(min, max);
     this.view.updateRulerValue(min, max);
   };
 
-  private handleThumbsPositionChanged = (
+  private viewThumbsPositionChanged = (
     thumb: "min" | "max",
     position: number,
   ) => {
@@ -80,7 +80,7 @@ class Presenter {
     }
   };
 
-  private handleInputsChange = (input: "min" | "max", value: number) => {
+  private viewThumbsControlsChanged = (input: "min" | "max", value: number) => {
     if (input === "min") {
       this.model.setMinPosition(value);
     } else if (input === "max") {
@@ -119,8 +119,8 @@ class Presenter {
     );
     this.view.updateFlagValues("min", this.model.minPosition);
     this.view.updateFlagValues("max", this.model.maxPosition);
-    this.view.updateInputsValue("max", this.model.maxPosition);
-    this.view.updateInputsValue("min", this.model.minPosition);
+    this.view.updateThumbsControlsValue("max", this.model.maxPosition);
+    this.view.updateThumbsControlsValue("min", this.model.minPosition);
     this.view.updateMinMaxValueLine(this.model.minValue, this.model.maxValue);
     this.view.updateRulerValue(this.model.minValue, this.model.maxValue);
     this.view.updateStepInputs(this.model.stepValue);

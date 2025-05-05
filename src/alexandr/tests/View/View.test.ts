@@ -168,23 +168,23 @@
 //     });
 //   });
 
-//   describe("Функция updateInputsValue обновляет значения инпутов", () => {
+//   describe("Функция updateThumbsControlsValue обновляет значения инпутов", () => {
 //     const view = new SliderView();
 //     view.init(baseSettings);
 
-//     view.updateInputsValue("min", 1);
-//     view.updateInputsValue("max", 5);
+//     view.updateThumbsControlsValue("min", 1);
+//     view.updateThumbsControlsValue("max", 5);
 
 //     const oldValueMin = view.controlsMinThumb[0].val();
 //     const oldValueMax = view.controlsMaxThumb[0].val();
 
 //     test("Минимального: ", () => {
-//       view.updateInputsValue("min", 10);
+//       view.updateThumbsControlsValue("min", 10);
 //       expect(view.controlsMinThumb[0][0]).not.toHaveValue(oldValueMin);
 //     });
 
 //     test("Максимального: ", () => {
-//       view.updateInputsValue("max", 100);
+//       view.updateThumbsControlsValue("max", 100);
 //       expect(view.controlsMaxThumb[0][0]).not.toHaveValue(oldValueMax);
 //     });
 //   });

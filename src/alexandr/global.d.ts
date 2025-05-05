@@ -113,7 +113,7 @@ interface View extends Observer {
   updateMinMaxValueLine: (min: number, max: number) => void;
   updateRulerValue: (min: number, max: number) => void;
   updateFlagValues: (thumb: "min" | "max", position: number) => void;
-  updateInputsValue: (type: "min" | "max", value: number) => void;
+  updateThumbsControlsValue: (type: "min" | "max", value: number) => void;
   updateStepInputs: (value: number) => void;
   setPixelInOneStep: (options: {
     min: number;

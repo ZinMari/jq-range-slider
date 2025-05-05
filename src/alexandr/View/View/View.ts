@@ -134,12 +134,12 @@ class View extends Observer {
       );
     });
 
-    //повесить события на инпуты
+    //повесить события на контролы Thumbs
     if (this.controlsMinThumb.length) {
       $.each(this.controlsMinThumb, (index, element) => {
         $.each(element, (index, element) => {
           element.addEventListener("change", event =>
-            this._handlerInputsChange(event, "min"),
+            this._handlerThumbsControls(event, "min"),
           );
         });
       });
@@ -148,7 +148,7 @@ class View extends Observer {
       $.each(this.controlsMaxThumb, (index, element) => {
         $.each(element, (index, element) => {
           element.addEventListener("change", event =>
-            this._handlerInputsChange(event, "max"),
+            this._handlerThumbsControls(event, "max"),
           );
         });
       });
@@ -207,7 +207,7 @@ class View extends Observer {
     }
   }
 
-  updateInputsValue(type: "min" | "max", value: number): void {
+  updateThumbsControlsValue(type: "min" | "max", value: number): void {
     if (type === "min" && this.controlsMinThumb.length) {
       $.each(this.controlsMinThumb, function () {
         $.each(this, function () {
@@ -351,13 +351,13 @@ class View extends Observer {
     }
   }
 
-  private _handlerInputsChange(event: Event, type: "min" | "max") {
+  private _handlerThumbsControls(event: Event, type: "min" | "max") {
     const $currentInput = $(event.target);
     let currentValue = parseInt($currentInput.val().toString());
     currentValue = Number.isNaN(currentValue) ? 0 : currentValue;
 
     this.notify({
-      event: "viewInputsValueChanged",
+      event: "viewThumbsControlsChanged",
       type: type,
       currentValue: currentValue,
     });
