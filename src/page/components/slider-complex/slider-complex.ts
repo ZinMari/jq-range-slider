@@ -17,7 +17,8 @@ function setValueToPanel(slider: string): void {
   );
   const sliderOptions: AlexandrSettings = $(slider)
     .find(".js-slider-complex__slider")
-    .alexandr("option");
+    .alexandr("options");
+
   const $inputs: JQuery<HTMLElement> = $panel.find("input");
 
   $.each($inputs, function () {
@@ -63,12 +64,12 @@ function onChangePanelValue(event: Event) {
     $target
       .closest(".js-slider-complex")
       .find(".js-slider-complex__slider")
-      .alexandr("option", { [$target.attr("name")]: $target.prop("checked") });
+      .alexandr("options", { [$target.attr("name")]: $target.prop("checked") });
   } else {
     $target
       .closest(".js-slider-complex")
       .find(".js-slider-complex__slider")
-      .alexandr("option", { [$target.attr("name")]: $target.val() });
+      .alexandr("options", { [$target.attr("name")]: $target.val() });
   }
 }
 
