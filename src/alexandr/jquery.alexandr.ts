@@ -1,5 +1,3 @@
-/*eslint no-undef: "off"*/
-
 import View from "./View/View/View";
 import Presenter from "./Presenter/Presenter";
 import Model from "./Model/Model";
@@ -174,5 +172,7 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
     controlsMinThumb: [],
     controlsMaxThumb: [],
     controlsStepValues: [],
+    controlsMinValue: [],
+    controlsMaxValue: [],
   };
 })(jQuery);

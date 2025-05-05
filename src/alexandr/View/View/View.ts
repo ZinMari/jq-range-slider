@@ -27,6 +27,8 @@ class View extends Observer {
   private progressbar: BaseSubViewInterface;
   private controlsMinThumb: Array<JQuery<HTMLElement>>;
   private controlsMaxThumb: Array<JQuery<HTMLElement>>;
+  private controlsMinValue: Array<JQuery<HTMLElement>>;
+  private controlsMaxValue: Array<JQuery<HTMLElement>>;
   private controlsStepValues: Array<JQuery<HTMLElement>>;
 
   constructor() {
@@ -52,6 +54,8 @@ class View extends Observer {
     controlsMinThumb,
     controlsMaxThumb,
     controlsStepValues,
+    controlsMinValue,
+    controlsMaxValue,
   }: AlexandrSettings) {
     if (
       container[0].nodeName !== "DIV" &&
@@ -72,6 +76,8 @@ class View extends Observer {
     this.progressbar = new ProgressBar(this.line.item, progressBarClass);
     this.controlsMinThumb = controlsMinThumb;
     this.controlsMaxThumb = controlsMaxThumb;
+    this.controlsMinValue = controlsMinValue;
+    this.controlsMaxValue = controlsMaxValue;
     this.controlsStepValues = controlsStepValues;
 
     //создам кнопки

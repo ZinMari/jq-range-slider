@@ -4,6 +4,8 @@ function initSlider(slider: string, options: AlexandrSettings): void {
     .alexandr({
       controlsMinThumb: [$(slider).find(".js-form__controlMinThumb")],
       controlsMaxThumb: [$(slider).find(".js-form__controlMaxThumb")],
+      controlsMinValue: [$(slider).find(".js-form__controlMinValue")],
+      controlsMaxValue: [$(slider).find(".js-form__controlMaxValue")],
       controlsStepValues: [$(slider).find(".js-form__controlStep")],
       ...options,
     });
@@ -50,7 +52,9 @@ function onChangePanelValue(event: Event) {
 
   if (
     $target.hasClass("js-form__controlMinThumb") ||
-    $target.hasClass("js-form__controlMaxThumb")
+    $target.hasClass("js-form__controlMaxThumb") ||
+    $target.hasClass("js-form__controlMinValue") ||
+    $target.hasClass("js-form__controlMaxValue")
   ) {
     return;
   }
