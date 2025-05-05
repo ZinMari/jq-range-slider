@@ -11,6 +11,7 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
 (function ($) {
   class Alexandr {
     presenter: Presenter;
+
     upgradeModelValues: {
       minValue: number;
       maxValue: number;
@@ -18,6 +19,7 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
       maxPosition: number;
       stepValue: number;
     };
+
     constructor(options: AlexandrSettings) {
       this.presenter = new Presenter(new View(), new Model());
       this.upgradeModelValues = this.presenter.init(options);
@@ -29,54 +31,27 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
       target: HTMLElement,
       options: AlexandrSettings,
     ): JQuery<HTMLElement> {
+      options.container = $(target);
+
       const alexandr = new Alexandr(options);
+
       $(target).data("alexandr", alexandr);
       $(target).data(
         "alexandrOptions",
         $.extend(options, alexandr.upgradeModelValues),
       );
+
       return $(target);
     },
-    _optionPlugin(
-      target: JQuery<HTMLElement>,
-      options: AlexandrSettingsKeys | AlexandrSettings,
-      value?: string,
-    ):
-      | string
-      | number
-      | boolean
-      | JQuery<HTMLElement>
-      | [JQuery<HTMLElement>]
-      | AlexandrSettings {
-      target = $(target);
-      const inst: AlexandrSettings | undefined = target.data("alexandrOptions");
-
-      const optionsIsString = typeof options == "string";
-      const valueNotPass = value == null;
-
-      if (!options || (optionsIsString && valueNotPass)) {
-        const name: AlexandrSettingsKeys = options as AlexandrSettingsKeys;
-        options = inst || {};
-        return options && name ? options[name] : options;
-      }
-
-      options = options || {};
-
-      if (typeof options === "string") {
-        const name: AlexandrSettingsKeys = options as AlexandrSettingsKeys;
-        options = {
-          [name]: value,
-        };
-      }
-
-      this._refreshPlugin(target, $.extend(inst, options));
-    },
-
     _refreshPlugin(target: JQuery<HTMLElement>, options: AlexandrSettings) {
+      const upgradeOptions = $.extend(
+        {},
+        $(target).data("alexandrOptions"),
+        options,
+      );
       this._destroyPlugin(target);
-      this._initPlugin(target, options);
+      this._initPlugin(target, upgradeOptions);
     },
-
     _destroyPlugin(target: JQuery<HTMLElement>) {
       target = $(target);
       target.removeData("alexandr").removeData("alexandrOptions");
@@ -85,29 +60,16 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
     },
   });
 
-  function isNotChained(
-    method: string | AlexandrSettings,
-    otherArgs: Array<string> | undefined,
-  ): boolean {
-    const isRequestOptionObject = method === "option";
-    const requestEntireOptionsObject = otherArgs.length === 0;
-    const requestOneProperty =
-      otherArgs.length === 1 && typeof otherArgs[0] === "string";
-
-    if (
-      isRequestOptionObject &&
-      (requestEntireOptionsObject || requestOneProperty)
-    ) {
-      return true;
-    }
-  }
-
   function sliderIsInitialized(elem: JQuery<HTMLElement>): boolean {
     return elem.data("alexandr");
   }
 
-  function isMethod(options: string | AlexandrSettings): boolean {
-    return typeof options === "string";
+  function getOptionsObject(argument: string | AlexandrSettings) {
+    return argument === "options";
+  }
+
+  function setOptions(argument: string | AlexandrSettings) {
+    return typeof argument === "object";
   }
 
   $.fn.alexandr = function (
@@ -115,38 +77,28 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
   ): JQuery<HTMLElement> {
     const otherArgs = Array.prototype.slice.call(arguments, 1);
 
-    if (isNotChained(options, otherArgs)) {
-      const plugin = $(this).data("alexandr");
-      return plugin["_" + options + "Plugin"].apply(
-        plugin,
-        [this[0]].concat(otherArgs),
+    if (!sliderIsInitialized($(this))) {
+      const config = $.extend({}, $.fn.alexandr.defaults, options);
+      config.container = this;
+
+      const alexandr = new Alexandr(config);
+
+      $(this).data("alexandr", alexandr);
+      $(this).data(
+        "alexandrOptions",
+        $.extend(config, alexandr.upgradeModelValues),
       );
+
+      return this;
     }
 
-    const config = $.extend({}, $.fn.alexandr.defaults, options);
-    config.container = this;
+    if (sliderIsInitialized($(this)) && getOptionsObject(options)) {
+      return $(this).data("alexandrOptions");
+    }
 
-    return this.each(function () {
-      if (isMethod(options) && sliderIsInitialized($(this))) {
-        const plugin = $(this).data("alexandr");
-
-        if (!plugin["_" + options + "Plugin"]) {
-          throw "Unknown method: " + options;
-        }
-
-        plugin["_" + options + "Plugin"].apply(
-          plugin,
-          [this].concat(otherArgs),
-        );
-      } else if (!sliderIsInitialized($(this))) {
-        const alexandr = new Alexandr(config);
-        $(this).data("alexandr", alexandr);
-        $(this).data(
-          "alexandrOptions",
-          $.extend(config, alexandr.upgradeModelValues),
-        );
-      }
-    });
+    if (sliderIsInitialized($(this)) && setOptions(options)) {
+      $(this).data("alexandr")._refreshPlugin($(this), options);
+    }
   };
 
   $.fn.alexandr.defaults = {
