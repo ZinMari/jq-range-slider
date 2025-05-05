@@ -154,6 +154,17 @@ class View extends Observer {
       });
     }
 
+    //повесить события на контролы step
+    if (this.controlsStepValues.length) {
+      $.each(this.controlsStepValues, (_, element) => {
+        $.each(element, (_, element) => {
+          element.addEventListener("change", event =>
+            this._handlerStepControls(event),
+          );
+        });
+      });
+    }
+
     //повесить событие на линию
     this.line.item[0].addEventListener("click", (event: MouseEvent) => {
       this._handleSliderClick(event);
@@ -359,6 +370,17 @@ class View extends Observer {
     this.notify({
       event: "viewThumbsControlsChanged",
       type: type,
+      currentValue: currentValue,
+    });
+  }
+
+  private _handlerStepControls(event: Event) {
+    const $currentInput = $(event.target);
+    let currentValue = parseInt($currentInput.val().toString());
+    currentValue = Number.isNaN(currentValue) ? 0 : currentValue;
+
+    this.notify({
+      event: "viewStepControlsChanged",
       currentValue: currentValue,
     });
   }

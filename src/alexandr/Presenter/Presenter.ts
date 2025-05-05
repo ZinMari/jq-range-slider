@@ -35,6 +35,10 @@ class Presenter {
         this.viewThumbsControlsChanged(type, currentValue);
         break;
       }
+      case "viewStepControlsChanged": {
+        this.viewStepControlsChanged(currentValue);
+        break;
+      }
       case "modelThumbsPositionChanged": {
         this.modelThumbsPositionChanged(type, currentValue);
         break;
@@ -86,6 +90,10 @@ class Presenter {
     } else if (input === "max") {
       this.model.setMaxPosition(value);
     }
+  };
+
+  private viewStepControlsChanged = (value: number) => {
+    this.model.setStepValue(value);
   };
 
   private _convertUnitsToPixels(value: number): number {

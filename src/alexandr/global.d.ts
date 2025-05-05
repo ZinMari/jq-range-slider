@@ -82,6 +82,7 @@ interface Model extends Observer {
   };
   setMinPosition: (minPosition: number) => void;
   setMaxPosition: (setMaxPosition: number) => void;
+  setStepValue: (value: number) => void;
 }
 
 interface BaseSubViewInterface {

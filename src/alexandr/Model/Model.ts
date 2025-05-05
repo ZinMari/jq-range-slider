@@ -25,7 +25,7 @@ class Model extends Observer {
     this.type = type;
     this._setMaxValue(Number(maxValue));
     this._setMinValue(Number(minValue));
-    this._setStepValue(Number(stepValue));
+    this.setStepValue(Number(stepValue));
     this._setMaxValue(Number(maxValue));
     this.setMinPosition(Number(minPosition));
     if (this.type === "double") {
@@ -109,7 +109,7 @@ class Model extends Observer {
     });
   }
 
-  private _setStepValue(stepValue: number): void {
+  setStepValue(stepValue: number): void {
     const isValueLessThanZero = stepValue <= 0;
     const isValueGreaterThanMax = stepValue >= this.maxValue;
     const valueIsNaN = Number.isNaN(stepValue);
