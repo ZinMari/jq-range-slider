@@ -1,20 +1,24 @@
 .slider-complex {
-    display: flex;
-    border: 1px solid white;
-    gap: 50px;
-    padding: 50px 10px;
+  display: flex;
+  border: 1px solid white;
+  gap: 50px;
+  padding: 50px 10px;
 
-    @media(max-width: 930px){
-        flex-direction: column;
-    }
+  @media (max-width: 930px) {
+    flex-direction: column;
+  }
 
-    &__slider {
-        flex-basis: 50%;
-    }
+  &__slider {
+    flex-basis: 50%;
+  }
 }
 
 .form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  label {
+    cursor: pointer;
+  }
 }

@@ -30,6 +30,7 @@ class View extends Observer {
   private controlsMinValue: Array<JQuery<HTMLElement>>;
   private controlsMaxValue: Array<JQuery<HTMLElement>>;
   private controlsStepValues: Array<JQuery<HTMLElement>>;
+  private controlsFlag: Array<JQuery<HTMLElement>>;
 
   constructor() {
     super();
@@ -56,6 +57,7 @@ class View extends Observer {
     controlsStepValues,
     controlsMinValue,
     controlsMaxValue,
+    controlsFlag,
   }: AlexandrSettings) {
     if (
       container[0].nodeName !== "DIV" &&
@@ -79,6 +81,7 @@ class View extends Observer {
     this.controlsMinValue = controlsMinValue;
     this.controlsMaxValue = controlsMaxValue;
     this.controlsStepValues = controlsStepValues;
+    this.controlsFlag = controlsFlag;
 
     //создам кнопки
     if (this.type === "double") {
@@ -115,12 +118,7 @@ class View extends Observer {
       this.ruler = new RulerView(this.slider);
     }
 
-    //показать флажки
-    if (this.showValueFlag) {
-      $.each(this.thumbs, function () {
-        this.item.addClass("flag");
-      });
-    }
+    this.updateShowFlag();
 
     // установить ориентацию
     if (this.orientation === "vertical") {
@@ -133,6 +131,17 @@ class View extends Observer {
         this._handlerThumbsMove(event),
       );
     });
+
+    //повесить события на контролы флажков
+    if (this.controlsFlag.length) {
+      $.each(this.controlsFlag, (_, element) => {
+        $.each(element, (_, element) => {
+          element.addEventListener("change", event =>
+            this._handlerFlagControls(event),
+          );
+        });
+      });
+    }
 
     //повесить события на контролы Thumbs
     if (this.controlsMinThumb.length) {
@@ -223,6 +232,29 @@ class View extends Observer {
       $.each(this.ruler.dividings, function () {
         this.attr("data-dividing", Math.round(min));
         min += stepRuler;
+      });
+    }
+  }
+
+  updateShowFlag(): void {
+    //показать флажки
+    if (this.showValueFlag) {
+      $.each(this.thumbs, function () {
+        this.item.addClass("flag");
+      });
+      $.each(this.controlsFlag, (_, element) => {
+        $.each(element, (_, element) => {
+          $(element).prop("checked", true);
+        });
+      });
+    } else {
+      $.each(this.thumbs, function () {
+        this.item.removeClass("flag");
+      });
+      $.each(this.controlsFlag, (_, element) => {
+        $.each(element, (_, element) => {
+          $(element).prop("checked", false);
+        });
       });
     }
   }
@@ -433,6 +465,12 @@ class View extends Observer {
       event: "viewStepControlsChanged",
       currentValue: currentValue,
     });
+  }
+
+  private _handlerFlagControls(event: Event) {
+    const $currentInput = $(event.target);
+    this.showValueFlag = $currentInput.is(":checked");
+    this.updateShowFlag();
   }
 
   private _getCoords(elem: JQuery<EventTarget>): ElementsCoords {

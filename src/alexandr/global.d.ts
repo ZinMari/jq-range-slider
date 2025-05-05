@@ -37,34 +37,10 @@ interface AlexandrSettings {
   controlsMinValue?: [JQuery<HTMLElement>];
   controlsMaxValue?: [JQuery<HTMLElement>];
   controlsStepValues?: [JQuery<HTMLElement>];
+  controlsFlag?: [JQuery<HTMLElement>];
   orientation?: "horizontal" | "vertical";
   type?: "single" | "double";
 }
-
-type AlexandrSettingsKeys =
-  | "minValue"
-  | "maxValue"
-  | "stepValue"
-  | "showMinMaxValue"
-  | "orientation"
-  | "type"
-  | "showValueFlag"
-  | "showRuler"
-  | "minPosition"
-  | "maxPosition"
-  | "elemForShowValueMin"
-  | "elemForShowValueMax"
-  | "lineClass"
-  | "progressBarClass"
-  | "thumbClass"
-  | "thumbMinClass"
-  | "thumbMaxClass"
-  | "showMinValueClass"
-  | "showMaxValueClass"
-  | "controlsMinThumb"
-  | "controlsMaxThumb"
-  | "controlsMinValue"
-  | "controlsMaxValue";
 
 interface Model extends Observer {
   minValue: number;
