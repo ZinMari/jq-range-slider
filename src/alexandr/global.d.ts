@@ -81,7 +81,9 @@ interface Model extends Observer {
     stepValue: number;
   };
   setMinPosition: (minPosition: number) => void;
-  setMaxPosition: (setMaxPosition: number) => void;
+  setMaxPosition: (maxPosition: number) => void;
+  setMinValue: (minValue: number) => void;
+  setMaxValue: (maxValue: number) => void;
   setStepValue: (value: number) => void;
 }
 
@@ -115,7 +117,8 @@ interface View extends Observer {
   updateRulerValue: (min: number, max: number) => void;
   updateFlagValues: (thumb: "min" | "max", position: number) => void;
   updateThumbsControlsValue: (type: "min" | "max", value: number) => void;
-  updateStepInputs: (value: number) => void;
+  updateSliderControlsValue: (type: "min" | "max", value: number) => void;
+  updateStepControls: (value: number) => void;
   setPixelInOneStep: (options: {
     min: number;
     max: number;

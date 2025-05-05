@@ -35,6 +35,10 @@ class Presenter {
         this.viewThumbsControlsChanged(type, currentValue);
         break;
       }
+      case "viewSliderValueControlsChanged": {
+        this.viewSliderValueControlsChanged(type, currentValue);
+        break;
+      }
       case "viewStepControlsChanged": {
         this.viewStepControlsChanged(currentValue);
         break;
@@ -65,12 +69,14 @@ class Presenter {
 
   private modelStepValueChenged = (min: number, max: number, step: number) => {
     this.view.setPixelInOneStep({ min, max, step });
-    this.view.updateStepInputs(step);
+    this.view.updateStepControls(step);
   };
 
   private modelMinMaxValuesChanged = (min: number, max: number) => {
     this.view.updateMinMaxValueLine(min, max);
     this.view.updateRulerValue(min, max);
+    this.view.updateSliderControlsValue("min", min);
+    this.view.updateSliderControlsValue("max", max);
   };
 
   private viewThumbsPositionChanged = (
@@ -89,6 +95,17 @@ class Presenter {
       this.model.setMinPosition(value);
     } else if (input === "max") {
       this.model.setMaxPosition(value);
+    }
+  };
+
+  private viewSliderValueControlsChanged = (
+    input: "min" | "max",
+    value: number,
+  ) => {
+    if (input === "min") {
+      this.model.setMinValue(value);
+    } else if (input === "max") {
+      this.model.setMaxValue(value);
     }
   };
 
@@ -129,9 +146,11 @@ class Presenter {
     this.view.updateFlagValues("max", this.model.maxPosition);
     this.view.updateThumbsControlsValue("max", this.model.maxPosition);
     this.view.updateThumbsControlsValue("min", this.model.minPosition);
+    this.view.updateSliderControlsValue("max", this.model.maxValue);
+    this.view.updateSliderControlsValue("min", this.model.minValue);
     this.view.updateMinMaxValueLine(this.model.minValue, this.model.maxValue);
     this.view.updateRulerValue(this.model.minValue, this.model.maxValue);
-    this.view.updateStepInputs(this.model.stepValue);
+    this.view.updateStepControls(this.model.stepValue);
   }
 }
 

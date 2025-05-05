@@ -23,10 +23,10 @@ class Model extends Observer {
     stepValue: number;
   } {
     this.type = type;
-    this._setMaxValue(Number(maxValue));
-    this._setMinValue(Number(minValue));
+    this.setMaxValue(Number(maxValue));
+    this.setMinValue(Number(minValue));
     this.setStepValue(Number(stepValue));
-    this._setMaxValue(Number(maxValue));
+    this.setMaxValue(Number(maxValue));
     this.setMinPosition(Number(minPosition));
     if (this.type === "double") {
       this.setMaxPosition(Number(maxPosition));
@@ -75,7 +75,7 @@ class Model extends Observer {
     });
   }
 
-  private _setMinValue(minValue: number): void {
+  setMinValue(minValue: number): void {
     this.minValue = minValue || 0;
 
     super.notify({
@@ -91,7 +91,7 @@ class Model extends Observer {
     });
   }
 
-  private _setMaxValue(maxValue: number): void {
+  setMaxValue(maxValue: number): void {
     this.maxValue =
       maxValue <= this.minValue || Number.isNaN(maxValue)
         ? this.minValue + this.stepValue

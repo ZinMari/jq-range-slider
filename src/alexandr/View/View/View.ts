@@ -154,6 +154,26 @@ class View extends Observer {
       });
     }
 
+    //повесить события на контролы minMaxValues
+    if (this.controlsMinValue.length) {
+      $.each(this.controlsMinValue, (_, element) => {
+        $.each(element, (_, element) => {
+          element.addEventListener("change", event =>
+            this._handlerSliderValueControls(event, "min"),
+          );
+        });
+      });
+    }
+    if (this.controlsMaxValue.length) {
+      $.each(this.controlsMaxValue, (_, element) => {
+        $.each(element, (_, element) => {
+          element.addEventListener("change", event =>
+            this._handlerSliderValueControls(event, "max"),
+          );
+        });
+      });
+    }
+
     //повесить события на контролы step
     if (this.controlsStepValues.length) {
       $.each(this.controlsStepValues, (_, element) => {
@@ -236,7 +256,25 @@ class View extends Observer {
     }
   }
 
-  updateStepInputs(value: number): void {
+  updateSliderControlsValue(type: "min" | "max", value: number): void {
+    if (type === "min" && this.controlsMinValue.length) {
+      $.each(this.controlsMinValue, function () {
+        $.each(this, function () {
+          $(this).val(value);
+        });
+      });
+    }
+
+    if (type === "max" && this.controlsMaxValue.length) {
+      $.each(this.controlsMaxValue, function () {
+        $.each(this, function () {
+          $(this).val(value);
+        });
+      });
+    }
+  }
+
+  updateStepControls(value: number): void {
     if (this.controlsStepValues.length) {
       $.each(this.controlsStepValues, function () {
         $.each(this, function () {
@@ -369,6 +407,18 @@ class View extends Observer {
 
     this.notify({
       event: "viewThumbsControlsChanged",
+      type: type,
+      currentValue: currentValue,
+    });
+  }
+
+  private _handlerSliderValueControls(event: Event, type: "min" | "max") {
+    const $currentInput = $(event.target);
+    let currentValue = parseInt($currentInput.val().toString());
+    currentValue = Number.isNaN(currentValue) ? 0 : currentValue;
+
+    this.notify({
+      event: "viewSliderValueControlsChanged",
       type: type,
       currentValue: currentValue,
     });
