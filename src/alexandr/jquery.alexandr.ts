@@ -60,15 +60,15 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
     },
   });
 
-  function sliderIsInitialized(elem: JQuery<HTMLElement>): boolean {
+  function isSliderInitialized(elem: JQuery<HTMLElement>): boolean {
     return elem.data("alexandr");
   }
 
-  function getOptionsObject(argument: string | AlexandrSettings) {
+  function isGetOptionsObject(argument: string | AlexandrSettings) {
     return argument === "options";
   }
 
-  function setOptions(argument: string | AlexandrSettings) {
+  function isSetOptions(argument: string | AlexandrSettings) {
     return typeof argument === "object";
   }
 
@@ -77,7 +77,7 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
   ): JQuery<HTMLElement> {
     const otherArgs = Array.prototype.slice.call(arguments, 1);
 
-    if (!sliderIsInitialized($(this))) {
+    if (!isSliderInitialized($(this))) {
       const config = $.extend({}, $.fn.alexandr.defaults, options);
       config.container = this;
 
@@ -92,11 +92,11 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
       return this;
     }
 
-    if (sliderIsInitialized($(this)) && getOptionsObject(options)) {
+    if (isSliderInitialized($(this)) && isGetOptionsObject(options)) {
       return $(this).data("alexandrOptions");
     }
 
-    if (sliderIsInitialized($(this)) && setOptions(options)) {
+    if (isSliderInitialized($(this)) && isSetOptions(options)) {
       $(this).data("alexandr")._refreshPlugin($(this), options);
     }
   };
