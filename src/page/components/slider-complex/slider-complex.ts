@@ -8,6 +8,7 @@ function initSlider(slider: string, options: AlexandrSettings): void {
       controlsMaxValue: [$(slider).find(".js-form__controlMaxValue")],
       controlsStepValues: [$(slider).find(".js-form__controlStep")],
       controlsFlag: [$(slider).find(".js-form__controlFlag")],
+      controlsRuler: [$(slider).find(".js-form__controlRuler")],
       ...options,
     });
 }

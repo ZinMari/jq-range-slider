@@ -6,17 +6,20 @@
   align-items: end;
   border-bottom: 5px solid #fff;
   cursor: pointer;
-    
 
-    &_type {
-      &_vertical {
-        flex-direction: column;
-        min-height: 100%;
-        width: 30px;
-        border-bottom: 0;
-        border-right: 5px solid #fff;
-      }
+  &_type {
+    &_vertical {
+      flex-direction: column;
+      min-height: 100%;
+      width: 30px;
+      border-bottom: 0;
+      border-right: 5px solid #fff;
     }
+  }
+
+  &_none {
+    display: none;
+  }
 }
 
 .alexandr__dividing {

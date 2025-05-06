@@ -31,6 +31,7 @@ class View extends Observer {
   private controlsMaxValue: Array<JQuery<HTMLElement>>;
   private controlsStepValues: Array<JQuery<HTMLElement>>;
   private controlsFlag: Array<JQuery<HTMLElement>>;
+  private controlsRuler: Array<JQuery<HTMLElement>>;
 
   constructor() {
     super();
@@ -58,6 +59,7 @@ class View extends Observer {
     controlsMinValue,
     controlsMaxValue,
     controlsFlag,
+    controlsRuler,
   }: AlexandrSettings) {
     if (
       container[0].nodeName !== "DIV" &&
@@ -82,6 +84,7 @@ class View extends Observer {
     this.controlsMaxValue = controlsMaxValue;
     this.controlsStepValues = controlsStepValues;
     this.controlsFlag = controlsFlag;
+    this.controlsRuler = controlsRuler;
 
     //создам кнопки
     if (this.type === "double") {
@@ -114,9 +117,7 @@ class View extends Observer {
     }
 
     // создать линейку
-    if (this.showRuler) {
-      this.ruler = new RulerView(this.slider);
-    }
+    this.ruler = new RulerView(this.slider);
 
     this.updateShowFlag();
 
@@ -138,6 +139,17 @@ class View extends Observer {
         $.each(element, (_, element) => {
           element.addEventListener("change", event =>
             this._handlerFlagControls(event),
+          );
+        });
+      });
+    }
+
+    //повесить события на контролы линейки
+    if (this.controlsRuler.length) {
+      $.each(this.controlsRuler, (_, element) => {
+        $.each(element, (_, element) => {
+          element.addEventListener("change", event =>
+            this._handlerRulerControls(event),
           );
         });
       });
@@ -269,6 +281,8 @@ class View extends Observer {
       }
     }
   }
+
+  
 
   updateThumbsControlsValue(type: "min" | "max", value: number): void {
     if (type === "min" && this.controlsMinThumb.length) {
@@ -471,6 +485,16 @@ class View extends Observer {
     const $currentInput = $(event.target);
     this.showValueFlag = $currentInput.is(":checked");
     this.updateShowFlag();
+  }
+
+  private _handlerRulerControls(event: Event) {
+    const $currentInput = $(event.target);
+    this.showRuler = $currentInput.is(":checked");
+    if (this.showRuler) {
+      this.ruler.item.removeClass("alexandr__ruler_none");
+    } else {
+      this.ruler.item.addClass("alexandr__ruler_none");
+    }
   }
 
   private _getCoords(elem: JQuery<EventTarget>): ElementsCoords {

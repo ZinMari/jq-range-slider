@@ -127,5 +127,6 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
     controlsMinValue: [],
     controlsMaxValue: [],
     controlsFlag: [],
+    controlsRuler: [],
   };
 })(jQuery);

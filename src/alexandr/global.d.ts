@@ -38,6 +38,7 @@ interface AlexandrSettings {
   controlsMaxValue?: [JQuery<HTMLElement>];
   controlsStepValues?: [JQuery<HTMLElement>];
   controlsFlag?: [JQuery<HTMLElement>];
+  controlsRuler?: [JQuery<HTMLElement>];
   orientation?: "horizontal" | "vertical";
   type?: "single" | "double";
 }
