@@ -10,19 +10,11 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
 
 (function ($) {
   class Alexandr {
-    presenter: Presenter;
-
-    upgradeModelValues: {
-      minValue: number;
-      maxValue: number;
-      minPosition: number;
-      maxPosition: number;
-      stepValue: number;
-    };
-
+    private presenter: Presenter;
+    
     constructor(options: AlexandrSettings) {
       this.presenter = new Presenter(new View(), new Model());
-      this.upgradeModelValues = this.presenter.init(options);
+      this.presenter.init(options);
     }
   }
 
@@ -38,7 +30,7 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
       $(target).data("alexandr", alexandr);
       $(target).data(
         "alexandrOptions",
-        $.extend(options, alexandr.upgradeModelValues),
+        options,
       );
 
       return $(target);
@@ -86,7 +78,7 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
       $(this).data("alexandr", alexandr);
       $(this).data(
         "alexandrOptions",
-        $.extend(config, alexandr.upgradeModelValues),
+        config,
       );
 
       return this;

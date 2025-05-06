@@ -7,13 +7,7 @@ class Presenter {
     this.model = model;
   }
 
-  init(config: AlexandrSettings): {
-    minValue: number;
-    maxValue: number;
-    minPosition: number;
-    maxPosition: number;
-    stepValue: number;
-  } {
+  init(config: AlexandrSettings): void{
     this.view.init({ ...config });
     const upgradeModelOptions = this.model.init({ ...config });
 
@@ -21,8 +15,6 @@ class Presenter {
     this.model.addSubscriber(this);
 
     this._setViewInitialValues();
-
-    return upgradeModelOptions;
   }
 
   update({ event, type, currentValue, min, max, step }: ObserverInfoObject) {

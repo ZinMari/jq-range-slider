@@ -50,13 +50,7 @@ interface Model extends Observer {
   maxPosition: number;
   stepValue: number;
   type: "single" | "double";
-  init: (options: AlexandrSettings) => {
-    minValue: number;
-    maxValue: number;
-    minPosition: number;
-    maxPosition: number;
-    stepValue: number;
-  };
+  init: (options: AlexandrSettings) => void;
   setMinPosition: (minPosition: number) => void;
   setMaxPosition: (maxPosition: number) => void;
   setMinValue: (minValue: number) => void;
@@ -104,13 +98,7 @@ interface View extends Observer {
 }
 
 interface Presenter {
-  init: (options: AlexandrSettings) => {
-    minValue: number;
-    maxValue: number;
-    minPosition: number;
-    maxPosition: number;
-    stepValue: number;
-  };
+  init: (options: AlexandrSettings) => void;
   update: (observerInfoObject: ObserverInfoObject) => void;
 }
 

@@ -15,13 +15,7 @@ class Model extends Observer {
     maxPosition,
     stepValue,
     type,
-  }: AlexandrSettings): {
-    minValue: number;
-    maxValue: number;
-    minPosition: number;
-    maxPosition: number;
-    stepValue: number;
-  } {
+  }: AlexandrSettings): void{
     this.type = type;
     this.setMaxValue(Number(maxValue));
     this.setMinValue(Number(minValue));
@@ -31,14 +25,6 @@ class Model extends Observer {
     if (this.type === "double") {
       this.setMaxPosition(Number(maxPosition));
     }
-
-    return {
-      minValue: this.minValue,
-      maxValue: this.maxValue,
-      minPosition: this.minPosition,
-      maxPosition: this.maxPosition,
-      stepValue: this.stepValue,
-    };
   }
 
   setMinPosition(minPosition: number): void {
