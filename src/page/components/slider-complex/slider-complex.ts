@@ -13,71 +13,40 @@ function initSlider(slider: string, options: AlexandrSettings): void {
     });
 }
 
-// function setValueToPanel(slider: string): void {
-//   const $panel: JQuery<HTMLElement> = $(slider).find(
-//     ".js-slider-complex__panel",
-//   );
-//   const sliderOptions: AlexandrSettings = $(slider)
-//     .find(".js-slider-complex__slider")
-//     .alexandr("options");
+function setValueToPanel(slider: string): void {
+  const $panel: JQuery<HTMLElement> = $(slider).find(
+    ".js-slider-complex__panel",
+  );
 
-//   const $inputs: JQuery<HTMLElement> = $panel.find("input");
+  const sliderOptions: AlexandrSettings = $(slider)
+    .find(".js-slider-complex__slider")
+    .alexandr("options");
 
-//   $.each($inputs, function () {
-//     const attrName: string = $(this).attr("name");
-//     const attrNameInSliderOptions = attrName in sliderOptions;
-//     switch ($(this).attr("type")) {
-//       case "radio": {
-//         if ($(this).attr("value") === sliderOptions[attrName]) {
-//           $(this).attr("checked", "true");
-//         }
-//         break;
-//       }
-//       case "number": {
-//         if (attrNameInSliderOptions) {
-//           $(this).val(sliderOptions[attrName].toString());
-//         }
-//         break;
-//       }
-//       case "checkbox": {
-//         if (sliderOptions[attrName]) {
-//           $(this).attr("checked", "true");
-//         }
-//         break;
-//       }
-//     }
-//   });
-// }
+  const $radio: JQuery<HTMLElement> = $panel.find("input[type=radio]");
+
+  $.each($radio, function () {
+    const attrName: string = $(this).attr("name");
+    if ($(this).attr("value") === sliderOptions[attrName]) {
+      $(this).attr("checked", "true");
+    }
+  });
+}
 
 function onChangePanelValue(event: Event) {
   event.preventDefault();
   const $target: JQuery<EventTarget> = $(event.target);
-
-  if (
-    $target.hasClass("js-form__controlMinThumb") ||
-    $target.hasClass("js-form__controlMaxThumb") ||
-    $target.hasClass("js-form__controlMinValue") ||
-    $target.hasClass("js-form__controlMaxValue")
-  ) {
-    return;
-  }
-
-  if ($target.attr("type") === "checkbox") {
+  
+  if($target.attr('type') === 'radio'){
     $target
       .closest(".js-slider-complex")
       .find(".js-slider-complex__slider")
-      .alexandr("options", { [$target.attr("name")]: $target.prop("checked") });
-  } else {
-    $target
-      .closest(".js-slider-complex")
-      .find(".js-slider-complex__slider")
-      .alexandr("options", { [$target.attr("name")]: $target.val() });
+      .alexandr({ [$target.attr("name")]: $target.val() });
   }
 }
 
 function initSliderComplex(slider: string, options: AlexandrSettings) {
   initSlider(slider, options);
-  // setValueToPanel(slider);
+  setValueToPanel(slider);
   $(slider).on("change.alexandr", onChangePanelValue);
 }
 
