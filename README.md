@@ -72,12 +72,6 @@ $(".slider").alexandr({
 });
 ```
 
-Передать отдельную опцию
-
-```javascript
-$(".slider").alexandr("option", "minValue", 5000);
-```
-
 ### Доступные настройки:
 
 <table>
@@ -221,16 +215,8 @@ $(".slider").alexandr("option", "minValue", 5000);
 
 ### Получить опции слайдера:
 
-В виде объекта
-
 ```javascript
-$(".slider").alexandr("option");
-```
-
-В виде значения
-
-```javascript
-$(".slider").alexandr("option", "minValue");
+$(".slider").alexandr("options");
 ```
 
 ### Убить слайдер:
