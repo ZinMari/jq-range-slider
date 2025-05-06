@@ -120,13 +120,14 @@ class View extends Observer {
     this.ruler = new RulerView(this.slider);
 
     this.updateShowFlag();
+    this.updateShowRuler()
 
     // установить ориентацию
     if (this.orientation === "vertical") {
       this._setVerticalOrientation();
     }
 
-    //повесить на кнопки события
+    //повесить на события на thumbs
     this.thumbs.forEach((elem: BaseSubViewInterface) => {
       elem.item[0].addEventListener("pointerdown", event =>
         this._handlerThumbsMove(event),
@@ -238,12 +239,28 @@ class View extends Observer {
   }
 
   updateRulerValue(min: number, max: number): void {
-    if (this.showRuler) {
       const stepRuler = (max - min) / (this.ruler.dividings.length - 1);
 
       $.each(this.ruler.dividings, function () {
         this.attr("data-dividing", Math.round(min));
         min += stepRuler;
+      });
+  }
+
+  updateShowRuler(): void {
+    if (this.showRuler) {
+      this.ruler.item.removeClass("alexandr__ruler_none");
+      $.each(this.controlsRuler, (_, element) => {
+        $.each(element, (_, element) => {
+          $(element).prop("checked", true);
+        });
+      });
+    } else {
+      this.ruler.item.addClass("alexandr__ruler_none");
+      $.each(this.controlsRuler, (_, element) => {
+        $.each(element, (_, element) => {
+          $(element).prop("checked", false);
+        });
       });
     }
   }
@@ -281,8 +298,6 @@ class View extends Observer {
       }
     }
   }
-
-  
 
   updateThumbsControlsValue(type: "min" | "max", value: number): void {
     if (type === "min" && this.controlsMinThumb.length) {
@@ -490,11 +505,7 @@ class View extends Observer {
   private _handlerRulerControls(event: Event) {
     const $currentInput = $(event.target);
     this.showRuler = $currentInput.is(":checked");
-    if (this.showRuler) {
-      this.ruler.item.removeClass("alexandr__ruler_none");
-    } else {
-      this.ruler.item.addClass("alexandr__ruler_none");
-    }
+    this.updateShowRuler()
   }
 
   private _getCoords(elem: JQuery<EventTarget>): ElementsCoords {
