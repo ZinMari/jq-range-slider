@@ -1,15 +1,18 @@
-class Presenter {
+import Observer from "../Observer/Observer";
+
+class Presenter extends Observer{
   constructor(
     private view: View,
     private model: Model,
   ) {
+    super();
     this.view = view;
     this.model = model;
   }
 
   init(config: AlexandrSettings): void{
     this.view.init({ ...config });
-    const upgradeModelOptions = this.model.init({ ...config });
+    this.model.init({ ...config });
 
     this.view.addSubscriber(this);
     this.model.addSubscriber(this);
@@ -57,11 +60,21 @@ class Presenter {
     this.view.updateThumbsPosition(thumb, this._convertUnitsToPixels(position));
     this.view.updateFlagValues(thumb, position);
     this.view.updateThumbsControlsValue(thumb, position);
+
+    this.notify({
+      propName: `${thumb}Position`,
+      propValue: position
+    })
   };
 
   private modelStepValueChenged = (min: number, max: number, step: number) => {
     this.view.setPixelInOneStep({ min, max, step });
     this.view.updateStepControls(step);
+
+    this.notify({
+      propName: `stepValue`,
+      propValue: step
+    })
   };
 
   private modelMinMaxValuesChanged = (min: number, max: number) => {
@@ -69,6 +82,16 @@ class Presenter {
     this.view.updateRulerValue(min, max);
     this.view.updateSliderControlsValue("min", min);
     this.view.updateSliderControlsValue("max", max);
+
+    this.notify({
+      propName: `minValue`,
+      propValue: min
+    })
+
+    this.notify({
+      propName: `maxValue`,
+      propValue: max
+    })
   };
 
   private viewThumbsPositionChanged = (

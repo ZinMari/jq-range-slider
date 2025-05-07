@@ -11,10 +11,16 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
 (function ($) {
   class Alexandr {
     private presenter: Presenter;
+    sliderData: AlexandrSettings = null;
     
     constructor(options: AlexandrSettings) {
       this.presenter = new Presenter(new View(), new Model());
       this.presenter.init(options);
+      this.presenter.addSubscriber(this)
+    }
+
+    update({ propName, propValue }: ObserverInfoObject) {
+      this.sliderData[propName] = propValue;
     }
   }
 
@@ -32,6 +38,9 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
         "alexandrOptions",
         options,
       );
+
+      //запишу сразу текущие настройки в объект
+      alexandr.sliderData = options;
 
       return $(target);
     },
@@ -64,10 +73,13 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
     return typeof argument === "object";
   }
 
+  function isGetOption(slider: Alexandr, optionName: string | AlexandrSettings) { 
+    return typeof optionName === "string" && optionName in slider.sliderData;
+  }
+
   $.fn.alexandr = function (
     options: string | AlexandrSettings,
   ): JQuery<HTMLElement> {
-    const otherArgs = Array.prototype.slice.call(arguments, 1);
 
     if (!isSliderInitialized($(this))) {
       const config = $.extend({}, $.fn.alexandr.defaults, options);
@@ -81,6 +93,7 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
         config,
       );
 
+      alexandr.sliderData = config;
       return this;
     }
 
@@ -90,6 +103,10 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
 
     if (isSliderInitialized($(this)) && isSetOptions(options)) {
       $(this).data("alexandr")._refreshPlugin($(this), options);
+    }
+
+    if (isSliderInitialized($(this)) && isGetOption($(this).data("alexandr"), options)) {
+      return $(this).data("alexandr").sliderData[String(options)];
     }
   };
 

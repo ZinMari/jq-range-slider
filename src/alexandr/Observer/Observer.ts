@@ -1,7 +1,7 @@
 class Observer {
-  subscriber: Presenter;
+  subscriber: Presenter | Alexandr;
 
-  addSubscriber(subscriber: Presenter) {
+  addSubscriber(subscriber: Presenter | Alexandr) {
     this.subscriber = subscriber;
   }
 

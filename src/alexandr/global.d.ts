@@ -97,22 +97,29 @@ interface View extends Observer {
   }) => void;
 }
 
-interface Presenter {
+interface Presenter extends Observer{
   init: (options: AlexandrSettings) => void;
   update: (observerInfoObject: ObserverInfoObject) => void;
 }
 
 interface Observer {
-  subscriber: Presenter;
-  addSubscriber: (subscriber: Presenter) => void;
+  subscriber: Presenter | Alexandr;
+  addSubscriber: (subscriber: Presenter | Alexandr) => void;
   notify: (observerInfoObject: ObserverInfoObject) => void;
 }
 
 interface ObserverInfoObject {
-  event: string;
+  event?: string;
   type?: "min" | "max";
   currentValue?: number;
   min?: number;
   max?: number;
   step?: number;
+  propName?: string;
+  propValue?: string | number;
+}
+
+interface Alexandr {
+  update: (observerInfoObject: ObserverInfoObject) => void;
+  sliderData: AlexandrSettings;
 }
