@@ -22,10 +22,8 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
     update({ propName, propValue }: ObserverInfoObject) {
       this.sliderData[propName] = propValue;
     }
-  }
 
-  $.extend(Alexandr.prototype, {
-    _initPlugin(
+    initPlugin(
       target: HTMLElement,
       options: AlexandrSettings,
     ): JQuery<HTMLElement> {
@@ -43,23 +41,25 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
       alexandr.sliderData = options;
 
       return $(target);
-    },
-    _refreshPlugin(target: JQuery<HTMLElement>, options: AlexandrSettings) {
+    }
+
+    destroyPlugin(target: HTMLElement) {
+      const jqtarget = $(target)
+      jqtarget.removeData("alexandr").removeData("alexandrOptions");
+      jqtarget.find(".alexandr").remove();
+      return target;
+    }
+
+    refreshPlugin(target: HTMLElement, options: AlexandrSettings) {
       const upgradeOptions = $.extend(
         {},
         $(target).data("alexandrOptions"),
         options,
       );
-      this._destroyPlugin(target);
-      this._initPlugin(target, upgradeOptions);
-    },
-    _destroyPlugin(target: JQuery<HTMLElement>) {
-      target = $(target);
-      target.removeData("alexandr").removeData("alexandrOptions");
-      target.find(".alexandr").remove();
-      return target;
-    },
-  });
+      this.destroyPlugin(target);
+      this.initPlugin(target, upgradeOptions);
+    }
+  }
 
   function isSliderInitialized(elem: JQuery<HTMLElement>): boolean {
     return elem.data("alexandr");
@@ -102,7 +102,7 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
     }
 
     if (isSliderInitialized($(this)) && isSetOptions(options)) {
-      $(this).data("alexandr")._refreshPlugin($(this), options);
+      $(this).data("alexandr").refreshPlugin(this, options);
     }
 
     if (isSliderInitialized($(this)) && isGetOption($(this).data("alexandr"), options)) {
@@ -138,4 +138,5 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
     controlsFlag: [],
     controlsRuler: [],
   };
+  
 })(jQuery);
