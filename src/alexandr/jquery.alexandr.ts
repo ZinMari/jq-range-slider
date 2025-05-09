@@ -12,11 +12,11 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
   class Alexandr {
     private presenter: Presenter;
     sliderData: AlexandrSettings = null;
-    
+
     constructor(options: AlexandrSettings) {
       this.presenter = new Presenter(new View(), new Model());
       this.presenter.init(options);
-      this.presenter.addSubscriber(this)
+      this.presenter.addSubscriber(this);
     }
 
     update({ propName, propValue }: ObserverInfoObject) {
@@ -30,22 +30,16 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
       options.container = $(target);
 
       const alexandr = new Alexandr(options);
+      alexandr.sliderData = options;
 
       $(target).data("alexandr", alexandr);
-      $(target).data(
-        "alexandrOptions",
-        options,
-      );
-
-      //запишу сразу текущие настройки в объект
-      alexandr.sliderData = options;
 
       return $(target);
     }
 
     destroyPlugin(target: HTMLElement) {
-      const jqtarget = $(target)
-      jqtarget.removeData("alexandr").removeData("alexandrOptions");
+      const jqtarget = $(target);
+      jqtarget.removeData("alexandr");
       jqtarget.find(".alexandr").remove();
       return target;
     }
@@ -53,7 +47,7 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
     refreshPlugin(target: HTMLElement, options: AlexandrSettings) {
       const upgradeOptions = $.extend(
         {},
-        $(target).data("alexandrOptions"),
+        $(target).data("alexandr").sliderData,
         options,
       );
       this.destroyPlugin(target);
@@ -73,39 +67,39 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
     return typeof argument === "object";
   }
 
-  function isGetOption(slider: Alexandr, optionName: string | AlexandrSettings) { 
+  function isGetOption(
+    slider: Alexandr,
+    optionName: string | AlexandrSettings,
+  ) {
     return typeof optionName === "string" && optionName in slider.sliderData;
   }
 
   $.fn.alexandr = function (
     options: string | AlexandrSettings,
   ): JQuery<HTMLElement> {
-
     if (!isSliderInitialized($(this))) {
       const config = $.extend({}, $.fn.alexandr.defaults, options);
       config.container = this;
 
       const alexandr = new Alexandr(config);
+      alexandr.sliderData = config;
 
       $(this).data("alexandr", alexandr);
-      $(this).data(
-        "alexandrOptions",
-        config,
-      );
-
-      alexandr.sliderData = config;
       return this;
     }
 
     if (isSliderInitialized($(this)) && isGetOptionsObject(options)) {
-      return $(this).data("alexandrOptions");
+      return $(this).data("alexandr").sliderData;
     }
 
     if (isSliderInitialized($(this)) && isSetOptions(options)) {
       $(this).data("alexandr").refreshPlugin(this, options);
     }
 
-    if (isSliderInitialized($(this)) && isGetOption($(this).data("alexandr"), options)) {
+    if (
+      isSliderInitialized($(this)) &&
+      isGetOption($(this).data("alexandr"), options)
+    ) {
       return $(this).data("alexandr").sliderData[String(options)];
     }
   };
@@ -138,5 +132,4 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
     controlsFlag: [],
     controlsRuler: [],
   };
-  
 })(jQuery);
