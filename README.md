@@ -20,6 +20,7 @@
 Для работы слайдера у тега к которому применяется слайдер, должно быть определено свойство width.
 
 Слайдер применяется к div или article тегам.
+
 ```html
 <div class="main">
   <div class="div-slider">
@@ -65,7 +66,7 @@ $(".slider").alexandr({
 Передать объект с настройками
 
 ```javascript
-$(".slider").alexandr({
+$(".slider").alexandr("update", {
   minValue: 0,
   maxValue: 1000,
   stepValue: 10,
@@ -147,25 +148,25 @@ $(".slider").alexandr({
         <tr>
             <td>11</td>
             <td>elemForShowValueMin</td>
-            <td>&lsaquo;JQuery&lsaquo;HTMLElement&rsaquo;</td>
+            <td>‹JQuery‹HTMLElement›</td>
             <td>Элемент куда отображать минимальное/одиночное значение</td>
         </tr>
         <tr>
             <td>12</td>
             <td>elemForShowValueMax</td>
-            <td>&lsaquo;JQuery&lsaquo;HTMLElement&rsaquo;</td>
+            <td>‹JQuery‹HTMLElement›</td>
             <td>Элемент куда отображать максимальное значение</td>
         </tr>
         <tr>
             <td>13</td>
             <td>controlsMinThumb</td>
-            <td>[&lsaquo;JQuery&lsaquo;HTMLElement&rsaquo;]</td>
+            <td>[‹JQuery‹HTMLElement›]</td>
             <td>Инпуты для управления минимальной позицией</td>
         </tr>
         <tr>
             <td>14</td>
             <td>controlsMaxThumb</td>
-            <td>[&lsaquo;JQuery&lsaquo;HTMLElement&rsaquo;]</td>
+            <td>[‹JQuery‹HTMLElement›]</td>
             <td>Инпуты для управления максимальной позицией</td>
         </tr>
         <tr>
@@ -246,6 +247,5 @@ $(".slider").alexandr();
 Класс View отвечает за отображение данных модели пользователю, а также за получение данных от пользователя.
 Model и View независимы.
 Класс Presenter, выполняет функциональность посредника между Model и View. Он ответственен за обработку событий, возникающих во View, которые инициируются пользователем, и в зависимости от типа события изменяет состояние модели путем вызова ее публичных методов, после чего обновляет представление в соответствии с состоянием модели.
-
 
 ### [UML диаграмма](https://app.diagrams.net/?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&dark=auto#HMarieZin%2Falexandr%2Fmain%2Fsrc%2FUml.drawio)
