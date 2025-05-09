@@ -37,7 +37,7 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
       return $(target);
     }
 
-    destroyPlugin(target: HTMLElement) {
+    clearPlugin(target: HTMLElement) {
       const jqtarget = $(target);
       jqtarget.removeData("alexandr");
       jqtarget.find(".alexandr").remove();
@@ -50,8 +50,13 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
         $(target).data("alexandr").sliderData,
         options,
       );
-      this.destroyPlugin(target);
+      this.clearPlugin(target);
       this.initPlugin(target, upgradeOptions);
+    }
+
+    destroyPlugin(target: HTMLElement) {
+      $(target).data("alexandr").presenter.destroy();
+      $(target).removeData("alexandr");
     }
   }
 
@@ -63,8 +68,8 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
     return argument === "options";
   }
 
-  function isSetOptions(argument: string | AlexandrSettings) {
-    return typeof argument === "object";
+  function isSetOptions(option: string | AlexandrSettings) {
+    return option === "update";
   }
 
   function isGetOption(
@@ -77,6 +82,9 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
   $.fn.alexandr = function (
     options: string | AlexandrSettings,
   ): JQuery<HTMLElement> {
+    if (!isSliderInitialized($(this)) && isSetOptions(options)) {
+      return;
+    }
     if (!isSliderInitialized($(this))) {
       const config = $.extend({}, $.fn.alexandr.defaults, options);
       config.container = this;
@@ -86,6 +94,11 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
 
       $(this).data("alexandr", alexandr);
       return this;
+    }
+
+    if (isSliderInitialized($(this)) && options === "destroy") {
+      $(this).data("alexandr").destroyPlugin(this);
+      return $(this);
     }
 
     if (isSliderInitialized($(this)) && isGetOptionsObject(options)) {

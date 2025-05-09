@@ -95,9 +95,10 @@ interface View extends Observer {
     max: number;
     step: number;
   }) => void;
+  destroy: () => void;
 }
 
-interface Presenter extends Observer{
+interface Presenter extends Observer {
   init: (options: AlexandrSettings) => void;
   update: (observerInfoObject: ObserverInfoObject) => void;
 }

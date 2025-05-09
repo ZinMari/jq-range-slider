@@ -211,6 +211,10 @@ class View extends Observer {
     }
   }
 
+  destroy() {
+    this.slider.remove();
+  }
+
   updateThumbsPosition(thumb: "min" | "max", position: number): void {
     if (thumb === "min") {
       this.minThumbPixelPosition = position;

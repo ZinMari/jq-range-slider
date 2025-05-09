@@ -1,6 +1,6 @@
 import Observer from "../Observer/Observer";
 
-class Presenter extends Observer{
+class Presenter extends Observer {
   constructor(
     private view: View,
     private model: Model,
@@ -10,7 +10,7 @@ class Presenter extends Observer{
     this.model = model;
   }
 
-  init(config: AlexandrSettings): void{
+  init(config: AlexandrSettings): void {
     this.view.init({ ...config });
     this.model.init({ ...config });
 
@@ -18,6 +18,10 @@ class Presenter extends Observer{
     this.model.addSubscriber(this);
 
     this._setViewInitialValues();
+  }
+
+  destroy() {
+    this.view.destroy();
   }
 
   update({ event, type, currentValue, min, max, step }: ObserverInfoObject) {
@@ -63,8 +67,8 @@ class Presenter extends Observer{
 
     this.notify({
       propName: `${thumb}Position`,
-      propValue: position
-    })
+      propValue: position,
+    });
   };
 
   private modelStepValueChenged = (min: number, max: number, step: number) => {
@@ -73,8 +77,8 @@ class Presenter extends Observer{
 
     this.notify({
       propName: `stepValue`,
-      propValue: step
-    })
+      propValue: step,
+    });
   };
 
   private modelMinMaxValuesChanged = (min: number, max: number) => {
@@ -85,13 +89,13 @@ class Presenter extends Observer{
 
     this.notify({
       propName: `minValue`,
-      propValue: min
-    })
+      propValue: min,
+    });
 
     this.notify({
       propName: `maxValue`,
-      propValue: max
-    })
+      propValue: max,
+    });
   };
 
   private viewThumbsPositionChanged = (

@@ -15,3 +15,5 @@ initSliderComplex(".slider4", {
   type: "single",
   minPosition: 900,
 });
+
+$(".slider1").children(".slider-complex__slider").alexandr("destroy");

@@ -35,12 +35,12 @@ function setValueToPanel(slider: string): void {
 function onChangePanelValue(event: Event) {
   event.preventDefault();
   const $target: JQuery<EventTarget> = $(event.target);
-  
-  if($target.attr('type') === 'radio'){
+
+  if ($target.attr("type") === "radio") {
     $target
       .closest(".js-slider-complex")
       .find(".js-slider-complex__slider")
-      .alexandr({ [$target.attr("name")]: $target.val() });
+      .alexandr("update", { [$target.attr("name")]: $target.val() });
   }
 }
 
