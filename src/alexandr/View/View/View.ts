@@ -71,7 +71,7 @@ class View extends Observer {
     }
     this.container = container;
     this.type = type;
-    this.line = new LineView(this.slider, lineClass);
+    this.line = new LineView(this.slider, lineClass, this._handleSliderClick);
     this.orientation = orientation;
     this.moveDirection = this.orientation === "vertical" ? "top" : "left";
     this.showMinMaxValue = showMinMaxValue;
@@ -88,14 +88,14 @@ class View extends Observer {
 
     //создам кнопки
     if (this.type === "double") {
-      const min = new ThumbView(this.line.item);
+      const min = new ThumbView(this.line.item, this._handlerThumbsMove);
       min.item.addClass(`alexandr__thumb--min ${thumbMinClass}`);
-      const max = new ThumbView(this.line.item);
+      const max = new ThumbView(this.line.item, this._handlerThumbsMove);
       max.item.addClass(`alexandr__thumb--max ${thumbMaxClass}`);
 
       this.thumbs.push(min, max);
     } else {
-      const thumb = new ThumbView(this.line.item);
+      const thumb = new ThumbView(this.line.item, this._handlerThumbsMove);
       thumb.item.addClass(thumbClass);
       this.thumbs.push(thumb);
     }
@@ -117,7 +117,7 @@ class View extends Observer {
     }
 
     // создать линейку
-    this.ruler = new RulerView(this.slider);
+    this.ruler = new RulerView(this.slider, this._handleSliderClick);
 
     this.updateShowFlag();
     this.updateShowRuler();
@@ -126,11 +126,6 @@ class View extends Observer {
     if (this.orientation === "vertical") {
       this._setVerticalOrientation();
     }
-
-    //повесить на события на thumbs
-    this.thumbs.forEach((elem: BaseSubViewInterface) => {
-      elem.item[0].addEventListener("pointerdown", this._handlerThumbsMove);
-    });
 
     //повесить события на контролы флажков
     if (this.controlsFlag.length) {
@@ -201,13 +196,6 @@ class View extends Observer {
           element.addEventListener("change", this._handlerStepControls);
         });
       });
-    }
-
-    //повесить событие на линию
-    this.line.item[0].addEventListener("click", this._handleSliderClick);
-
-    if (this.showRuler) {
-      this.ruler.item[0].addEventListener("click", this._handleSliderClick);
     }
   }
 

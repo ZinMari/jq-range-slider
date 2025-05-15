@@ -3,7 +3,7 @@ class RulerView implements RulerView {
   dividings: JQuery<HTMLElement>[];
   countDivivdings: number = 4;
 
-  constructor(slider: JQuery<HTMLElement>) {
+  constructor(slider: JQuery<HTMLElement>, handler: any) {
     this.item = $('<div>', { class: 'alexandr__ruler' });
     this.dividings = new Array(this.countDivivdings);
 
@@ -11,6 +11,8 @@ class RulerView implements RulerView {
       this.dividings[i] = $('<a>', { class: 'alexandr__dividing', href: '#' });
       this.item.append(this.dividings[i]);
     }
+
+    this.item[0].addEventListener("click", handler);
 
     slider.append(this.item);
   }
