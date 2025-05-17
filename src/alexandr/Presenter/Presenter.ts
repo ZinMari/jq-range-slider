@@ -82,7 +82,7 @@ class Presenter extends Observer {
   };
 
   private modelMinMaxValuesChanged = (min: number, max: number) => {
-    this.view.updateMinMaxValueLine(min, max);
+    this.view.sliderMinMaxValueLine.update(min, max);
     this.view.updateRulerValue(min, max);
     this.view.updateSliderControlsValue("min", min);
     this.view.updateSliderControlsValue("max", max);
@@ -167,7 +167,7 @@ class Presenter extends Observer {
     this.view.updateThumbsControlsValue("min", this.model.minPosition);
     this.view.updateSliderControlsValue("max", this.model.maxValue);
     this.view.updateSliderControlsValue("min", this.model.minValue);
-    this.view.updateMinMaxValueLine(this.model.minValue, this.model.maxValue);
+    this.view.sliderMinMaxValueLine.update(this.model.minValue, this.model.maxValue)
     this.view.updateRulerValue(this.model.minValue, this.model.maxValue);
     this.view.updateStepControls(this.model.stepValue);
   }

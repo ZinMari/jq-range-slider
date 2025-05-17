@@ -18,7 +18,7 @@ class View extends Observer {
   private minThumbPixelPosition: number | undefined;
   private maxThumbPixelPosition: number | undefined;
   private showMinMaxValue: boolean;
-  private sliderMinMaxValueLine: MinMaxValueLineView;
+  sliderMinMaxValueLine: MinMaxValueLineView;
   private showMinValueClass: string;
   private showMaxValueClass: string;
   private showRuler: boolean;
@@ -213,13 +213,6 @@ class View extends Observer {
     }
 
     this._setProgressBar();
-  }
-
-  updateMinMaxValueLine(min: number, max: number): void {
-    if (this.sliderMinMaxValueLine) {
-      this.sliderMinMaxValueLine.min.text(min);
-      this.sliderMinMaxValueLine.max.text(max);
-    }
   }
 
   updateRulerValue(min: number, max: number): void {

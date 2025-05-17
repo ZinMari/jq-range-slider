@@ -2,6 +2,7 @@ class MinMaxValueLineView implements MinMaxValueLineView {
   wrap: JQuery<HTMLElement>;
   min: JQuery<HTMLElement>;
   max: JQuery<HTMLElement>;
+
   constructor(slider: JQuery<HTMLElement>, showMinValueClass: string, showMaxValueClass: string) {
     this.wrap = $('<div>').attr({ class: 'alexandr__values' });
     this.min = $('<span>').attr({ class: `alexandr__value--min ${showMinValueClass}` });
@@ -9,6 +10,11 @@ class MinMaxValueLineView implements MinMaxValueLineView {
 
     this.wrap.append(this.min, this.max);
     slider.prepend(this.wrap);
+  }
+
+  update(min: number, max: number): void {
+      this.min.text(min);
+      this.max.text(max);
   }
 }
 

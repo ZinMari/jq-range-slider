@@ -71,6 +71,7 @@ interface MinMaxValueLineView {
   wrap: JQuery<HTMLElement>;
   min: JQuery<HTMLElement>;
   max: JQuery<HTMLElement>;
+  update: (min: number, max: number) => void;
 }
 
 type ElementsCoords = {
@@ -82,9 +83,10 @@ type ElementsCoords = {
 
 interface View extends Observer {
   pixelInOneStep: number;
+  sliderMinMaxValueLine: MinMaxValueLineView;
   init: (options: AlexandrSettings) => void;
   updateThumbsPosition: (thumb: "min" | "max", position: number) => void;
-  updateMinMaxValueLine: (min: number, max: number) => void;
+  // updateMinMaxValueLine: (min: number, max: number) => void;
   updateRulerValue: (min: number, max: number) => void;
   updateFlagValues: (thumb: "min" | "max", position: number) => void;
   updateThumbsControlsValue: (type: "min" | "max", value: number) => void;
