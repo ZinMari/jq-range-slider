@@ -96,6 +96,7 @@ interface View extends Observer {
   updateThumbsControlsValue: (type: "min" | "max", value: number) => void;
   updateSliderControlsValue: (type: "min" | "max", value: number) => void;
   updateStepControls: (value: number) => void;
+  updateProgressBar(): void
   setPixelInOneStep: (options: {
     min: number;
     max: number;

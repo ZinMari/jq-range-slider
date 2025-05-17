@@ -211,8 +211,65 @@ class View extends Observer {
       this.maxThumbPixelPosition = position;
       this.thumbs[1].item.css({ [this.moveDirection]: position });
     }
+  }
 
-    this._setProgressBar();
+  updateProgressBar(): void{
+    if (this.type === "single") {
+      if (this.orientation === "vertical") {
+        const coordsThumbStart =
+          this.minThumbPixelPosition +
+          this.thumbs[0].item.outerHeight() / 2 +
+          "px";
+
+        this.progressbar.update({
+          top: 0,
+          width: "100%",
+          height: coordsThumbStart,
+        })
+      }
+
+      if (this.orientation === "horizontal") {
+        const coordsThumbStart =
+          this.minThumbPixelPosition +
+          this.thumbs[0].item.outerWidth() / 2 +
+          "px";
+
+        this.progressbar.update({
+          left: 0,
+          width: coordsThumbStart,
+          height: "100%",
+        })
+      }
+    }
+
+    if (this.type === "double") {
+      if (this.orientation === "vertical") {
+        const coordsThumbMin =
+          this.minThumbPixelPosition + this.thumbs[0].item.outerHeight() / 2;
+        const coordsThumbMax =
+          this.maxThumbPixelPosition + this.thumbs[1].item.outerHeight() / 2;
+
+        this.progressbar.update({
+          left: 0,
+          height: coordsThumbMax - coordsThumbMin + "px",
+          width: "100%",
+          top: coordsThumbMin,
+        })
+      }
+
+      if (this.orientation === "horizontal") {
+        const coordsThumbMin =
+          this.minThumbPixelPosition + this.thumbs[0].item.outerWidth() / 2;
+        const coordsThumbMax =
+          this.maxThumbPixelPosition + this.thumbs[1].item.outerWidth() / 2;
+
+        this.progressbar.update({
+          left: coordsThumbMin + "px",
+          height: "100%",
+          width: coordsThumbMax - coordsThumbMin + "px",
+        })
+      }
+    }
   }
 
   updateShowRuler(): void {
@@ -585,65 +642,6 @@ class View extends Observer {
       return this.minThumbPixelPosition + this.pixelInOneStep;
     }
     return value;
-  }
-
-  private _setProgressBar(): void {
-    if (this.type === "single") {
-      if (this.orientation === "vertical") {
-        const coordsThumbStart =
-          this.minThumbPixelPosition +
-          this.thumbs[0].item.outerHeight() / 2 +
-          "px";
-
-        this.progressbar.update({
-          top: 0,
-          width: "100%",
-          height: coordsThumbStart,
-        })
-      }
-
-      if (this.orientation === "horizontal") {
-        const coordsThumbStart =
-          this.minThumbPixelPosition +
-          this.thumbs[0].item.outerWidth() / 2 +
-          "px";
-
-        this.progressbar.update({
-          left: 0,
-          width: coordsThumbStart,
-          height: "100%",
-        })
-      }
-    }
-
-    if (this.type === "double") {
-      if (this.orientation === "vertical") {
-        const coordsThumbMin =
-          this.minThumbPixelPosition + this.thumbs[0].item.outerHeight() / 2;
-        const coordsThumbMax =
-          this.maxThumbPixelPosition + this.thumbs[1].item.outerHeight() / 2;
-
-        this.progressbar.update({
-          left: 0,
-          height: coordsThumbMax - coordsThumbMin + "px",
-          width: "100%",
-          top: coordsThumbMin,
-        })
-      }
-
-      if (this.orientation === "horizontal") {
-        const coordsThumbMin =
-          this.minThumbPixelPosition + this.thumbs[0].item.outerWidth() / 2;
-        const coordsThumbMax =
-          this.maxThumbPixelPosition + this.thumbs[1].item.outerWidth() / 2;
-
-        this.progressbar.update({
-          left: coordsThumbMin + "px",
-          height: "100%",
-          width: coordsThumbMax - coordsThumbMin + "px",
-        })
-      }
-    }
   }
 
   private _setVerticalOrientation(): void {
