@@ -88,15 +88,11 @@ class View extends Observer {
 
     //создам кнопки
     if (this.type === "double") {
-      const min = new ThumbView(this.line.item, this._handlerThumbsMove);
-      min.item.addClass(`alexandr__thumb--min ${thumbMinClass}`);
-      const max = new ThumbView(this.line.item, this._handlerThumbsMove);
-      max.item.addClass(`alexandr__thumb--max ${thumbMaxClass}`);
-
+      const min = new ThumbView(this.line.item, this._handlerThumbsMove, `alexandr__thumb--min ${thumbMinClass}`);
+      const max = new ThumbView(this.line.item, this._handlerThumbsMove, `alexandr__thumb--max ${thumbMaxClass}`);
       this.thumbs.push(min, max);
     } else {
-      const thumb = new ThumbView(this.line.item, this._handlerThumbsMove);
-      thumb.item.addClass(thumbClass);
+      const thumb = new ThumbView(this.line.item, this._handlerThumbsMove, thumbClass);
       this.thumbs.push(thumb);
     }
 

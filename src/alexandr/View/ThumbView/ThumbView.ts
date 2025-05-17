@@ -1,8 +1,8 @@
 class ThumbView implements BaseSubViewInterface {
   item: JQuery<HTMLElement>;
 
-  constructor(sliderLine: JQuery<HTMLElement>, handler: any) {
-    this.item = $('<span>', { class: 'alexandr__thumb' });
+  constructor(sliderLine: JQuery<HTMLElement>, handler: any, userClass: string) {
+    this.item = $('<span>', { class: `alexandr__thumb ${userClass}` });
 
     this.item[0].addEventListener("pointerdown", handler);
     
