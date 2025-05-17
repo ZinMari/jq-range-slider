@@ -10,7 +10,7 @@ class View extends Observer {
   ruler: RulerView;
   sliderMinMaxValueLine: MinMaxValueLineView;
   private slider: JQuery<HTMLElement>;
-  private thumbs: Array<BaseSubViewInterface>;
+  private thumbs: Array<ThumbView>;
   private container: JQuery<HTMLElement>;
   private line: BaseSubViewInterface;
   private moveDirection: "top" | "left";
@@ -118,10 +118,20 @@ class View extends Observer {
 
     // создать линейку
     this.ruler = new RulerView(this.slider, this._handleSliderClick);
-
-    this.updateShowFlag();
     this.showRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
     this.updateControlsShowRuler();
+
+    // флажки
+    if(this.showValueFlag) {
+      $.each(this.thumbs, function () {
+        this.showFlug();
+      });
+    } else {
+      $.each(this.thumbs, function () {
+        this.hideFlug();
+      })
+    }
+    this.updateControlsFlag();
 
     // установить ориентацию
     if (this.orientation === "vertical") {
@@ -289,21 +299,15 @@ class View extends Observer {
     }
   }
 
-  updateShowFlag(): void {
+  updateControlsFlag(): void {
     //показать флажки
     if (this.showValueFlag) {
-      $.each(this.thumbs, function () {
-        this.item.addClass("flag");
-      });
       $.each(this.controlsFlag, (_, element) => {
         $.each(element, (_, element) => {
           $(element).prop("checked", true);
         });
       });
     } else {
-      $.each(this.thumbs, function () {
-        this.item.removeClass("flag");
-      });
       $.each(this.controlsFlag, (_, element) => {
         $.each(element, (_, element) => {
           $(element).prop("checked", false);
@@ -316,9 +320,9 @@ class View extends Observer {
     //загрузить значения в окошки
     if (this.showValueFlag) {
       if (thumb === "min") {
-        this.thumbs[0].item.attr("data-value", position);
+        this.thumbs[0].updateFlagValue(position);
       } else if (this.type === "double" && thumb === "max") {
-        this.thumbs[1].item.attr("data-value", position);
+        this.thumbs[1].updateFlagValue(position);
       }
     }
   }
@@ -523,7 +527,16 @@ class View extends Observer {
   private _handlerFlagControls = (event: Event) => {
     const $currentInput = $(event.target);
     this.showValueFlag = $currentInput.is(":checked");
-    this.updateShowFlag();
+    if(this.showValueFlag) {
+      $.each(this.thumbs, function () {
+        this.showFlug()
+      });
+    } else {
+      $.each(this.thumbs, function () {
+        this.hideFlug()
+      })
+    }
+    this.updateControlsFlag();
   };
 
   private _handlerRulerControls = (event: Event) => {

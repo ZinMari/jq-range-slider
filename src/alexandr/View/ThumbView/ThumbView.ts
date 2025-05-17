@@ -8,6 +8,19 @@ class ThumbView implements BaseSubViewInterface {
     
     sliderLine.append(this.item);
   }
+
+  showFlug(){
+    this.item.addClass("flag");
+  }
+
+  hideFlug(){
+    this.item.removeClass("flag");
+  }
+
+  updateFlagValue(position: number): void {
+    this.item.attr("data-value", position);
+  }
+  
 }
 
 export default ThumbView;

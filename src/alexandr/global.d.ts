@@ -70,6 +70,12 @@ interface RulerView extends BaseSubViewInterface {
   hideRuler: ()=> void;
 }
 
+interface ThumbView extends BaseSubViewInterface {
+  showFlug: ()=> void;
+  hideFlug: ()=> void;
+  updateFlagValue: (position: number) =>void;
+}
+
 interface MinMaxValueLineView {
   wrap: JQuery<HTMLElement>;
   min: JQuery<HTMLElement>;
