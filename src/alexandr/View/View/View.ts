@@ -24,7 +24,7 @@ class View extends Observer {
   private showMaxValueClass: string;
   private showRuler: boolean;
   private showValueFlag: boolean;
-  private progressbar: BaseSubViewInterface;
+  private progressbar: ProgressBarView;
   private controlsMinThumb: Array<JQuery<HTMLElement>>;
   private controlsMaxThumb: Array<JQuery<HTMLElement>>;
   private controlsMinValue: Array<JQuery<HTMLElement>>;
@@ -214,15 +214,6 @@ class View extends Observer {
 
     this._setProgressBar();
   }
-
-  // updateRulerValue(min: number, max: number): void {
-  //   const stepRuler = (max - min) / (this.ruler.dividings.length - 1);
-
-  //   $.each(this.ruler.dividings, function () {
-  //     this.attr("data-dividing", Math.round(min));
-  //     min += stepRuler;
-  //   });
-  // }
 
   updateShowRuler(): void {
     if (this.showRuler) {
@@ -604,11 +595,11 @@ class View extends Observer {
           this.thumbs[0].item.outerHeight() / 2 +
           "px";
 
-        this.progressbar.item.css({
+        this.progressbar.update({
           top: 0,
           width: "100%",
           height: coordsThumbStart,
-        });
+        })
       }
 
       if (this.orientation === "horizontal") {
@@ -616,11 +607,12 @@ class View extends Observer {
           this.minThumbPixelPosition +
           this.thumbs[0].item.outerWidth() / 2 +
           "px";
-        this.progressbar.item.css({
+
+        this.progressbar.update({
           left: 0,
-          height: "100%",
           width: coordsThumbStart,
-        });
+          height: "100%",
+        })
       }
     }
 
@@ -631,12 +623,12 @@ class View extends Observer {
         const coordsThumbMax =
           this.maxThumbPixelPosition + this.thumbs[1].item.outerHeight() / 2;
 
-        this.progressbar.item.css({
+        this.progressbar.update({
           left: 0,
           height: coordsThumbMax - coordsThumbMin + "px",
           width: "100%",
           top: coordsThumbMin,
-        });
+        })
       }
 
       if (this.orientation === "horizontal") {
@@ -645,11 +637,11 @@ class View extends Observer {
         const coordsThumbMax =
           this.maxThumbPixelPosition + this.thumbs[1].item.outerWidth() / 2;
 
-        this.progressbar.item.css({
+        this.progressbar.update({
           left: coordsThumbMin + "px",
           height: "100%",
           width: coordsThumbMax - coordsThumbMin + "px",
-        });
+        })
       }
     }
   }

@@ -75,6 +75,10 @@ interface MinMaxValueLineView {
   update: (min: number, max: number) => void;
 }
 
+interface ProgressBarView extends BaseSubViewInterface {
+  update(styleobject: { [key: string]: string | number }): void
+}
+
 type ElementsCoords = {
   left: number;
   width: number;
