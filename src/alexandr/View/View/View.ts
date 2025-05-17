@@ -7,6 +7,8 @@ import ThumbView from "../ThumbView/ThumbView";
 
 class View extends Observer {
   pixelInOneStep: number;
+  ruler: RulerView;
+  sliderMinMaxValueLine: MinMaxValueLineView;
   private slider: JQuery<HTMLElement>;
   private thumbs: Array<BaseSubViewInterface>;
   private container: JQuery<HTMLElement>;
@@ -18,11 +20,9 @@ class View extends Observer {
   private minThumbPixelPosition: number | undefined;
   private maxThumbPixelPosition: number | undefined;
   private showMinMaxValue: boolean;
-  sliderMinMaxValueLine: MinMaxValueLineView;
   private showMinValueClass: string;
   private showMaxValueClass: string;
   private showRuler: boolean;
-  private ruler: RulerView;
   private showValueFlag: boolean;
   private progressbar: BaseSubViewInterface;
   private controlsMinThumb: Array<JQuery<HTMLElement>>;
@@ -215,14 +215,14 @@ class View extends Observer {
     this._setProgressBar();
   }
 
-  updateRulerValue(min: number, max: number): void {
-    const stepRuler = (max - min) / (this.ruler.dividings.length - 1);
+  // updateRulerValue(min: number, max: number): void {
+  //   const stepRuler = (max - min) / (this.ruler.dividings.length - 1);
 
-    $.each(this.ruler.dividings, function () {
-      this.attr("data-dividing", Math.round(min));
-      min += stepRuler;
-    });
-  }
+  //   $.each(this.ruler.dividings, function () {
+  //     this.attr("data-dividing", Math.round(min));
+  //     min += stepRuler;
+  //   });
+  // }
 
   updateShowRuler(): void {
     if (this.showRuler) {

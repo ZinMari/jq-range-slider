@@ -65,6 +65,7 @@ interface BaseSubViewInterface {
 interface RulerView extends BaseSubViewInterface {
   dividings: JQuery<HTMLElement>[];
   countDivivdings: number;
+  update: (min: number, max: number) => void;
 }
 
 interface MinMaxValueLineView {
@@ -84,10 +85,9 @@ type ElementsCoords = {
 interface View extends Observer {
   pixelInOneStep: number;
   sliderMinMaxValueLine: MinMaxValueLineView;
+  ruler: RulerView;
   init: (options: AlexandrSettings) => void;
   updateThumbsPosition: (thumb: "min" | "max", position: number) => void;
-  // updateMinMaxValueLine: (min: number, max: number) => void;
-  updateRulerValue: (min: number, max: number) => void;
   updateFlagValues: (thumb: "min" | "max", position: number) => void;
   updateThumbsControlsValue: (type: "min" | "max", value: number) => void;
   updateSliderControlsValue: (type: "min" | "max", value: number) => void;

@@ -16,6 +16,15 @@ class RulerView implements RulerView {
 
     slider.append(this.item);
   }
+
+  update(min: number, max: number): void {
+    const stepRuler = (max - min) / (this.dividings.length - 1);
+
+    $.each(this.dividings, function () {
+      this.attr("data-dividing", Math.round(min));
+      min += stepRuler;
+    });
+  }
 }
 
 export default RulerView;
