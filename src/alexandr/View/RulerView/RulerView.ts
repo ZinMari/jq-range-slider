@@ -25,6 +25,14 @@ class RulerView implements RulerView {
       min += stepRuler;
     });
   }
+
+  showRuler(): void {
+    this.item.removeClass("alexandr__ruler_none");
+  }
+
+  hideRuler(): void {
+    this.item.addClass("alexandr__ruler_none");
+  }
 }
 
 export default RulerView;

@@ -120,7 +120,8 @@ class View extends Observer {
     this.ruler = new RulerView(this.slider, this._handleSliderClick);
 
     this.updateShowFlag();
-    this.updateShowRuler();
+    this.showRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
+    this.updateControlsShowRuler();
 
     // установить ориентацию
     if (this.orientation === "vertical") {
@@ -272,16 +273,14 @@ class View extends Observer {
     }
   }
 
-  updateShowRuler(): void {
+  updateControlsShowRuler(): void {
     if (this.showRuler) {
-      this.ruler.item.removeClass("alexandr__ruler_none");
       $.each(this.controlsRuler, (_, element) => {
         $.each(element, (_, element) => {
           $(element).prop("checked", true);
         });
       });
     } else {
-      this.ruler.item.addClass("alexandr__ruler_none");
       $.each(this.controlsRuler, (_, element) => {
         $.each(element, (_, element) => {
           $(element).prop("checked", false);
@@ -530,7 +529,7 @@ class View extends Observer {
   private _handlerRulerControls = (event: Event) => {
     const $currentInput = $(event.target);
     this.showRuler = $currentInput.is(":checked");
-    this.updateShowRuler();
+    this.showRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
   };
 
   private _getCoords(elem: JQuery<EventTarget>): ElementsCoords {

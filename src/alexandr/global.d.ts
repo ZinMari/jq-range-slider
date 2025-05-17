@@ -66,6 +66,8 @@ interface RulerView extends BaseSubViewInterface {
   dividings: JQuery<HTMLElement>[];
   countDivivdings: number;
   update: (min: number, max: number) => void;
+  showRuler: ()=> void;
+  hideRuler: ()=> void;
 }
 
 interface MinMaxValueLineView {
