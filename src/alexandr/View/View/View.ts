@@ -94,7 +94,18 @@ class View extends Observer {
       showMaxValueClass,
     });
 
-    //повесить события на контролы флажков
+    this._bindEventsSliderControls();
+  }
+
+  private _bindEventsSliderControls() {
+    this._bindEventsFlugsControls();
+    this._bindEventsRulerControls();
+    this._bindEventsThumbControls();
+    this._bindEventsMinMaxValuesControls();
+    this._bindEventsStepControls();
+  }
+
+  private _bindEventsFlugsControls() {
     if (this.controlsFlag.length) {
       $.each(this.controlsFlag, (_, element) => {
         $.each(element, (_, element) => {
@@ -102,8 +113,9 @@ class View extends Observer {
         });
       });
     }
+  }
 
-    //повесить события на контролы линейки
+  private _bindEventsRulerControls() {
     if (this.controlsRuler.length) {
       $.each(this.controlsRuler, (_, element) => {
         $.each(element, (_, element) => {
@@ -111,8 +123,9 @@ class View extends Observer {
         });
       });
     }
+  }
 
-    //повесить события на контролы Thumbs
+  private _bindEventsThumbControls() {
     if (this.controlsMinThumb.length) {
       $.each(this.controlsMinThumb, (_, element) => {
         $.each(element, (_, element) => {
@@ -133,8 +146,19 @@ class View extends Observer {
         });
       });
     }
+  }
 
-    //повесить события на контролы minMaxValues
+  private _bindEventsStepControls() {
+    if (this.controlsStepValues.length) {
+      $.each(this.controlsStepValues, (_, element) => {
+        $.each(element, (_, element) => {
+          element.addEventListener("change", this._handlerStepControls);
+        });
+      });
+    }
+  }
+
+  private _bindEventsMinMaxValuesControls() {
     if (this.controlsMinValue.length) {
       $.each(this.controlsMinValue, (_, element) => {
         $.each(element, (_, element) => {
@@ -152,15 +176,6 @@ class View extends Observer {
             "change",
             this._handlerSliderValueControls.bind(this, "max"),
           );
-        });
-      });
-    }
-
-    //повесить события на контролы step
-    if (this.controlsStepValues.length) {
-      $.each(this.controlsStepValues, (_, element) => {
-        $.each(element, (_, element) => {
-          element.addEventListener("change", this._handlerStepControls);
         });
       });
     }
