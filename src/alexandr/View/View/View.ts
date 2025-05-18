@@ -277,181 +277,6 @@ class View extends Observer {
     this.updateControlsShowRuler();
   }
 
-  destroy() {
-    this.slider.remove();
-  }
-
-  updateThumbsPosition(thumb: "min" | "max", position: number): void {
-    if (thumb === "min") {
-      this.minThumbPixelPosition = position;
-      this.thumbs[0].item.css({ [this.moveDirection]: position });
-    } else if (this.type === "double" && thumb === "max") {
-      this.maxThumbPixelPosition = position;
-      this.thumbs[1].item.css({ [this.moveDirection]: position });
-    }
-  }
-
-  updateProgressBar(): void {
-    if (this.type === "single") {
-      if (this.orientation === "vertical") {
-        const coordsThumbStart =
-          this.minThumbPixelPosition +
-          this.thumbs[0].item.outerHeight() / 2 +
-          "px";
-
-        this.progressbar.update({
-          top: 0,
-          width: "100%",
-          height: coordsThumbStart,
-        });
-      }
-
-      if (this.orientation === "horizontal") {
-        const coordsThumbStart =
-          this.minThumbPixelPosition +
-          this.thumbs[0].item.outerWidth() / 2 +
-          "px";
-
-        this.progressbar.update({
-          left: 0,
-          width: coordsThumbStart,
-          height: "100%",
-        });
-      }
-    }
-
-    if (this.type === "double") {
-      if (this.orientation === "vertical") {
-        const coordsThumbMin =
-          this.minThumbPixelPosition + this.thumbs[0].item.outerHeight() / 2;
-        const coordsThumbMax =
-          this.maxThumbPixelPosition + this.thumbs[1].item.outerHeight() / 2;
-
-        this.progressbar.update({
-          left: 0,
-          height: coordsThumbMax - coordsThumbMin + "px",
-          width: "100%",
-          top: coordsThumbMin,
-        });
-      }
-
-      if (this.orientation === "horizontal") {
-        const coordsThumbMin =
-          this.minThumbPixelPosition + this.thumbs[0].item.outerWidth() / 2;
-        const coordsThumbMax =
-          this.maxThumbPixelPosition + this.thumbs[1].item.outerWidth() / 2;
-
-        this.progressbar.update({
-          left: coordsThumbMin + "px",
-          height: "100%",
-          width: coordsThumbMax - coordsThumbMin + "px",
-        });
-      }
-    }
-  }
-
-  updateControlsShowRuler(): void {
-    if (this.showRuler) {
-      $.each(this.controlsRuler, (_, element) => {
-        $.each(element, (_, element) => {
-          $(element).prop("checked", true);
-        });
-      });
-    } else {
-      $.each(this.controlsRuler, (_, element) => {
-        $.each(element, (_, element) => {
-          $(element).prop("checked", false);
-        });
-      });
-    }
-  }
-
-  updateControlsFlag(): void {
-    //показать флажки
-    if (this.showValueFlag) {
-      $.each(this.controlsFlag, (_, element) => {
-        $.each(element, (_, element) => {
-          $(element).prop("checked", true);
-        });
-      });
-    } else {
-      $.each(this.controlsFlag, (_, element) => {
-        $.each(element, (_, element) => {
-          $(element).prop("checked", false);
-        });
-      });
-    }
-  }
-
-  updateFlagValues(thumb: "min" | "max", position: number): void {
-    //загрузить значения в окошки
-    if (this.showValueFlag) {
-      if (thumb === "min") {
-        this.thumbs[0].updateFlagValue(position);
-      } else if (this.type === "double" && thumb === "max") {
-        this.thumbs[1].updateFlagValue(position);
-      }
-    }
-  }
-
-  updateThumbsControlsValue(type: "min" | "max", value: number): void {
-    if (type === "min" && this.controlsMinThumb.length) {
-      $.each(this.controlsMinThumb, function () {
-        $.each(this, function () {
-          $(this).val(value);
-        });
-      });
-    }
-
-    if (type === "max" && this.controlsMaxThumb.length) {
-      $.each(this.controlsMaxThumb, function () {
-        $.each(this, function () {
-          $(this).val(value);
-        });
-      });
-    }
-  }
-
-  updateSliderControlsValue(type: "min" | "max", value: number): void {
-    if (type === "min" && this.controlsMinValue.length) {
-      $.each(this.controlsMinValue, function () {
-        $.each(this, function () {
-          $(this).val(value);
-        });
-      });
-    }
-
-    if (type === "max" && this.controlsMaxValue.length) {
-      $.each(this.controlsMaxValue, function () {
-        $.each(this, function () {
-          $(this).val(value);
-        });
-      });
-    }
-  }
-
-  updateStepControls(value: number): void {
-    if (this.controlsStepValues.length) {
-      $.each(this.controlsStepValues, function () {
-        $.each(this, function () {
-          $(this).val(value);
-        });
-      });
-    }
-  }
-
-  setPixelInOneStep({
-    min,
-    max,
-    step,
-  }: {
-    min: number;
-    max: number;
-    step: number;
-  }): void {
-    this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
-  }
-
   private _handlerThumbsMove = (event: PointerEvent) => {
     event.preventDefault();
     // получу координаты элементов
@@ -754,6 +579,181 @@ class View extends Observer {
         elem.addClass("alexandr__dividing_type_vertical");
       });
     }
+  }
+
+  destroy() {
+    this.slider.remove();
+  }
+
+  updateThumbsPosition(thumb: "min" | "max", position: number): void {
+    if (thumb === "min") {
+      this.minThumbPixelPosition = position;
+      this.thumbs[0].item.css({ [this.moveDirection]: position });
+    } else if (this.type === "double" && thumb === "max") {
+      this.maxThumbPixelPosition = position;
+      this.thumbs[1].item.css({ [this.moveDirection]: position });
+    }
+  }
+
+  updateProgressBar(): void {
+    if (this.type === "single") {
+      if (this.orientation === "vertical") {
+        const coordsThumbStart =
+          this.minThumbPixelPosition +
+          this.thumbs[0].item.outerHeight() / 2 +
+          "px";
+
+        this.progressbar.update({
+          top: 0,
+          width: "100%",
+          height: coordsThumbStart,
+        });
+      }
+
+      if (this.orientation === "horizontal") {
+        const coordsThumbStart =
+          this.minThumbPixelPosition +
+          this.thumbs[0].item.outerWidth() / 2 +
+          "px";
+
+        this.progressbar.update({
+          left: 0,
+          width: coordsThumbStart,
+          height: "100%",
+        });
+      }
+    }
+
+    if (this.type === "double") {
+      if (this.orientation === "vertical") {
+        const coordsThumbMin =
+          this.minThumbPixelPosition + this.thumbs[0].item.outerHeight() / 2;
+        const coordsThumbMax =
+          this.maxThumbPixelPosition + this.thumbs[1].item.outerHeight() / 2;
+
+        this.progressbar.update({
+          left: 0,
+          height: coordsThumbMax - coordsThumbMin + "px",
+          width: "100%",
+          top: coordsThumbMin,
+        });
+      }
+
+      if (this.orientation === "horizontal") {
+        const coordsThumbMin =
+          this.minThumbPixelPosition + this.thumbs[0].item.outerWidth() / 2;
+        const coordsThumbMax =
+          this.maxThumbPixelPosition + this.thumbs[1].item.outerWidth() / 2;
+
+        this.progressbar.update({
+          left: coordsThumbMin + "px",
+          height: "100%",
+          width: coordsThumbMax - coordsThumbMin + "px",
+        });
+      }
+    }
+  }
+
+  updateControlsShowRuler(): void {
+    if (this.showRuler) {
+      $.each(this.controlsRuler, (_, element) => {
+        $.each(element, (_, element) => {
+          $(element).prop("checked", true);
+        });
+      });
+    } else {
+      $.each(this.controlsRuler, (_, element) => {
+        $.each(element, (_, element) => {
+          $(element).prop("checked", false);
+        });
+      });
+    }
+  }
+
+  updateControlsFlag(): void {
+    //показать флажки
+    if (this.showValueFlag) {
+      $.each(this.controlsFlag, (_, element) => {
+        $.each(element, (_, element) => {
+          $(element).prop("checked", true);
+        });
+      });
+    } else {
+      $.each(this.controlsFlag, (_, element) => {
+        $.each(element, (_, element) => {
+          $(element).prop("checked", false);
+        });
+      });
+    }
+  }
+
+  updateFlagValues(thumb: "min" | "max", position: number): void {
+    //загрузить значения в окошки
+    if (this.showValueFlag) {
+      if (thumb === "min") {
+        this.thumbs[0].updateFlagValue(position);
+      } else if (this.type === "double" && thumb === "max") {
+        this.thumbs[1].updateFlagValue(position);
+      }
+    }
+  }
+
+  updateThumbsControlsValue(type: "min" | "max", value: number): void {
+    if (type === "min" && this.controlsMinThumb.length) {
+      $.each(this.controlsMinThumb, function () {
+        $.each(this, function () {
+          $(this).val(value);
+        });
+      });
+    }
+
+    if (type === "max" && this.controlsMaxThumb.length) {
+      $.each(this.controlsMaxThumb, function () {
+        $.each(this, function () {
+          $(this).val(value);
+        });
+      });
+    }
+  }
+
+  updateSliderControlsValue(type: "min" | "max", value: number): void {
+    if (type === "min" && this.controlsMinValue.length) {
+      $.each(this.controlsMinValue, function () {
+        $.each(this, function () {
+          $(this).val(value);
+        });
+      });
+    }
+
+    if (type === "max" && this.controlsMaxValue.length) {
+      $.each(this.controlsMaxValue, function () {
+        $.each(this, function () {
+          $(this).val(value);
+        });
+      });
+    }
+  }
+
+  updateStepControls(value: number): void {
+    if (this.controlsStepValues.length) {
+      $.each(this.controlsStepValues, function () {
+        $.each(this, function () {
+          $(this).val(value);
+        });
+      });
+    }
+  }
+
+  setPixelInOneStep({
+    min,
+    max,
+    step,
+  }: {
+    min: number;
+    max: number;
+    step: number;
+  }): void {
+    this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
   }
 }
 
