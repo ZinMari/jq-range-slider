@@ -86,53 +86,13 @@ class View extends Observer {
     this.controlsFlag = controlsFlag;
     this.controlsRuler = controlsRuler;
 
-    //создам кнопки
-    if (this.type === "double") {
-      const min = new ThumbView(this.line.item, this._handlerThumbsMove, `alexandr__thumb--min ${thumbMinClass}`);
-      const max = new ThumbView(this.line.item, this._handlerThumbsMove, `alexandr__thumb--max ${thumbMaxClass}`);
-      this.thumbs.push(min, max);
-    } else {
-      const thumb = new ThumbView(this.line.item, this._handlerThumbsMove, thumbClass);
-      this.thumbs.push(thumb);
-    }
-
-    //добавлю слайдер на страницу
-    this.container.append(this.slider);
-
-    //получу размер слайдера
-    this.sliderLength =
-      this.slider.outerWidth() - this.thumbs[0].item.outerWidth();
-
-    // создать мин макс
-    if (this.showMinMaxValue) {
-      this.sliderMinMaxValueLine = new MinMaxValueLineView(
-        this.slider,
-        showMinValueClass,
-        showMaxValueClass,
-      );
-    }
-
-    // создать линейку
-    this.ruler = new RulerView(this.slider, this._handleSliderClick);
-    this.showRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
-    this.updateControlsShowRuler();
-
-    // флажки
-    if(this.showValueFlag) {
-      $.each(this.thumbs, function () {
-        this.showFlug();
-      });
-    } else {
-      $.each(this.thumbs, function () {
-        this.hideFlug();
-      })
-    }
-    this.updateControlsFlag();
-
-    // установить ориентацию
-    if (this.orientation === "vertical") {
-      this._setVerticalOrientation();
-    }
+    this._initSliderStructure({
+      thumbMinClass,
+      thumbMaxClass,
+      thumbClass,
+      showMinValueClass,
+      showMaxValueClass,
+    });
 
     //повесить события на контролы флажков
     if (this.controlsFlag.length) {
@@ -206,6 +166,97 @@ class View extends Observer {
     }
   }
 
+  private _createThumbs({
+    thumbMinClass,
+    thumbMaxClass,
+    thumbClass,
+  }: {
+    thumbMinClass: string;
+    thumbMaxClass: string;
+    thumbClass: string;
+  }): void {
+    //создам кнопки
+    if (this.type === "double") {
+      const min = new ThumbView(
+        this.line.item,
+        this._handlerThumbsMove,
+        `alexandr__thumb--min ${thumbMinClass}`,
+      );
+      const max = new ThumbView(
+        this.line.item,
+        this._handlerThumbsMove,
+        `alexandr__thumb--max ${thumbMaxClass}`,
+      );
+      this.thumbs.push(min, max);
+    } else {
+      const thumb = new ThumbView(
+        this.line.item,
+        this._handlerThumbsMove,
+        thumbClass,
+      );
+      this.thumbs.push(thumb);
+    }
+  }
+
+  private _createFlugs(): void {
+    if (this.showValueFlag) {
+      $.each(this.thumbs, function () {
+        this.showFlug();
+      });
+    } else {
+      $.each(this.thumbs, function () {
+        this.hideFlug();
+      });
+    }
+    this.updateControlsFlag();
+  }
+
+  private _createRuler() {
+    this.ruler = new RulerView(this.slider, this._handleSliderClick);
+    this.showRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
+    this.updateControlsShowRuler();
+  }
+
+  private _initSliderStructure({
+    thumbMinClass,
+    thumbMaxClass,
+    thumbClass,
+    showMinValueClass,
+    showMaxValueClass,
+  }: {
+    thumbMinClass: string;
+    thumbMaxClass: string;
+    thumbClass: string;
+    showMinValueClass: string;
+    showMaxValueClass: string;
+  }) {
+    this._createThumbs({ thumbMinClass, thumbMaxClass, thumbClass });
+
+    //добавлю слайдер на страницу
+    this.container.append(this.slider);
+
+    //получу размер слайдера
+    this.sliderLength =
+      this.slider.outerWidth() - this.thumbs[0].item.outerWidth();
+
+    // создать мин макс
+    if (this.showMinMaxValue) {
+      this.sliderMinMaxValueLine = new MinMaxValueLineView(
+        this.slider,
+        showMinValueClass,
+        showMaxValueClass,
+      );
+    }
+
+    this._createRuler();
+    this._createFlugs();
+
+    // установить ориентацию
+    if (this.orientation === "vertical") {
+      this._setVerticalOrientation();
+    }
+  }
+
   destroy() {
     this.slider.remove();
   }
@@ -220,7 +271,7 @@ class View extends Observer {
     }
   }
 
-  updateProgressBar(): void{
+  updateProgressBar(): void {
     if (this.type === "single") {
       if (this.orientation === "vertical") {
         const coordsThumbStart =
@@ -232,7 +283,7 @@ class View extends Observer {
           top: 0,
           width: "100%",
           height: coordsThumbStart,
-        })
+        });
       }
 
       if (this.orientation === "horizontal") {
@@ -245,7 +296,7 @@ class View extends Observer {
           left: 0,
           width: coordsThumbStart,
           height: "100%",
-        })
+        });
       }
     }
 
@@ -261,7 +312,7 @@ class View extends Observer {
           height: coordsThumbMax - coordsThumbMin + "px",
           width: "100%",
           top: coordsThumbMin,
-        })
+        });
       }
 
       if (this.orientation === "horizontal") {
@@ -274,7 +325,7 @@ class View extends Observer {
           left: coordsThumbMin + "px",
           height: "100%",
           width: coordsThumbMax - coordsThumbMin + "px",
-        })
+        });
       }
     }
   }
@@ -523,14 +574,14 @@ class View extends Observer {
   private _handlerFlagControls = (event: Event) => {
     const $currentInput = $(event.target);
     this.showValueFlag = $currentInput.is(":checked");
-    if(this.showValueFlag) {
+    if (this.showValueFlag) {
       $.each(this.thumbs, function () {
-        this.showFlug()
+        this.showFlug();
       });
     } else {
       $.each(this.thumbs, function () {
-        this.hideFlug()
-      })
+        this.hideFlug();
+      });
     }
     this.updateControlsFlag();
   };
