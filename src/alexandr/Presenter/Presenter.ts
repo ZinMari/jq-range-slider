@@ -62,7 +62,7 @@ class Presenter extends Observer {
     position: number,
   ) => {
     this.view.updateThumbsPosition(thumb, this._convertUnitsToPixels(position));
-    this.view.updateProgressBar()
+    this.view.updateProgressBar();
     this.view.updateFlagValues(thumb, position);
     this.view.updateThumbsControlsValue(thumb, position);
 
@@ -170,7 +170,10 @@ class Presenter extends Observer {
     this.view.updateSliderControlsValue("min", this.model.minValue);
     this.view.updateStepControls(this.model.stepValue);
     this.view.updateProgressBar();
-    this.view.sliderMinMaxValueLine.update(this.model.minValue, this.model.maxValue)
+    this.view.sliderMinMaxValueLine.update(
+      this.model.minValue,
+      this.model.maxValue,
+    );
     this.view.ruler.update(this.model.minValue, this.model.maxValue);
   }
 }

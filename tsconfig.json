@@ -1,18 +1,20 @@
 {
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "outDir": "./dist/",
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "allowJs": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
+    // "strict": true
+  },
+  "ts-node": {
     "compilerOptions": {
-      "outDir": "./dist/",
-      "noImplicitAny": true,
-      "module": "ESNext",
-      "target": "es5",
-      "jsx": "react",
-      "allowJs": true,
-      "moduleResolution": "node",
-      "allowSyntheticDefaultImports": true,
-      "esModuleInterop": true,
-    },
-    "ts-node": {
-        "compilerOptions": {
-          "module": "CommonJS"
-        }
-    },
+      "module": "CommonJS",
+      "typeRoots": ["./src/alexandr/@types", "./node_modules/@types"]
+    }
   }
+}
