@@ -33,10 +33,6 @@ class View extends Observer {
   private controlsFlag: Array<JQuery<HTMLElement>>;
   private controlsRuler: Array<JQuery<HTMLElement>>;
 
-  constructor() {
-    super();
-  }
-
   init({
     type,
     container,
