@@ -35,8 +35,6 @@ class View extends Observer {
 
   constructor() {
     super();
-    this.slider = $("<div>", { class: "alexandr" });
-    this.thumbs = [];
   }
 
   init({
@@ -71,13 +69,11 @@ class View extends Observer {
     }
     this.container = container;
     this.type = type;
-    this.line = new LineView(this.slider, lineClass, this._handleSliderClick);
     this.orientation = orientation;
     this.moveDirection = this.orientation === "vertical" ? "top" : "left";
     this.showMinMaxValue = showMinMaxValue;
     this.showRuler = showRuler;
     this.showValueFlag = showValueFlag;
-    this.progressbar = new ProgressBar(this.line.item, progressBarClass);
     this.controlsMinThumb = controlsMinThumb;
     this.controlsMaxThumb = controlsMaxThumb;
     this.controlsMinValue = controlsMinValue;
@@ -92,9 +88,58 @@ class View extends Observer {
       thumbClass,
       showMinValueClass,
       showMaxValueClass,
+      lineClass,
+      progressBarClass,
     });
-
     this._bindEventsSliderControls();
+  }
+
+  private _initSliderStructure({
+    thumbMinClass,
+    thumbMaxClass,
+    thumbClass,
+    showMinValueClass,
+    showMaxValueClass,
+    lineClass,
+    progressBarClass,
+  }: {
+    thumbMinClass: string;
+    thumbMaxClass: string;
+    thumbClass: string;
+    showMinValueClass: string;
+    showMaxValueClass: string;
+    lineClass: string;
+    progressBarClass: string;
+  }) {
+    this.slider = $("<div>", { class: "alexandr" });
+    this.thumbs = [];
+    this.line = new LineView(this.slider, lineClass, this._handleSliderClick);
+    this.progressbar = new ProgressBar(this.line.item, progressBarClass);
+    this._createThumbs({ thumbMinClass, thumbMaxClass, thumbClass });
+
+    //добавлю слайдер на страницу
+    this.container.append(this.slider);
+
+    //получу размер слайдера
+    this.sliderLength =
+      this.slider.outerWidth() - this.thumbs[0].item.outerWidth();
+
+    // создать мин макс
+    if (this.showMinMaxValue) {
+      this.sliderMinMaxValueLine = new MinMaxValueLineView(
+        this.slider,
+        showMinValueClass,
+        showMaxValueClass,
+      );
+    }
+
+    this._createRuler();
+    this._createFlugs();
+
+    // установить ориентацию
+    if (this.orientation === "vertical") {
+      this._setVerticalOrientation();
+    }
   }
 
   private _bindEventsSliderControls() {
@@ -230,46 +275,6 @@ class View extends Observer {
     this.ruler = new RulerView(this.slider, this._handleSliderClick);
     this.showRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
     this.updateControlsShowRuler();
-  }
-
-  private _initSliderStructure({
-    thumbMinClass,
-    thumbMaxClass,
-    thumbClass,
-    showMinValueClass,
-    showMaxValueClass,
-  }: {
-    thumbMinClass: string;
-    thumbMaxClass: string;
-    thumbClass: string;
-    showMinValueClass: string;
-    showMaxValueClass: string;
-  }) {
-    this._createThumbs({ thumbMinClass, thumbMaxClass, thumbClass });
-
-    //добавлю слайдер на страницу
-    this.container.append(this.slider);
-
-    //получу размер слайдера
-    this.sliderLength =
-      this.slider.outerWidth() - this.thumbs[0].item.outerWidth();
-
-    // создать мин макс
-    if (this.showMinMaxValue) {
-      this.sliderMinMaxValueLine = new MinMaxValueLineView(
-        this.slider,
-        showMinValueClass,
-        showMaxValueClass,
-      );
-    }
-
-    this._createRuler();
-    this._createFlugs();
-
-    // установить ориентацию
-    if (this.orientation === "vertical") {
-      this._setVerticalOrientation();
-    }
   }
 
   destroy() {
