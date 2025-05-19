@@ -17,6 +17,10 @@ class Presenter extends Observer {
     this.view.addSubscriber(this);
     this.model.addSubscriber(this);
 
+    this.view.addSubscriber2("viewThumbsPositionChanged", (dataOptions: ObserverInfoObject)=>{
+      this.viewThumbsPositionChanged(dataOptions.type, dataOptions.currentValue);
+    })
+
     this._setViewInitialValues();
   }
 

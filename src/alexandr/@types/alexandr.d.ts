@@ -120,7 +120,9 @@ interface Presenter extends Observer {
 
 interface Observer {
   subscriber: Presenter | Alexandr;
+  subscribers2: object;
   addSubscriber: (subscriber: Presenter | Alexandr) => void;
+  addSubscriber2: (typeEvent: string, subscriber: any) => void;
   notify: (observerInfoObject: ObserverInfoObject) => void;
 }
 
