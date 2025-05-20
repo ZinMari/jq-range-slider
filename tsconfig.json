@@ -4,12 +4,13 @@
     "module": "esnext",
     "outDir": "./dist/",
     "esModuleInterop": true,
-    // "noImplicitAny": true,
     "allowJs": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true
-    // "strict": true
+    // "strict": true,
+    // "strictNullChecks": true
+    // "noImplicitAny": true,
   },
   "ts-node": {
     "compilerOptions": {
