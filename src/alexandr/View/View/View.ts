@@ -308,14 +308,12 @@ class View extends Observer {
       }
 
       if ($currenThumb.prop("classList").contains("alexandr__thumb--max")) {
-        this.notify({
-          event: "viewThumbsPositionChanged",
+        this.notify("viewThumbsPositionChanged", {
           type: "max",
           currentValue: value,
         });
       } else {
-        this.notify({
-          event: "viewThumbsPositionChanged",
+        this.notify("viewThumbsPositionChanged", {
           type: "min",
           currentValue: value,
         });
@@ -349,8 +347,7 @@ class View extends Observer {
     const stepLeft = this._equateValueToStep(pixelClick);
 
     if (this.type === "single") {
-      this.notify({
-        event: "viewThumbsPositionChanged",
+      this.notify("viewThumbsPositionChanged", {
         type: "min",
         currentValue: stepLeft,
       });
@@ -362,14 +359,12 @@ class View extends Observer {
         (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
 
       if (stepLeft < middlePixels) {
-        this.notify({
-          event: "viewThumbsPositionChanged",
+        this.notify("viewThumbsPositionChanged", {
           type: "min",
           currentValue: stepLeft,
         });
       } else {
-        this.notify({
-          event: "viewThumbsPositionChanged",
+        this.notify("viewThumbsPositionChanged", {
           type: "max",
           currentValue: stepLeft,
         });
@@ -382,8 +377,7 @@ class View extends Observer {
     let currentValue = parseInt($currentInput.val().toString());
     currentValue = Number.isNaN(currentValue) ? 0 : currentValue;
 
-    this.notify({
-      event: "viewThumbsControlsChanged",
+    this.notify("viewThumbsControlsChanged", {
       type: type,
       currentValue: currentValue,
     });
@@ -394,8 +388,7 @@ class View extends Observer {
     let currentValue = parseInt($currentInput.val().toString());
     currentValue = Number.isNaN(currentValue) ? 0 : currentValue;
 
-    this.notify({
-      event: "viewSliderValueControlsChanged",
+    this.notify("viewSliderValueControlsChanged", {
       type: type,
       currentValue: currentValue,
     });
@@ -406,8 +399,7 @@ class View extends Observer {
     let currentValue = parseInt($currentInput.val().toString());
     currentValue = Number.isNaN(currentValue) ? 0 : currentValue;
 
-    this.notify({
-      event: "viewStepControlsChanged",
+    this.notify("viewStepControlsChanged", {
       currentValue: currentValue,
     });
   };

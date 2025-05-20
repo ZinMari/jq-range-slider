@@ -1,29 +1,23 @@
 class Observer {
-  subscriber: Presenter | Alexandr;
-  subscribers2: object;
+  subscribers: object;
 
-  constructor(){
-    this.subscribers2 = {}
+  constructor() {
+    this.subscribers = {};
   }
 
-  addSubscriber(subscriber: Presenter | Alexandr) {
-    this.subscriber = subscriber;
+  addSubscriber(typeEvent: string, subscriber: any) {
+    if (this.subscribers[typeEvent]) {
+      this.subscribers[typeEvent].push(subscriber);
+    } else {
+      this.subscribers[typeEvent] = [];
+      this.subscribers[typeEvent].push(subscriber);
+    }
   }
 
-  addSubscriber2(typeEvent: string, subscriber: any) {
-
-      if(this.subscribers2[typeEvent]) {
-        this.subscribers2[typeEvent].push(subscriber)
-      } else {
-        this.subscribers2[typeEvent] = []
-        this.subscribers2[typeEvent].push(subscriber)
-      }
-    
-    console.log(this.subscribers2[typeEvent])
-  }
-
-  notify(observerInfoObject: ObserverInfoObject) {
-    this.subscriber?.update(observerInfoObject);
+  notify(type: string, observerInfoObject: ObserverInfoObject) {
+    this.subscribers[type]?.forEach(updateSubscriber =>
+      updateSubscriber(observerInfoObject),
+    );
   }
 }
 export default Observer;

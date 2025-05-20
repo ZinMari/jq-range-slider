@@ -15,7 +15,7 @@ class Model extends Observer {
     maxPosition,
     stepValue,
     type,
-  }: AlexandrSettings): void{
+  }: AlexandrSettings): void {
     this.type = type;
     this.setMaxValue(Number(maxValue));
     this.setMinValue(Number(minValue));
@@ -37,8 +37,7 @@ class Model extends Observer {
     }
     this.minPosition = newPosition;
 
-    super.notify({
-      event: "modelThumbsPositionChanged",
+    this.notify("modelThumbsPositionChanged", {
       type: "min",
       currentValue: this.minPosition,
     });
@@ -54,8 +53,7 @@ class Model extends Observer {
     }
 
     this.maxPosition = newPosition;
-    super.notify({
-      event: "modelThumbsPositionChanged",
+    this.notify("modelThumbsPositionChanged", {
       type: "max",
       currentValue: this.maxPosition,
     });
@@ -67,13 +65,11 @@ class Model extends Observer {
         ? this.maxValue - this.stepValue
         : minValue;
 
-    super.notify({
-      event: "modelMinMaxValuesChanged",
+    this.notify("modelMinMaxValuesChanged", {
       min: this.minValue,
       max: this.maxValue,
     });
-    super.notify({
-      event: "modelStepValueChenged",
+    this.notify("modelStepValueChenged", {
       min: this.minValue,
       max: this.maxValue,
       step: this.stepValue,
@@ -85,13 +81,11 @@ class Model extends Observer {
       maxValue <= this.minValue || Number.isNaN(maxValue)
         ? this.minValue + this.stepValue
         : maxValue;
-    super.notify({
-      event: "modelMinMaxValuesChanged",
+    this.notify("modelMinMaxValuesChanged", {
       min: this.minValue,
       max: this.maxValue,
     });
-    super.notify({
-      event: "modelStepValueChenged",
+    this.notify("modelStepValueChenged", {
       min: this.minValue,
       max: this.maxValue,
       step: this.stepValue,
@@ -108,8 +102,7 @@ class Model extends Observer {
         ? 1
         : stepValue;
 
-    super.notify({
-      event: "modelStepValueChenged",
+    this.notify("modelStepValueChenged", {
       min: this.minValue,
       max: this.maxValue,
       step: this.stepValue,

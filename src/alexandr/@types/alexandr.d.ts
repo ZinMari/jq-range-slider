@@ -66,14 +66,14 @@ interface RulerView extends BaseSubViewInterface {
   dividings: JQuery<HTMLElement>[];
   countDivivdings: number;
   update: (min: number, max: number) => void;
-  showRuler: ()=> void;
-  hideRuler: ()=> void;
+  showRuler: () => void;
+  hideRuler: () => void;
 }
 
 interface ThumbView extends BaseSubViewInterface {
-  showFlug: ()=> void;
-  hideFlug: ()=> void;
-  updateFlagValue: (position: number) =>void;
+  showFlug: () => void;
+  hideFlug: () => void;
+  updateFlagValue: (position: number) => void;
 }
 
 interface MinMaxValueLineView {
@@ -84,7 +84,7 @@ interface MinMaxValueLineView {
 }
 
 interface ProgressBarView extends BaseSubViewInterface {
-  update(styleobject: { [key: string]: string | number }): void
+  update(styleobject: { [key: string]: string | number }): void;
 }
 
 type ElementsCoords = {
@@ -104,7 +104,7 @@ interface View extends Observer {
   updateThumbsControlsValue: (type: "min" | "max", value: number) => void;
   updateSliderControlsValue: (type: "min" | "max", value: number) => void;
   updateStepControls: (value: number) => void;
-  updateProgressBar(): void
+  updateProgressBar(): void;
   setPixelInOneStep: (options: {
     min: number;
     max: number;
@@ -115,19 +115,15 @@ interface View extends Observer {
 
 interface Presenter extends Observer {
   init: (options: AlexandrSettings) => void;
-  update: (observerInfoObject: ObserverInfoObject) => void;
 }
 
 interface Observer {
-  subscriber: Presenter | Alexandr;
-  subscribers2: object;
-  addSubscriber: (subscriber: Presenter | Alexandr) => void;
-  addSubscriber2: (typeEvent: string, subscriber: any) => void;
-  notify: (observerInfoObject: ObserverInfoObject) => void;
+  subscribers: object;
+  addSubscriber: (typeEvent: string, subscriber: any) => void;
+  notify: (type: string, observerInfoObject: ObserverInfoObject) => void;
 }
 
 interface ObserverInfoObject {
-  event?: string;
   type?: "min" | "max";
   currentValue?: number;
   min?: number;

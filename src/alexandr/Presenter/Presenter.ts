@@ -14,12 +14,7 @@ class Presenter extends Observer {
     this.view.init({ ...config });
     this.model.init({ ...config });
 
-    this.view.addSubscriber(this);
-    this.model.addSubscriber(this);
-
-    this.view.addSubscriber2("viewThumbsPositionChanged", (dataOptions: ObserverInfoObject)=>{
-      this.viewThumbsPositionChanged(dataOptions.type, dataOptions.currentValue);
-    })
+    this.bindSubscribers();
 
     this._setViewInitialValues();
   }
@@ -28,37 +23,71 @@ class Presenter extends Observer {
     this.view.destroy();
   }
 
-  update({ event, type, currentValue, min, max, step }: ObserverInfoObject) {
-    switch (event) {
-      case "viewThumbsPositionChanged": {
-        this.viewThumbsPositionChanged(type, currentValue);
-        break;
-      }
-      case "viewThumbsControlsChanged": {
-        this.viewThumbsControlsChanged(type, currentValue);
-        break;
-      }
-      case "viewSliderValueControlsChanged": {
-        this.viewSliderValueControlsChanged(type, currentValue);
-        break;
-      }
-      case "viewStepControlsChanged": {
-        this.viewStepControlsChanged(currentValue);
-        break;
-      }
-      case "modelThumbsPositionChanged": {
-        this.modelThumbsPositionChanged(type, currentValue);
-        break;
-      }
-      case "modelStepValueChenged": {
-        this.modelStepValueChenged(min, max, step);
-        break;
-      }
-      case "modelMinMaxValuesChanged": {
-        this.modelMinMaxValuesChanged(min, max);
-        break;
-      }
-    }
+  bindSubscribers() {
+    this.view.addSubscriber(
+      "viewThumbsPositionChanged",
+      (dataOptions: ObserverInfoObject) => {
+        this.viewThumbsPositionChanged(
+          dataOptions.type,
+          dataOptions.currentValue,
+        );
+      },
+    );
+
+    this.view.addSubscriber(
+      "viewThumbsControlsChanged",
+      (dataOptions: ObserverInfoObject) => {
+        this.viewThumbsControlsChanged(
+          dataOptions.type,
+          dataOptions.currentValue,
+        );
+      },
+    );
+
+    this.view.addSubscriber(
+      "viewSliderValueControlsChanged",
+      (dataOptions: ObserverInfoObject) => {
+        this.viewSliderValueControlsChanged(
+          dataOptions.type,
+          dataOptions.currentValue,
+        );
+      },
+    );
+
+    this.view.addSubscriber(
+      "viewStepControlsChanged",
+      (dataOptions: ObserverInfoObject) => {
+        this.viewStepControlsChanged(dataOptions.currentValue);
+      },
+    );
+
+    this.model.addSubscriber(
+      "modelThumbsPositionChanged",
+      (dataOptions: ObserverInfoObject) => {
+        this.modelThumbsPositionChanged(
+          dataOptions.type,
+          dataOptions.currentValue,
+        );
+      },
+    );
+
+    this.model.addSubscriber(
+      "modelStepValueChenged",
+      (dataOptions: ObserverInfoObject) => {
+        this.modelStepValueChenged(
+          dataOptions.min,
+          dataOptions.max,
+          dataOptions.step,
+        );
+      },
+    );
+
+    this.model.addSubscriber(
+      "modelMinMaxValuesChanged",
+      (dataOptions: ObserverInfoObject) => {
+        this.modelMinMaxValuesChanged(dataOptions.min, dataOptions.max);
+      },
+    );
   }
 
   private modelThumbsPositionChanged = (
@@ -70,7 +99,7 @@ class Presenter extends Observer {
     this.view.updateFlagValues(thumb, position);
     this.view.updateThumbsControlsValue(thumb, position);
 
-    this.notify({
+    this.notify("updateOptions", {
       propName: `${thumb}Position`,
       propValue: position,
     });
@@ -80,7 +109,7 @@ class Presenter extends Observer {
     this.view.setPixelInOneStep({ min, max, step });
     this.view.updateStepControls(step);
 
-    this.notify({
+    this.notify("updateOptions", {
       propName: `stepValue`,
       propValue: step,
     });
@@ -92,12 +121,12 @@ class Presenter extends Observer {
     this.view.updateSliderControlsValue("min", min);
     this.view.updateSliderControlsValue("max", max);
 
-    this.notify({
+    this.notify("updateOptions", {
       propName: `minValue`,
       propValue: min,
     });
 
-    this.notify({
+    this.notify("updateOptions", {
       propName: `maxValue`,
       propValue: max,
     });

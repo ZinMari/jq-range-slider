@@ -16,7 +16,13 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
     constructor(options: AlexandrSettings) {
       this.presenter = new Presenter(new View(), new Model());
       this.presenter.init(options);
-      this.presenter.addSubscriber(this);
+
+      this.presenter.addSubscriber(
+        "updateOptions",
+        (dataOptions: ObserverInfoObject) => {
+          this.update(dataOptions);
+        },
+      );
     }
 
     update({ propName, propValue }: ObserverInfoObject) {
