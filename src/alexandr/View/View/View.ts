@@ -740,7 +740,7 @@ class View extends Observer {
     min: number;
     max: number;
     step: number;
-  }): void {
+  } | ObserverInfoObject): void {
     this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
   }
 }

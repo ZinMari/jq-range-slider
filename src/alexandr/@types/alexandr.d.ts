@@ -109,7 +109,7 @@ interface View extends Observer {
     min: number;
     max: number;
     step: number;
-  }) => void;
+  } | ObserverInfoObject) => void;
   destroy: () => void;
 }
 
