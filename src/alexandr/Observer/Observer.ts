@@ -13,6 +13,10 @@ class Observer {
     }
   }
 
+  removeSubscriber(typeEvent: string, subscriber: any) {
+    this.subscribers[typeEvent].delete(subscriber)
+  }
+
   notify(type: string, observerInfoObject: ObserverInfoObject) {
     this.subscribers[type]?.forEach(updateSubscriber =>
       updateSubscriber(observerInfoObject),

@@ -120,6 +120,7 @@ interface Presenter extends Observer {
 interface Observer {
   subscribers: object;
   addSubscriber: (typeEvent: string, subscriber: any) => void;
+  removeSubscriber: (typeEvent: string, subscriber: any) => void;
   notify: (type: string, observerInfoObject: ObserverInfoObject) => void;
 }
 
