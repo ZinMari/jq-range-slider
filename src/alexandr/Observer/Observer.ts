@@ -6,11 +6,10 @@ class Observer {
   }
 
   addSubscriber(typeEvent: string, subscriber: any) {
-    if (this.subscribers[typeEvent]) {
-      this.subscribers[typeEvent].push(subscriber);
+    if (typeEvent in this.subscribers) {
+      this.subscribers[typeEvent].add(subscriber);
     } else {
-      this.subscribers[typeEvent] = [];
-      this.subscribers[typeEvent].push(subscriber);
+      this.subscribers[typeEvent] = new Set([subscriber]);
     }
   }
 
