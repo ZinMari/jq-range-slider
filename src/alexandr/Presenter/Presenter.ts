@@ -26,144 +26,104 @@ class Presenter extends Observer {
   bindSubscribers() {
     this.view.addSubscriber(
       "viewThumbsPositionChanged",
-      (dataOptions: ObserverInfoObject) => {
-        this.viewThumbsPositionChanged(
-          dataOptions.type,
-          dataOptions.currentValue,
-        );
-      },
+      this.viewThumbsPositionChanged,
     );
 
     this.view.addSubscriber(
       "viewThumbsControlsChanged",
-      (dataOptions: ObserverInfoObject) => {
-        this.viewThumbsControlsChanged(
-          dataOptions.type,
-          dataOptions.currentValue,
-        );
-      },
+      this.viewThumbsControlsChanged
     );
 
     this.view.addSubscriber(
       "viewSliderValueControlsChanged",
-      (dataOptions: ObserverInfoObject) => {
-        this.viewSliderValueControlsChanged(
-          dataOptions.type,
-          dataOptions.currentValue,
-        );
-      },
+      this.viewSliderValueControlsChanged
     );
 
     this.view.addSubscriber(
       "viewStepControlsChanged",
-      (dataOptions: ObserverInfoObject) => {
-        this.viewStepControlsChanged(dataOptions.currentValue);
-      },
+      this.viewStepControlsChanged
     );
 
     this.model.addSubscriber(
-      "modelThumbsPositionChanged",
-      (dataOptions: ObserverInfoObject) => {
-        this.modelThumbsPositionChanged(
-          dataOptions.type,
-          dataOptions.currentValue,
-        );
-      },
+      "modelThumbsPositionChanged", 
+      this.modelThumbsPositionChanged
     );
 
     this.model.addSubscriber(
-      "modelStepValueChenged",
-      (dataOptions: ObserverInfoObject) => {
-        this.modelStepValueChenged(
-          dataOptions.min,
-          dataOptions.max,
-          dataOptions.step,
-        );
-      },
+      "modelStepValueChenged",this.modelStepValueChenged
     );
 
     this.model.addSubscriber(
       "modelMinMaxValuesChanged",
-      (dataOptions: ObserverInfoObject) => {
-        this.modelMinMaxValuesChanged(dataOptions.min, dataOptions.max);
-      },
+      this.modelMinMaxValuesChanged
     );
   }
 
-  private modelThumbsPositionChanged = (
-    thumb: "min" | "max",
-    position: number,
-  ) => {
-    this.view.updateThumbsPosition(thumb, this._convertUnitsToPixels(position));
+  private modelThumbsPositionChanged = (dataOptions: ObserverInfoObject) => {
+    this.view.updateThumbsPosition(dataOptions.type, this._convertUnitsToPixels(dataOptions.currentValue));
     this.view.updateProgressBar();
-    this.view.updateFlagValues(thumb, position);
-    this.view.updateThumbsControlsValue(thumb, position);
+    this.view.updateFlagValues(dataOptions.type, dataOptions.currentValue);
+    this.view.updateThumbsControlsValue(dataOptions.type, dataOptions.currentValue);
 
     this.notify("updateOptions", {
-      propName: `${thumb}Position`,
-      propValue: position,
+      propName: `${dataOptions.type}Position`,
+      propValue: dataOptions.currentValue,
     });
   };
 
-  private modelStepValueChenged = (min: number, max: number, step: number) => {
-    this.view.setPixelInOneStep({ min, max, step });
-    this.view.updateStepControls(step);
+  private modelStepValueChenged = (dataOptions: ObserverInfoObject) => {
+    this.view.setPixelInOneStep(dataOptions);
+    this.view.updateStepControls(dataOptions.step);
 
     this.notify("updateOptions", {
       propName: `stepValue`,
-      propValue: step,
+      propValue: dataOptions.step,
     });
   };
 
-  private modelMinMaxValuesChanged = (min: number, max: number) => {
-    this.view.sliderMinMaxValueLine.update(min, max);
-    this.view.ruler.update(min, max);
-    this.view.updateSliderControlsValue("min", min);
-    this.view.updateSliderControlsValue("max", max);
+  private modelMinMaxValuesChanged = (dataOptions: ObserverInfoObject ) => {
+    this.view.sliderMinMaxValueLine.update(dataOptions.min, dataOptions.max);
+    this.view.ruler.update(dataOptions.min, dataOptions.max);
+    this.view.updateSliderControlsValue("min", dataOptions.min);
+    this.view.updateSliderControlsValue("max", dataOptions.max);
 
     this.notify("updateOptions", {
       propName: `minValue`,
-      propValue: min,
+      propValue: dataOptions.min,
     });
 
     this.notify("updateOptions", {
       propName: `maxValue`,
-      propValue: max,
+      propValue: dataOptions.max,
     });
   };
 
-  private viewThumbsPositionChanged = (
-    thumb: "min" | "max",
-    position: number,
-  ) => {
-    if (thumb === "min") {
-      this.model.setMinPosition(this._convertPixelToUnits(position));
-    } else if (thumb === "max") {
-      this.model.setMaxPosition(this._convertPixelToUnits(position));
+  private viewThumbsPositionChanged = (dataOptions: ObserverInfoObject) => {
+    if (dataOptions.type === "min") {
+      this.model.setMinPosition(this._convertPixelToUnits(dataOptions.currentValue));
+    } else if (dataOptions.type === "max") {
+      this.model.setMaxPosition(this._convertPixelToUnits(dataOptions.currentValue));
     }
   };
 
-  private viewThumbsControlsChanged = (input: "min" | "max", value: number) => {
-    if (input === "min") {
-      this.model.setMinPosition(value);
-    } else if (input === "max") {
-      this.model.setMaxPosition(value);
+  private viewThumbsControlsChanged = (dataOptions: ObserverInfoObject) => {
+    if (dataOptions.type === "min") {
+      this.model.setMinPosition(dataOptions.currentValue);
+    } else if (dataOptions.type === "max") {
+      this.model.setMaxPosition(dataOptions.currentValue);
     }
   };
 
-  private viewSliderValueControlsChanged = (
-    input: "min" | "max",
-    value: number,
-  ) => {
-    if (input === "min") {
-      this.model.setMinValue(value);
-    } else if (input === "max") {
-      this.model.setMaxValue(value);
+  private viewSliderValueControlsChanged = (dataOptions: ObserverInfoObject) => {
+    if (dataOptions.type === "min") {
+      this.model.setMinValue(dataOptions.currentValue);
+    } else if (dataOptions.type === "max") {
+      this.model.setMaxValue(dataOptions.currentValue);
     }
   };
 
-  private viewStepControlsChanged = (value: number) => {
-    this.model.setStepValue(value);
+  private viewStepControlsChanged = (dataOptions: ObserverInfoObject)=> {
+    this.model.setStepValue(dataOptions.currentValue);
   };
 
   private _convertUnitsToPixels(value: number): number {
