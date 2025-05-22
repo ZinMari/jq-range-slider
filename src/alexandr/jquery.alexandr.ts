@@ -19,14 +19,12 @@ requireAll(require.context("./View/", true, /\.(scss)$/));
 
       this.presenter.addSubscriber(
         "updateOptions",
-        (dataOptions: ObserverInfoObject) => {
-          this.update(dataOptions);
-        },
+        this.updateOptions,
       );
     }
 
-    update({ propName, propValue }: ObserverInfoObject) {
-      this.sliderData[propName] = propValue;
+    updateOptions = (dataOptions: ObserverInfoObject) => {
+      this.sliderData[dataOptions.propName] = dataOptions.propValue;
     }
 
     initPlugin(
