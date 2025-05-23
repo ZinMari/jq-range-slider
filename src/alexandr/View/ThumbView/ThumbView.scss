@@ -7,8 +7,8 @@
     display: block;
     width: 30px;
     height: 30px;
-    background-color: #f6f6f6;
-    border: 10px solid #c5c5c5;
+    background-color: var(--color-white);
+    border: 10px solid var(--color-gray);
     top: 50%;
     transform: translateY(-50%);
     border-radius: 50%;
@@ -29,8 +29,8 @@
         justify-content: center;
         align-items: center;
         border-radius: 20%;
-        border: 3px solid white;
-        color: white;
+        border: 3px solid var(--color-white);
+        color: var(--color-white);
       }
 
       &_type {
@@ -47,8 +47,4 @@
             }
         }
       }
-
-    &:hover {
-      background-color: #ededed;
-    }
   }

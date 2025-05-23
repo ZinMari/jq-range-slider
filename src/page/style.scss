@@ -1,11 +1,16 @@
 @use './components/slider-complex/slider-complex';
 
+:root {
+    --color-bg: rgb(39, 38, 43);
+    --color-light: rgb(255, 255, 255);
+}
+
 .page {
-    background-color: #27262b;
+    background-color: var(--color-bg);
     min-height: 100vh;
     font-size: 16px;
     font-family: Arial, sans-serif;
-    color: white;
+    color: var(--color-light);
 
     &__body {
         margin: 0;

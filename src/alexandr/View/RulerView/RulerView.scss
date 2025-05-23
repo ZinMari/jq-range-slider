@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   align-items: end;
-  border-bottom: 5px solid #fff;
+  border-bottom: 5px solid var(--color-white);
   cursor: pointer;
 
   &_type {
@@ -13,7 +13,7 @@
       min-height: 100%;
       width: 30px;
       border-bottom: 0;
-      border-right: 5px solid #fff;
+      border-right: 5px solid var(--color-white);
     }
   }
 
@@ -27,7 +27,7 @@
   display: block;
   height: 20px;
   width: 5px;
-  background-color: #fff;
+  background-color: var(--color-white);
 
   &::before {
     position: absolute;
@@ -35,7 +35,7 @@
     top: 35px;
     left: 50%;
     transform: translateX(-50%);
-    color: #fff;
+    color: var(--color-white);
     font-weight: 700;
   }
 

@@ -1,7 +1,7 @@
 .alexandr__values {
     display: flex;
     justify-content: space-between;
-    color: bisque;
+    color: var(--color-light);
 
     &_type {
         &_vertical {
