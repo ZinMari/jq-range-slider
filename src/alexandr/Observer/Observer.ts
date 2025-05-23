@@ -1,11 +1,13 @@
+type Subscriber = (infoObject: ObserverInfoObject) => void;
+
 class Observer {
-  subscribers: object;
+  subscribers: Record<string, Set<Subscriber>>;
 
   constructor() {
     this.subscribers = {};
   }
 
-  addSubscriber(typeEvent: string, subscriber: any) {
+  addSubscriber(typeEvent: string, subscriber: Subscriber): void {
     if (typeEvent in this.subscribers) {
       this.subscribers[typeEvent].add(subscriber);
     } else {
@@ -13,11 +15,11 @@ class Observer {
     }
   }
 
-  removeSubscriber(typeEvent: string, subscriber: any) {
+  removeSubscriber(typeEvent: string, subscriber: Subscriber): void {
     this.subscribers[typeEvent].delete(subscriber)
   }
 
-  notify(type: string, observerInfoObject: ObserverInfoObject) {
+  notify(type: string, observerInfoObject: ObserverInfoObject): void {
     this.subscribers[type]?.forEach(updateSubscriber =>
       updateSubscriber(observerInfoObject),
     );
