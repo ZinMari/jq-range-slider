@@ -1,6 +1,6 @@
 import Observer from "../Observer/Observer";
 
-class Model extends Observer {
+class Model extends Observer<ModelEvents> {
   minValue: number;
   maxValue: number;
   minPosition: number;
@@ -137,5 +137,4 @@ class Model extends Observer {
     return Math.round(value / this.stepValue) * this.stepValue || this.minValue;
   }
 }
-
 export default Model;

@@ -5,7 +5,7 @@ import ProgressBar from "../ProgressbarView/ProgressbarView";
 import RulerView from "../RulerView/RulerView";
 import ThumbView from "../ThumbView/ThumbView";
 
-class View extends Observer {
+class View extends Observer<ViewEvents>{
   pixelInOneStep: number;
   ruler: RulerView;
   sliderMinMaxValueLine: MinMaxValueLineView;

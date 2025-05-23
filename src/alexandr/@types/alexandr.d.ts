@@ -138,3 +138,19 @@ interface Alexandr {
   update: (observerInfoObject: ObserverInfoObject) => void;
   sliderData: AlexandrSettings;
 }
+
+type ModelEvents = {
+  modelThumbsPositionChanged: "modelThumbsPositionChanged";
+  modelStepValueChenged: "modelStepValueChenged";
+  modelMinMaxValuesChanged: "modelMinMaxValuesChanged";
+}
+
+type ViewEvents = {
+  viewThumbsControlsChanged: "viewThumbsControlsChanged";
+  viewSliderValueControlsChanged: "viewSliderValueControlsChanged";
+  viewStepControlsChanged: "viewStepControlsChanged";
+}
+
+type PresenterEvents = {
+  updateOptions: "updateOptions";
+}

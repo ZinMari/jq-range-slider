@@ -1,13 +1,11 @@
 type Subscriber = (infoObject: ObserverInfoObject) => void;
 
-class Observer {
-  subscribers: Record<string, Set<Subscriber>>;
+class Observer<T> {
+  subscribers: {
+    [K in keyof T]?: Set<Subscriber>
+  } = {}
 
-  constructor() {
-    this.subscribers = {};
-  }
-
-  addSubscriber(typeEvent: string, subscriber: Subscriber): void {
+  addSubscriber<K extends keyof T>(typeEvent: K, subscriber: Subscriber): void {
     if (typeEvent in this.subscribers) {
       this.subscribers[typeEvent].add(subscriber);
     } else {
