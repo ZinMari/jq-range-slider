@@ -60,21 +60,21 @@ class Presenter extends Observer<PresenterEvents> {
     );
   }
 
-  private modelThumbsPositionChanged = (dataOptions: ObserverInfoObject) => {
+  private modelThumbsPositionChanged = ({
+    type,
+    currentValue,
+  }: ObserverInfoObject) => {
     this.view.updateThumbsPosition(
-      dataOptions.type,
-      this._convertUnitsToPixels(dataOptions.currentValue),
+      type,
+      this._convertUnitsToPixels(currentValue),
     );
     this.view.updateProgressBar();
-    this.view.updateFlagValues(dataOptions.type, dataOptions.currentValue);
-    this.view.updateThumbsControlsValue(
-      dataOptions.type,
-      dataOptions.currentValue,
-    );
+    this.view.updateFlagValues(type, currentValue);
+    this.view.updateThumbsControlsValue(type, currentValue);
 
     this.notify("updateOptions", {
-      propName: `${dataOptions.type}Position`,
-      propValue: dataOptions.currentValue,
+      propName: `${type}Position`,
+      propValue: currentValue,
     });
   };
 
@@ -88,55 +88,58 @@ class Presenter extends Observer<PresenterEvents> {
     });
   };
 
-  private modelMinMaxValuesChanged = (dataOptions: ObserverInfoObject) => {
-    this.view.sliderMinMaxValueLine.update(dataOptions.min, dataOptions.max);
-    this.view.ruler.update(dataOptions.min, dataOptions.max);
-    this.view.updateSliderControlsValue("min", dataOptions.min);
-    this.view.updateSliderControlsValue("max", dataOptions.max);
+  private modelMinMaxValuesChanged = ({ min, max }: ObserverInfoObject) => {
+    this.view.sliderMinMaxValueLine.update(min, max);
+    this.view.ruler.update(min, max);
+    this.view.updateSliderControlsValue("min", min);
+    this.view.updateSliderControlsValue("max", max);
 
     this.notify("updateOptions", {
       propName: `minValue`,
-      propValue: dataOptions.min,
+      propValue: min,
     });
 
     this.notify("updateOptions", {
       propName: `maxValue`,
-      propValue: dataOptions.max,
+      propValue: max,
     });
   };
 
-  private viewThumbsPositionChanged = (dataOptions: ObserverInfoObject) => {
-    if (dataOptions.type === "min") {
-      this.model.setMinPosition(
-        this._convertPixelToUnits(dataOptions.currentValue),
-      );
-    } else if (dataOptions.type === "max") {
-      this.model.setMaxPosition(
-        this._convertPixelToUnits(dataOptions.currentValue),
-      );
+  private viewThumbsPositionChanged = ({
+    type,
+    currentValue,
+  }: ObserverInfoObject) => {
+    if (type === "min") {
+      this.model.setMinPosition(this._convertPixelToUnits(currentValue));
+    } else if (type === "max") {
+      this.model.setMaxPosition(this._convertPixelToUnits(currentValue));
     }
   };
 
-  private viewThumbsControlsChanged = (dataOptions: ObserverInfoObject) => {
-    if (dataOptions.type === "min") {
-      this.model.setMinPosition(dataOptions.currentValue);
-    } else if (dataOptions.type === "max") {
-      this.model.setMaxPosition(dataOptions.currentValue);
+  private viewThumbsControlsChanged = ({
+    type,
+    currentValue,
+  }: ObserverInfoObject) => {
+    if (type === "min") {
+      this.model.setMinPosition(currentValue);
+    } else if (type === "max") {
+      this.model.setMaxPosition(currentValue);
     }
   };
 
-  private viewSliderValueControlsChanged = (
-    dataOptions: ObserverInfoObject,
-  ) => {
-    if (dataOptions.type === "min") {
-      this.model.setMinValue(dataOptions.currentValue);
-    } else if (dataOptions.type === "max") {
-      this.model.setMaxValue(dataOptions.currentValue);
+  private viewSliderValueControlsChanged = ({
+    type,
+    currentValue,
+  }: ObserverInfoObject) => {
+    if (type === "min") {
+      this.model.setMinValue(currentValue);
+    } else if (type === "max") {
+      this.model.setMaxValue(currentValue);
     }
   };
 
-  private viewStepControlsChanged = (dataOptions: ObserverInfoObject) => {
-    this.model.setStepValue(dataOptions.currentValue);
+  private viewStepControlsChanged = ({ currentValue }: ObserverInfoObject) => {
+    this.model.setStepValue(currentValue);
   };
 
   private _convertUnitsToPixels(value: number): number {
