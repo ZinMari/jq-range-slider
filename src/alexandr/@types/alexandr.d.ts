@@ -139,6 +139,7 @@ interface Observer<T> {
 interface ObserverInfoObject {
   type?: "min" | "max";
   currentValue?: number;
+  $currenThumb?: JQuery<EventTarget>;
   min?: number;
   max?: number;
   step?: number;
@@ -146,6 +147,7 @@ interface ObserverInfoObject {
   propValue?: string | number;
   pageX?: number;
   pageY?: number;
+  event?: PointerEvent;
 }
 
 interface Alexandr {

@@ -139,6 +139,9 @@ class View extends Observer<ViewEvents> {
 
     this.line.addSubscriber("updateValues", this._handleSliderClick);
     this.ruler.addSubscriber("updateValues", this._handleSliderClick);
+    $.each(this.thumbs, (_, element) => {
+      element.addSubscriber("updateValues", this._handlerThumbsMove);
+    });
   }
 
   private _bindEventsSliderControls() {
@@ -238,21 +241,15 @@ class View extends Observer<ViewEvents> {
     if (this.type === "double") {
       const min = new ThumbView(
         this.line.item,
-        this._handlerThumbsMove,
         `alexandr__thumb--min ${thumbMinClass}`,
       );
       const max = new ThumbView(
         this.line.item,
-        this._handlerThumbsMove,
         `alexandr__thumb--max ${thumbMaxClass}`,
       );
       this.thumbs.push(min, max);
     } else {
-      const thumb = new ThumbView(
-        this.line.item,
-        this._handlerThumbsMove,
-        thumbClass,
-      );
+      const thumb = new ThumbView(this.line.item, thumbClass);
       this.thumbs.push(thumb);
     }
   }
@@ -276,10 +273,10 @@ class View extends Observer<ViewEvents> {
     this.updateControlsShowRuler();
   }
 
-  private _handlerThumbsMove = (
-    event: PointerEvent,
-    $currenThumb: JQuery<HTMLElement>,
-  ) => {
+  private _handlerThumbsMove = ({
+    $currenThumb,
+    event,
+  }: ObserverInfoObject) => {
     const sliderLineCoords = this._getCoords(this.line.item);
     const currentThumbCoords = this._getCoords($currenThumb);
 

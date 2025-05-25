@@ -1,17 +1,16 @@
-class ThumbView implements BaseSubViewInterface {
+import Observer from "../../Observer/Observer";
+
+class ThumbView
+  extends Observer<SubViewEvents>
+  implements BaseSubViewInterface
+{
   item: JQuery<HTMLElement>;
 
-  constructor(
-    sliderLine: JQuery<HTMLElement>,
-    viewHandler: any,
-    userClass: string,
-  ) {
+  constructor(sliderLine: JQuery<HTMLElement>, userClass: string) {
+    super();
     this.item = $("<span>", { class: `alexandr__thumb ${userClass}` });
 
-    this.item[0].addEventListener(
-      "pointerdown",
-      this.handler.bind(this, viewHandler),
-    );
+    this.item[0].addEventListener("pointerdown", this.handler);
 
     sliderLine.append(this.item);
   }
@@ -28,11 +27,12 @@ class ThumbView implements BaseSubViewInterface {
     this.item.attr("data-value", position);
   }
 
-  private handler(viewHandler: any, event: PointerEvent) {
+  private handler = (event: PointerEvent) => {
     event.preventDefault();
     const $currenThumb = $(event.target);
-    viewHandler(event, $currenThumb);
-  }
+
+    this.notify("updateValues", { $currenThumb: $currenThumb, event: event });
+  };
 }
 
 export default ThumbView;
