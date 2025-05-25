@@ -31,39 +31,46 @@ class Presenter extends Observer<PresenterEvents> {
 
     this.view.addSubscriber(
       "viewThumbsControlsChanged",
-      this.viewThumbsControlsChanged
+      this.viewThumbsControlsChanged,
     );
 
     this.view.addSubscriber(
       "viewSliderValueControlsChanged",
-      this.viewSliderValueControlsChanged
+      this.viewSliderValueControlsChanged,
     );
 
     this.view.addSubscriber(
       "viewStepControlsChanged",
-      this.viewStepControlsChanged
+      this.viewStepControlsChanged,
     );
 
     this.model.addSubscriber(
-      "modelThumbsPositionChanged", 
-      this.modelThumbsPositionChanged
+      "modelThumbsPositionChanged",
+      this.modelThumbsPositionChanged,
     );
 
     this.model.addSubscriber(
-      "modelStepValueChenged",this.modelStepValueChenged
+      "modelStepValueChenged",
+      this.modelStepValueChenged,
     );
 
     this.model.addSubscriber(
       "modelMinMaxValuesChanged",
-      this.modelMinMaxValuesChanged
+      this.modelMinMaxValuesChanged,
     );
   }
 
   private modelThumbsPositionChanged = (dataOptions: ObserverInfoObject) => {
-    this.view.updateThumbsPosition(dataOptions.type, this._convertUnitsToPixels(dataOptions.currentValue));
+    this.view.updateThumbsPosition(
+      dataOptions.type,
+      this._convertUnitsToPixels(dataOptions.currentValue),
+    );
     this.view.updateProgressBar();
     this.view.updateFlagValues(dataOptions.type, dataOptions.currentValue);
-    this.view.updateThumbsControlsValue(dataOptions.type, dataOptions.currentValue);
+    this.view.updateThumbsControlsValue(
+      dataOptions.type,
+      dataOptions.currentValue,
+    );
 
     this.notify("updateOptions", {
       propName: `${dataOptions.type}Position`,
@@ -81,7 +88,7 @@ class Presenter extends Observer<PresenterEvents> {
     });
   };
 
-  private modelMinMaxValuesChanged = (dataOptions: ObserverInfoObject ) => {
+  private modelMinMaxValuesChanged = (dataOptions: ObserverInfoObject) => {
     this.view.sliderMinMaxValueLine.update(dataOptions.min, dataOptions.max);
     this.view.ruler.update(dataOptions.min, dataOptions.max);
     this.view.updateSliderControlsValue("min", dataOptions.min);
@@ -100,9 +107,13 @@ class Presenter extends Observer<PresenterEvents> {
 
   private viewThumbsPositionChanged = (dataOptions: ObserverInfoObject) => {
     if (dataOptions.type === "min") {
-      this.model.setMinPosition(this._convertPixelToUnits(dataOptions.currentValue));
+      this.model.setMinPosition(
+        this._convertPixelToUnits(dataOptions.currentValue),
+      );
     } else if (dataOptions.type === "max") {
-      this.model.setMaxPosition(this._convertPixelToUnits(dataOptions.currentValue));
+      this.model.setMaxPosition(
+        this._convertPixelToUnits(dataOptions.currentValue),
+      );
     }
   };
 
@@ -114,7 +125,9 @@ class Presenter extends Observer<PresenterEvents> {
     }
   };
 
-  private viewSliderValueControlsChanged = (dataOptions: ObserverInfoObject) => {
+  private viewSliderValueControlsChanged = (
+    dataOptions: ObserverInfoObject,
+  ) => {
     if (dataOptions.type === "min") {
       this.model.setMinValue(dataOptions.currentValue);
     } else if (dataOptions.type === "max") {
@@ -122,7 +135,7 @@ class Presenter extends Observer<PresenterEvents> {
     }
   };
 
-  private viewStepControlsChanged = (dataOptions: ObserverInfoObject)=> {
+  private viewStepControlsChanged = (dataOptions: ObserverInfoObject) => {
     this.model.setStepValue(dataOptions.currentValue);
   };
 

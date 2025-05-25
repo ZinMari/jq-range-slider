@@ -43,7 +43,7 @@ interface AlexandrSettings {
   type?: "single" | "double";
 }
 
-interface Model extends Observer {
+interface Model extends Observer<ModelEvents> {
   minValue: number;
   maxValue: number;
   minPosition: number;
@@ -94,7 +94,7 @@ type ElementsCoords = {
   height: number;
 };
 
-interface View extends Observer {
+interface View extends Observer<ViewEvents> {
   pixelInOneStep: number;
   sliderMinMaxValueLine: MinMaxValueLineView;
   ruler: RulerView;
@@ -105,23 +105,35 @@ interface View extends Observer {
   updateSliderControlsValue: (type: "min" | "max", value: number) => void;
   updateStepControls: (value: number) => void;
   updateProgressBar(): void;
-  setPixelInOneStep: (options: {
-    min: number;
-    max: number;
-    step: number;
-  } | ObserverInfoObject) => void;
+  setPixelInOneStep: (
+    options:
+      | {
+          min: number;
+          max: number;
+          step: number;
+        }
+      | ObserverInfoObject,
+  ) => void;
   destroy: () => void;
 }
 
-interface Presenter extends Observer {
+interface Presenter extends Observer<PresenterEvents> {
   init: (options: AlexandrSettings) => void;
 }
 
-interface Observer {
-  subscribers: object;
-  addSubscriber: (typeEvent: string, subscriber: any) => void;
-  removeSubscriber: (typeEvent: string, subscriber: any) => void;
-  notify: (type: string, observerInfoObject: ObserverInfoObject) => void;
+type ObserverSubscriber = (infoObject: ObserverInfoObject) => void;
+
+interface Observer<T> {
+  subscribers: { [K in keyof T]?: Set<ObserverSubscriber> };
+  addSubscriber<K extends keyof T>(
+    typeEvent: K,
+    subscriber: ObserverSubscriber,
+  ): void;
+  removeSubscriber: (
+    typeEvent: keyof T,
+    subscriber: ObserverSubscriber,
+  ) => void;
+  notify: (typeEvent: keyof T, observerInfoObject: ObserverInfoObject) => void;
 }
 
 interface ObserverInfoObject {
@@ -143,14 +155,15 @@ type ModelEvents = {
   modelThumbsPositionChanged: "modelThumbsPositionChanged";
   modelStepValueChenged: "modelStepValueChenged";
   modelMinMaxValuesChanged: "modelMinMaxValuesChanged";
-}
+};
 
 type ViewEvents = {
   viewThumbsControlsChanged: "viewThumbsControlsChanged";
   viewSliderValueControlsChanged: "viewSliderValueControlsChanged";
   viewStepControlsChanged: "viewStepControlsChanged";
-}
+  viewThumbsPositionChanged: "viewThumbsPositionChanged";
+};
 
 type PresenterEvents = {
   updateOptions: "updateOptions";
-}
+};

@@ -5,7 +5,7 @@ import ProgressBar from "../ProgressbarView/ProgressbarView";
 import RulerView from "../RulerView/RulerView";
 import ThumbView from "../ThumbView/ThumbView";
 
-class View extends Observer<ViewEvents>{
+class View extends Observer<ViewEvents> {
   pixelInOneStep: number;
   ruler: RulerView;
   sliderMinMaxValueLine: MinMaxValueLineView;
@@ -736,11 +736,13 @@ class View extends Observer<ViewEvents>{
     min,
     max,
     step,
-  }: {
-    min: number;
-    max: number;
-    step: number;
-  } | ObserverInfoObject): void {
+  }:
+    | {
+        min: number;
+        max: number;
+        step: number;
+      }
+    | ObserverInfoObject): void {
     this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
   }
 }

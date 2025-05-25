@@ -1,11 +1,12 @@
-type Subscriber = (infoObject: ObserverInfoObject) => void;
-
 class Observer<T> {
   subscribers: {
-    [K in keyof T]?: Set<Subscriber>
-  } = {}
+    [K in keyof T]?: Set<ObserverSubscriber>;
+  } = {};
 
-  addSubscriber<K extends keyof T>(typeEvent: K, subscriber: Subscriber): void {
+  addSubscriber<K extends keyof T>(
+    typeEvent: K,
+    subscriber: ObserverSubscriber,
+  ): void {
     if (typeEvent in this.subscribers) {
       this.subscribers[typeEvent].add(subscriber);
     } else {
@@ -13,12 +14,18 @@ class Observer<T> {
     }
   }
 
-  removeSubscriber(typeEvent: string, subscriber: Subscriber): void {
-    this.subscribers[typeEvent].delete(subscriber)
+  removeSubscriber<K extends keyof T>(
+    typeEvent: K,
+    subscriber: ObserverSubscriber,
+  ): void {
+    this.subscribers[typeEvent].delete(subscriber);
   }
 
-  notify(type: string, observerInfoObject: ObserverInfoObject): void {
-    this.subscribers[type]?.forEach(updateSubscriber =>
+  notify<K extends keyof T>(
+    typeEvent: K,
+    observerInfoObject: ObserverInfoObject,
+  ): void {
+    this.subscribers[typeEvent]?.forEach(updateSubscriber =>
       updateSubscriber(observerInfoObject),
     );
   }
