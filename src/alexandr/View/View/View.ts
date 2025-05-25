@@ -109,7 +109,7 @@ class View extends Observer<ViewEvents> {
   }) {
     this.slider = $("<div>", { class: "alexandr" });
     this.thumbs = [];
-    this.line = new LineView(this.slider, lineClass, this._handleSliderClick);
+    this.line = new LineView(this.slider, lineClass);
     this.progressbar = new ProgressBar(this.line.item, progressBarClass);
     this._createThumbs({ thumbMinClass, thumbMaxClass, thumbClass });
 
@@ -136,6 +136,8 @@ class View extends Observer<ViewEvents> {
     if (this.orientation === "vertical") {
       this._setVerticalOrientation();
     }
+
+    this.line.addSubscriber("updateValues", this._handleSliderClick);
   }
 
   private _bindEventsSliderControls() {
@@ -329,14 +331,14 @@ class View extends Observer<ViewEvents> {
     document.addEventListener("pointerup", onMouseUp);
   };
 
-  private _handleSliderClick = (pageX: number, pageY: number) => {
+  private _handleSliderClick = (ObserverInfoObject: ObserverInfoObject) => {
     const sliderLineCoords = this._getCoords(this.line.item);
 
     // на скольких пикселях от линии произошел клик
     const pixelClick =
       this.moveDirection === "left"
-        ? pageX - sliderLineCoords.left
-        : pageY - sliderLineCoords.top;
+        ? ObserverInfoObject.pageX - sliderLineCoords.left
+        : ObserverInfoObject.pageY - sliderLineCoords.top;
 
     const stepLeft = this._equateValueToStep(pixelClick);
 
