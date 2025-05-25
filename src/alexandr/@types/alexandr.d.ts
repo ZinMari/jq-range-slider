@@ -58,7 +58,7 @@ interface Model extends Observer<ModelEvents> {
   setStepValue: (value: number) => void;
 }
 
-interface BaseSubViewInterface {
+interface BaseSubViewInterface extends Observer<SubViewEvents> {
   item: JQuery<HTMLElement>;
 }
 
@@ -144,6 +144,8 @@ interface ObserverInfoObject {
   step?: number;
   propName?: string;
   propValue?: string | number;
+  pageX?: number;
+  pageY?: number;
 }
 
 interface Alexandr {
@@ -166,4 +168,8 @@ type ViewEvents = {
 
 type PresenterEvents = {
   updateOptions: "updateOptions";
+};
+
+type SubViewEvents = {
+  updateValues: "updateValues";
 };
