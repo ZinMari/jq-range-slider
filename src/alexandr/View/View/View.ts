@@ -329,20 +329,14 @@ class View extends Observer<ViewEvents> {
     document.addEventListener("pointerup", onMouseUp);
   };
 
-  private _handleSliderClick = (event: MouseEvent) => {
-    const { target } = event;
-    if (target instanceof HTMLElement) {
-      if (target.classList.contains("alexandr__thumb")) {
-        return;
-      }
-    }
+  private _handleSliderClick = (pageX: number, pageY: number) => {
     const sliderLineCoords = this._getCoords(this.line.item);
 
     // на скольких пикселях от линии произошел клик
     const pixelClick =
       this.moveDirection === "left"
-        ? event.pageX - sliderLineCoords.left
-        : event.pageY - sliderLineCoords.top;
+        ? pageX - sliderLineCoords.left
+        : pageY - sliderLineCoords.top;
 
     const stepLeft = this._equateValueToStep(pixelClick);
 
