@@ -1,12 +1,20 @@
-class ProgressBarView implements BaseSubViewInterface {
+import Observer from "../../Observer/Observer";
+
+class ProgressBarView
+  extends Observer<SubViewEvents>
+  implements BaseSubViewInterface
+{
   item: JQuery<HTMLElement>;
   constructor(sliderLine: JQuery<HTMLElement>, progressBarClass: string) {
-    this.item = $('<span>', { class: `alexandr__progressbar ${progressBarClass}` });
+    super();
+    this.item = $("<span>", {
+      class: `alexandr__progressbar ${progressBarClass}`,
+    });
     sliderLine.append(this.item);
   }
 
-  update(styleobject: { [key: string]: string | number }): void{
-   this.item.css(styleobject);
+  update(styleobject: { [key: string]: string | number }): void {
+    this.item.css(styleobject);
   }
 }
 
