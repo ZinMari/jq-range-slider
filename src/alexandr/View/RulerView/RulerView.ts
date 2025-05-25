@@ -3,16 +3,19 @@ class RulerView implements RulerView {
   dividings: JQuery<HTMLElement>[];
   countDivivdings: number = 4;
 
-  constructor(slider: JQuery<HTMLElement>, handler: any) {
-    this.item = $('<div>', { class: 'alexandr__ruler' });
+  constructor(slider: JQuery<HTMLElement>, veiwHandler: any) {
+    this.item = $("<div>", { class: "alexandr__ruler" });
     this.dividings = new Array(this.countDivivdings);
 
     for (let i = 0; i < this.countDivivdings; i++) {
-      this.dividings[i] = $('<a>', { class: 'alexandr__dividing', href: '#' });
+      this.dividings[i] = $("<a>", { class: "alexandr__dividing", href: "#" });
       this.item.append(this.dividings[i]);
     }
 
-    this.item[0].addEventListener("click", handler);
+    this.item[0].addEventListener(
+      "pointerdown",
+      this.handler.bind(this, veiwHandler),
+    );
 
     slider.append(this.item);
   }
@@ -32,6 +35,19 @@ class RulerView implements RulerView {
 
   hideRuler(): void {
     this.item.addClass("alexandr__ruler_none");
+  }
+
+  handler(veiwHandler: any, event: PointerEvent) {
+    event.preventDefault();
+    const target = event.currentTarget;
+
+    if (target instanceof HTMLElement) {
+      if (target.classList.contains("alexandr__thumb")) {
+        return;
+      }
+    }
+
+    veiwHandler(event.pageX, event.pageY);
   }
 }
 
