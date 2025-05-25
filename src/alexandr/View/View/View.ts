@@ -273,11 +273,11 @@ class View extends Observer<ViewEvents> {
     this.updateControlsShowRuler();
   }
 
-  private _handlerThumbsMove = (event: PointerEvent) => {
-    event.preventDefault();
-    // получу координаты элементов
+  private _handlerThumbsMove = (
+    event: PointerEvent,
+    $currenThumb: JQuery<HTMLElement>,
+  ) => {
     const sliderLineCoords = this._getCoords(this.line.item);
-    const $currenThumb = $(event.target);
     const currentThumbCoords = this._getCoords($currenThumb);
 
     // разница между кликом и началок кнопки
