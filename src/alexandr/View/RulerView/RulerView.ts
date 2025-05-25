@@ -1,9 +1,12 @@
-class RulerView implements RulerView {
+import Observer from "../../Observer/Observer";
+
+class RulerView extends Observer<SubViewEvents> implements RulerView {
   item: JQuery<HTMLElement>;
   dividings: JQuery<HTMLElement>[];
   countDivivdings: number = 4;
 
-  constructor(slider: JQuery<HTMLElement>, veiwHandler: any) {
+  constructor(slider: JQuery<HTMLElement>) {
+    super();
     this.item = $("<div>", { class: "alexandr__ruler" });
     this.dividings = new Array(this.countDivivdings);
 
@@ -12,10 +15,7 @@ class RulerView implements RulerView {
       this.item.append(this.dividings[i]);
     }
 
-    this.item[0].addEventListener(
-      "pointerdown",
-      this.handler.bind(this, veiwHandler),
-    );
+    this.item[0].addEventListener("pointerdown", this.handler);
 
     slider.append(this.item);
   }
@@ -37,7 +37,7 @@ class RulerView implements RulerView {
     this.item.addClass("alexandr__ruler_none");
   }
 
-  handler(veiwHandler: any, event: PointerEvent) {
+  handler = (event: PointerEvent) => {
     event.preventDefault();
     const target = event.currentTarget;
 
@@ -47,8 +47,11 @@ class RulerView implements RulerView {
       }
     }
 
-    veiwHandler(event.pageX, event.pageY);
-  }
+    this.notify("updateValues", {
+      pageX: event.pageX,
+      pageY: event.pageY,
+    });
+  };
 }
 
 export default RulerView;

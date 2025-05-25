@@ -138,6 +138,7 @@ class View extends Observer<ViewEvents> {
     }
 
     this.line.addSubscriber("updateValues", this._handleSliderClick);
+    this.ruler.addSubscriber("updateValues", this._handleSliderClick);
   }
 
   private _bindEventsSliderControls() {
@@ -270,7 +271,7 @@ class View extends Observer<ViewEvents> {
   }
 
   private _createRuler() {
-    this.ruler = new RulerView(this.slider, this._handleSliderClick);
+    this.ruler = new RulerView(this.slider);
     this.showRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
     this.updateControlsShowRuler();
   }
