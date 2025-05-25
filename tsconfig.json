@@ -7,10 +7,10 @@
     "allowJs": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
     // "strict": true,
     // "strictNullChecks": true
-    // "noImplicitAny": true,
+    "noImplicitAny": true
   },
   "ts-node": {
     "compilerOptions": {
