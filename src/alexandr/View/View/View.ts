@@ -137,6 +137,10 @@ class View extends Observer<ViewEvents> {
       this._setVerticalOrientation();
     }
 
+    this.addSubscribersToSubViews();
+  }
+
+  private addSubscribersToSubViews() {
     this.line.addSubscriber("updateValues", this._handleSliderClick);
     this.ruler.addSubscriber("updateValues", this._handleSliderClick);
     $.each(this.thumbs, (_, element) => {
@@ -329,14 +333,14 @@ class View extends Observer<ViewEvents> {
     document.addEventListener("pointerup", onMouseUp);
   };
 
-  private _handleSliderClick = (ObserverInfoObject: ObserverInfoObject) => {
+  private _handleSliderClick = ({ pageX, pageY }: ObserverInfoObject) => {
     const sliderLineCoords = this._getCoords(this.line.item);
 
     // на скольких пикселях от линии произошел клик
     const pixelClick =
       this.moveDirection === "left"
-        ? ObserverInfoObject.pageX - sliderLineCoords.left
-        : ObserverInfoObject.pageY - sliderLineCoords.top;
+        ? pageX - sliderLineCoords.left
+        : pageY - sliderLineCoords.top;
 
     const stepLeft = this._equateValueToStep(pixelClick);
 
