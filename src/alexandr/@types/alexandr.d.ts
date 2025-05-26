@@ -87,12 +87,12 @@ interface ProgressBarView extends BaseSubViewInterface {
   update(styleobject: { [key: string]: string | number }): void;
 }
 
-type ElementsCoords = {
+interface ElementsCoords {
   left: number;
   width: number;
   top: number;
   height: number;
-};
+}
 
 interface View extends Observer<ViewEvents> {
   pixelInOneStep: number;
@@ -121,7 +121,9 @@ interface Presenter extends Observer<PresenterEvents> {
   init: (options: AlexandrSettings) => void;
 }
 
-type ObserverSubscriber = (infoObject: ObserverInfoObject) => void;
+interface ObserverSubscriber {
+  (infoObject: ObserverInfoObject): void
+}
 
 interface Observer<T> {
   subscribers: { [K in keyof T]?: Set<ObserverSubscriber> };
@@ -155,23 +157,22 @@ interface Alexandr {
   sliderData: AlexandrSettings;
 }
 
-type ModelEvents = {
+interface ModelEvents {
   modelThumbsPositionChanged: "modelThumbsPositionChanged";
   modelStepValueChenged: "modelStepValueChenged";
   modelMinMaxValuesChanged: "modelMinMaxValuesChanged";
-};
-
-type ViewEvents = {
+}
+interface ViewEvents {
   viewThumbsControlsChanged: "viewThumbsControlsChanged";
   viewSliderValueControlsChanged: "viewSliderValueControlsChanged";
   viewStepControlsChanged: "viewStepControlsChanged";
   viewThumbsPositionChanged: "viewThumbsPositionChanged";
-};
+}
 
-type PresenterEvents = {
+interface PresenterEvents {
   updateOptions: "updateOptions";
-};
+}
 
-type SubViewEvents = {
+interface SubViewEvents {
   updateValues: "updateValues";
-};
+}
