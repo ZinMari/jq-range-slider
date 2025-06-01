@@ -107,7 +107,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
     }
 
     if (isSliderInitialized($(this)) && isSetOptions(options)) {
-      $(this).data("alexandr").refreshPlugin(this, options);
+      $(this).data("alexandr").refreshPlugin(this, arguments[1]);
     }
 
     if (
