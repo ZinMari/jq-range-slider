@@ -87,12 +87,12 @@ interface ProgressBarView extends BaseSubViewInterface {
   update(styleobject: { [key: string]: string | number }): void;
 }
 
-type ElementsCoords = {
+interface ElementsCoords {
   left: number;
   width: number;
   top: number;
   height: number;
-};
+}
 
 interface View extends Observer<ViewEvents> {
   pixelInOneStep: number;
@@ -105,15 +105,11 @@ interface View extends Observer<ViewEvents> {
   updateSliderControlsValue: (type: "min" | "max", value: number) => void;
   updateStepControls: (value: number) => void;
   updateProgressBar(): void;
-  setPixelInOneStep: (
-    options:
-      | {
-          min: number;
-          max: number;
-          step: number;
-        }
-      | ObserverInfoObject,
-  ) => void;
+  setPixelInOneStep: (options: {
+    min: number;
+    max: number;
+    step: number;
+  }) => void;
   destroy: () => void;
 }
 
@@ -121,57 +117,90 @@ interface Presenter extends Observer<PresenterEvents> {
   init: (options: AlexandrSettings) => void;
 }
 
-type ObserverSubscriber = (infoObject: ObserverInfoObject) => void;
+type ObserverSubscriber<T> = (infoObject: T[keyof T]) => void;
 
 interface Observer<T> {
-  subscribers: { [K in keyof T]?: Set<ObserverSubscriber> };
+  subscribers: { [K in keyof T]?: Set<ObserverSubscriber<T>> };
   addSubscriber<K extends keyof T>(
     typeEvent: K,
-    subscriber: ObserverSubscriber,
+    subscriber: (infoObject: T[K]) => void,
   ): void;
   removeSubscriber: (
     typeEvent: keyof T,
-    subscriber: ObserverSubscriber,
+    subscriber: ObserverSubscriber<T>,
   ) => void;
-  notify: (typeEvent: keyof T, observerInfoObject: ObserverInfoObject) => void;
+  notify<K extends keyof T>(typeEvent: K, observerInfoObject: T[K]): void;
 }
 
-interface ObserverInfoObject {
-  type?: "min" | "max";
-  currentValue?: number;
-  $currenThumb?: JQuery<EventTarget>;
-  min?: number;
-  max?: number;
-  step?: number;
-  propName?: string;
-  propValue?: string | number;
-  pageX?: number;
-  pageY?: number;
-  event?: PointerEvent;
-}
+// interface ObserverInfoObject {
+//   type?: "min" | "max";
+//   currentValue?: number;
+//   $currenThumb?: JQuery<EventTarget>;
+//   min?: number;
+//   max?: number;
+//   step?: number;
+//   propName?: string;
+//   propValue?: string | number;
+//   pageX?: number;
+//   pageY?: number;
+//   event?: PointerEvent;
+// }
 
 interface Alexandr {
-  update: (observerInfoObject: ObserverInfoObject) => void;
+  update: (observerInfoObject: {
+    [K in keyof AlexandrSettings]: AlexandrSettings[K];
+  }) => void;
   sliderData: AlexandrSettings;
 }
 
-type ModelEvents = {
-  modelThumbsPositionChanged: "modelThumbsPositionChanged";
-  modelStepValueChenged: "modelStepValueChenged";
-  modelMinMaxValuesChanged: "modelMinMaxValuesChanged";
-};
+interface ModelEvents {
+  // modelThumbsPositionChanged: {
+  //   type: "min" | "max";
+  //   currentValue: number;
+  // };
+  modelThumbsPositionChanged: any;
+  modelStepValueChenged: {
+    min: number;
+    max: number;
+    step: number;
+  };
+  modelMinMaxValuesChanged: {
+    min: number;
+    max: number;
+  };
+}
 
-type ViewEvents = {
-  viewThumbsControlsChanged: "viewThumbsControlsChanged";
-  viewSliderValueControlsChanged: "viewSliderValueControlsChanged";
-  viewStepControlsChanged: "viewStepControlsChanged";
-  viewThumbsPositionChanged: "viewThumbsPositionChanged";
-};
+interface ViewEvents {
+  viewThumbsControlsChanged: {
+    type?: "min" | "max";
+    currentValue: number;
+  };
+  viewSliderValueControlsChanged: {
+    type?: "min" | "max";
+    currentValue: number;
+  };
+  viewStepControlsChanged: {
+    type?: "min" | "max";
+    currentValue: number;
+  };
+  viewThumbsPositionChanged: {
+    type?: "min" | "max";
+    currentValue: number;
+  };
+}
 
-type PresenterEvents = {
-  updateOptions: "updateOptions";
-};
+interface PresenterEvents {
+  updateOptions: {
+    propName: keyof AlexandrSettings;
+    propValue: AlexandrSettings[keyof AlexandrSettings];
+  };
+}
 
-type SubViewEvents = {
-  updateValues: "updateValues";
-};
+interface SubViewEvents {
+  updateValues: {
+    $currenThumb?: JQuery<EventTarget>;
+    event?: PointerEvent;
+    pageX?: number;
+    pageY?: number;
+  };
+}

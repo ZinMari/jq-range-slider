@@ -17,15 +17,12 @@ requireAll(require.context("./", true, /\.(scss)$/));
       this.presenter = new Presenter(new View(), new Model());
       this.presenter.init(options);
 
-      this.presenter.addSubscriber(
-        "updateOptions",
-        this.updateOptions,
-      );
+      this.presenter.addSubscriber("updateOptions", this.updateOptions);
     }
 
-    updateOptions = (dataOptions: ObserverInfoObject) => {
+    updateOptions = (dataOptions: PresenterEvents["updateOptions"]) => {
       this.sliderData[dataOptions.propName] = dataOptions.propValue;
-    }
+    };
 
     initPlugin(
       target: HTMLElement,

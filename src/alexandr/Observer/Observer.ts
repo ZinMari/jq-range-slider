@@ -1,11 +1,11 @@
 class Observer<T> {
   subscribers: {
-    [K in keyof T]?: Set<ObserverSubscriber>;
+    [K in keyof T]?: Set<ObserverSubscriber<T>>;
   } = {};
 
   addSubscriber<K extends keyof T>(
     typeEvent: K,
-    subscriber: ObserverSubscriber,
+    subscriber: ObserverSubscriber<T>,
   ): void {
     if (typeEvent in this.subscribers) {
       this.subscribers[typeEvent].add(subscriber);
@@ -16,15 +16,12 @@ class Observer<T> {
 
   removeSubscriber<K extends keyof T>(
     typeEvent: K,
-    subscriber: ObserverSubscriber,
+    subscriber: ObserverSubscriber<T>,
   ): void {
     this.subscribers[typeEvent].delete(subscriber);
   }
 
-  notify<K extends keyof T>(
-    typeEvent: K,
-    observerInfoObject: ObserverInfoObject,
-  ): void {
+  notify<K extends keyof T>(typeEvent: K, observerInfoObject: T[K]): void {
     this.subscribers[typeEvent]?.forEach(updateSubscriber =>
       updateSubscriber(observerInfoObject),
     );

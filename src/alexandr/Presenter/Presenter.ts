@@ -63,7 +63,7 @@ class Presenter extends Observer<PresenterEvents> {
   private modelThumbsPositionChanged = ({
     type,
     currentValue,
-  }: ObserverInfoObject) => {
+  }: ModelEvents["modelThumbsPositionChanged"]) => {
     this.view.updateThumbsPosition(
       type,
       this._convertUnitsToPixels(currentValue),
@@ -78,17 +78,24 @@ class Presenter extends Observer<PresenterEvents> {
     });
   };
 
-  private modelStepValueChenged = (dataOptions: ObserverInfoObject) => {
-    this.view.setPixelInOneStep(dataOptions);
-    this.view.updateStepControls(dataOptions.step);
+  private modelStepValueChenged = ({
+    min,
+    max,
+    step,
+  }: ModelEvents["modelStepValueChenged"]) => {
+    this.view.setPixelInOneStep({ min, max, step });
+    this.view.updateStepControls(step);
 
     this.notify("updateOptions", {
       propName: `stepValue`,
-      propValue: dataOptions.step,
+      propValue: step,
     });
   };
 
-  private modelMinMaxValuesChanged = ({ min, max }: ObserverInfoObject) => {
+  private modelMinMaxValuesChanged = ({
+    min,
+    max,
+  }: ModelEvents["modelMinMaxValuesChanged"]) => {
     this.view.sliderMinMaxValueLine.update(min, max);
     this.view.ruler.update(min, max);
     this.view.updateSliderControlsValue("min", min);
@@ -108,7 +115,7 @@ class Presenter extends Observer<PresenterEvents> {
   private viewThumbsPositionChanged = ({
     type,
     currentValue,
-  }: ObserverInfoObject) => {
+  }: ViewEvents["viewThumbsPositionChanged"]) => {
     if (type === "min") {
       this.model.setMinPosition(this._convertPixelToUnits(currentValue));
     } else if (type === "max") {
@@ -119,7 +126,7 @@ class Presenter extends Observer<PresenterEvents> {
   private viewThumbsControlsChanged = ({
     type,
     currentValue,
-  }: ObserverInfoObject) => {
+  }: ViewEvents["viewThumbsControlsChanged"]) => {
     if (type === "min") {
       this.model.setMinPosition(currentValue);
     } else if (type === "max") {
@@ -130,7 +137,7 @@ class Presenter extends Observer<PresenterEvents> {
   private viewSliderValueControlsChanged = ({
     type,
     currentValue,
-  }: ObserverInfoObject) => {
+  }: ViewEvents["viewSliderValueControlsChanged"]) => {
     if (type === "min") {
       this.model.setMinValue(currentValue);
     } else if (type === "max") {
@@ -138,7 +145,9 @@ class Presenter extends Observer<PresenterEvents> {
     }
   };
 
-  private viewStepControlsChanged = ({ currentValue }: ObserverInfoObject) => {
+  private viewStepControlsChanged = ({
+    currentValue,
+  }: ViewEvents["viewStepControlsChanged"]) => {
     this.model.setStepValue(currentValue);
   };
 

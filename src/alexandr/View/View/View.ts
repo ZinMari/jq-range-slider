@@ -280,7 +280,7 @@ class View extends Observer<ViewEvents> {
   private _handlerThumbsMove = ({
     $currenThumb,
     event,
-  }: ObserverInfoObject) => {
+  }: SubViewEvents["updateValues"]) => {
     const sliderLineCoords = this._getCoords(this.line.item);
     const currentThumbCoords = this._getCoords($currenThumb);
 
@@ -333,7 +333,10 @@ class View extends Observer<ViewEvents> {
     document.addEventListener("pointerup", onMouseUp);
   };
 
-  private _handleSliderClick = ({ pageX, pageY }: ObserverInfoObject) => {
+  private _handleSliderClick = ({
+    pageX,
+    pageY,
+  }: SubViewEvents["updateValues"]) => {
     const sliderLineCoords = this._getCoords(this.line.item);
 
     // на скольких пикселях от линии произошел клик
@@ -740,7 +743,7 @@ class View extends Observer<ViewEvents> {
         max: number;
         step: number;
       }
-    | ObserverInfoObject): void {
+    | any): void {
     this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
   }
 }
