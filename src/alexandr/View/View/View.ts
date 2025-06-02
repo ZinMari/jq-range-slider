@@ -144,9 +144,15 @@ class View extends Observer<ViewEvents> {
     this.line.addSubscriber("updateValues", this._handleSliderClick);
     this.ruler.addSubscriber("updateValues", this._handleSliderClick);
     $.each(this.thumbs, (_, element) => {
-      element.addSubscriber("updateValues", this._handlerThumbsMove);
+      element.addSubscriber("thumbsPositionChanged", this._handlerThumbsMove);
     });
   }
+
+  private _handlerThumbsMove = (
+    data: ThumbViewEvents["thumbsPositionChanged"],
+  ) => {
+    this.notify("viewThumbsPositionChanged", data);
+  };
 
   private _bindEventsSliderControls() {
     this._bindEventsFlugsControls();

@@ -132,20 +132,6 @@ interface Observer<T> {
   notify<K extends keyof T>(typeEvent: K, observerInfoObject: T[K]): void;
 }
 
-// interface ObserverInfoObject {
-//   type?: "min" | "max";
-//   currentValue?: number;
-//   $currenThumb?: JQuery<EventTarget>;
-//   min?: number;
-//   max?: number;
-//   step?: number;
-//   propName?: string;
-//   propValue?: string | number;
-//   pageX?: number;
-//   pageY?: number;
-//   event?: PointerEvent;
-// }
-
 interface Alexandr {
   update: (observerInfoObject: {
     [K in keyof AlexandrSettings]: AlexandrSettings[K];
@@ -202,5 +188,12 @@ interface SubViewEvents {
     event?: PointerEvent;
     pageX?: number;
     pageY?: number;
+  };
+}
+
+interface ThumbViewEvents {
+  thumbsPositionChanged: {
+    type: "max" | "min";
+    currentValue: number;
   };
 }
