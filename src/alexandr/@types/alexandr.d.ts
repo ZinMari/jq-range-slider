@@ -61,6 +61,9 @@ interface Model extends Observer<ModelEvents> {
 interface BaseSubViewInterface extends Observer<SubViewEvents> {
   item: JQuery<HTMLElement>;
 }
+interface LineViewInterface extends BaseSubViewInterface {
+  _getCoords: () => ElementsCoords;
+}
 
 interface RulerView extends BaseSubViewInterface {
   dividings: JQuery<HTMLElement>[];

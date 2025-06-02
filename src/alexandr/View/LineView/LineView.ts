@@ -1,6 +1,6 @@
 import Observer from "../../Observer/Observer";
 
-class LineView extends Observer<SubViewEvents> implements BaseSubViewInterface {
+class LineView extends Observer<SubViewEvents> implements LineViewInterface {
   item: JQuery<HTMLElement>;
   constructor(slider: JQuery<HTMLElement>, lineClass: string) {
     super();
@@ -26,6 +26,20 @@ class LineView extends Observer<SubViewEvents> implements BaseSubViewInterface {
       pageY: event.pageY,
     });
   };
+
+  _getCoords(): ElementsCoords {
+    const boxLeft = this.item.offset().left;
+    const boxRight = boxLeft + this.item.outerWidth();
+    const boxTop = this.item.offset().top;
+    const boxBottom = boxTop + this.item.outerHeight();
+
+    return {
+      left: boxLeft + window.scrollX,
+      width: boxRight - boxLeft,
+      top: boxTop + window.scrollY,
+      height: boxBottom - boxTop,
+    };
+  }
 }
 
 export default LineView;

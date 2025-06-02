@@ -12,7 +12,7 @@ class View extends Observer<ViewEvents> {
   private slider: JQuery<HTMLElement>;
   private thumbs: Array<ThumbView>;
   private container: JQuery<HTMLElement>;
-  private line: BaseSubViewInterface;
+  private line: LineViewInterface;
   private moveDirection: "top" | "left";
   private orientation: "horizontal" | "vertical";
   private type: "single" | "double";
