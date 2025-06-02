@@ -244,16 +244,28 @@ class View extends Observer<ViewEvents> {
     //создам кнопки
     if (this.type === "double") {
       const min = new ThumbView(
-        this.line.item,
+        this.line,
+        this.orientation,
+        this.type,
+        this.pixelInOneStep,
         `alexandr__thumb--min ${thumbMinClass}`,
       );
       const max = new ThumbView(
-        this.line.item,
+        this.line,
+        this.orientation,
+        this.type,
+        this.pixelInOneStep,
         `alexandr__thumb--max ${thumbMaxClass}`,
       );
       this.thumbs.push(min, max);
     } else {
-      const thumb = new ThumbView(this.line.item, thumbClass);
+      const thumb = new ThumbView(
+        this.line,
+        this.orientation,
+        this.type,
+        this.pixelInOneStep,
+        thumbClass,
+      );
       this.thumbs.push(thumb);
     }
   }
@@ -276,62 +288,6 @@ class View extends Observer<ViewEvents> {
     this.showRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
     this.updateControlsShowRuler();
   }
-
-  private _handlerThumbsMove = ({
-    $currenThumb,
-    event,
-  }: SubViewEvents["updateValues"]) => {
-    const sliderLineCoords = this._getCoords(this.line.item);
-    const currentThumbCoords = this._getCoords($currenThumb);
-
-    // разница между кликом и началок кнопки
-    const shiftClickThumb: number = this._getShiftThumb({
-      event: event,
-      currentThumbCoords: currentThumbCoords,
-      orientation: this.orientation,
-    });
-
-    const onMouseMove = (event: PointerEvent): void => {
-      const options = {
-        event: event,
-        shiftClickThumb: shiftClickThumb,
-        sliderLineCoords: sliderLineCoords,
-        currentThumbCoords: currentThumbCoords,
-      };
-      let value: number = this._getNewThumbCord(options);
-
-      // проверим, чтобы не сталкивались
-      if (this.type === "double") {
-        value = this._validateDoubleThumbValue({
-          currenThumb: $currenThumb,
-          value: value,
-          minThumbPixelPosition: this.minThumbPixelPosition,
-          maxThumbPixelPosition: this.maxThumbPixelPosition,
-          pixelInOneStep: this.pixelInOneStep,
-        });
-      }
-
-      if ($currenThumb.prop("classList").contains("alexandr__thumb--max")) {
-        this.notify("viewThumbsPositionChanged", {
-          type: "max",
-          currentValue: value,
-        });
-      } else {
-        this.notify("viewThumbsPositionChanged", {
-          type: "min",
-          currentValue: value,
-        });
-      }
-    };
-
-    function onMouseUp() {
-      document.removeEventListener("pointerup", onMouseUp);
-      document.removeEventListener("pointermove", onMouseMove);
-    }
-
-    document.addEventListener("pointermove", onMouseMove);
-    document.addEventListener("pointerup", onMouseUp);
-  };
 
   private _handleSliderClick = ({
     pageX,
@@ -440,101 +396,12 @@ class View extends Observer<ViewEvents> {
     };
   }
 
-  private _getShiftThumb({
-    event,
-    currentThumbCoords,
-    orientation,
-  }: {
-    event: PointerEvent;
-    currentThumbCoords: ElementsCoords;
-    orientation: string;
-  }): number {
-    if (orientation === "vertical") {
-      return event.pageY - currentThumbCoords.top;
-    } else {
-      return event.pageX - currentThumbCoords.left;
-    }
-  }
-
-  private _getNewThumbCord({
-    event,
-    shiftClickThumb,
-    sliderLineCoords,
-    currentThumbCoords,
-  }: {
-    event: MouseEvent;
-    shiftClickThumb: number;
-    sliderLineCoords: ElementsCoords;
-    currentThumbCoords: ElementsCoords;
-  }): number {
-    let clientEvent;
-    let clientLineCoordsOffset;
-    let clientLineCoordsSize;
-    let clientThumbCoordsSize;
-    if (this.orientation === "vertical") {
-      clientEvent = event.pageY;
-
-      clientLineCoordsOffset = sliderLineCoords.top;
-      clientLineCoordsSize = sliderLineCoords.height;
-      clientThumbCoordsSize = currentThumbCoords.height;
-    } else {
-      clientEvent = event.pageX;
-      clientLineCoordsOffset = sliderLineCoords.left;
-      clientLineCoordsSize = sliderLineCoords.width;
-      clientThumbCoordsSize = currentThumbCoords.width;
-    }
-
-    let newLeft = clientEvent - shiftClickThumb - clientLineCoordsOffset;
-
-    //подгоним движение под шаг
-    newLeft = this._equateValueToStep(newLeft);
-
-    // курсор вышел из слайдера => оставить бегунок в его границах.
-    if (newLeft < 0) {
-      newLeft = 0;
-    }
-    const rightEdge = clientLineCoordsSize - clientThumbCoordsSize;
-
-    if (newLeft > rightEdge) {
-      newLeft = rightEdge;
-    }
-
-    return newLeft;
-  }
-
   private _equateValueToStep(value: number): number {
     if (isNaN(value)) {
       throw new Error("Получено NaN");
     }
 
     return Math.round(value / this.pixelInOneStep) * this.pixelInOneStep;
-  }
-
-  private _validateDoubleThumbValue({
-    currenThumb,
-    value,
-    minThumbPixelPosition,
-    maxThumbPixelPosition,
-    pixelInOneStep,
-  }: {
-    currenThumb: JQuery<EventTarget>;
-    value: number;
-    minThumbPixelPosition: number;
-    maxThumbPixelPosition: number;
-    pixelInOneStep: number;
-  }): number {
-    if (
-      currenThumb.hasClass("alexandr__thumb--min") &&
-      value >= maxThumbPixelPosition - pixelInOneStep
-    ) {
-      return maxThumbPixelPosition - pixelInOneStep;
-    } else if (
-      currenThumb.hasClass("alexandr__thumb--max") &&
-      value <= minThumbPixelPosition + pixelInOneStep
-    ) {
-      return this.minThumbPixelPosition + this.pixelInOneStep;
-    }
-    return value;
   }
 
   private _setVerticalOrientation(): void {
@@ -557,7 +424,7 @@ class View extends Observer<ViewEvents> {
     }
 
     // //повернем кнопки
-    this.thumbs.forEach((thumb: BaseSubViewInterface) => {
+    this.thumbs.forEach((thumb: any) => {
       thumb.item.addClass("alexandr__thumb_type_vertical");
     });
 
@@ -745,6 +612,9 @@ class View extends Observer<ViewEvents> {
       }
     | any): void {
     this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
+    $.each(this.thumbs, (_, element) => {
+      element.pixelInOneStep = this.pixelInOneStep;
+    });
   }
 }
 
