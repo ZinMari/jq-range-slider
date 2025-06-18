@@ -69,7 +69,7 @@ class Presenter extends Observer<PresenterEvents> {
       this._convertUnitsToPixels(currentValue),
     );
     this.view.updateProgressBar();
-    this.view.updateFlagValues(type, currentValue);
+    this.view.thumbs.updateFlagValues(type, currentValue);
     this.view.updateThumbsControlsValue(type, currentValue);
 
     this.notify("updateOptions", {
@@ -180,8 +180,8 @@ class Presenter extends Observer<PresenterEvents> {
       "max",
       this._convertUnitsToPixels(this.model.maxPosition),
     );
-    this.view.updateFlagValues("min", this.model.minPosition);
-    this.view.updateFlagValues("max", this.model.maxPosition);
+    this.view.thumbs.updateFlagValues("min", this.model.minPosition);
+    this.view.thumbs.updateFlagValues("max", this.model.maxPosition);
     this.view.updateThumbsControlsValue("max", this.model.maxPosition);
     this.view.updateThumbsControlsValue("min", this.model.minPosition);
     this.view.updateSliderControlsValue("max", this.model.maxValue);

@@ -10,7 +10,7 @@ class View extends Observer<ViewEvents> {
   ruler: RulerView;
   sliderMinMaxValueLine: MinMaxValueLineView;
   private slider: JQuery<HTMLElement>;
-  private thumbs: ThumbView;
+  thumbs: ThumbView;
   private container: JQuery<HTMLElement>;
   private line: LineViewInterface;
   private moveDirection: "top" | "left";
@@ -112,10 +112,6 @@ class View extends Observer<ViewEvents> {
     this.line = new LineView(this.slider, lineClass);
     this.progressbar = new ProgressBar(this.line.item, progressBarClass);
 
-
-    // this.thumbs = [];
-    // this._createThumbs({ thumbMinClass, thumbMaxClass, thumbClass });
-
     this.thumbs = new ThumbView({
       sliderLine: this.line,
       orientation: this.orientation,
@@ -152,44 +148,6 @@ class View extends Observer<ViewEvents> {
 
     this.addSubscribersToSubViews();
   }
-
-  // private _createThumbs({
-  //   thumbMinClass,
-  //   thumbMaxClass,
-  //   thumbClass,
-  // }: {
-  //   thumbMinClass: string;
-  //   thumbMaxClass: string;
-  //   thumbClass: string;
-  // }): void {
-  //   //создам кнопки
-  //   if (this.type === "double") {
-  //     const min = new ThumbView(
-  //       this.line,
-  //       this.orientation,
-  //       this.type,
-  //       this.pixelInOneStep,
-  //       `alexandr__thumb--min ${thumbMinClass}`,
-  //     );
-  //     const max = new ThumbView(
-  //       this.line,
-  //       this.orientation,
-  //       this.type,
-  //       this.pixelInOneStep,
-  //       `alexandr__thumb--max ${thumbMaxClass}`,
-  //     );
-  //     this.thumbs.push(min, max);
-  //   } else {
-  //     const thumb = new ThumbView(
-  //       this.line,
-  //       this.orientation,
-  //       this.type,
-  //       this.pixelInOneStep,
-  //       thumbClass,
-  //     );
-  //     this.thumbs.push(thumb);
-  //   }
-  // }
 
   private _createFlugs(): void {
     if (this.showValueFlag) {
@@ -622,18 +580,6 @@ class View extends Observer<ViewEvents> {
       }
     }
   }
-
-  updateFlagValues(thumb: "min" | "max", position: number): void {
-    // ПЕРЕДЕЛАТЬ ДЛЯ НОВЫХ THUMB
-    //загрузить значения в окошки
-    // if (this.showValueFlag) {
-    //   if (thumb === "min") {
-    //     this.thumbs[0].updateFlagValue(position);
-    //   } else if (this.type === "double" && thumb === "max") {
-    //     this.thumbs[1].updateFlagValue(position);
-    //   }
-    // }
-  } 
 }
 
 export default View;

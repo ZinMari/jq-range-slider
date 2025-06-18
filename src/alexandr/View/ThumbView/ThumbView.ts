@@ -70,10 +70,14 @@ class ThumbView extends Observer<ThumbViewEvents> {
     this.maxThumb?.removeClass("flag");
   }
 
-  //ТУТ НУЖНО НАПИСАТЬ ОТДЕЛЬНО ДЛЯ МИН И МАКС
-  // updateFlagValue(position: number): void {
-  //   this.item.attr("data-value", position);
-  // }
+  updateFlagValues(thumb: "min" | "max", position: number): void {
+    if (thumb === "min") {
+      this.minThumb.attr("data-value", position);
+      } else if (this.type === "double" && thumb === "max") {
+        this.maxThumb.attr("data-value", position);
+      }
+    
+  }
 
   private handler = (event: PointerEvent) => {
     event.preventDefault();
