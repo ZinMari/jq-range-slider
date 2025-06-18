@@ -90,6 +90,7 @@ class View extends Observer<ViewEvents> {
     this._bindEventsSliderControls();
   }
 
+  // создание частей слайдера
   private _initSliderStructure({
     thumbMinClass,
     thumbMaxClass,
@@ -140,20 +141,65 @@ class View extends Observer<ViewEvents> {
     this.addSubscribersToSubViews();
   }
 
-  private addSubscribersToSubViews() {
-    this.line.addSubscriber("updateValues", this._handleSliderClick);
-    this.ruler.addSubscriber("updateValues", this._handleSliderClick);
-    $.each(this.thumbs, (_, element) => {
-      element.addSubscriber("thumbsPositionChanged", this._handlerThumbsMove);
-    });
+  private _createThumbs({
+    thumbMinClass,
+    thumbMaxClass,
+    thumbClass,
+  }: {
+    thumbMinClass: string;
+    thumbMaxClass: string;
+    thumbClass: string;
+  }): void {
+    //создам кнопки
+    if (this.type === "double") {
+      const min = new ThumbView(
+        this.line,
+        this.orientation,
+        this.type,
+        this.pixelInOneStep,
+        `alexandr__thumb--min ${thumbMinClass}`,
+      );
+      const max = new ThumbView(
+        this.line,
+        this.orientation,
+        this.type,
+        this.pixelInOneStep,
+        `alexandr__thumb--max ${thumbMaxClass}`,
+      );
+      this.thumbs.push(min, max);
+    } else {
+      const thumb = new ThumbView(
+        this.line,
+        this.orientation,
+        this.type,
+        this.pixelInOneStep,
+        thumbClass,
+      );
+      this.thumbs.push(thumb);
+    }
   }
 
-  private _handlerThumbsMove = (
-    data: ThumbViewEvents["thumbsPositionChanged"],
-  ) => {
-    this.notify("viewThumbsPositionChanged", data);
-  };
+  private _createFlugs(): void {
+    if (this.showValueFlag) {
+      $.each(this.thumbs, function () {
+        this.showFlug();
+      });
+    } else {
+      $.each(this.thumbs, function () {
+        this.hideFlug();
+      });
+    }
+    this.updateControlsFlag();
+  }
 
+  private _createRuler() {
+    this.ruler = new RulerView(this.slider);
+    this.showRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
+    this.updateControlsShowRuler();
+  }
+
+
+  // навешивание слушателей на контролы
   private _bindEventsSliderControls() {
     this._bindEventsFlugsControls();
     this._bindEventsRulerControls();
@@ -238,103 +284,7 @@ class View extends Observer<ViewEvents> {
     }
   }
 
-  private _createThumbs({
-    thumbMinClass,
-    thumbMaxClass,
-    thumbClass,
-  }: {
-    thumbMinClass: string;
-    thumbMaxClass: string;
-    thumbClass: string;
-  }): void {
-    //создам кнопки
-    if (this.type === "double") {
-      const min = new ThumbView(
-        this.line,
-        this.orientation,
-        this.type,
-        this.pixelInOneStep,
-        `alexandr__thumb--min ${thumbMinClass}`,
-      );
-      const max = new ThumbView(
-        this.line,
-        this.orientation,
-        this.type,
-        this.pixelInOneStep,
-        `alexandr__thumb--max ${thumbMaxClass}`,
-      );
-      this.thumbs.push(min, max);
-    } else {
-      const thumb = new ThumbView(
-        this.line,
-        this.orientation,
-        this.type,
-        this.pixelInOneStep,
-        thumbClass,
-      );
-      this.thumbs.push(thumb);
-    }
-  }
-
-  private _createFlugs(): void {
-    if (this.showValueFlag) {
-      $.each(this.thumbs, function () {
-        this.showFlug();
-      });
-    } else {
-      $.each(this.thumbs, function () {
-        this.hideFlug();
-      });
-    }
-    this.updateControlsFlag();
-  }
-
-  private _createRuler() {
-    this.ruler = new RulerView(this.slider);
-    this.showRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
-    this.updateControlsShowRuler();
-  }
-
-  private _handleSliderClick = ({
-    pageX,
-    pageY,
-  }: SubViewEvents["updateValues"]) => {
-    const sliderLineCoords = this._getCoords(this.line.item);
-
-    // на скольких пикселях от линии произошел клик
-    const pixelClick =
-      this.moveDirection === "left"
-        ? pageX - sliderLineCoords.left
-        : pageY - sliderLineCoords.top;
-
-    const stepLeft = this._equateValueToStep(pixelClick);
-
-    if (this.type === "single") {
-      this.notify("viewThumbsPositionChanged", {
-        type: "min",
-        currentValue: stepLeft,
-      });
-    }
-
-    if (this.type === "double") {
-      const middlePixels =
-        this.minThumbPixelPosition +
-        (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
-
-      if (stepLeft < middlePixels) {
-        this.notify("viewThumbsPositionChanged", {
-          type: "min",
-          currentValue: stepLeft,
-        });
-      } else {
-        this.notify("viewThumbsPositionChanged", {
-          type: "max",
-          currentValue: stepLeft,
-        });
-      }
-    }
-  };
-
+  // слушатели контролов
   private _handlerThumbsControls = (type: "min" | "max", event: Event) => {
     const $currentInput = $(event.target);
     let currentValue = parseInt($currentInput.val().toString());
@@ -388,28 +338,144 @@ class View extends Observer<ViewEvents> {
     this.showRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
   };
 
-  private _getCoords(elem: JQuery<EventTarget>): ElementsCoords {
-    const boxLeft = elem.offset().left;
-    const boxRight = boxLeft + elem.outerWidth();
-    const boxTop = elem.offset().top;
-    const boxBottom = boxTop + elem.outerHeight();
 
-    return {
-      left: boxLeft + window.scrollX,
-      width: boxRight - boxLeft,
-      top: boxTop + window.scrollY,
-      height: boxBottom - boxTop,
-    };
+  // обновить значения в контролах
+  updateControlsShowRuler(): void {
+    if (this.showRuler) {
+      $.each(this.controlsRuler, (_, element) => {
+        $.each(element, (_, element) => {
+          $(element).prop("checked", true);
+        });
+      });
+    } else {
+      $.each(this.controlsRuler, (_, element) => {
+        $.each(element, (_, element) => {
+          $(element).prop("checked", false);
+        });
+      });
+    }
   }
 
-  private _equateValueToStep(value: number): number {
-    if (isNaN(value)) {
-      throw new Error("Получено NaN");
+  updateControlsFlag(): void {
+    //показать флажки
+    if (this.showValueFlag) {
+      $.each(this.controlsFlag, (_, element) => {
+        $.each(element, (_, element) => {
+          $(element).prop("checked", true);
+        });
+      });
+    } else {
+      $.each(this.controlsFlag, (_, element) => {
+        $.each(element, (_, element) => {
+          $(element).prop("checked", false);
+        });
+      });
+    }
+  }
+
+  updateThumbsControlsValue(type: "min" | "max", value: number): void {
+    if (type === "min" && this.controlsMinThumb.length) {
+      $.each(this.controlsMinThumb, function () {
+        $.each(this, function () {
+          $(this).val(value);
+        });
+      });
     }
 
-    return Math.round(value / this.pixelInOneStep) * this.pixelInOneStep;
+    if (type === "max" && this.controlsMaxThumb.length) {
+      $.each(this.controlsMaxThumb, function () {
+        $.each(this, function () {
+          $(this).val(value);
+        });
+      });
+    }
   }
 
+  updateSliderControlsValue(type: "min" | "max", value: number): void {
+    if (type === "min" && this.controlsMinValue.length) {
+      $.each(this.controlsMinValue, function () {
+        $.each(this, function () {
+          $(this).val(value);
+        });
+      });
+    }
+
+    if (type === "max" && this.controlsMaxValue.length) {
+      $.each(this.controlsMaxValue, function () {
+        $.each(this, function () {
+          $(this).val(value);
+        });
+      });
+    }
+  }
+
+  updateStepControls(value: number): void {
+    if (this.controlsStepValues.length) {
+      $.each(this.controlsStepValues, function () {
+        $.each(this, function () {
+          $(this).val(value);
+        });
+      });
+    }
+  }
+
+
+  // какая то работа с оповещением подписчиков
+  private addSubscribersToSubViews() {
+    this.line.addSubscriber("updateValues", this._handleSliderClick);
+    this.ruler.addSubscriber("updateValues", this._handleSliderClick);
+    $.each(this.thumbs, (_, element) => {
+      element.addSubscriber("thumbsPositionChanged", this._handlerThumbsMove);
+    });
+  }
+
+  private _handlerThumbsMove = (
+    data: ThumbViewEvents["thumbsPositionChanged"],
+  ) => {
+    this.notify("viewThumbsPositionChanged", data);
+  };
+
+  private _handleSliderClick = ({
+    pageX,
+    pageY,
+  }: SubViewEvents["updateValues"]) => {
+    const sliderLineCoords = this._getCoords(this.line.item);
+
+    // на скольких пикселях от линии произошел клик
+    const pixelClick =
+      this.moveDirection === "left"
+        ? pageX - sliderLineCoords.left
+        : pageY - sliderLineCoords.top;
+
+    const stepLeft = this._equateValueToStep(pixelClick);
+
+    if (this.type === "single") {
+      this.notify("viewThumbsPositionChanged", {
+        type: "min",
+        currentValue: stepLeft,
+      });
+    }
+
+    if (this.type === "double") {
+      const middlePixels =
+        this.minThumbPixelPosition +
+        (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
+
+      if (stepLeft < middlePixels) {
+        this.notify("viewThumbsPositionChanged", {
+          type: "min",
+          currentValue: stepLeft,
+        });
+      } else {
+        this.notify("viewThumbsPositionChanged", {
+          type: "max",
+          currentValue: stepLeft,
+        });
+      }
+    }
+  };
+
+  // установка вертикальной ориентации
   private _setVerticalOrientation(): void {
     const height = this.slider.outerWidth();
 
@@ -443,10 +509,53 @@ class View extends Observer<ViewEvents> {
     }
   }
 
+  // какие-то технические функции
+  private _getCoords(elem: JQuery<EventTarget>): ElementsCoords {
+    const boxLeft = elem.offset().left;
+    const boxRight = boxLeft + elem.outerWidth();
+    const boxTop = elem.offset().top;
+    const boxBottom = boxTop + elem.outerHeight();
+
+    return {
+      left: boxLeft + window.scrollX,
+      width: boxRight - boxLeft,
+      top: boxTop + window.scrollY,
+      height: boxBottom - boxTop,
+    };
+  }
+
+  private _equateValueToStep(value: number): number {
+    if (isNaN(value)) {
+      throw new Error("Получено NaN");
+    }
+
+    return Math.round(value / this.pixelInOneStep) * this.pixelInOneStep;
+  }
+
+  setPixelInOneStep({
+      min,
+      max,
+      step,
+    }:
+      | {
+          min: number;
+          max: number;
+          step: number;
+        }
+      | any): void {
+      this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
+      $.each(this.thumbs, (_, element) => {
+        element.pixelInOneStep = this.pixelInOneStep;
+      });
+  }
+  
+  
+  // удалить слайдер
   destroy() {
     this.slider.remove();
   }
 
+  // изменение частей слайдера - убрать в сабвью
   updateThumbsPosition(thumb: "min" | "max", position: number): void {
     if (thumb === "min") {
       this.minThumbPixelPosition = position;
@@ -516,39 +625,6 @@ class View extends Observer<ViewEvents> {
     }
   }
 
-  updateControlsShowRuler(): void {
-    if (this.showRuler) {
-      $.each(this.controlsRuler, (_, element) => {
-        $.each(element, (_, element) => {
-          $(element).prop("checked", true);
-        });
-      });
-    } else {
-      $.each(this.controlsRuler, (_, element) => {
-        $.each(element, (_, element) => {
-          $(element).prop("checked", false);
-        });
-      });
-    }
-  }
-
-  updateControlsFlag(): void {
-    //показать флажки
-    if (this.showValueFlag) {
-      $.each(this.controlsFlag, (_, element) => {
-        $.each(element, (_, element) => {
-          $(element).prop("checked", true);
-        });
-      });
-    } else {
-      $.each(this.controlsFlag, (_, element) => {
-        $.each(element, (_, element) => {
-          $(element).prop("checked", false);
-        });
-      });
-    }
-  }
-
   updateFlagValues(thumb: "min" | "max", position: number): void {
     //загрузить значения в окошки
     if (this.showValueFlag) {
@@ -558,70 +634,7 @@ class View extends Observer<ViewEvents> {
         this.thumbs[1].updateFlagValue(position);
       }
     }
-  }
-
-  updateThumbsControlsValue(type: "min" | "max", value: number): void {
-    if (type === "min" && this.controlsMinThumb.length) {
-      $.each(this.controlsMinThumb, function () {
-        $.each(this, function () {
-          $(this).val(value);
-        });
-      });
-    }
-
-    if (type === "max" && this.controlsMaxThumb.length) {
-      $.each(this.controlsMaxThumb, function () {
-        $.each(this, function () {
-          $(this).val(value);
-        });
-      });
-    }
-  }
-
-  updateSliderControlsValue(type: "min" | "max", value: number): void {
-    if (type === "min" && this.controlsMinValue.length) {
-      $.each(this.controlsMinValue, function () {
-        $.each(this, function () {
-          $(this).val(value);
-        });
-      });
-    }
-
-    if (type === "max" && this.controlsMaxValue.length) {
-      $.each(this.controlsMaxValue, function () {
-        $.each(this, function () {
-          $(this).val(value);
-        });
-      });
-    }
-  }
-
-  updateStepControls(value: number): void {
-    if (this.controlsStepValues.length) {
-      $.each(this.controlsStepValues, function () {
-        $.each(this, function () {
-          $(this).val(value);
-        });
-      });
-    }
-  }
-
-  setPixelInOneStep({
-    min,
-    max,
-    step,
-  }:
-    | {
-        min: number;
-        max: number;
-        step: number;
-      }
-    | any): void {
-    this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
-    $.each(this.thumbs, (_, element) => {
-      element.pixelInOneStep = this.pixelInOneStep;
-    });
-  }
+  } 
 }
 
 export default View;
