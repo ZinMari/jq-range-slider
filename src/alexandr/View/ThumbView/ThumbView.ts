@@ -6,38 +6,74 @@ class ThumbView extends Observer<ThumbViewEvents> {
   orientation: "vertical" | "horizontal";
   type: "single" | "double";
   pixelInOneStep: number;
+  minThumb: JQuery<HTMLElement>;
+  maxThumb: JQuery<HTMLElement> | undefined;
   private minThumbPixelPosition: number | undefined;
   private maxThumbPixelPosition: number | undefined;
 
-  constructor(
-    sliderLine: LineViewInterface,
-    orientation: "vertical" | "horizontal",
-    type: "single" | "double",
-    pixelInOneStep: number,
-    userClass: string,
+  constructor({sliderLine, orientation, type, pixelInOneStep, thumbMinClass, thumbMaxClass, thumbClass}:
+    {
+      sliderLine: LineViewInterface,
+      orientation: "vertical" | "horizontal",
+      type: "single" | "double",
+      pixelInOneStep: number,
+      thumbMinClass: string, 
+      thumbMaxClass: string,
+      thumbClass: string
+  }
   ) {
     super();
     this.line = sliderLine;
     this.orientation = orientation;
     this.type = type;
     this.pixelInOneStep = pixelInOneStep;
-    this.item = $("<span>", { class: `alexandr__thumb ${userClass}` });
 
-    this.item[0].addEventListener("pointerdown", this.handler);
-    this.line.item.append(this.item);
+    this._createThumbs({thumbMinClass, thumbMaxClass, thumbClass})
+  }
+
+  private _createThumbs({
+    thumbMinClass,
+    thumbMaxClass,
+    thumbClass,
+  }: {
+    thumbMinClass: string;
+    thumbMaxClass: string;
+    thumbClass: string;
+  }): void {
+    //создам кнопки
+    if (this.type === "double") {
+      this.minThumb = this._createThumb(`alexandr__thumb--min ${thumbMinClass}`);
+      this.maxThumb = this._createThumb(`alexandr__thumb--max ${thumbMaxClass}`);
+
+      this.line.item.append(this.minThumb, this.maxThumb);
+    } else {
+      this.minThumb = this._createThumb(thumbClass);
+
+      this.line.item.append(this.minThumb);
+    }
+  }
+
+  private _createThumb(userClass: string){
+    const thumb = $("<span>", { class: `alexandr__thumb ${userClass}` });
+    thumb[0].addEventListener("pointerdown", this.handler);
+
+    return thumb;
   }
 
   showFlug() {
-    this.item.addClass("flag");
+    this.minThumb.addClass("flag");
+    this.maxThumb?.addClass("flag");
   }
 
   hideFlug() {
-    this.item.removeClass("flag");
+    this.minThumb.removeClass("flag");
+    this.maxThumb?.removeClass("flag");
   }
 
-  updateFlagValue(position: number): void {
-    this.item.attr("data-value", position);
-  }
+  //ТУТ НУЖНО НАПИСАТЬ ОТДЕЛЬНО ДЛЯ МИН И МАКС
+  // updateFlagValue(position: number): void {
+  //   this.item.attr("data-value", position);
+  // }
 
   private handler = (event: PointerEvent) => {
     event.preventDefault();
@@ -47,9 +83,9 @@ class ThumbView extends Observer<ThumbViewEvents> {
     const leftCurrentThumbCoords = $currenThumb.offset().left + window.scrollX;
     const topCurrentThumbCoords = $currenThumb.offset().top + +window.scrollY;
     const widthCurrentThumbCoords =
-      leftCurrentThumbCoords + this.item.outerWidth() - leftCurrentThumbCoords;
+      leftCurrentThumbCoords + this.minThumb.outerWidth() - leftCurrentThumbCoords;
     const heightCurrentThumbCoords =
-      topCurrentThumbCoords + this.item.outerHeight() - topCurrentThumbCoords;
+      topCurrentThumbCoords + this.minThumb.outerHeight() - topCurrentThumbCoords;
 
     // разница между кликом и началок кнопки
     const shiftClickThumb: number = this._getShiftThumb({

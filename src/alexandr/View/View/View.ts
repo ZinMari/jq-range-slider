@@ -10,7 +10,7 @@ class View extends Observer<ViewEvents> {
   ruler: RulerView;
   sliderMinMaxValueLine: MinMaxValueLineView;
   private slider: JQuery<HTMLElement>;
-  private thumbs: Array<ThumbView>;
+  private thumbs: ThumbView;
   private container: JQuery<HTMLElement>;
   private line: LineViewInterface;
   private moveDirection: "top" | "left";
@@ -109,17 +109,29 @@ class View extends Observer<ViewEvents> {
     progressBarClass: string;
   }) {
     this.slider = $("<div>", { class: "alexandr" });
-    this.thumbs = [];
     this.line = new LineView(this.slider, lineClass);
     this.progressbar = new ProgressBar(this.line.item, progressBarClass);
-    this._createThumbs({ thumbMinClass, thumbMaxClass, thumbClass });
+
+
+    // this.thumbs = [];
+    // this._createThumbs({ thumbMinClass, thumbMaxClass, thumbClass });
+
+    this.thumbs = new ThumbView({
+      sliderLine: this.line,
+      orientation: this.orientation,
+      type: this.type,
+      pixelInOneStep: this.pixelInOneStep,
+      thumbMinClass,
+      thumbMaxClass,
+      thumbClass,
+    })
 
     //добавлю слайдер на страницу
     this.container.append(this.slider);
 
     //получу размер слайдера
     this.sliderLength =
-      this.slider.outerWidth() - this.thumbs[0].item.outerWidth();
+      this.slider.outerWidth() - this.thumbs.minThumb.outerWidth();
 
     // создать мин макс
     if (this.showMinMaxValue) {
@@ -141,54 +153,51 @@ class View extends Observer<ViewEvents> {
     this.addSubscribersToSubViews();
   }
 
-  private _createThumbs({
-    thumbMinClass,
-    thumbMaxClass,
-    thumbClass,
-  }: {
-    thumbMinClass: string;
-    thumbMaxClass: string;
-    thumbClass: string;
-  }): void {
-    //создам кнопки
-    if (this.type === "double") {
-      const min = new ThumbView(
-        this.line,
-        this.orientation,
-        this.type,
-        this.pixelInOneStep,
-        `alexandr__thumb--min ${thumbMinClass}`,
-      );
-      const max = new ThumbView(
-        this.line,
-        this.orientation,
-        this.type,
-        this.pixelInOneStep,
-        `alexandr__thumb--max ${thumbMaxClass}`,
-      );
-      this.thumbs.push(min, max);
-    } else {
-      const thumb = new ThumbView(
-        this.line,
-        this.orientation,
-        this.type,
-        this.pixelInOneStep,
-        thumbClass,
-      );
-      this.thumbs.push(thumb);
-    }
-  }
+  // private _createThumbs({
+  //   thumbMinClass,
+  //   thumbMaxClass,
+  //   thumbClass,
+  // }: {
+  //   thumbMinClass: string;
+  //   thumbMaxClass: string;
+  //   thumbClass: string;
+  // }): void {
+  //   //создам кнопки
+  //   if (this.type === "double") {
+  //     const min = new ThumbView(
+  //       this.line,
+  //       this.orientation,
+  //       this.type,
+  //       this.pixelInOneStep,
+  //       `alexandr__thumb--min ${thumbMinClass}`,
+  //     );
+  //     const max = new ThumbView(
+  //       this.line,
+  //       this.orientation,
+  //       this.type,
+  //       this.pixelInOneStep,
+  //       `alexandr__thumb--max ${thumbMaxClass}`,
+  //     );
+  //     this.thumbs.push(min, max);
+  //   } else {
+  //     const thumb = new ThumbView(
+  //       this.line,
+  //       this.orientation,
+  //       this.type,
+  //       this.pixelInOneStep,
+  //       thumbClass,
+  //     );
+  //     this.thumbs.push(thumb);
+  //   }
+  // }
 
   private _createFlugs(): void {
     if (this.showValueFlag) {
-      $.each(this.thumbs, function () {
-        this.showFlug();
-      });
+      this.thumbs.showFlug();
     } else {
-      $.each(this.thumbs, function () {
-        this.hideFlug();
-      });
+      this.thumbs.hideFlug();
     }
+
     this.updateControlsFlag();
   }
 
@@ -320,16 +329,7 @@ class View extends Observer<ViewEvents> {
   private _handlerFlagControls = (event: Event) => {
     const $currentInput = $(event.target);
     this.showValueFlag = $currentInput.is(":checked");
-    if (this.showValueFlag) {
-      $.each(this.thumbs, function () {
-        this.showFlug();
-      });
-    } else {
-      $.each(this.thumbs, function () {
-        this.hideFlug();
-      });
-    }
-    this.updateControlsFlag();
+    this._createFlugs();
   };
 
   private _handlerRulerControls = (event: Event) => {
@@ -424,9 +424,7 @@ class View extends Observer<ViewEvents> {
   private addSubscribersToSubViews() {
     this.line.addSubscriber("updateValues", this._handleSliderClick);
     this.ruler.addSubscriber("updateValues", this._handleSliderClick);
-    $.each(this.thumbs, (_, element) => {
-      element.addSubscriber("thumbsPositionChanged", this._handlerThumbsMove);
-    });
+    this.thumbs.addSubscriber("thumbsPositionChanged", this._handlerThumbsMove);
   }
 
   private _handlerThumbsMove = (
@@ -495,10 +493,12 @@ class View extends Observer<ViewEvents> {
       this.sliderMinMaxValueLine.wrap.height(height);
     }
 
-    // //повернем кнопки
-    this.thumbs.forEach((thumb: any) => {
-      thumb.item.addClass("alexandr__thumb_type_vertical");
-    });
+
+    // ПЕРЕНЕСТИ В THUMBSVIEW
+    // // //повернем кнопки
+    // this.thumbs.forEach((thumb: any) => {
+    //   thumb.item.addClass("alexandr__thumb_type_vertical");
+    // });
 
     //повернуть линейку
     if (this.ruler) {
@@ -544,9 +544,7 @@ class View extends Observer<ViewEvents> {
         }
       | any): void {
       this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
-      $.each(this.thumbs, (_, element) => {
-        element.pixelInOneStep = this.pixelInOneStep;
-      });
+      this.thumbs.pixelInOneStep = this.pixelInOneStep;
   }
   
   
@@ -559,10 +557,10 @@ class View extends Observer<ViewEvents> {
   updateThumbsPosition(thumb: "min" | "max", position: number): void {
     if (thumb === "min") {
       this.minThumbPixelPosition = position;
-      this.thumbs[0].item.css({ [this.moveDirection]: position });
+      this.thumbs.minThumb.css({ [this.moveDirection]: position });
     } else if (this.type === "double" && thumb === "max") {
       this.maxThumbPixelPosition = position;
-      this.thumbs[1].item.css({ [this.moveDirection]: position });
+      this.thumbs.maxThumb.css({ [this.moveDirection]: position });
     }
   }
 
@@ -571,7 +569,7 @@ class View extends Observer<ViewEvents> {
       if (this.orientation === "vertical") {
         const coordsThumbStart =
           this.minThumbPixelPosition +
-          this.thumbs[0].item.outerHeight() / 2 +
+          this.thumbs.minThumb.outerHeight() / 2 +
           "px";
 
         this.progressbar.update({
@@ -584,7 +582,7 @@ class View extends Observer<ViewEvents> {
       if (this.orientation === "horizontal") {
         const coordsThumbStart =
           this.minThumbPixelPosition +
-          this.thumbs[0].item.outerWidth() / 2 +
+          this.thumbs.minThumb.outerWidth() / 2 +
           "px";
 
         this.progressbar.update({
@@ -598,9 +596,9 @@ class View extends Observer<ViewEvents> {
     if (this.type === "double") {
       if (this.orientation === "vertical") {
         const coordsThumbMin =
-          this.minThumbPixelPosition + this.thumbs[0].item.outerHeight() / 2;
+          this.minThumbPixelPosition + this.thumbs.minThumb.outerHeight() / 2;
         const coordsThumbMax =
-          this.maxThumbPixelPosition + this.thumbs[1].item.outerHeight() / 2;
+          this.maxThumbPixelPosition + this.thumbs.maxThumb.outerHeight() / 2;
 
         this.progressbar.update({
           left: 0,
@@ -612,9 +610,9 @@ class View extends Observer<ViewEvents> {
 
       if (this.orientation === "horizontal") {
         const coordsThumbMin =
-          this.minThumbPixelPosition + this.thumbs[0].item.outerWidth() / 2;
+          this.minThumbPixelPosition + this.thumbs.minThumb.outerWidth() / 2;
         const coordsThumbMax =
-          this.maxThumbPixelPosition + this.thumbs[1].item.outerWidth() / 2;
+          this.maxThumbPixelPosition + this.thumbs.maxThumb.outerWidth() / 2;
 
         this.progressbar.update({
           left: coordsThumbMin + "px",
@@ -626,14 +624,15 @@ class View extends Observer<ViewEvents> {
   }
 
   updateFlagValues(thumb: "min" | "max", position: number): void {
+    // ПЕРЕДЕЛАТЬ ДЛЯ НОВЫХ THUMB
     //загрузить значения в окошки
-    if (this.showValueFlag) {
-      if (thumb === "min") {
-        this.thumbs[0].updateFlagValue(position);
-      } else if (this.type === "double" && thumb === "max") {
-        this.thumbs[1].updateFlagValue(position);
-      }
-    }
+    // if (this.showValueFlag) {
+    //   if (thumb === "min") {
+    //     this.thumbs[0].updateFlagValue(position);
+    //   } else if (this.type === "double" && thumb === "max") {
+    //     this.thumbs[1].updateFlagValue(position);
+    //   }
+    // }
   } 
 }
 
