@@ -16,6 +16,13 @@ class MinMaxValueLineView implements MinMaxValueLineView {
       this.min.text(min);
       this.max.text(max);
   }
+
+  setVerticalOrientation(height: number){
+    this.wrap.addClass(
+      "alexandr__values_type_vertical",
+    );
+    this.wrap.height(height);
+  }
 }
 
 export default MinMaxValueLineView;
