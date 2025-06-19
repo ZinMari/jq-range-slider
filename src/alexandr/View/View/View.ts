@@ -452,12 +452,8 @@ class View extends Observer<ViewEvents> {
       this.sliderMinMaxValueLine.wrap.height(height);
     }
 
-
-    // ПЕРЕНЕСТИ В THUMBSVIEW
-    // // //повернем кнопки
-    // this.thumbs.forEach((thumb: any) => {
-    //   thumb.item.addClass("alexandr__thumb_type_vertical");
-    // });
+    //повернем кнопки
+    this.thumbs.setVerticalOrientation();
 
     //повернуть линейку
     if (this.ruler) {

@@ -244,6 +244,11 @@ class ThumbView extends Observer<ThumbViewEvents> {
     return value;
   }
 
+  setVerticalOrientation(){
+    this.minThumb?.addClass("alexandr__thumb_type_vertical");
+    this.maxThumb?.addClass("alexandr__thumb_type_vertical");
+  }
+
   updateFlagValues(thumb: "min" | "max", position: number): void {
     if (thumb === "min") {
       this.minThumb.attr("data-value", position);
@@ -258,7 +263,6 @@ class ThumbView extends Observer<ThumbViewEvents> {
       this.minThumbPixelPosition = position;
       this.minThumb.css({ [this.moveDirection]: position });
 
-    console.log(this.moveDirection)
     } else if (this.type === "double" && thumb === "max") {
       this.maxThumbPixelPosition = position;
       this.maxThumb.css({ [this.moveDirection]: position });
