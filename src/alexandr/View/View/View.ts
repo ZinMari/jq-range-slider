@@ -120,6 +120,7 @@ class View extends Observer<ViewEvents> {
       thumbMinClass,
       thumbMaxClass,
       thumbClass,
+      moveDirection: this.moveDirection
     })
 
     //добавлю слайдер на страницу
@@ -509,17 +510,6 @@ class View extends Observer<ViewEvents> {
   // удалить слайдер
   destroy() {
     this.slider.remove();
-  }
-
-  // изменение частей слайдера - убрать в сабвью
-  updateThumbsPosition(thumb: "min" | "max", position: number): void {
-    if (thumb === "min") {
-      this.minThumbPixelPosition = position;
-      this.thumbs.minThumb.css({ [this.moveDirection]: position });
-    } else if (this.type === "double" && thumb === "max") {
-      this.maxThumbPixelPosition = position;
-      this.thumbs.maxThumb.css({ [this.moveDirection]: position });
-    }
   }
 
   updateProgressBar(): void {

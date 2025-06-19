@@ -8,10 +8,11 @@ class ThumbView extends Observer<ThumbViewEvents> {
   pixelInOneStep: number;
   minThumb: JQuery<HTMLElement>;
   maxThumb: JQuery<HTMLElement> | undefined;
+  moveDirection: "top" | "left";
   private minThumbPixelPosition: number | undefined;
   private maxThumbPixelPosition: number | undefined;
 
-  constructor({sliderLine, orientation, type, pixelInOneStep, thumbMinClass, thumbMaxClass, thumbClass}:
+  constructor({sliderLine, orientation, type, pixelInOneStep, thumbMinClass, thumbMaxClass, thumbClass, moveDirection}:
     {
       sliderLine: LineViewInterface,
       orientation: "vertical" | "horizontal",
@@ -19,7 +20,8 @@ class ThumbView extends Observer<ThumbViewEvents> {
       pixelInOneStep: number,
       thumbMinClass: string, 
       thumbMaxClass: string,
-      thumbClass: string
+      thumbClass: string,
+      moveDirection: "top" | "left";
   }
   ) {
     super();
@@ -27,6 +29,7 @@ class ThumbView extends Observer<ThumbViewEvents> {
     this.orientation = orientation;
     this.type = type;
     this.pixelInOneStep = pixelInOneStep;
+    this.moveDirection = moveDirection;
 
     this._createThumbs({thumbMinClass, thumbMaxClass, thumbClass})
   }
@@ -68,15 +71,6 @@ class ThumbView extends Observer<ThumbViewEvents> {
   hideFlug() {
     this.minThumb.removeClass("flag");
     this.maxThumb?.removeClass("flag");
-  }
-
-  updateFlagValues(thumb: "min" | "max", position: number): void {
-    if (thumb === "min") {
-      this.minThumb.attr("data-value", position);
-      } else if (this.type === "double" && thumb === "max") {
-        this.maxThumb.attr("data-value", position);
-      }
-    
   }
 
   private handler = (event: PointerEvent) => {
@@ -248,6 +242,27 @@ class ThumbView extends Observer<ThumbViewEvents> {
       return this.minThumbPixelPosition + this.pixelInOneStep;
     }
     return value;
+  }
+
+  updateFlagValues(thumb: "min" | "max", position: number): void {
+    if (thumb === "min") {
+      this.minThumb.attr("data-value", position);
+      } else if (this.type === "double" && thumb === "max") {
+        this.maxThumb.attr("data-value", position);
+      }
+    
+  }
+
+  updateThumbsPosition(thumb: "min" | "max", position: number): void {
+    if (thumb === "min") {
+      this.minThumbPixelPosition = position;
+      this.minThumb.css({ [this.moveDirection]: position });
+
+    console.log(this.moveDirection)
+    } else if (this.type === "double" && thumb === "max") {
+      this.maxThumbPixelPosition = position;
+      this.maxThumb.css({ [this.moveDirection]: position });
+    }
   }
 }
 

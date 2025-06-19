@@ -64,7 +64,7 @@ class Presenter extends Observer<PresenterEvents> {
     type,
     currentValue,
   }: ModelEvents["modelThumbsPositionChanged"]) => {
-    this.view.updateThumbsPosition(
+    this.view.thumbs.updateThumbsPosition(
       type,
       this._convertUnitsToPixels(currentValue),
     );
@@ -172,11 +172,11 @@ class Presenter extends Observer<PresenterEvents> {
       step: this.model.stepValue,
     });
 
-    this.view.updateThumbsPosition(
+    this.view.thumbs.updateThumbsPosition(
       "min",
       this._convertUnitsToPixels(this.model.minPosition),
     );
-    this.view.updateThumbsPosition(
+    this.view.thumbs.updateThumbsPosition(
       "max",
       this._convertUnitsToPixels(this.model.maxPosition),
     );

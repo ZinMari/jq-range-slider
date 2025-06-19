@@ -73,10 +73,11 @@ interface RulerView extends BaseSubViewInterface {
   hideRuler: () => void;
 }
 
-interface ThumbView{
+interface ThumbView {
   showFlug: () => void;
   hideFlug: () => void;
   updateFlagValues: (thumb: "min" | "max", position: number) => void;
+  updateThumbsPosition: (thumb: "min" | "max", position: number) => void;
 }
 
 interface MinMaxValueLineView {
@@ -103,7 +104,6 @@ interface View extends Observer<ViewEvents> {
   sliderMinMaxValueLine: MinMaxValueLineView;
   ruler: RulerView;
   init: (options: AlexandrSettings) => void;
-  updateThumbsPosition: (thumb: "min" | "max", position: number) => void;
   updateThumbsControlsValue: (type: "min" | "max", value: number) => void;
   updateSliderControlsValue: (type: "min" | "max", value: number) => void;
   updateStepControls: (value: number) => void;
