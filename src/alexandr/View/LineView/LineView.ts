@@ -40,6 +40,11 @@ class LineView extends Observer<SubViewEvents> implements LineViewInterface {
       height: boxBottom - boxTop,
     };
   }
+
+  setVerticalOrientation(height: number){
+    this.item.addClass("alexandr__line_type_vertical");
+    this.item.height(height);
+  }
 }
 
 export default LineView;

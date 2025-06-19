@@ -441,8 +441,13 @@ class View extends Observer<ViewEvents> {
     this.slider.height(height);
 
     //повернем линию
-    this.line.item.addClass("alexandr__line_type_vertical");
-    this.line.item.height(height);
+    this.line.setVerticalOrientation(height);
+    
+    //повернем кнопки
+    this.thumbs.setVerticalOrientation();
+
+    //повернуть линейку
+    this.ruler.setVerticalOrientation();
 
     //повернем линию со значениями
     if (this.sliderMinMaxValueLine) {
@@ -452,11 +457,7 @@ class View extends Observer<ViewEvents> {
       this.sliderMinMaxValueLine.wrap.height(height);
     }
 
-    //повернем кнопки
-    this.thumbs.setVerticalOrientation();
-
-    //повернуть линейку
-    this.ruler.setVerticalOrientation();
+    
   }
 
   // какие-то технические функции

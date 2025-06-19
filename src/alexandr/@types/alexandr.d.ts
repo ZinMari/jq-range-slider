@@ -62,6 +62,7 @@ interface BaseSubViewInterface extends Observer<SubViewEvents> {
   item: JQuery<HTMLElement>;
 }
 interface LineViewInterface extends BaseSubViewInterface {
+  setVerticalOrientation: (height: number) => void;
   _getCoords: () => ElementsCoords;
 }
 
