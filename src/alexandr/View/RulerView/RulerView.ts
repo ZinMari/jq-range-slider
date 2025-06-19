@@ -52,6 +52,13 @@ class RulerView extends Observer<SubViewEvents> implements RulerView {
       pageY: event.pageY,
     });
   };
+
+  setVerticalOrientation(){
+    this.item.addClass("alexandr__ruler_type_vertical");
+    this.dividings.forEach((elem: JQuery<HTMLElement>) => {
+      elem.addClass("alexandr__dividing_type_vertical");
+    });
+  }
 }
 
 export default RulerView;

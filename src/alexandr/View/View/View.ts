@@ -456,12 +456,7 @@ class View extends Observer<ViewEvents> {
     this.thumbs.setVerticalOrientation();
 
     //повернуть линейку
-    if (this.ruler) {
-      this.ruler.item.addClass("alexandr__ruler_type_vertical");
-      this.ruler.dividings.forEach((elem: JQuery<HTMLElement>) => {
-        elem.addClass("alexandr__dividing_type_vertical");
-      });
-    }
+    this.ruler.setVerticalOrientation();
   }
 
   // какие-то технические функции
