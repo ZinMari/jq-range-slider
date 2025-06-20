@@ -383,14 +383,11 @@ class View extends Observer<ViewEvents> {
   private addSubscribersToSubViews() {
     this.line.addSubscriber("updateValues", this._handleSliderClick);
     this.ruler.addSubscriber("updateValues", this._handleSliderClick);
-    this.thumbs.addSubscriber("thumbsPositionChanged", this._handlerThumbsMove);
+    this.thumbs.addSubscriber("FAKEthumbsPositionChanged", this._handlerFAKEthumbsPositionChanged);
   }
-
-  private _handlerThumbsMove = (
-    data: ThumbViewEvents["thumbsPositionChanged"],
-  ) => {
-    this.notify("viewThumbsPositionChanged", data);
-  };
+  private _handlerFAKEthumbsPositionChanged = (dataObject: any) => {
+    this.notify("viewFAKEThumbsPositionChanged", dataObject);
+  }
 
   private _handleSliderClick = ({
     pageX,
@@ -486,9 +483,11 @@ class View extends Observer<ViewEvents> {
           max: number;
           step: number;
         }
-      | any): void {
+      | any): number {
       this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
       this.thumbs.pixelInOneStep = this.pixelInOneStep;
+
+      return this.pixelInOneStep;
   }
   
   

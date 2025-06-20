@@ -49,13 +49,16 @@ interface Model extends Observer<ModelEvents> {
   minPosition: number;
   maxPosition: number;
   stepValue: number;
+  pixelInOneStep: number;
   type: "single" | "double";
+  orientation: "horizontal" | "vertical";
   init: (options: AlexandrSettings) => void;
   setMinPosition: (minPosition: number) => void;
   setMaxPosition: (maxPosition: number) => void;
   setMinValue: (minValue: number) => void;
   setMaxValue: (maxValue: number) => void;
   setStepValue: (value: number) => void;
+  FAKEThumbsPositionChanged: any;
 }
 
 interface BaseSubViewInterface extends Observer<SubViewEvents> {
@@ -113,7 +116,7 @@ interface View extends Observer<ViewEvents> {
     min: number;
     max: number;
     step: number;
-  }) => void;
+  }) => number;
   destroy: () => void;
 }
 
@@ -177,6 +180,7 @@ interface ViewEvents {
     type?: "min" | "max";
     currentValue: number;
   };
+  viewFAKEThumbsPositionChanged: any;
 }
 
 interface PresenterEvents {
@@ -200,4 +204,5 @@ interface ThumbViewEvents {
     type: "max" | "min";
     currentValue: number;
   };
+  FAKEthumbsPositionChanged: any;
 }

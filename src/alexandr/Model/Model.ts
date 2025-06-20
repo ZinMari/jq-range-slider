@@ -7,6 +7,8 @@ class Model extends Observer<ModelEvents> {
   maxPosition: number;
   stepValue: number;
   type: "single" | "double";
+  orientation: "horizontal" | "vertical";
+  pixelInOneStep: number;
 
   init({
     minValue,
@@ -15,8 +17,10 @@ class Model extends Observer<ModelEvents> {
     maxPosition,
     stepValue,
     type,
+    orientation,
   }: AlexandrSettings): void {
     this.type = type;
+    this.orientation = orientation;
     this.setMaxValue(Number(maxValue));
     this.setMinValue(Number(minValue));
     this.setStepValue(Number(stepValue));
@@ -58,6 +62,16 @@ class Model extends Observer<ModelEvents> {
       currentValue: this.maxPosition,
     });
   }
+
+
+  FAKEThumbsPositionChanged(options: any){
+    let value: number = this._getNewThumbCord(options);   
+    if (options.type === "min") {
+      this.setMinPosition(this._convertPixelToUnits(value));
+    } else if (options.type === "max") {
+      this.setMaxPosition(this._convertPixelToUnits(value));
+    }
+  };
 
   setMinValue(minValue: number): void {
     this.minValue =
@@ -136,5 +150,75 @@ class Model extends Observer<ModelEvents> {
   private _equateValueToStep(value: number): number {
     return Math.round(value / this.stepValue) * this.stepValue || this.minValue;
   }
+
+
+  //новое для thumb
+  private _getNewThumbCord({
+    event,
+    shiftClickThumb,
+    sliderLineCoords,
+    leftCurrentThumbCoords,
+    topCurrentThumbCoords,
+    widthCurrentThumbCoords,
+    heightCurrentThumbCoords,
+  }: {
+    event: MouseEvent;
+    shiftClickThumb: number;
+    sliderLineCoords: ElementsCoords;
+    leftCurrentThumbCoords: number;
+    topCurrentThumbCoords: number;
+    widthCurrentThumbCoords: number;
+    heightCurrentThumbCoords: number;
+  }): number {
+    let clientEvent;
+    let clientLineCoordsOffset;
+    let clientLineCoordsSize;
+    let clientThumbCoordsSize;
+    if (this.orientation === "vertical") {
+      clientEvent = event.pageY;
+
+      clientLineCoordsOffset = sliderLineCoords.top;
+      clientLineCoordsSize = sliderLineCoords.height;
+      clientThumbCoordsSize = heightCurrentThumbCoords;
+    } else {
+      clientEvent = event.pageX;
+      clientLineCoordsOffset = sliderLineCoords.left;
+      clientLineCoordsSize = sliderLineCoords.width;
+      clientThumbCoordsSize = widthCurrentThumbCoords;
+    }
+
+    let newLeft = clientEvent - shiftClickThumb - clientLineCoordsOffset;
+
+    //подгоним движение под шаг
+    newLeft = this._equatePixelValueToStep(newLeft);
+
+    // курсор вышел из слайдера => оставить бегунок в его границах.
+    if (newLeft < 0) {
+      newLeft = 0;
+    }
+    const rightEdge = clientLineCoordsSize - clientThumbCoordsSize;
+
+    if (newLeft > rightEdge) {
+      newLeft = rightEdge;
+    }
+
+    return newLeft;
+  }
+
+  private _equatePixelValueToStep(value: number): number {
+    if (isNaN(value)) {
+      throw new Error("Получено NaN");
+    }
+
+    return Math.round(value / this.pixelInOneStep) * this.pixelInOneStep;
+  }
+
+  private _convertPixelToUnits(value: number): number {
+    return Math.round(
+      (value / this.pixelInOneStep) * this.stepValue +
+        this.minValue,
+    );
+  }
+  
 }
 export default Model;
