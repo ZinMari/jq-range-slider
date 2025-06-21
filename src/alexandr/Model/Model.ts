@@ -9,6 +9,9 @@ class Model extends Observer<ModelEvents> {
   type: "single" | "double";
   orientation: "horizontal" | "vertical";
   pixelInOneStep: number;
+  moveDirection: "top" | "left";
+  minThumbPixelPosition: number;
+  maxThumbPixelPosition: number;
 
   init({
     minValue,
@@ -21,6 +24,7 @@ class Model extends Observer<ModelEvents> {
   }: AlexandrSettings): void {
     this.type = type;
     this.orientation = orientation;
+    this.moveDirection = this.orientation === "vertical" ? "top" : "left";
     this.setMaxValue(Number(maxValue));
     this.setMinValue(Number(minValue));
     this.setStepValue(Number(stepValue));
@@ -39,11 +43,14 @@ class Model extends Observer<ModelEvents> {
     if (this.type === "double") {
       newPosition = this._validateDoublePosition(typeValue, newPosition);
     }
+
     this.minPosition = newPosition;
+    this.minThumbPixelPosition = this._convertUnitsToPixels(minPosition);
 
     this.notify("modelThumbsPositionChanged", {
       type: "min",
       currentValue: this.minPosition,
+      pixelPosition: this.minThumbPixelPosition,
     });
   }
 
@@ -57,21 +64,51 @@ class Model extends Observer<ModelEvents> {
     }
 
     this.maxPosition = newPosition;
+    this.maxThumbPixelPosition = this._convertUnitsToPixels(maxPosition);
+
     this.notify("modelThumbsPositionChanged", {
       type: "max",
       currentValue: this.maxPosition,
+      pixelPosition: this.maxThumbPixelPosition,
     });
   }
 
-
-  FAKEThumbsPositionChanged(options: any){
-    let value: number = this._getNewThumbCord(options);   
+  FAKEThumbsPositionChanged(options: any) {
+    let value: number = this._getNewThumbCord(options);
     if (options.type === "min") {
       this.setMinPosition(this._convertPixelToUnits(value));
     } else if (options.type === "max") {
       this.setMaxPosition(this._convertPixelToUnits(value));
     }
-  };
+  }
+
+  modelClicOnSlider(data: any) {
+    const sliderLineCoords = this._getCoords(data.item);
+
+    // на скольких пикселях от линии произошел клик
+    const pixelClick =
+      this.moveDirection === "left"
+        ? data.pageX - sliderLineCoords.left
+        : data.pageY - sliderLineCoords.top;
+
+    const stepLeft = this._equatePixelValueToStep(pixelClick);
+
+    if (this.type === "single") {
+      this.setMinPosition(this._convertPixelToUnits(stepLeft));
+    }
+
+    if (this.type === "double") {
+      const middlePixels =
+        this.minThumbPixelPosition +
+        (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
+
+      if (stepLeft < middlePixels) {
+        this.setMinPosition(this._convertPixelToUnits(stepLeft));
+      } else {
+        this.setMaxPosition(this._convertPixelToUnits(stepLeft));
+      }
+    }
+  }
 
   setMinValue(minValue: number): void {
     this.minValue =
@@ -151,7 +188,6 @@ class Model extends Observer<ModelEvents> {
     return Math.round(value / this.stepValue) * this.stepValue || this.minValue;
   }
 
-
   //новое для thumb
   private _getNewThumbCord({
     event,
@@ -205,6 +241,20 @@ class Model extends Observer<ModelEvents> {
     return newLeft;
   }
 
+  private _getCoords(elem: JQuery<EventTarget>): ElementsCoords {
+    const boxLeft = elem.offset().left;
+    const boxRight = boxLeft + elem.outerWidth();
+    const boxTop = elem.offset().top;
+    const boxBottom = boxTop + elem.outerHeight();
+
+    return {
+      left: boxLeft + window.scrollX,
+      width: boxRight - boxLeft,
+      top: boxTop + window.scrollY,
+      height: boxBottom - boxTop,
+    };
+  }
+
   private _equatePixelValueToStep(value: number): number {
     if (isNaN(value)) {
       throw new Error("Получено NaN");
@@ -215,10 +265,14 @@ class Model extends Observer<ModelEvents> {
 
   private _convertPixelToUnits(value: number): number {
     return Math.round(
-      (value / this.pixelInOneStep) * this.stepValue +
-        this.minValue,
+      (value / this.pixelInOneStep) * this.stepValue + this.minValue,
     );
   }
-  
+
+  private _convertUnitsToPixels(value: number): number {
+    const withMinvalue = value - this.minValue;
+    const pixels = withMinvalue * (this.pixelInOneStep / this.stepValue);
+    return pixels;
+  }
 }
 export default Model;

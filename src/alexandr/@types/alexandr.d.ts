@@ -59,6 +59,7 @@ interface Model extends Observer<ModelEvents> {
   setMaxValue: (maxValue: number) => void;
   setStepValue: (value: number) => void;
   FAKEThumbsPositionChanged: any;
+  modelClicOnSlider: any;
 }
 
 interface BaseSubViewInterface extends Observer<SubViewEvents> {
@@ -181,6 +182,7 @@ interface ViewEvents {
     currentValue: number;
   };
   viewFAKEThumbsPositionChanged: any;
+  viewClicOnSlider: any;
 }
 
 interface PresenterEvents {
@@ -197,6 +199,7 @@ interface SubViewEvents {
     pageX?: number;
     pageY?: number;
   };
+  clicOnSlider: any;
 }
 
 interface ThumbViewEvents {

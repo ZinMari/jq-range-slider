@@ -21,9 +21,10 @@ class LineView extends Observer<SubViewEvents> implements LineViewInterface {
       }
     }
 
-    this.notify("updateValues", {
+    this.notify("clicOnSlider", {
       pageX: event.pageX,
       pageY: event.pageY,
+      item: this.item,
     });
   };
 
@@ -41,7 +42,7 @@ class LineView extends Observer<SubViewEvents> implements LineViewInterface {
     };
   }
 
-  setVerticalOrientation(height: number){
+  setVerticalOrientation(height: number) {
     this.item.addClass("alexandr__line_type_vertical");
     this.item.height(height);
   }

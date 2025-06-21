@@ -44,12 +44,12 @@ class Presenter extends Observer<PresenterEvents> {
       this.viewStepControlsChanged,
     );
 
-    // ------------------------------ТУТ НОВЫЙ КОД thumb-----------------------------
     this.view.addSubscriber(
       "viewFAKEThumbsPositionChanged",
       this.viewFAKEThumbsPositionChanged,
     );
-    //------------------------------ КОНЕЦ НОВОГО КОДА thumb----------------------
+
+    this.view.addSubscriber("viewClicOnSlider", this.viewClicOnSlider);
 
     this.model.addSubscriber(
       "modelThumbsPositionChanged",
@@ -70,11 +70,10 @@ class Presenter extends Observer<PresenterEvents> {
   private modelThumbsPositionChanged = ({
     type,
     currentValue,
+    pixelPosition,
   }: ModelEvents["modelThumbsPositionChanged"]) => {
-    this.view.thumbs.updateThumbsPosition(
-      type,
-      this._convertUnitsToPixels(currentValue),
-    );
+    this.view.thumbs.updateThumbsPosition(type, pixelPosition);
+
     this.view.updateProgressBar();
     this.view.thumbs.updateFlagValues(type, currentValue);
     this.view.updateThumbsControlsValue(type, currentValue);
@@ -130,11 +129,13 @@ class Presenter extends Observer<PresenterEvents> {
     }
   };
 
-  // ------------------------------ТУТ НОВЫЙ КОД thumb-----------------------------
   private viewFAKEThumbsPositionChanged = (dataObject: any) => {
     this.model.FAKEThumbsPositionChanged(dataObject);
   };
-  //------------------------------ КОНЕЦ НОВОГО КОДА thumb----------------------
+
+  private viewClicOnSlider = (dataObject: any) => {
+    this.model.modelClicOnSlider(dataObject);
+  };
 
   private viewThumbsControlsChanged = ({
     type,

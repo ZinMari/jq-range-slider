@@ -120,8 +120,8 @@ class View extends Observer<ViewEvents> {
       thumbMinClass,
       thumbMaxClass,
       thumbClass,
-      moveDirection: this.moveDirection
-    })
+      moveDirection: this.moveDirection,
+    });
 
     //добавлю слайдер на страницу
     this.container.append(this.slider);
@@ -165,7 +165,6 @@ class View extends Observer<ViewEvents> {
     this.showRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
     this.updateControlsShowRuler();
   }
-
 
   // навешивание слушателей на контролы
   private _bindEventsSliderControls() {
@@ -297,7 +296,6 @@ class View extends Observer<ViewEvents> {
     this.showRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
   };
 
-
   // обновить значения в контролах
   updateControlsShowRuler(): void {
     if (this.showRuler) {
@@ -378,16 +376,31 @@ class View extends Observer<ViewEvents> {
     }
   }
 
-
   // какая то работа с оповещением подписчиков
   private addSubscribersToSubViews() {
-    this.line.addSubscriber("updateValues", this._handleSliderClick);
+    this.line.addSubscriber("clicOnSlider", this._FAKEhandleSliderClick);
+
     this.ruler.addSubscriber("updateValues", this._handleSliderClick);
-    this.thumbs.addSubscriber("FAKEthumbsPositionChanged", this._handlerFAKEthumbsPositionChanged);
+    this.thumbs.addSubscriber(
+      "FAKEthumbsPositionChanged",
+      this._handlerFAKEthumbsPositionChanged,
+    );
   }
   private _handlerFAKEthumbsPositionChanged = (dataObject: any) => {
     this.notify("viewFAKEThumbsPositionChanged", dataObject);
-  }
+  };
+
+  private _FAKEhandleSliderClick = ({
+    pageX,
+    pageY,
+    item,
+  }: SubViewEvents["clicOnSlider"]) => {
+    this.notify("viewClicOnSlider", {
+      pageX,
+      pageY,
+      item,
+    });
+  };
 
   private _handleSliderClick = ({
     pageX,
@@ -402,7 +415,6 @@ class View extends Observer<ViewEvents> {
         : pageY - sliderLineCoords.top;
 
     const stepLeft = this._equateValueToStep(pixelClick);
-
     if (this.type === "single") {
       this.notify("viewThumbsPositionChanged", {
         type: "min",
@@ -474,23 +486,22 @@ class View extends Observer<ViewEvents> {
   }
 
   setPixelInOneStep({
-      min,
-      max,
-      step,
-    }:
-      | {
-          min: number;
-          max: number;
-          step: number;
-        }
-      | any): number {
-      this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
-      this.thumbs.pixelInOneStep = this.pixelInOneStep;
+    min,
+    max,
+    step,
+  }:
+    | {
+        min: number;
+        max: number;
+        step: number;
+      }
+    | any): number {
+    this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
+    this.thumbs.pixelInOneStep = this.pixelInOneStep;
 
-      return this.pixelInOneStep;
+    return this.pixelInOneStep;
   }
-  
-  
+
   // удалить слайдер
   destroy() {
     this.slider.remove();

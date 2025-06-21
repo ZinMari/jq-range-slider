@@ -1,59 +1,59 @@
-@use './components/slider-complex/slider-complex';
+@use "./components/slider-complex/slider-complex";
 
 :root {
-    --color-bg: rgb(39, 38, 43);
-    --color-light: rgb(255, 255, 255);
-    --bg-gradient: linear-gradient(135deg, #353535 0%,#000000 50%,#666666 100%);
-    --z-index-base: 1;
-    --z-index-container: 10;
+  --color-bg: rgb(39, 38, 43);
+  --color-light: rgb(255, 255, 255);
+  --bg-gradient: linear-gradient(135deg, #353535 0%, #000000 50%, #666666 100%);
+  --z-index-base: 1;
+  --z-index-container: 10;
 }
 
 .page {
-    background-color: var(--color-bg);
-    min-height: 100vh;
-    font-size: 16px;
-    font-family: Arial, sans-serif;
-    color: var(--color-light);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  color: var(--color-light);
 
-    &__body {
-        margin: 0;
-        min-width: 360px;
-        min-height: 100%;
-        position: relative;
-    }
+  &__body {
+    margin: 0;
+    min-width: 360px;
+    min-height: 100%;
+    position: relative;
+  }
 
-    &__container {
-        position: relative;
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 0 15px;
-        display: flex;
-        flex-direction: column;
-        gap: 50px;
-        z-index: var(--z-index-container);
-    }
+  &__container {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    z-index: var(--z-index-container);
+  }
 
-    &__gradient {
-        position: absolute;
-        background: var(--bg-gradient);
-        background-size: 400%;
-        inset: 0;
-        z-index: var(--z-index-base);
-        animation-name: gradient;
-        animation-duration: 10s;
-        animation-iteration-count: infinite;
-        animation-direction: alternate;
-    }
+  &__gradient {
+    position: absolute;
+    background: var(--bg-gradient);
+    background-size: 400%;
+    inset: 0;
+    z-index: var(--z-index-base);
+    // animation-name: gradient;
+    // animation-duration: 10s;
+    // animation-iteration-count: infinite;
+    // animation-direction: alternate;
+  }
 }
 
-@keyframes gradient {
-    0% {
-        background-position: 0 0;
-    }
-    50% {
-        background-position: 20% 100%;
-    }
-    100% {
-        background-position: 80% 0;
-    }
-}
+// @keyframes gradient {
+//     0% {
+//         background-position: 0 0;
+//     }
+//     50% {
+//         background-position: 20% 100%;
+//     }
+//     100% {
+//         background-position: 80% 0;
+//     }
+// }
