@@ -64,6 +64,7 @@ interface Model extends Observer<ModelEvents> {
   modelClicOnSlider: any;
   modelGetCordsView: any;
   setProgressBarSize: any;
+  setInitialValues: any;
 }
 
 interface BaseSubViewInterface extends Observer<SubViewEvents> {

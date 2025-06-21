@@ -30,14 +30,11 @@ class Model extends Observer<ModelEvents> {
     this.type = type;
     this.orientation = orientation;
     this.moveDirection = this.orientation === "vertical" ? "top" : "left";
-    this.setMaxValue(Number(maxValue));
-    this.setMinValue(Number(minValue));
-    this.setStepValue(Number(stepValue));
-    this.setMaxValue(Number(maxValue));
-    this.setMinPosition(Number(minPosition));
-    if (this.type === "double") {
-      this.setMaxPosition(Number(maxPosition));
-    }
+    this.minValue = minValue;
+    this.maxValue = maxValue;
+    this.minPosition = minPosition;
+    this.maxPosition = maxPosition;
+    this.stepValue = stepValue;
   }
 
   modelGetCordsView = (dataObject: any) => {
@@ -49,6 +46,17 @@ class Model extends Observer<ModelEvents> {
 
     this.setPixelInOneStep();
   };
+
+  setInitialValues() {
+    // this.setMaxValue(Number(this.maxValue));
+    // this.setMinValue(Number(this.minValue));
+    // this.setStepValue(Number(this.stepValue));
+    // this.setMaxValue(Number(this.maxValue));
+    // this.setMinPosition(Number(this.minPosition));
+    // if (this.type === "double") {
+    //   this.setMaxPosition(Number(this.maxPosition));
+    // }
+  }
 
   setPixelInOneStep = () => {
     this.pixelInOneStep =

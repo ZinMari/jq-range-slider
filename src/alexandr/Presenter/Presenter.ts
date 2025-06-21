@@ -174,29 +174,30 @@ class Presenter extends Observer<PresenterEvents> {
 
   private _setViewInitialValues() {
     this.view.initSliderStructure();
+    this.model.setInitialValues();
 
-    this.view.thumbs.updateThumbsPosition(
-      "min",
-      this._convertUnitsToPixels(this.model.minPosition),
-      this.model.moveDirection,
-    );
-    this.view.thumbs.updateThumbsPosition(
-      "max",
-      this._convertUnitsToPixels(this.model.maxPosition),
-      this.model.moveDirection,
-    );
-    this.view.thumbs.updateFlagValues("min", this.model.minPosition);
-    this.view.thumbs.updateFlagValues("max", this.model.maxPosition);
-    this.view.updateThumbsControlsValue("max", this.model.maxPosition);
-    this.view.updateThumbsControlsValue("min", this.model.minPosition);
-    this.view.updateSliderControlsValue("max", this.model.maxValue);
-    this.view.updateSliderControlsValue("min", this.model.minValue);
-    this.view.updateStepControls(this.model.stepValue);
-    this.view.sliderMinMaxValueLine.update(
-      this.model.minValue,
-      this.model.maxValue,
-    );
-    this.view.ruler.update(this.model.minValue, this.model.maxValue);
+    // this.view.thumbs.updateThumbsPosition(
+    //   "min",
+    //   this._convertUnitsToPixels(this.model.minPosition),
+    //   this.model.moveDirection,
+    // );
+    // this.view.thumbs.updateThumbsPosition(
+    //   "max",
+    //   this._convertUnitsToPixels(this.model.maxPosition),
+    //   this.model.moveDirection,
+    // );
+    // this.view.thumbs.updateFlagValues("min", this.model.minPosition);
+    // this.view.thumbs.updateFlagValues("max", this.model.maxPosition);
+    // this.view.updateThumbsControlsValue("max", this.model.maxPosition);
+    // this.view.updateThumbsControlsValue("min", this.model.minPosition);
+    // this.view.updateSliderControlsValue("max", this.model.maxValue);
+    // this.view.updateSliderControlsValue("min", this.model.minValue);
+    // this.view.updateStepControls(this.model.stepValue);
+    // this.view.sliderMinMaxValueLine.update(
+    //   this.model.minValue,
+    //   this.model.maxValue,
+    // );
+    // this.view.ruler.update(this.model.minValue, this.model.maxValue);
   }
 }
 
