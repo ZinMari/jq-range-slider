@@ -28,20 +28,6 @@ class LineView extends Observer<SubViewEvents> implements LineViewInterface {
     });
   };
 
-  _getCoords(): ElementsCoords {
-    const boxLeft = this.item.offset().left;
-    const boxRight = boxLeft + this.item.outerWidth();
-    const boxTop = this.item.offset().top;
-    const boxBottom = boxTop + this.item.outerHeight();
-
-    return {
-      left: boxLeft + window.scrollX,
-      width: boxRight - boxLeft,
-      top: boxTop + window.scrollY,
-      height: boxBottom - boxTop,
-    };
-  }
-
   setVerticalOrientation(height: number) {
     this.item.addClass("alexandr__line_type_vertical");
     this.item.height(height);

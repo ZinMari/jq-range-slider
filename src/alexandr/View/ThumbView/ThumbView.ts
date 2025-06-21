@@ -8,8 +8,6 @@ class ThumbView extends Observer<ThumbViewEvents> {
   minThumb: JQuery<HTMLElement>;
   maxThumb: JQuery<HTMLElement> | undefined;
   moveDirection: "top" | "left";
-  private minThumbPixelPosition: number | undefined;
-  private maxThumbPixelPosition: number | undefined;
 
   constructor({
     sliderLine,
@@ -82,40 +80,28 @@ class ThumbView extends Observer<ThumbViewEvents> {
 
   private handler = (event: PointerEvent) => {
     event.preventDefault();
+
     const $currenThumb = $(event.target);
-    const sliderLineCoords = this.line._getCoords();
 
-    const leftCurrentThumbCoords = $currenThumb.offset().left + window.scrollX;
-    const topCurrentThumbCoords = $currenThumb.offset().top + +window.scrollY;
-    const widthCurrentThumbCoords =
-      leftCurrentThumbCoords +
-      this.minThumb.outerWidth() -
-      leftCurrentThumbCoords;
-    const heightCurrentThumbCoords =
-      topCurrentThumbCoords +
-      this.minThumb.outerHeight() -
-      topCurrentThumbCoords;
+    const clickPageX = event.pageX;
+    const clickPageY = event.pageY;
 
-    // разница между кликом и началок кнопки
-    const shiftClickThumb: number = this._getShiftThumb({
-      event: event,
-      topCurrentThumbCoords: topCurrentThumbCoords,
-      leftCurrentThumbCoords: leftCurrentThumbCoords,
-      orientation: this.orientation,
-    });
+    const leftClickThumbCoords = $currenThumb.offset().left + window.scrollX;
+    const topClickThumbCoords = $currenThumb.offset().top + window.scrollY;
 
     const onMouseMove = (event: PointerEvent): void => {
       const options = {
+        clickPageX,
+        clickPageY,
+        movePageX: event.pageX,
+        movePageY: event.pageY,
         type: $currenThumb.prop("classList").contains("alexandr__thumb--max")
           ? "max"
           : "min",
-        event: event,
-        shiftClickThumb: shiftClickThumb,
-        sliderLineCoords: sliderLineCoords,
-        leftCurrentThumbCoords: leftCurrentThumbCoords,
-        topCurrentThumbCoords: topCurrentThumbCoords,
-        widthCurrentThumbCoords: widthCurrentThumbCoords,
-        heightCurrentThumbCoords: heightCurrentThumbCoords,
+        sliderLine: this.line.item,
+        leftClickThumbCoords: leftClickThumbCoords,
+        topClickThumbCoords: topClickThumbCoords,
+        thumb: $currenThumb,
       };
 
       this.notify("FAKEthumbsPositionChanged", options);
@@ -129,24 +115,6 @@ class ThumbView extends Observer<ThumbViewEvents> {
     document.addEventListener("pointermove", onMouseMove);
     document.addEventListener("pointerup", onMouseUp);
   };
-
-  private _getShiftThumb({
-    event,
-    topCurrentThumbCoords,
-    leftCurrentThumbCoords,
-    orientation,
-  }: {
-    event: PointerEvent;
-    topCurrentThumbCoords: number;
-    leftCurrentThumbCoords: number;
-    orientation: string;
-  }): number {
-    if (orientation === "vertical") {
-      return event.pageY - topCurrentThumbCoords;
-    } else {
-      return event.pageX - leftCurrentThumbCoords;
-    }
-  }
 
   setVerticalOrientation() {
     this.minThumb?.addClass("alexandr__thumb_type_vertical");
@@ -163,10 +131,8 @@ class ThumbView extends Observer<ThumbViewEvents> {
 
   updateThumbsPosition(thumb: "min" | "max", position: number): void {
     if (thumb === "min") {
-      this.minThumbPixelPosition = position;
       this.minThumb.css({ [this.moveDirection]: position });
     } else if (this.type === "double" && thumb === "max") {
-      this.maxThumbPixelPosition = position;
       this.maxThumb.css({ [this.moveDirection]: position });
     }
   }

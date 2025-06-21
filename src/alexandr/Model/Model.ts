@@ -150,14 +150,33 @@ class Model extends Observer<ModelEvents> {
     }
   };
 
-  FAKEThumbsPositionChanged(options: any) {
-    let value: number = this._getNewThumbCord(options);
+  FAKEThumbsPositionChanged = (options: any) => {
+    const sliderLineCoords = this._getCoords(options.sliderLine);
+    const thumbCoords = this._getCoords(options.thumb);
+
+    // разница между кликом и началок кнопки
+    const shiftClickThumb: number = this._getShiftThumb({
+      clickPageX: options.clickPageX,
+      clickPageY: options.clickPageY,
+      topClickThumbCoords: options.topClickThumbCoords,
+      leftClickThumbCoords: options.leftClickThumbCoords,
+      orientation: this.orientation,
+    });
+
+    let value: number = this._getNewThumbCord({
+      movePageX: options.movePageX,
+      movePageY: options.movePageY,
+      shiftClickThumb: shiftClickThumb,
+      sliderLineCoords,
+      thumbCoords,
+    });
+
     if (options.type === "min") {
       this.setMinPosition(this._convertPixelToUnits(value));
     } else if (options.type === "max") {
       this.setMaxPosition(this._convertPixelToUnits(value));
     }
-  }
+  };
 
   modelClicOnSlider(data: any) {
     const sliderLineCoords = this._getCoords(data.item);
@@ -261,42 +280,34 @@ class Model extends Observer<ModelEvents> {
     return value;
   }
 
-  private _equateValueToStep(value: number): number {
-    return Math.round(value / this.stepValue) * this.stepValue || this.minValue;
-  }
-
   private _getNewThumbCord({
-    event,
+    movePageX,
+    movePageY,
     shiftClickThumb,
     sliderLineCoords,
-    leftCurrentThumbCoords,
-    topCurrentThumbCoords,
-    widthCurrentThumbCoords,
-    heightCurrentThumbCoords,
+    thumbCoords,
   }: {
-    event: MouseEvent;
+    movePageX: number;
+    movePageY: number;
     shiftClickThumb: number;
     sliderLineCoords: ElementsCoords;
-    leftCurrentThumbCoords: number;
-    topCurrentThumbCoords: number;
-    widthCurrentThumbCoords: number;
-    heightCurrentThumbCoords: number;
+    thumbCoords: ElementsCoords;
   }): number {
     let clientEvent;
     let clientLineCoordsOffset;
     let clientLineCoordsSize;
     let clientThumbCoordsSize;
     if (this.orientation === "vertical") {
-      clientEvent = event.pageY;
+      clientEvent = movePageY;
 
       clientLineCoordsOffset = sliderLineCoords.top;
       clientLineCoordsSize = sliderLineCoords.height;
-      clientThumbCoordsSize = heightCurrentThumbCoords;
+      clientThumbCoordsSize = thumbCoords.height;
     } else {
-      clientEvent = event.pageX;
+      clientEvent = movePageX;
       clientLineCoordsOffset = sliderLineCoords.left;
       clientLineCoordsSize = sliderLineCoords.width;
-      clientThumbCoordsSize = widthCurrentThumbCoords;
+      clientThumbCoordsSize = thumbCoords.width;
     }
 
     let newLeft = clientEvent - shiftClickThumb - clientLineCoordsOffset;
@@ -331,12 +342,36 @@ class Model extends Observer<ModelEvents> {
     };
   }
 
+  private _getShiftThumb({
+    clickPageX,
+    clickPageY,
+    topClickThumbCoords,
+    leftClickThumbCoords,
+    orientation,
+  }: {
+    clickPageX: number;
+    clickPageY: number;
+    topClickThumbCoords: number;
+    leftClickThumbCoords: number;
+    orientation: string;
+  }): number {
+    if (orientation === "vertical") {
+      return clickPageY - topClickThumbCoords;
+    } else {
+      return clickPageX - leftClickThumbCoords;
+    }
+  }
+
   private _equatePixelValueToStep(value: number): number {
     if (isNaN(value)) {
       throw new Error("Получено NaN");
     }
 
     return Math.round(value / this.pixelInOneStep) * this.pixelInOneStep;
+  }
+
+  private _equateValueToStep(value: number): number {
+    return Math.round(value / this.stepValue) * this.stepValue || this.minValue;
   }
 
   private _convertPixelToUnits(value: number): number {

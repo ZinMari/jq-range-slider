@@ -70,7 +70,6 @@ interface BaseSubViewInterface extends Observer<SubViewEvents> {
 }
 interface LineViewInterface extends BaseSubViewInterface {
   setVerticalOrientation: (height: number) => void;
-  _getCoords: () => ElementsCoords;
 }
 
 interface RulerView extends BaseSubViewInterface {
