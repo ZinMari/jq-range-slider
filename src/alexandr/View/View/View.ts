@@ -8,8 +8,9 @@ import ThumbView from "../ThumbView/ThumbView";
 class View extends Observer<ViewEvents> {
   ruler: RulerView;
   sliderMinMaxValueLine: MinMaxValueLineView;
-  private slider: JQuery<HTMLElement>;
   thumbs: ThumbView;
+  progressbar: ProgressBarView;
+  private slider: JQuery<HTMLElement>;
   private container: JQuery<HTMLElement>;
   private line: LineViewInterface;
   private moveDirection: "top" | "left";
@@ -21,7 +22,6 @@ class View extends Observer<ViewEvents> {
   private showMinMaxValue: boolean;
   private showRuler: boolean;
   private showValueFlag: boolean;
-  private progressbar: ProgressBarView;
   private controlsMinThumb: Array<JQuery<HTMLElement>>;
   private controlsMaxThumb: Array<JQuery<HTMLElement>>;
   private controlsMinValue: Array<JQuery<HTMLElement>>;
@@ -411,10 +411,6 @@ class View extends Observer<ViewEvents> {
   // удалить слайдер
   destroy() {
     this.slider.remove();
-  }
-
-  updateProgressBar(dataObject: any): void {
-    this.progressbar.update(dataObject);
   }
 }
 

@@ -109,11 +109,11 @@ interface View extends Observer<ViewEvents> {
   thumbs: ThumbView;
   sliderMinMaxValueLine: MinMaxValueLineView;
   ruler: RulerView;
+  progressbar: ProgressBarView;
   init: (options: AlexandrSettings) => void;
   updateThumbsControlsValue: (type: "min" | "max", value: number) => void;
   updateSliderControlsValue: (type: "min" | "max", value: number) => void;
   updateStepControls: (value: number) => void;
-  updateProgressBar(dataObject: any): void;
   destroy: () => void;
   initSliderStructure: any;
 }

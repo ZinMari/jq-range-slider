@@ -70,7 +70,7 @@ class Presenter extends Observer<PresenterEvents> {
   }
 
   private modelProressbarUpdated = (dataObject: any) => {
-    this.view.updateProgressBar(dataObject);
+    this.view.progressbar.update(dataObject);
   };
 
   private modelThumbsPositionChanged = ({
