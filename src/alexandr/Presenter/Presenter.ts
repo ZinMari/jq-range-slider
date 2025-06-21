@@ -25,11 +25,6 @@ class Presenter extends Observer<PresenterEvents> {
 
   bindSubscribers() {
     this.view.addSubscriber(
-      "viewThumbsPositionChanged",
-      this.viewThumbsPositionChanged,
-    );
-
-    this.view.addSubscriber(
       "viewThumbsControlsChanged",
       this.viewThumbsControlsChanged,
     );
@@ -118,17 +113,6 @@ class Presenter extends Observer<PresenterEvents> {
     });
   };
 
-  private viewThumbsPositionChanged = ({
-    type,
-    currentValue,
-  }: ViewEvents["viewThumbsPositionChanged"]) => {
-    if (type === "min") {
-      this.model.setMinPosition(this._convertPixelToUnits(currentValue));
-    } else if (type === "max") {
-      this.model.setMaxPosition(this._convertPixelToUnits(currentValue));
-    }
-  };
-
   private viewFAKEThumbsPositionChanged = (dataObject: any) => {
     this.model.FAKEThumbsPositionChanged(dataObject);
   };
@@ -170,13 +154,6 @@ class Presenter extends Observer<PresenterEvents> {
     const pixels =
       withMinvalue * (this.view.pixelInOneStep / this.model.stepValue);
     return pixels;
-  }
-
-  private _convertPixelToUnits(value: number): number {
-    return Math.round(
-      (value / this.view.pixelInOneStep) * this.model.stepValue +
-        this.model.minValue,
-    );
   }
 
   private _setViewInitialValues() {

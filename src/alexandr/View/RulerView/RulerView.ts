@@ -11,7 +11,7 @@ class RulerView extends Observer<SubViewEvents> implements RulerView {
     this.dividings = new Array(this.countDivivdings);
 
     for (let i = 0; i < this.countDivivdings; i++) {
-      this.dividings[i] = $("<span>", { class: "alexandr__dividing"});
+      this.dividings[i] = $("<span>", { class: "alexandr__dividing" });
       this.item.append(this.dividings[i]);
     }
 
@@ -47,13 +47,14 @@ class RulerView extends Observer<SubViewEvents> implements RulerView {
       }
     }
 
-    this.notify("updateValues", {
+    this.notify("clicOnSlider", {
       pageX: event.pageX,
       pageY: event.pageY,
+      item: this.item,
     });
   };
 
-  setVerticalOrientation(){
+  setVerticalOrientation() {
     this.item.addClass("alexandr__ruler_type_vertical");
     this.dividings.forEach((elem: JQuery<HTMLElement>) => {
       elem.addClass("alexandr__dividing_type_vertical");

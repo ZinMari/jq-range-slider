@@ -379,8 +379,8 @@ class View extends Observer<ViewEvents> {
   // какая то работа с оповещением подписчиков
   private addSubscribersToSubViews() {
     this.line.addSubscriber("clicOnSlider", this._FAKEhandleSliderClick);
+    this.ruler.addSubscriber("clicOnSlider", this._FAKEhandleSliderClick);
 
-    this.ruler.addSubscriber("updateValues", this._handleSliderClick);
     this.thumbs.addSubscriber(
       "FAKEthumbsPositionChanged",
       this._handlerFAKEthumbsPositionChanged,
@@ -402,45 +402,6 @@ class View extends Observer<ViewEvents> {
     });
   };
 
-  private _handleSliderClick = ({
-    pageX,
-    pageY,
-  }: SubViewEvents["updateValues"]) => {
-    const sliderLineCoords = this._getCoords(this.line.item);
-
-    // на скольких пикселях от линии произошел клик
-    const pixelClick =
-      this.moveDirection === "left"
-        ? pageX - sliderLineCoords.left
-        : pageY - sliderLineCoords.top;
-
-    const stepLeft = this._equateValueToStep(pixelClick);
-    if (this.type === "single") {
-      this.notify("viewThumbsPositionChanged", {
-        type: "min",
-        currentValue: stepLeft,
-      });
-    }
-
-    if (this.type === "double") {
-      const middlePixels =
-        this.minThumbPixelPosition +
-        (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
-
-      if (stepLeft < middlePixels) {
-        this.notify("viewThumbsPositionChanged", {
-          type: "min",
-          currentValue: stepLeft,
-        });
-      } else {
-        this.notify("viewThumbsPositionChanged", {
-          type: "max",
-          currentValue: stepLeft,
-        });
-      }
-    }
-  };
-
   // установка вертикальной ориентации
   private _setVerticalOrientation(): void {
     const height = this.slider.outerWidth();
@@ -460,29 +421,6 @@ class View extends Observer<ViewEvents> {
 
     //повернем линию со значениями
     this.sliderMinMaxValueLine.setVerticalOrientation(height);
-  }
-
-  // какие-то технические функции
-  private _getCoords(elem: JQuery<EventTarget>): ElementsCoords {
-    const boxLeft = elem.offset().left;
-    const boxRight = boxLeft + elem.outerWidth();
-    const boxTop = elem.offset().top;
-    const boxBottom = boxTop + elem.outerHeight();
-
-    return {
-      left: boxLeft + window.scrollX,
-      width: boxRight - boxLeft,
-      top: boxTop + window.scrollY,
-      height: boxBottom - boxTop,
-    };
-  }
-
-  private _equateValueToStep(value: number): number {
-    if (isNaN(value)) {
-      throw new Error("Получено NaN");
-    }
-
-    return Math.round(value / this.pixelInOneStep) * this.pixelInOneStep;
   }
 
   setPixelInOneStep({
