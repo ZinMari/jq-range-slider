@@ -74,6 +74,7 @@ class Model extends Observer<ModelEvents> {
       type: "min",
       currentValue: this.minPosition,
       pixelPosition: this.minThumbPixelPosition,
+      moveDirection: this.moveDirection,
     });
   };
 
@@ -95,6 +96,7 @@ class Model extends Observer<ModelEvents> {
       type: "max",
       currentValue: this.maxPosition,
       pixelPosition: this.maxThumbPixelPosition,
+      moveDirection: this.moveDirection,
     });
   };
 

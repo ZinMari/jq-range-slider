@@ -51,6 +51,7 @@ interface Model extends Observer<ModelEvents> {
   stepValue: number;
   pixelInOneStep: number;
   type: "single" | "double";
+  moveDirection: "top" | "left";
   orientation: "horizontal" | "vertical";
   init: (options: AlexandrSettings) => void;
   setMinPosition: (minPosition: number) => void;
@@ -84,7 +85,11 @@ interface ThumbView {
   showFlug: () => void;
   hideFlug: () => void;
   updateFlagValues: (thumb: "min" | "max", position: number) => void;
-  updateThumbsPosition: (thumb: "min" | "max", position: number) => void;
+  updateThumbsPosition: (
+    thumb: "min" | "max",
+    position: number,
+    moveDirection: "top" | "left",
+  ) => void;
 }
 
 interface MinMaxValueLineView {
@@ -145,10 +150,6 @@ interface Alexandr {
 }
 
 interface ModelEvents {
-  // modelThumbsPositionChanged: {
-  //   type: "min" | "max";
-  //   currentValue: number;
-  // };
   modelThumbsPositionChanged: any;
   modelStepValueChenged: {
     min: number;
@@ -206,6 +207,7 @@ interface ThumbViewEvents {
   thumbsPositionChanged: {
     type: "max" | "min";
     currentValue: number;
+    moveDirection: "top" | "left";
   };
   FAKEthumbsPositionChanged: any;
 }

@@ -77,8 +77,9 @@ class Presenter extends Observer<PresenterEvents> {
     type,
     currentValue,
     pixelPosition,
+    moveDirection,
   }: ModelEvents["modelThumbsPositionChanged"]) => {
-    this.view.thumbs.updateThumbsPosition(type, pixelPosition);
+    this.view.thumbs.updateThumbsPosition(type, pixelPosition, moveDirection);
 
     // this.view.updateProgressBar();
     this.view.thumbs.updateFlagValues(type, currentValue);
@@ -177,10 +178,12 @@ class Presenter extends Observer<PresenterEvents> {
     this.view.thumbs.updateThumbsPosition(
       "min",
       this._convertUnitsToPixels(this.model.minPosition),
+      this.model.moveDirection,
     );
     this.view.thumbs.updateThumbsPosition(
       "max",
       this._convertUnitsToPixels(this.model.maxPosition),
+      this.model.moveDirection,
     );
     this.view.thumbs.updateFlagValues("min", this.model.minPosition);
     this.view.thumbs.updateFlagValues("max", this.model.maxPosition);

@@ -13,12 +13,8 @@ class View extends Observer<ViewEvents> {
   private slider: JQuery<HTMLElement>;
   private container: JQuery<HTMLElement>;
   private line: LineViewInterface;
-  private moveDirection: "top" | "left";
   private orientation: "horizontal" | "vertical";
   private type: "single" | "double";
-  private sliderLength: number;
-  private minThumbPixelPosition: number | undefined;
-  private maxThumbPixelPosition: number | undefined;
   private showMinMaxValue: boolean;
   private showRuler: boolean;
   private showValueFlag: boolean;
@@ -62,7 +58,6 @@ class View extends Observer<ViewEvents> {
     this.container = container;
     this.type = type;
     this.orientation = orientation;
-    this.moveDirection = this.orientation === "vertical" ? "top" : "left";
     this.showMinMaxValue = showMinMaxValue;
     this.showRuler = showRuler;
     this.showValueFlag = showValueFlag;
@@ -97,15 +92,10 @@ class View extends Observer<ViewEvents> {
       thumbMinClass: this.thumbMinClass,
       thumbMaxClass: this.thumbMaxClass,
       thumbClass: this.thumbClass,
-      moveDirection: this.moveDirection,
     });
 
     //добавлю слайдер на страницу
     this.container.append(this.slider);
-
-    //получу размер слайдера
-    this.sliderLength =
-      this.slider.outerWidth() - this.thumbs.minThumb.outerWidth();
 
     // создать мин макс
     if (this.showMinMaxValue) {
@@ -127,7 +117,8 @@ class View extends Observer<ViewEvents> {
     this.addSubscribersToSubViews();
 
     this.notify("viewInit", {
-      sliderLength: this.sliderLength,
+      sliderLength:
+        this.slider.outerWidth() - this.thumbs.minThumb.outerWidth(),
       minThumbWidth: this.thumbs.minThumb.outerWidth(),
       minThumbHeight: this.thumbs.minThumb.outerHeight(),
       maxThumbWidth: this.thumbs.maxThumb?.outerWidth(),

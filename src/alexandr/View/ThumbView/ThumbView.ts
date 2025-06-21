@@ -7,7 +7,6 @@ class ThumbView extends Observer<ThumbViewEvents> {
   type: "single" | "double";
   minThumb: JQuery<HTMLElement>;
   maxThumb: JQuery<HTMLElement> | undefined;
-  moveDirection: "top" | "left";
 
   constructor({
     sliderLine,
@@ -16,7 +15,6 @@ class ThumbView extends Observer<ThumbViewEvents> {
     thumbMinClass,
     thumbMaxClass,
     thumbClass,
-    moveDirection,
   }: {
     sliderLine: LineViewInterface;
     orientation: "vertical" | "horizontal";
@@ -24,13 +22,11 @@ class ThumbView extends Observer<ThumbViewEvents> {
     thumbMinClass: string;
     thumbMaxClass: string;
     thumbClass: string;
-    moveDirection: "top" | "left";
   }) {
     super();
     this.line = sliderLine;
     this.orientation = orientation;
     this.type = type;
-    this.moveDirection = moveDirection;
 
     this._createThumbs({ thumbMinClass, thumbMaxClass, thumbClass });
   }
@@ -129,11 +125,15 @@ class ThumbView extends Observer<ThumbViewEvents> {
     }
   }
 
-  updateThumbsPosition(thumb: "min" | "max", position: number): void {
+  updateThumbsPosition(
+    thumb: "min" | "max",
+    position: number,
+    moveDirection: "top" | "left",
+  ): void {
     if (thumb === "min") {
-      this.minThumb.css({ [this.moveDirection]: position });
+      this.minThumb.css({ [moveDirection]: position });
     } else if (this.type === "double" && thumb === "max") {
-      this.maxThumb.css({ [this.moveDirection]: position });
+      this.maxThumb.css({ [moveDirection]: position });
     }
   }
 }
