@@ -13,6 +13,10 @@ class Model extends Observer<ModelEvents> {
   minThumbPixelPosition: number;
   maxThumbPixelPosition: number;
   sliderLength: number;
+  minThumbWidth: number;
+  minThumbHeight: number;
+  maxThumbWidth: number;
+  maxThumbHeight: number;
 
   init({
     minValue,
@@ -36,19 +40,23 @@ class Model extends Observer<ModelEvents> {
     }
   }
 
-  modelGetCordsView(dataObject: any) {
+  modelGetCordsView = (dataObject: any) => {
     this.sliderLength = dataObject.sliderLength;
+    this.minThumbWidth = dataObject.minThumbWidth;
+    this.minThumbHeight = dataObject.minThumbHeight;
+    this.maxThumbWidth = dataObject.maxThumbWidth;
+    this.maxThumbHeight = dataObject.maxThumbHeight;
 
     this.setPixelInOneStep();
-  }
+  };
 
-  setPixelInOneStep() {
+  setPixelInOneStep = () => {
     this.pixelInOneStep =
       (this.sliderLength / (this.maxValue - this.minValue)) * this.stepValue ||
       1;
-  }
+  };
 
-  setMinPosition(minPosition: number): void {
+  setMinPosition = (minPosition: number): void => {
     const typeValue = "min";
 
     let newPosition = this._equateValueToStep(minPosition);
@@ -60,14 +68,16 @@ class Model extends Observer<ModelEvents> {
     this.minPosition = newPosition;
     this.minThumbPixelPosition = this._convertUnitsToPixels(minPosition);
 
+    this.setProgressBarSize();
+
     this.notify("modelThumbsPositionChanged", {
       type: "min",
       currentValue: this.minPosition,
       pixelPosition: this.minThumbPixelPosition,
     });
-  }
+  };
 
-  setMaxPosition(maxPosition: number): void {
+  setMaxPosition = (maxPosition: number): void => {
     const typeValue = "max";
     let newPosition = this._equateValueToStep(maxPosition);
     newPosition = this._validatePosition(newPosition);
@@ -79,12 +89,66 @@ class Model extends Observer<ModelEvents> {
     this.maxPosition = newPosition;
     this.maxThumbPixelPosition = this._convertUnitsToPixels(maxPosition);
 
+    this.setProgressBarSize();
+
     this.notify("modelThumbsPositionChanged", {
       type: "max",
       currentValue: this.maxPosition,
       pixelPosition: this.maxThumbPixelPosition,
     });
-  }
+  };
+
+  setProgressBarSize = (): void => {
+    if (this.type === "single") {
+      if (this.orientation === "vertical") {
+        const coordsThumbStart =
+          this.minThumbPixelPosition + this.minThumbHeight / 2 + "px";
+
+        this.notify("modelProressbarUpdated", {
+          top: 0,
+          width: "100%",
+          height: coordsThumbStart,
+        });
+      }
+      if (this.orientation === "horizontal") {
+        const coordsThumbStart =
+          this.minThumbPixelPosition + this.minThumbWidth / 2 + "px";
+
+        this.notify("modelProressbarUpdated", {
+          left: 0,
+          width: coordsThumbStart,
+          height: "100%",
+        });
+      }
+    }
+    if (this.type === "double") {
+      if (this.orientation === "vertical") {
+        const coordsThumbMin =
+          this.minThumbPixelPosition + this.minThumbHeight / 2;
+        const coordsThumbMax =
+          this.maxThumbPixelPosition + this.maxThumbHeight / 2;
+
+        this.notify("modelProressbarUpdated", {
+          left: 0,
+          height: coordsThumbMax - coordsThumbMin + "px",
+          width: "100%",
+          top: coordsThumbMin,
+        });
+      }
+      if (this.orientation === "horizontal") {
+        const coordsThumbMin =
+          this.minThumbPixelPosition + this.minThumbWidth / 2;
+        const coordsThumbMax =
+          this.maxThumbPixelPosition + this.maxThumbWidth / 2;
+
+        this.notify("modelProressbarUpdated", {
+          left: coordsThumbMin + "px",
+          height: "100%",
+          width: coordsThumbMax - coordsThumbMin + "px",
+        });
+      }
+    }
+  };
 
   FAKEThumbsPositionChanged(options: any) {
     let value: number = this._getNewThumbCord(options);

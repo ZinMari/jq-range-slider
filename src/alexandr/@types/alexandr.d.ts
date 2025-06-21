@@ -62,6 +62,7 @@ interface Model extends Observer<ModelEvents> {
   FAKEThumbsPositionChanged: any;
   modelClicOnSlider: any;
   modelGetCordsView: any;
+  setProgressBarSize: any;
 }
 
 interface BaseSubViewInterface extends Observer<SubViewEvents> {
@@ -113,7 +114,7 @@ interface View extends Observer<ViewEvents> {
   updateThumbsControlsValue: (type: "min" | "max", value: number) => void;
   updateSliderControlsValue: (type: "min" | "max", value: number) => void;
   updateStepControls: (value: number) => void;
-  updateProgressBar(): void;
+  updateProgressBar(dataObject: any): void;
   destroy: () => void;
   initSliderStructure: any;
 }
@@ -159,6 +160,8 @@ interface ModelEvents {
     min: number;
     max: number;
   };
+
+  modelProressbarUpdated: any;
 }
 
 interface ViewEvents {

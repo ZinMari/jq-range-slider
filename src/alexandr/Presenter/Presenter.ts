@@ -62,7 +62,16 @@ class Presenter extends Observer<PresenterEvents> {
       "modelMinMaxValuesChanged",
       this.modelMinMaxValuesChanged,
     );
+
+    this.model.addSubscriber(
+      "modelProressbarUpdated",
+      this.modelProressbarUpdated,
+    );
   }
+
+  private modelProressbarUpdated = (dataObject: any) => {
+    this.view.updateProgressBar(dataObject);
+  };
 
   private modelThumbsPositionChanged = ({
     type,
@@ -71,7 +80,7 @@ class Presenter extends Observer<PresenterEvents> {
   }: ModelEvents["modelThumbsPositionChanged"]) => {
     this.view.thumbs.updateThumbsPosition(type, pixelPosition);
 
-    this.view.updateProgressBar();
+    // this.view.updateProgressBar();
     this.view.thumbs.updateFlagValues(type, currentValue);
     this.view.updateThumbsControlsValue(type, currentValue);
 
@@ -180,7 +189,6 @@ class Presenter extends Observer<PresenterEvents> {
     this.view.updateSliderControlsValue("max", this.model.maxValue);
     this.view.updateSliderControlsValue("min", this.model.minValue);
     this.view.updateStepControls(this.model.stepValue);
-    this.view.updateProgressBar();
     this.view.sliderMinMaxValueLine.update(
       this.model.minValue,
       this.model.maxValue,
