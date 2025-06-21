@@ -6,7 +6,6 @@ import RulerView from "../RulerView/RulerView";
 import ThumbView from "../ThumbView/ThumbView";
 
 class View extends Observer<ViewEvents> {
-  pixelInOneStep: number;
   ruler: RulerView;
   sliderMinMaxValueLine: MinMaxValueLineView;
   private slider: JQuery<HTMLElement>;
@@ -20,8 +19,6 @@ class View extends Observer<ViewEvents> {
   private minThumbPixelPosition: number | undefined;
   private maxThumbPixelPosition: number | undefined;
   private showMinMaxValue: boolean;
-  private showMinValueClass: string;
-  private showMaxValueClass: string;
   private showRuler: boolean;
   private showValueFlag: boolean;
   private progressbar: ProgressBarView;
@@ -32,6 +29,13 @@ class View extends Observer<ViewEvents> {
   private controlsStepValues: Array<JQuery<HTMLElement>>;
   private controlsFlag: Array<JQuery<HTMLElement>>;
   private controlsRuler: Array<JQuery<HTMLElement>>;
+  private thumbMinClass: string;
+  private thumbMaxClass: string;
+  private thumbClass: string;
+  private showMinValueClass: string;
+  private showMaxValueClass: string;
+  private lineClass: string;
+  private progressBarClass: string;
 
   init({
     type,
@@ -55,14 +59,6 @@ class View extends Observer<ViewEvents> {
     controlsFlag,
     controlsRuler,
   }: AlexandrSettings) {
-    if (
-      container[0].nodeName !== "DIV" &&
-      container[0].nodeName !== "ARTICLE"
-    ) {
-      throw new Error(
-        "В качестве контенера может быть передан только div или article",
-      );
-    }
     this.container = container;
     this.type = type;
     this.orientation = orientation;
@@ -77,49 +73,31 @@ class View extends Observer<ViewEvents> {
     this.controlsStepValues = controlsStepValues;
     this.controlsFlag = controlsFlag;
     this.controlsRuler = controlsRuler;
+    this.thumbMinClass = thumbMinClass;
+    this.thumbMaxClass = thumbMaxClass;
+    this.thumbClass = thumbClass;
+    this.showMinValueClass = showMinValueClass;
+    this.showMinValueClass = showMinValueClass;
+    this.lineClass = lineClass;
+    this.progressBarClass = progressBarClass;
 
-    this._initSliderStructure({
-      thumbMinClass,
-      thumbMaxClass,
-      thumbClass,
-      showMinValueClass,
-      showMaxValueClass,
-      lineClass,
-      progressBarClass,
-    });
+    // this.initSliderStructure();
     this._bindEventsSliderControls();
   }
 
   // создание частей слайдера
-  private _initSliderStructure({
-    thumbMinClass,
-    thumbMaxClass,
-    thumbClass,
-    showMinValueClass,
-    showMaxValueClass,
-    lineClass,
-    progressBarClass,
-  }: {
-    thumbMinClass: string;
-    thumbMaxClass: string;
-    thumbClass: string;
-    showMinValueClass: string;
-    showMaxValueClass: string;
-    lineClass: string;
-    progressBarClass: string;
-  }) {
+  initSliderStructure() {
     this.slider = $("<div>", { class: "alexandr" });
-    this.line = new LineView(this.slider, lineClass);
-    this.progressbar = new ProgressBar(this.line.item, progressBarClass);
+    this.line = new LineView(this.slider, this.lineClass);
+    this.progressbar = new ProgressBar(this.line.item, this.progressBarClass);
 
     this.thumbs = new ThumbView({
       sliderLine: this.line,
       orientation: this.orientation,
       type: this.type,
-      pixelInOneStep: this.pixelInOneStep,
-      thumbMinClass,
-      thumbMaxClass,
-      thumbClass,
+      thumbMinClass: this.thumbMinClass,
+      thumbMaxClass: this.thumbMaxClass,
+      thumbClass: this.thumbClass,
       moveDirection: this.moveDirection,
     });
 
@@ -134,8 +112,8 @@ class View extends Observer<ViewEvents> {
     if (this.showMinMaxValue) {
       this.sliderMinMaxValueLine = new MinMaxValueLineView(
         this.slider,
-        showMinValueClass,
-        showMaxValueClass,
+        this.showMinValueClass,
+        this.showMaxValueClass,
       );
     }
 
@@ -148,6 +126,10 @@ class View extends Observer<ViewEvents> {
     }
 
     this.addSubscribersToSubViews();
+
+    this.notify("viewInit", {
+      sliderLength: this.sliderLength,
+    });
   }
 
   private _createFlugs(): void {
@@ -376,11 +358,10 @@ class View extends Observer<ViewEvents> {
     }
   }
 
-  // какая то работа с оповещением подписчиков
+  // работа с пописками
   private addSubscribersToSubViews() {
     this.line.addSubscriber("clicOnSlider", this._FAKEhandleSliderClick);
     this.ruler.addSubscriber("clicOnSlider", this._FAKEhandleSliderClick);
-
     this.thumbs.addSubscriber(
       "FAKEthumbsPositionChanged",
       this._handlerFAKEthumbsPositionChanged,
@@ -421,23 +402,6 @@ class View extends Observer<ViewEvents> {
 
     //повернем линию со значениями
     this.sliderMinMaxValueLine.setVerticalOrientation(height);
-  }
-
-  setPixelInOneStep({
-    min,
-    max,
-    step,
-  }:
-    | {
-        min: number;
-        max: number;
-        step: number;
-      }
-    | any): number {
-    this.pixelInOneStep = (this.sliderLength / (max - min)) * step || 1;
-    this.thumbs.pixelInOneStep = this.pixelInOneStep;
-
-    return this.pixelInOneStep;
   }
 
   // удалить слайдер

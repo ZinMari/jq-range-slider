@@ -12,6 +12,7 @@ class Model extends Observer<ModelEvents> {
   moveDirection: "top" | "left";
   minThumbPixelPosition: number;
   maxThumbPixelPosition: number;
+  sliderLength: number;
 
   init({
     minValue,
@@ -33,6 +34,18 @@ class Model extends Observer<ModelEvents> {
     if (this.type === "double") {
       this.setMaxPosition(Number(maxPosition));
     }
+  }
+
+  modelGetCordsView(dataObject: any) {
+    this.sliderLength = dataObject.sliderLength;
+
+    this.setPixelInOneStep();
+  }
+
+  setPixelInOneStep() {
+    this.pixelInOneStep =
+      (this.sliderLength / (this.maxValue - this.minValue)) * this.stepValue ||
+      1;
   }
 
   setMinPosition(minPosition: number): void {
@@ -188,7 +201,6 @@ class Model extends Observer<ModelEvents> {
     return Math.round(value / this.stepValue) * this.stepValue || this.minValue;
   }
 
-  //новое для thumb
   private _getNewThumbCord({
     event,
     shiftClickThumb,

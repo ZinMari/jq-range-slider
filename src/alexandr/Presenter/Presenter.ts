@@ -24,6 +24,8 @@ class Presenter extends Observer<PresenterEvents> {
   }
 
   bindSubscribers() {
+    this.view.addSubscriber("viewInit", this.viewInit);
+
     this.view.addSubscriber(
       "viewThumbsControlsChanged",
       this.viewThumbsControlsChanged,
@@ -84,7 +86,7 @@ class Presenter extends Observer<PresenterEvents> {
     max,
     step,
   }: ModelEvents["modelStepValueChenged"]) => {
-    this.view.setPixelInOneStep({ min, max, step });
+    this.model.setPixelInOneStep({ min, max, step });
     this.view.updateStepControls(step);
 
     this.notify("updateOptions", {
@@ -111,6 +113,10 @@ class Presenter extends Observer<PresenterEvents> {
       propName: `maxValue`,
       propValue: max,
     });
+  };
+
+  private viewInit = (dataObject: any) => {
+    this.model.modelGetCordsView(dataObject);
   };
 
   private viewFAKEThumbsPositionChanged = (dataObject: any) => {
@@ -152,16 +158,12 @@ class Presenter extends Observer<PresenterEvents> {
   private _convertUnitsToPixels(value: number): number {
     const withMinvalue = value - this.model.minValue;
     const pixels =
-      withMinvalue * (this.view.pixelInOneStep / this.model.stepValue);
+      withMinvalue * (this.model.pixelInOneStep / this.model.stepValue);
     return pixels;
   }
 
   private _setViewInitialValues() {
-    this.model.pixelInOneStep = this.view.setPixelInOneStep({
-      min: this.model.minValue,
-      max: this.model.maxValue,
-      step: this.model.stepValue,
-    });
+    this.view.initSliderStructure();
 
     this.view.thumbs.updateThumbsPosition(
       "min",

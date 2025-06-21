@@ -58,8 +58,10 @@ interface Model extends Observer<ModelEvents> {
   setMinValue: (minValue: number) => void;
   setMaxValue: (maxValue: number) => void;
   setStepValue: (value: number) => void;
+  setPixelInOneStep: any;
   FAKEThumbsPositionChanged: any;
   modelClicOnSlider: any;
+  modelGetCordsView: any;
 }
 
 interface BaseSubViewInterface extends Observer<SubViewEvents> {
@@ -105,7 +107,6 @@ interface ElementsCoords {
 
 interface View extends Observer<ViewEvents> {
   thumbs: ThumbView;
-  pixelInOneStep: number;
   sliderMinMaxValueLine: MinMaxValueLineView;
   ruler: RulerView;
   init: (options: AlexandrSettings) => void;
@@ -113,12 +114,8 @@ interface View extends Observer<ViewEvents> {
   updateSliderControlsValue: (type: "min" | "max", value: number) => void;
   updateStepControls: (value: number) => void;
   updateProgressBar(): void;
-  setPixelInOneStep: (options: {
-    min: number;
-    max: number;
-    step: number;
-  }) => number;
   destroy: () => void;
+  initSliderStructure: any;
 }
 
 interface Presenter extends Observer<PresenterEvents> {
@@ -183,6 +180,7 @@ interface ViewEvents {
   };
   viewFAKEThumbsPositionChanged: any;
   viewClicOnSlider: any;
+  viewInit: any;
 }
 
 interface PresenterEvents {
