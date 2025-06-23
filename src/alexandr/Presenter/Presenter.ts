@@ -15,7 +15,9 @@ class Presenter extends Observer<PresenterEvents> {
     this.model.init({ ...config });
 
     this.bindSubscribers();
-    this._setViewInitialValues();
+
+    this.view.setInitialValues();
+    this.model.setInitialValues();
   }
 
   destroy() {
@@ -162,11 +164,6 @@ class Presenter extends Observer<PresenterEvents> {
   }: ViewEvents["viewStepControlsChanged"]) => {
     this.model.setStepValue(currentValue);
   };
-
-  private _setViewInitialValues() {
-    this.view.initSliderStructure();
-    this.model.setInitialValues();
-  }
 }
 
 export default Presenter;

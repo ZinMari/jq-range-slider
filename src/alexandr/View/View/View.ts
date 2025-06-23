@@ -80,7 +80,7 @@ class View extends Observer<ViewEvents> {
   }
 
   // создание частей слайдера
-  initSliderStructure() {
+  setInitialValues() {
     this.slider = $("<div>", { class: "alexandr" });
     this.line = new LineView(this.slider, this.lineClass);
     this.progressbar = new ProgressBar(this.line.item, this.progressBarClass);

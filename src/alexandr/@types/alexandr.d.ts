@@ -121,7 +121,7 @@ interface View extends Observer<ViewEvents> {
   updateSliderControlsValue: (type: "min" | "max", value: number) => void;
   updateStepControls: (value: number) => void;
   destroy: () => void;
-  initSliderStructure: any;
+  setInitialValues: any;
 }
 
 interface Presenter extends Observer<PresenterEvents> {

@@ -56,8 +56,7 @@ class Model extends Observer<ModelEvents> {
     if (this.type === "double") {
       this.setMaxPosition(Number(this.maxPosition));
     }  
-    this.setMinPosition(Number(this.minPosition));
-    
+    this.setMinPosition(Number(this.minPosition));    
   }
 
   setPixelInOneStep = () => {
