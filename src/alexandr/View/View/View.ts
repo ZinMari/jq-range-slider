@@ -354,19 +354,19 @@ class View extends Observer<ViewEvents> {
 
   // работа с пописками
   private addSubscribersToSubViews() {
-    this.line.addSubscriber("clicOnSlider", this._FAKEhandleSliderClick);
-    this.ruler.addSubscriber("clicOnSlider", this._FAKEhandleSliderClick);
+    this.line.addSubscriber("clicOnSlider", this._handlerClicOnSlider);
+    this.ruler.addSubscriber("clicOnSlider", this._handlerClicOnSlider);
     this.thumbs.addSubscriber(
-      "FAKEthumbsPositionChanged",
-      this._handlerFAKEthumbsPositionChanged,
+      "updateThumbPosition",
+      this._handlerUpdateThumbPosition,
     );
   }
 
-  private _handlerFAKEthumbsPositionChanged = (dataObject: any) => {
-    this.notify("viewFAKEThumbsPositionChanged", dataObject);
+  private _handlerUpdateThumbPosition = (dataObject: any) => {
+    this.notify("viewThumbsPositionChanged", dataObject);
   };
 
-  private _FAKEhandleSliderClick = ({
+  private _handlerClicOnSlider = ({
     pageX,
     pageY,
     item,

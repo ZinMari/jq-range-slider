@@ -168,7 +168,7 @@ class Model extends Observer<ModelEvents> {
     }
   };
 
-  FAKEThumbsPositionChanged = (options: any) => {
+  updateThumbPosition = (options: any) => {
     const sliderLineCoords = this._getCoords(options.sliderLine);
     const thumbCoords = this._getCoords(options.thumb);
 

@@ -43,8 +43,8 @@ class Presenter extends Observer<PresenterEvents> {
     );
 
     this.view.addSubscriber(
-      "viewFAKEThumbsPositionChanged",
-      this.viewFAKEThumbsPositionChanged,
+      "viewThumbsPositionChanged",
+      this.viewThumbsPositionChanged,
     );
 
     this.view.addSubscriber("viewClicOnSlider", this.viewClicOnSlider);
@@ -129,8 +129,8 @@ class Presenter extends Observer<PresenterEvents> {
     this.model.modelGetCordsView(dataObject);
   };
 
-  private viewFAKEThumbsPositionChanged = (dataObject: any) => {
-    this.model.FAKEThumbsPositionChanged(dataObject);
+  private viewThumbsPositionChanged = (dataObject: any) => {
+    this.model.updateThumbPosition(dataObject);
   };
 
   private viewClicOnSlider = (dataObject: any) => {

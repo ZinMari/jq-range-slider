@@ -100,7 +100,7 @@ class ThumbView extends Observer<ThumbViewEvents> {
         thumb: $currenThumb,
       };
 
-      this.notify("FAKEthumbsPositionChanged", options);
+      this.notify("updateThumbPosition", options);
     };
 
     function onMouseUp() {

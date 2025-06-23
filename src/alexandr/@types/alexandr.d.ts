@@ -60,7 +60,7 @@ interface Model extends Observer<ModelEvents> {
   setMaxValue: (maxValue: number) => void;
   setStepValue: (value: number) => void;
   setPixelInOneStep: any;
-  FAKEThumbsPositionChanged: any;
+  updateThumbPosition: any;
   modelClicOnSlider: any;
   modelGetCordsView: any;
   setProgressBarSize: any;
@@ -178,11 +178,7 @@ interface ViewEvents {
     type?: "min" | "max";
     currentValue: number;
   };
-  viewThumbsPositionChanged: {
-    type?: "min" | "max";
-    currentValue: number;
-  };
-  viewFAKEThumbsPositionChanged: any;
+  viewThumbsPositionChanged: any;
   viewClicOnSlider: any;
   viewInit: any;
 }
@@ -210,5 +206,5 @@ interface ThumbViewEvents {
     currentValue: number;
     moveDirection: "top" | "left";
   };
-  FAKEthumbsPositionChanged: any;
+  updateThumbPosition: any;
 }
