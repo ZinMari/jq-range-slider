@@ -30,10 +30,12 @@ class Model extends Observer<ModelEvents> {
     this.type = type;
     this.orientation = orientation;
     this.moveDirection = this.orientation === "vertical" ? "top" : "left";
-    this.minValue = minValue;
-    this.maxValue = maxValue;
-    this.minPosition = minPosition;
-    this.maxPosition = maxPosition;
+
+    this.minValue = Math.min(minValue, maxValue);
+    this.maxValue = Math.max(minValue, maxValue);
+    this.minPosition = minPosition >= this.minValue ? minPosition : this.minValue;
+    this.maxPosition = maxPosition <= this.maxValue ? maxPosition : this.maxValue;
+
     this.stepValue = stepValue;
   }
 
@@ -48,14 +50,14 @@ class Model extends Observer<ModelEvents> {
   };
 
   setInitialValues() {
-    // this.setMaxValue(Number(this.maxValue));
-    // this.setMinValue(Number(this.minValue));
-    // this.setStepValue(Number(this.stepValue));
-    // this.setMaxValue(Number(this.maxValue));
-    // this.setMinPosition(Number(this.minPosition));
-    // if (this.type === "double") {
-    //   this.setMaxPosition(Number(this.maxPosition));
-    // }
+    this.setMaxValue(Number(this.maxValue));
+    this.setMinValue(Number(this.minValue));
+    this.setStepValue(Number(this.stepValue));
+    if (this.type === "double") {
+      this.setMaxPosition(Number(this.maxPosition));
+    }  
+    this.setMinPosition(Number(this.minPosition));
+    
   }
 
   setPixelInOneStep = () => {
@@ -65,16 +67,18 @@ class Model extends Observer<ModelEvents> {
   };
 
   setMinPosition = (minPosition: number): void => {
+    
     const typeValue = "min";
-
+    
     let newPosition = this._equateValueToStep(minPosition);
-    newPosition = this._validatePosition(newPosition);
+     newPosition = this._validatePosition(newPosition);
+
     if (this.type === "double") {
       newPosition = this._validateDoublePosition(typeValue, newPosition);
     }
 
     this.minPosition = newPosition;
-    this.minThumbPixelPosition = this._convertUnitsToPixels(minPosition);
+    this.minThumbPixelPosition = this._convertUnitsToPixels(this.minPosition);   
 
     this.setProgressBarSize();
 
@@ -87,16 +91,21 @@ class Model extends Observer<ModelEvents> {
   };
 
   setMaxPosition = (maxPosition: number): void => {
+    
     const typeValue = "max";
-    let newPosition = this._equateValueToStep(maxPosition);
-    newPosition = this._validatePosition(newPosition);
 
+    let newPosition = this._equateValueToStep(maxPosition);
+    
+    newPosition = this._validatePosition(newPosition);
+    
     if (this.type === "double") {
       newPosition = this._validateDoublePosition(typeValue, newPosition);
+      
     }
 
     this.maxPosition = newPosition;
-    this.maxThumbPixelPosition = this._convertUnitsToPixels(maxPosition);
+    this.maxThumbPixelPosition = this._convertUnitsToPixels(this.maxPosition);
+    
 
     this.setProgressBarSize();
 
@@ -279,10 +288,11 @@ class Model extends Observer<ModelEvents> {
     return validateValue;
   }
 
-  private _validateDoublePosition(type: "min" | "max", value: number): number {
+  private _validateDoublePosition(type: "min" | "max", value: number): number {   
     if (type === "min" && value >= this.maxPosition) {
       return this.maxPosition - this.stepValue;
     }
+
     if (type === "max" && value <= this.minPosition) {
       return this.minPosition + this.stepValue;
     }
