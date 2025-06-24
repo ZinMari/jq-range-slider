@@ -58,7 +58,7 @@ interface Model extends Observer<ModelEvents> {
   setMinValue: (minValue: number) => void;
   setMaxValue: (maxValue: number) => void;
   setStepValue: (value: number) => void;
-  setPixelInOneStep: any;
+  setPixelInOneStep: () => void;
   updateThumbPosition: any;
   modelClicOnSlider: any;
   modelGetCordsView: any;
@@ -151,11 +151,7 @@ interface Alexandr {
 
 interface ModelEvents {
   modelThumbsPositionChanged: any;
-  modelStepValueChenged: {
-    min: number;
-    max: number;
-    step: number;
-  };
+  modelStepValueChenged: number;
   modelMinMaxValuesChanged: {
     min: number;
     max: number;

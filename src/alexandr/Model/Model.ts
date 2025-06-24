@@ -158,11 +158,6 @@ class Model extends Observer<ModelEvents> {
       min: this.minValue,
       max: this.maxValue,
     });
-    this.notify("modelStepValueChenged", {
-      min: this.minValue,
-      max: this.maxValue,
-      step: this.stepValue,
-    });
   }
 
   setMaxValue(maxValue: number): void {
@@ -173,11 +168,6 @@ class Model extends Observer<ModelEvents> {
     this.notify("modelMinMaxValuesChanged", {
       min: this.minValue,
       max: this.maxValue,
-    });
-    this.notify("modelStepValueChenged", {
-      min: this.minValue,
-      max: this.maxValue,
-      step: this.stepValue,
     });
   }
 
@@ -191,11 +181,9 @@ class Model extends Observer<ModelEvents> {
         ? 1
         : stepValue;
 
-    this.notify("modelStepValueChenged", {
-      min: this.minValue,
-      max: this.maxValue,
-      step: this.stepValue,
-    });
+    this.setPixelInOneStep();
+
+    this.notify("modelStepValueChenged", this.stepValue);
   }
 
   updateThumbPosition = (options: any) => {

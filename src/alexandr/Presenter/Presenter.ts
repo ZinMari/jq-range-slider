@@ -91,12 +91,9 @@ class Presenter extends Observer<PresenterEvents> {
     });
   };
 
-  private modelStepValueChenged = ({
-    min,
-    max,
-    step,
-  }: ModelEvents["modelStepValueChenged"]) => {
-    this.model.setPixelInOneStep({ min, max, step });
+  private modelStepValueChenged = (
+    step: ModelEvents["modelStepValueChenged"],
+  ) => {
     this.view.updateStepControls(step);
 
     this.notify("updateOptions", {
