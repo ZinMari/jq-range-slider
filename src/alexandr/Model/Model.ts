@@ -33,8 +33,10 @@ class Model extends Observer<ModelEvents> {
 
     this.minValue = Math.min(minValue, maxValue);
     this.maxValue = Math.max(minValue, maxValue);
-    this.minPosition = minPosition >= this.minValue ? minPosition : this.minValue;
-    this.maxPosition = maxPosition <= this.maxValue ? maxPosition : this.maxValue;
+    this.minPosition =
+      minPosition >= this.minValue ? minPosition : this.minValue;
+    this.maxPosition =
+      maxPosition <= this.maxValue ? maxPosition : this.maxValue;
 
     this.stepValue = stepValue;
   }
@@ -53,10 +55,12 @@ class Model extends Observer<ModelEvents> {
     this.setMaxValue(Number(this.maxValue));
     this.setMinValue(Number(this.minValue));
     this.setStepValue(Number(this.stepValue));
+
     if (this.type === "double") {
-      this.setMaxPosition(Number(this.maxPosition));
-    }  
-    this.setMinPosition(Number(this.minPosition));    
+      this.setThumbsPosition("max", Number(this.maxPosition));
+    }
+
+    this.setThumbsPosition("min", Number(this.minPosition));
   }
 
   setPixelInOneStep = () => {
@@ -65,53 +69,29 @@ class Model extends Observer<ModelEvents> {
       1;
   };
 
-  setMinPosition = (minPosition: number): void => {
-    
-    const typeValue = "min";
-    
-    let newPosition = this._equateValueToStep(minPosition);
-     newPosition = this._validatePosition(newPosition);
+  setThumbsPosition = (typeThumb: "min" | "max", value: number): void => {
+    let newPosition = this._equateValueToStep(value);
 
-    if (this.type === "double") {
-      newPosition = this._validateDoublePosition(typeValue, newPosition);
-    }
-
-    this.minPosition = newPosition;
-    this.minThumbPixelPosition = this._convertUnitsToPixels(this.minPosition);   
-
-    this.setProgressBarSize();
-
-    this.notify("modelThumbsPositionChanged", {
-      type: "min",
-      currentValue: this.minPosition,
-      pixelPosition: this.minThumbPixelPosition,
-      moveDirection: this.moveDirection,
-    });
-  };
-
-  setMaxPosition = (maxPosition: number): void => {
-    
-    const typeValue = "max";
-
-    let newPosition = this._equateValueToStep(maxPosition);
-    
     newPosition = this._validatePosition(newPosition);
-    
+
     if (this.type === "double") {
-      newPosition = this._validateDoublePosition(typeValue, newPosition);
-      
+      newPosition = this._validateDoublePosition(typeThumb, newPosition);
     }
 
-    this.maxPosition = newPosition;
-    this.maxThumbPixelPosition = this._convertUnitsToPixels(this.maxPosition);
-    
+    this[`${typeThumb}Position`] = newPosition;
+    this[`${typeThumb}ThumbPixelPosition`] = this._convertUnitsToPixels(
+      this[`${typeThumb}Position`],
+    );
+
+    console.log("new" + this[`${typeThumb}Position`]);
+    console.log("newPixels" + this[`${typeThumb}ThumbPixelPosition`]);
 
     this.setProgressBarSize();
 
     this.notify("modelThumbsPositionChanged", {
-      type: "max",
-      currentValue: this.maxPosition,
-      pixelPosition: this.maxThumbPixelPosition,
+      type: typeThumb,
+      currentValue: this[`${typeThumb}Position`],
+      pixelPosition: this[`${typeThumb}ThumbPixelPosition`],
       moveDirection: this.moveDirection,
     });
   };
@@ -189,11 +169,7 @@ class Model extends Observer<ModelEvents> {
       thumbCoords,
     });
 
-    if (options.type === "min") {
-      this.setMinPosition(this._convertPixelToUnits(value));
-    } else if (options.type === "max") {
-      this.setMaxPosition(this._convertPixelToUnits(value));
-    }
+    this.setThumbsPosition(options.type, this._convertPixelToUnits(value));
   };
 
   modelClicOnSlider(data: any) {
@@ -208,7 +184,7 @@ class Model extends Observer<ModelEvents> {
     const stepLeft = this._equatePixelValueToStep(pixelClick);
 
     if (this.type === "single") {
-      this.setMinPosition(this._convertPixelToUnits(stepLeft));
+      this.setThumbsPosition("min", this._convertPixelToUnits(stepLeft));
     }
 
     if (this.type === "double") {
@@ -217,9 +193,9 @@ class Model extends Observer<ModelEvents> {
         (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
 
       if (stepLeft < middlePixels) {
-        this.setMinPosition(this._convertPixelToUnits(stepLeft));
+        this.setThumbsPosition("min", this._convertPixelToUnits(stepLeft));
       } else {
-        this.setMaxPosition(this._convertPixelToUnits(stepLeft));
+        this.setThumbsPosition("max", this._convertPixelToUnits(stepLeft));
       }
     }
   }
@@ -287,7 +263,7 @@ class Model extends Observer<ModelEvents> {
     return validateValue;
   }
 
-  private _validateDoublePosition(type: "min" | "max", value: number): number {   
+  private _validateDoublePosition(type: "min" | "max", value: number): number {
     if (type === "min" && value >= this.maxPosition) {
       return this.maxPosition - this.stepValue;
     }

@@ -141,11 +141,7 @@ class Presenter extends Observer<PresenterEvents> {
     type,
     currentValue,
   }: ViewEvents["viewThumbsControlsChanged"]) => {
-    if (type === "min") {
-      this.model.setMinPosition(currentValue);
-    } else if (type === "max") {
-      this.model.setMaxPosition(currentValue);
-    }
+    this.model.setThumbsPosition(type, currentValue);
   };
 
   private viewSliderValueControlsChanged = ({
