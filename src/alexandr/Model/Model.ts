@@ -148,6 +148,56 @@ class Model extends Observer<ModelEvents> {
     }
   };
 
+  setMinValue(minValue: number): void {
+    this.minValue =
+      minValue >= this.maxValue || Number.isNaN(minValue)
+        ? this.maxValue - this.stepValue
+        : minValue;
+
+    this.notify("modelMinMaxValuesChanged", {
+      min: this.minValue,
+      max: this.maxValue,
+    });
+    this.notify("modelStepValueChenged", {
+      min: this.minValue,
+      max: this.maxValue,
+      step: this.stepValue,
+    });
+  }
+
+  setMaxValue(maxValue: number): void {
+    this.maxValue =
+      maxValue <= this.minValue || Number.isNaN(maxValue)
+        ? this.minValue + this.stepValue
+        : maxValue;
+    this.notify("modelMinMaxValuesChanged", {
+      min: this.minValue,
+      max: this.maxValue,
+    });
+    this.notify("modelStepValueChenged", {
+      min: this.minValue,
+      max: this.maxValue,
+      step: this.stepValue,
+    });
+  }
+
+  setStepValue(stepValue: number): void {
+    const isValueLessThanZero = stepValue <= 0;
+    const isValueGreaterThanMax = stepValue >= this.maxValue;
+    const valueIsNaN = Number.isNaN(stepValue);
+
+    this.stepValue =
+      isValueLessThanZero || valueIsNaN || isValueGreaterThanMax
+        ? 1
+        : stepValue;
+
+    this.notify("modelStepValueChenged", {
+      min: this.minValue,
+      max: this.maxValue,
+      step: this.stepValue,
+    });
+  }
+
   updateThumbPosition = (options: any) => {
     const sliderLineCoords = this._getCoords(options.sliderLine);
     const thumbCoords = this._getCoords(options.thumb);
@@ -198,56 +248,6 @@ class Model extends Observer<ModelEvents> {
         this.setThumbsPosition("max", this._convertPixelToUnits(stepLeft));
       }
     }
-  }
-
-  setMinValue(minValue: number): void {
-    this.minValue =
-      minValue >= this.maxValue || Number.isNaN(minValue)
-        ? this.maxValue - this.stepValue
-        : minValue;
-
-    this.notify("modelMinMaxValuesChanged", {
-      min: this.minValue,
-      max: this.maxValue,
-    });
-    this.notify("modelStepValueChenged", {
-      min: this.minValue,
-      max: this.maxValue,
-      step: this.stepValue,
-    });
-  }
-
-  setMaxValue(maxValue: number): void {
-    this.maxValue =
-      maxValue <= this.minValue || Number.isNaN(maxValue)
-        ? this.minValue + this.stepValue
-        : maxValue;
-    this.notify("modelMinMaxValuesChanged", {
-      min: this.minValue,
-      max: this.maxValue,
-    });
-    this.notify("modelStepValueChenged", {
-      min: this.minValue,
-      max: this.maxValue,
-      step: this.stepValue,
-    });
-  }
-
-  setStepValue(stepValue: number): void {
-    const isValueLessThanZero = stepValue <= 0;
-    const isValueGreaterThanMax = stepValue >= this.maxValue;
-    const valueIsNaN = Number.isNaN(stepValue);
-
-    this.stepValue =
-      isValueLessThanZero || valueIsNaN || isValueGreaterThanMax
-        ? 1
-        : stepValue;
-
-    this.notify("modelStepValueChenged", {
-      min: this.minValue,
-      max: this.maxValue,
-      step: this.stepValue,
-    });
   }
 
   private _validatePosition(value: number): number {
