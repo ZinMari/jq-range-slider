@@ -186,7 +186,7 @@ class Model extends Observer<ModelEvents> {
     this.notify("modelStepValueChenged", this.stepValue);
   }
 
-  updateThumbPosition = (options: any) => {
+  updateThumbPosition = (options: UpdateThumbData) => {
     const sliderLineCoords = this._getCoords(options.sliderLine);
     const thumbCoords = this._getCoords(options.thumb);
 

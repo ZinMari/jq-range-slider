@@ -43,6 +43,18 @@ interface AlexandrSettings {
   type?: "single" | "double";
 }
 
+interface UpdateThumbData {
+  clickPageX: number;
+  clickPageY: number;
+  movePageX: number;
+  movePageY: number;
+  type: "max" | "min";
+  sliderLine: JQuery<HTMLElement>;
+  leftClickThumbCoords: number;
+  topClickThumbCoords: number;
+  thumb: JQuery<EventTarget>;
+}
+
 interface Model extends Observer<ModelEvents> {
   minValue: number;
   maxValue: number;
@@ -59,7 +71,7 @@ interface Model extends Observer<ModelEvents> {
   setMaxValue: (maxValue: number) => void;
   setStepValue: (value: number) => void;
   setPixelInOneStep: () => void;
-  updateThumbPosition: any;
+  updateThumbPosition: (options: UpdateThumbData) => void;
   modelClicOnSlider: any;
   modelGetCordsView: any;
   setProgressBarSize: any;
@@ -201,5 +213,5 @@ interface ThumbViewEvents {
     currentValue: number;
     moveDirection: "top" | "left";
   };
-  updateThumbPosition: any;
+  updateThumbPosition: UpdateThumbData;
 }

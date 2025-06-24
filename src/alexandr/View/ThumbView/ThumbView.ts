@@ -86,7 +86,7 @@ class ThumbView extends Observer<ThumbViewEvents> {
     const topClickThumbCoords = $currenThumb.offset().top + window.scrollY;
 
     const onMouseMove = (event: PointerEvent): void => {
-      const options = {
+      const options: UpdateThumbData = {
         clickPageX,
         clickPageY,
         movePageX: event.pageX,
