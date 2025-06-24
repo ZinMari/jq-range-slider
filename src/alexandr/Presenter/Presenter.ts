@@ -83,7 +83,6 @@ class Presenter extends Observer<PresenterEvents> {
     moveDirection,
   }: ModelEvents["modelThumbsPositionChanged"]) => {
     this.view.thumbs.updateThumbsPosition(type, pixelPosition, moveDirection);
-
     this.view.thumbs.updateFlagValues(type, currentValue);
     this.view.updateThumbsControlsValue(type, currentValue);
 
@@ -93,14 +92,14 @@ class Presenter extends Observer<PresenterEvents> {
     });
   };
 
-  private modelStepValueChenged = (
-    step: ModelEvents["modelStepValueChenged"],
-  ) => {
-    this.view.updateStepControls(step);
+  private modelStepValueChenged = ({
+    stepValue,
+  }: ModelEvents["modelStepValueChenged"]) => {
+    this.view.updateStepControls(stepValue);
 
     this.notify("updateOptions", {
       propName: `stepValue`,
-      propValue: step,
+      propValue: stepValue,
     });
   };
 
@@ -124,15 +123,17 @@ class Presenter extends Observer<PresenterEvents> {
     });
   };
 
-  private viewInit = (viewCoords: ViewCoords) => {
+  private viewInit = (viewCoords: ViewEvents["viewInit"]) => {
     this.model.modelGetCordsView(viewCoords);
   };
 
-  private viewThumbsPositionChanged = (options: UpdateThumbData) => {
+  private viewThumbsPositionChanged = (
+    options: ViewEvents["viewThumbsPositionChanged"],
+  ) => {
     this.model.updateThumbPosition(options);
   };
 
-  private viewClicOnSlider = (options: ClicOnSliderData) => {
+  private viewClicOnSlider = (options: ViewEvents["viewClicOnSlider"]) => {
     this.model.modelClicOnSlider(options);
   };
 
@@ -155,9 +156,9 @@ class Presenter extends Observer<PresenterEvents> {
   };
 
   private viewStepControlsChanged = ({
-    currentValue,
+    stepValue,
   }: ViewEvents["viewStepControlsChanged"]) => {
-    this.model.setStepValue(currentValue);
+    this.model.setStepValue(stepValue);
   };
 }
 

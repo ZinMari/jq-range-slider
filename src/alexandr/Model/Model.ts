@@ -89,9 +89,6 @@ class Model extends Observer<ModelEvents> {
       this[`${typeThumb}Position`],
     );
 
-    console.log("new" + this[`${typeThumb}Position`]);
-    console.log("newPixels" + this[`${typeThumb}ThumbPixelPosition`]);
-
     this.setProgressBarSize();
 
     this.notify("modelThumbsPositionChanged", {
@@ -189,7 +186,7 @@ class Model extends Observer<ModelEvents> {
 
     this.setPixelInOneStep();
 
-    this.notify("modelStepValueChenged", this.stepValue);
+    this.notify("modelStepValueChenged", { stepValue: this.stepValue });
   }
 
   updateThumbPosition = (options: UpdateThumbData) => {
@@ -217,6 +214,8 @@ class Model extends Observer<ModelEvents> {
   };
 
   modelClicOnSlider(options: ClicOnSliderData) {
+    console.log(options);
+
     const sliderLineCoords = this._getCoords(options.item);
 
     // на скольких пикселях от линии произошел клик

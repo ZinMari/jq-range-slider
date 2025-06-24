@@ -56,10 +56,11 @@ interface UpdateThumbData {
 }
 
 interface ProgressBarData {
+  [key: string]: string | number;
   top?: number;
   left?: string | number;
-  width?: string | number;
-  height?: string | number;
+  width: string | number;
+  height: string | number;
 }
 
 interface ClicOnSliderData {
@@ -72,8 +73,8 @@ interface ViewCoords {
   sliderLength: number;
   minThumbWidth: number;
   minThumbHeight: number;
-  maxThumbWidth: number;
-  maxThumbHeight: number;
+  maxThumbWidth: number | undefined;
+  maxThumbHeight: number | undefined;
 }
 
 interface ElementsCoords {
@@ -109,6 +110,7 @@ interface Model extends Observer<ModelEvents> {
 interface BaseSubViewInterface extends Observer<SubViewEvents> {
   item: JQuery<HTMLElement>;
 }
+
 interface LineViewInterface extends BaseSubViewInterface {
   setVerticalOrientation: (height: number) => void;
 }
@@ -139,8 +141,8 @@ interface MinMaxValueLineView {
   update: (min: number, max: number) => void;
 }
 
-interface ProgressBarView extends BaseSubViewInterface {
-  update(styleobject: ProgressBarData): void;
+interface ProgressBarView {
+  update: (styleobject: ProgressBarData) => void;
 }
 
 interface View extends Observer<ViewEvents> {
@@ -151,7 +153,7 @@ interface View extends Observer<ViewEvents> {
   init: (options: AlexandrSettings) => void;
   updateThumbsControlsValue: (type: "min" | "max", value: number) => void;
   updateSliderControlsValue: (type: "min" | "max", value: number) => void;
-  updateStepControls: (value: number) => void;
+  updateStepControls: (stepValue: number) => void;
   destroy: () => void;
   setInitialValues: () => void;
 }
@@ -189,7 +191,9 @@ interface ModelEvents {
     pixelPosition: number;
     moveDirection: "top" | "left";
   };
-  modelStepValueChenged: number;
+  modelStepValueChenged: {
+    stepValue: number;
+  };
   modelMinMaxValuesChanged: {
     min: number;
     max: number;
@@ -199,20 +203,19 @@ interface ModelEvents {
 
 interface ViewEvents {
   viewThumbsControlsChanged: {
-    type?: "min" | "max";
+    type: "min" | "max";
     currentValue: number;
   };
   viewSliderValueControlsChanged: {
-    type?: "min" | "max";
+    type: "min" | "max";
     currentValue: number;
   };
   viewStepControlsChanged: {
-    type?: "min" | "max";
-    currentValue: number;
+    stepValue: number;
   };
-  viewThumbsPositionChanged: any;
-  viewClicOnSlider: any;
-  viewInit: any;
+  viewThumbsPositionChanged: UpdateThumbData;
+  viewClicOnSlider: ClicOnSliderData;
+  viewInit: ViewCoords | any;
 }
 
 interface PresenterEvents {

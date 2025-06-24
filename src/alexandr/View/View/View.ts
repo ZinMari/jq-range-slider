@@ -256,7 +256,7 @@ class View extends Observer<ViewEvents> {
     currentValue = Number.isNaN(currentValue) ? 0 : currentValue;
 
     this.notify("viewStepControlsChanged", {
-      currentValue: currentValue,
+      stepValue: currentValue,
     });
   };
 
@@ -342,11 +342,11 @@ class View extends Observer<ViewEvents> {
     }
   }
 
-  updateStepControls(value: number): void {
+  updateStepControls(stepValue: number): void {
     if (this.controlsStepValues.length) {
       $.each(this.controlsStepValues, function () {
         $.each(this, function () {
-          $(this).val(value);
+          $(this).val(stepValue);
         });
       });
     }
