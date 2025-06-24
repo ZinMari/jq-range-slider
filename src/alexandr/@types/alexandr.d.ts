@@ -55,6 +55,13 @@ interface UpdateThumbData {
   thumb: JQuery<EventTarget>;
 }
 
+interface ProgressBarData {
+  top?: number;
+  left?: string | number;
+  width?: string | number;
+  height?: string | number;
+}
+
 interface ClicOnSliderData {
   pageX: number;
   pageY: number;
@@ -95,8 +102,8 @@ interface Model extends Observer<ModelEvents> {
   updateThumbPosition: (options: UpdateThumbData) => void;
   modelClicOnSlider: (options: ClicOnSliderData) => void;
   modelGetCordsView: (viewCoords: ViewCoords) => void;
-  setProgressBarSize: any;
-  setInitialValues: any;
+  setProgressBarSize: () => void;
+  setInitialValues: () => void;
 }
 
 interface BaseSubViewInterface extends Observer<SubViewEvents> {
@@ -133,7 +140,7 @@ interface MinMaxValueLineView {
 }
 
 interface ProgressBarView extends BaseSubViewInterface {
-  update(styleobject: { [key: string]: string | number }): void;
+  update(styleobject: ProgressBarData): void;
 }
 
 interface View extends Observer<ViewEvents> {
@@ -146,7 +153,7 @@ interface View extends Observer<ViewEvents> {
   updateSliderControlsValue: (type: "min" | "max", value: number) => void;
   updateStepControls: (value: number) => void;
   destroy: () => void;
-  setInitialValues: any;
+  setInitialValues: () => void;
 }
 
 interface Presenter extends Observer<PresenterEvents> {
@@ -176,14 +183,18 @@ interface Alexandr {
 }
 
 interface ModelEvents {
-  modelThumbsPositionChanged: any;
+  modelThumbsPositionChanged: {
+    type: "min" | "max";
+    currentValue: number;
+    pixelPosition: number;
+    moveDirection: "top" | "left";
+  };
   modelStepValueChenged: number;
   modelMinMaxValuesChanged: {
     min: number;
     max: number;
   };
-
-  modelProressbarUpdated: any;
+  modelProressbarUpdated: ProgressBarData | any;
 }
 
 interface ViewEvents {

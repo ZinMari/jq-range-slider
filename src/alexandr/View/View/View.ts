@@ -362,8 +362,8 @@ class View extends Observer<ViewEvents> {
     );
   }
 
-  private _handlerUpdateThumbPosition = (dataObject: any) => {
-    this.notify("viewThumbsPositionChanged", dataObject);
+  private _handlerUpdateThumbPosition = (options: UpdateThumbData) => {
+    this.notify("viewThumbsPositionChanged", options);
   };
 
   private _handlerClicOnSlider = ({

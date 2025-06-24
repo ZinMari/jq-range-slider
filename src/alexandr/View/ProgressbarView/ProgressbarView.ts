@@ -13,8 +13,8 @@ class ProgressBarView
     sliderLine.append(this.item);
   }
 
-  update(styleobject: { [key: string]: string | number }): void {
-    this.item.css(styleobject);
+  update(styleobject: ProgressBarData): void {
+    this.item.css(styleobject as { [key: string]: string | number });
   }
 }
 
