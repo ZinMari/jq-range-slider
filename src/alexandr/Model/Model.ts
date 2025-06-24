@@ -41,12 +41,18 @@ class Model extends Observer<ModelEvents> {
     this.stepValue = stepValue;
   }
 
-  modelGetCordsView = (dataObject: any) => {
-    this.sliderLength = dataObject.sliderLength;
-    this.minThumbWidth = dataObject.minThumbWidth;
-    this.minThumbHeight = dataObject.minThumbHeight;
-    this.maxThumbWidth = dataObject.maxThumbWidth;
-    this.maxThumbHeight = dataObject.maxThumbHeight;
+  modelGetCordsView = ({
+    sliderLength,
+    minThumbWidth,
+    minThumbHeight,
+    maxThumbWidth,
+    maxThumbHeight,
+  }: ViewCoords) => {
+    this.sliderLength = sliderLength;
+    this.minThumbWidth = minThumbWidth;
+    this.minThumbHeight = minThumbHeight;
+    this.maxThumbWidth = maxThumbWidth;
+    this.maxThumbHeight = maxThumbHeight;
 
     this.setPixelInOneStep();
   };

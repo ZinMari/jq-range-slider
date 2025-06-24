@@ -61,6 +61,14 @@ interface ClicOnSliderData {
   item: JQuery<HTMLElement>;
 }
 
+interface ViewCoords {
+  sliderLength: number;
+  minThumbWidth: number;
+  minThumbHeight: number;
+  maxThumbWidth: number;
+  maxThumbHeight: number;
+}
+
 interface ElementsCoords {
   left: number;
   width: number;
@@ -86,7 +94,7 @@ interface Model extends Observer<ModelEvents> {
   setPixelInOneStep: () => void;
   updateThumbPosition: (options: UpdateThumbData) => void;
   modelClicOnSlider: (options: ClicOnSliderData) => void;
-  modelGetCordsView: any;
+  modelGetCordsView: (viewCoords: ViewCoords) => void;
   setProgressBarSize: any;
   setInitialValues: any;
 }
