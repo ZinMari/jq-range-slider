@@ -126,12 +126,12 @@ class Presenter extends Observer<PresenterEvents> {
     this.model.modelGetCordsView(dataObject);
   };
 
-  private viewThumbsPositionChanged = (dataObject: any) => {
-    this.model.updateThumbPosition(dataObject);
+  private viewThumbsPositionChanged = (options: UpdateThumbData) => {
+    this.model.updateThumbPosition(options);
   };
 
-  private viewClicOnSlider = (dataObject: any) => {
-    this.model.modelClicOnSlider(dataObject);
+  private viewClicOnSlider = (options: ClicOnSliderData) => {
+    this.model.modelClicOnSlider(options);
   };
 
   private viewThumbsControlsChanged = ({

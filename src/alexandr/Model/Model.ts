@@ -210,14 +210,14 @@ class Model extends Observer<ModelEvents> {
     this.setThumbsPosition(options.type, this._convertPixelToUnits(value));
   };
 
-  modelClicOnSlider(data: any) {
-    const sliderLineCoords = this._getCoords(data.item);
+  modelClicOnSlider(options: ClicOnSliderData) {
+    const sliderLineCoords = this._getCoords(options.item);
 
     // на скольких пикселях от линии произошел клик
     const pixelClick =
       this.moveDirection === "left"
-        ? data.pageX - sliderLineCoords.left
-        : data.pageY - sliderLineCoords.top;
+        ? options.pageX - sliderLineCoords.left
+        : options.pageY - sliderLineCoords.top;
 
     const stepLeft = this._equatePixelValueToStep(pixelClick);
 

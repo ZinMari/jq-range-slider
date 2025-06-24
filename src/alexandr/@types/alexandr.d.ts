@@ -55,6 +55,19 @@ interface UpdateThumbData {
   thumb: JQuery<EventTarget>;
 }
 
+interface ClicOnSliderData {
+  pageX: number;
+  pageY: number;
+  item: JQuery<HTMLElement>;
+}
+
+interface ElementsCoords {
+  left: number;
+  width: number;
+  top: number;
+  height: number;
+}
+
 interface Model extends Observer<ModelEvents> {
   minValue: number;
   maxValue: number;
@@ -72,7 +85,7 @@ interface Model extends Observer<ModelEvents> {
   setStepValue: (value: number) => void;
   setPixelInOneStep: () => void;
   updateThumbPosition: (options: UpdateThumbData) => void;
-  modelClicOnSlider: any;
+  modelClicOnSlider: (options: ClicOnSliderData) => void;
   modelGetCordsView: any;
   setProgressBarSize: any;
   setInitialValues: any;
@@ -113,13 +126,6 @@ interface MinMaxValueLineView {
 
 interface ProgressBarView extends BaseSubViewInterface {
   update(styleobject: { [key: string]: string | number }): void;
-}
-
-interface ElementsCoords {
-  left: number;
-  width: number;
-  top: number;
-  height: number;
 }
 
 interface View extends Observer<ViewEvents> {
@@ -198,13 +204,7 @@ interface PresenterEvents {
 }
 
 interface SubViewEvents {
-  updateValues: {
-    $currenThumb?: JQuery<EventTarget>;
-    event?: PointerEvent;
-    pageX?: number;
-    pageY?: number;
-  };
-  clicOnSlider: any;
+  clicOnSlider: ClicOnSliderData;
 }
 
 interface ThumbViewEvents {
