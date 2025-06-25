@@ -5,7 +5,7 @@ class Observer<T> {
 
   addSubscriber<K extends keyof T>(
     typeEvent: K,
-    subscriber: ObserverSubscriber<T>,
+    subscriber: (infoObject: T[K]) => void,
   ): void {
     if (typeEvent in this.subscribers) {
       this.subscribers[typeEvent].add(subscriber);
@@ -16,7 +16,7 @@ class Observer<T> {
 
   removeSubscriber<K extends keyof T>(
     typeEvent: K,
-    subscriber: ObserverSubscriber<T>,
+    subscriber: (infoObject: T[K]) => void,
   ): void {
     this.subscribers[typeEvent].delete(subscriber);
   }

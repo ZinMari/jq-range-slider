@@ -198,7 +198,7 @@ interface ModelEvents {
     min: number;
     max: number;
   };
-  modelProressbarUpdated: ProgressBarData | any;
+  modelProressbarUpdated: ProgressBarData;
 }
 
 interface ViewEvents {
@@ -215,7 +215,7 @@ interface ViewEvents {
   };
   viewThumbsPositionChanged: UpdateThumbData;
   viewClicOnSlider: ClicOnSliderData;
-  viewInit: ViewCoords | any;
+  viewInit: ViewCoords;
 }
 
 interface PresenterEvents {
