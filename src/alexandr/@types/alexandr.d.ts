@@ -47,9 +47,9 @@ interface UpdateThumbData {
   movePageX: number;
   movePageY: number;
   type: "max" | "min";
-  sliderLine: JQuery<HTMLElement>;
   shiftClickThumb: number;
-  thumb: JQuery<EventTarget>;
+  lineCoords: ElementsCoords;
+  thumbCoords: ElementsCoords;
 }
 
 interface ProgressBarData {

@@ -216,15 +216,12 @@ class Model extends Observer<ModelEvents> {
   }
 
   updateThumbPosition = (options: UpdateThumbData) => {
-    const sliderLineCoords = this._getCoords(options.sliderLine);
-    const thumbCoords = this._getCoords(options.thumb);
-
     let value: number = this._getNewThumbCord({
       movePageX: options.movePageX,
       movePageY: options.movePageY,
       shiftClickThumb: options.shiftClickThumb,
-      sliderLineCoords,
-      thumbCoords,
+      sliderLineCoords: options.lineCoords,
+      thumbCoords: options.thumbCoords,
     });
 
     this.setThumbsPosition(

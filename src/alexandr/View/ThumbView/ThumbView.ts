@@ -1,4 +1,5 @@
 import Observer from "../../Observer/Observer";
+import getCoords from "../../utils/GetCoords";
 
 class ThumbView extends Observer<ThumbViewEvents> {
   item: JQuery<HTMLElement>;
@@ -81,15 +82,15 @@ class ThumbView extends Observer<ThumbViewEvents> {
     const clickPageX = event.pageX;
     const clickPageY = event.pageY;
 
-    const leftClickThumbCoords = $currenThumb.offset().left + window.scrollX;
-    const topClickThumbCoords = $currenThumb.offset().top + window.scrollY;
+    const thumbCoords = getCoords($currenThumb);
+    const lineCoords = getCoords(this.line.item);
 
     // разница между кликом и началок кнопки
     const shiftClickThumb: number = this._getShiftThumb({
       clickPageX,
       clickPageY,
-      topClickThumbCoords,
-      leftClickThumbCoords,
+      topClickThumbCoords: thumbCoords.top,
+      leftClickThumbCoords: thumbCoords.left,
       orientation: this.orientation,
     });
 
@@ -100,8 +101,8 @@ class ThumbView extends Observer<ThumbViewEvents> {
         type: $currenThumb.prop("classList").contains("alexandr__thumb--max")
           ? "max"
           : "min",
-        sliderLine: this.line.item,
-        thumb: $currenThumb,
+        thumbCoords,
+        lineCoords,
         shiftClickThumb: shiftClickThumb,
       };
 
