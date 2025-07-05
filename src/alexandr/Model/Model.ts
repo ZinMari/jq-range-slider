@@ -245,8 +245,6 @@ this.pixelInOneStep = this.valueConverter.pixelInOneStep({
   };
 
   modelClicOnSlider(options: ClicOnSliderData) {
-    console.log(options);
-
     const sliderLineCoords = this._getCoords(options.item);
 
     // на скольких пикселях от линии произошел клик
