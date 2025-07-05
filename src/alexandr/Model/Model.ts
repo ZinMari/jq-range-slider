@@ -59,11 +59,11 @@ class Model extends Observer<ModelEvents> {
     this.maxThumbHeight = maxThumbHeight;
 
     this.pixelInOneStep = this.valueConverter.pixelInOneStep({
-      sliderLength:this.sliderLength, 
+      sliderLength: this.sliderLength,
       max: this.maxValue,
-       min: this.minValue, 
-       step: this.stepValue
-      })
+      min: this.minValue,
+      step: this.stepValue,
+    });
   };
 
   setInitialValues() {
@@ -88,12 +88,13 @@ class Model extends Observer<ModelEvents> {
     }
 
     this[`${typeThumb}Position`] = newPosition;
-    this[`${typeThumb}ThumbPixelPosition`] = this.valueConverter.convertUnitsToPixels({
-      units: this[`${typeThumb}Position`],
-      minValue: this.minValue,
-      pixelInOneStep: this.pixelInOneStep, 
-      stepValue: this.stepValue
-    })
+    this[`${typeThumb}ThumbPixelPosition`] =
+      this.valueConverter.convertUnitsToPixels({
+        units: this[`${typeThumb}Position`],
+        minValue: this.minValue,
+        pixelInOneStep: this.pixelInOneStep,
+        stepValue: this.stepValue,
+      });
 
     this.setProgressBarSize();
 
@@ -163,12 +164,12 @@ class Model extends Observer<ModelEvents> {
         ? this.maxValue - this.stepValue
         : minValue;
 
-        this.pixelInOneStep = this.valueConverter.pixelInOneStep({
-      sliderLength:this.sliderLength, 
+    this.pixelInOneStep = this.valueConverter.pixelInOneStep({
+      sliderLength: this.sliderLength,
       max: this.maxValue,
-       min: this.minValue, 
-       step: this.stepValue
-      })
+      min: this.minValue,
+      step: this.stepValue,
+    });
 
     this.notify("modelMinMaxValuesChanged", {
       min: this.minValue,
@@ -181,12 +182,12 @@ class Model extends Observer<ModelEvents> {
       maxValue <= this.minValue || Number.isNaN(maxValue)
         ? this.minValue + this.stepValue
         : maxValue;
-this.pixelInOneStep = this.valueConverter.pixelInOneStep({
-      sliderLength:this.sliderLength, 
+    this.pixelInOneStep = this.valueConverter.pixelInOneStep({
+      sliderLength: this.sliderLength,
       max: this.maxValue,
-       min: this.minValue, 
-       step: this.stepValue
-      })
+      min: this.minValue,
+      step: this.stepValue,
+    });
 
     this.notify("modelMinMaxValuesChanged", {
       min: this.minValue,
@@ -204,13 +205,12 @@ this.pixelInOneStep = this.valueConverter.pixelInOneStep({
         ? 1
         : stepValue;
 
-        this.pixelInOneStep = this.valueConverter.pixelInOneStep({
-      sliderLength:this.sliderLength, 
+    this.pixelInOneStep = this.valueConverter.pixelInOneStep({
+      sliderLength: this.sliderLength,
       max: this.maxValue,
-       min: this.minValue, 
-       step: this.stepValue
-      })
-
+      min: this.minValue,
+      step: this.stepValue,
+    });
 
     this.notify("modelStepValueChenged", { stepValue: this.stepValue });
   }
@@ -236,12 +236,15 @@ this.pixelInOneStep = this.valueConverter.pixelInOneStep({
       thumbCoords,
     });
 
-    this.setThumbsPosition(options.type, this.valueConverter.convertPixelToUnits({
-      pixel: value,
-      pixelInOneStep: this.pixelInOneStep, 
-      stepValue: this.stepValue, 
-      minValue: this.minValue
-    }));
+    this.setThumbsPosition(
+      options.type,
+      this.valueConverter.convertPixelToUnits({
+        pixel: value,
+        pixelInOneStep: this.pixelInOneStep,
+        stepValue: this.stepValue,
+        minValue: this.minValue,
+      }),
+    );
   };
 
   modelClicOnSlider(options: ClicOnSliderData) {
@@ -256,12 +259,15 @@ this.pixelInOneStep = this.valueConverter.pixelInOneStep({
     const stepLeft = this._equatePixelValueToStep(pixelClick);
 
     if (this.type === "single") {
-      this.setThumbsPosition("min", this.valueConverter.convertPixelToUnits({
-      pixel: stepLeft,
-      pixelInOneStep: this.pixelInOneStep, 
-      stepValue: this.stepValue, 
-      minValue: this.minValue
-    }));
+      this.setThumbsPosition(
+        "min",
+        this.valueConverter.convertPixelToUnits({
+          pixel: stepLeft,
+          pixelInOneStep: this.pixelInOneStep,
+          stepValue: this.stepValue,
+          minValue: this.minValue,
+        }),
+      );
     }
 
     if (this.type === "double") {
@@ -270,19 +276,25 @@ this.pixelInOneStep = this.valueConverter.pixelInOneStep({
         (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
 
       if (stepLeft < middlePixels) {
-        this.setThumbsPosition("min", this.valueConverter.convertPixelToUnits({
-      pixel: stepLeft,
-      pixelInOneStep: this.pixelInOneStep, 
-      stepValue: this.stepValue, 
-      minValue: this.minValue
-    }));
+        this.setThumbsPosition(
+          "min",
+          this.valueConverter.convertPixelToUnits({
+            pixel: stepLeft,
+            pixelInOneStep: this.pixelInOneStep,
+            stepValue: this.stepValue,
+            minValue: this.minValue,
+          }),
+        );
       } else {
-        this.setThumbsPosition("max", this.valueConverter.convertPixelToUnits({
-      pixel: stepLeft,
-      pixelInOneStep: this.pixelInOneStep, 
-      stepValue: this.stepValue, 
-      minValue: this.minValue
-    }));
+        this.setThumbsPosition(
+          "max",
+          this.valueConverter.convertPixelToUnits({
+            pixel: stepLeft,
+            pixelInOneStep: this.pixelInOneStep,
+            stepValue: this.stepValue,
+            minValue: this.minValue,
+          }),
+        );
       }
     }
   }
