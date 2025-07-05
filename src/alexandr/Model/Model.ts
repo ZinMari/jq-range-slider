@@ -157,6 +157,8 @@ class Model extends Observer<ModelEvents> {
         ? this.maxValue - this.stepValue
         : minValue;
 
+    this.setPixelInOneStep();
+
     this.notify("modelMinMaxValuesChanged", {
       min: this.minValue,
       max: this.maxValue,
@@ -168,6 +170,8 @@ class Model extends Observer<ModelEvents> {
       maxValue <= this.minValue || Number.isNaN(maxValue)
         ? this.minValue + this.stepValue
         : maxValue;
+
+    this.setPixelInOneStep();
     this.notify("modelMinMaxValuesChanged", {
       min: this.minValue,
       max: this.maxValue,
