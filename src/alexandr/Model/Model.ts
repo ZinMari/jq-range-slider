@@ -88,9 +88,12 @@ class Model extends Observer<ModelEvents> {
     }
 
     this[`${typeThumb}Position`] = newPosition;
-    this[`${typeThumb}ThumbPixelPosition`] = this._convertUnitsToPixels(
-      this[`${typeThumb}Position`],
-    );
+    this[`${typeThumb}ThumbPixelPosition`] = this.valueConverter.convertUnitsToPixels({
+      units: this[`${typeThumb}Position`],
+      minValue: this.minValue,
+      pixelInOneStep: this.pixelInOneStep, 
+      stepValue: this.stepValue
+    })
 
     this.setProgressBarSize();
 
@@ -233,7 +236,12 @@ this.pixelInOneStep = this.valueConverter.pixelInOneStep({
       thumbCoords,
     });
 
-    this.setThumbsPosition(options.type, this._convertPixelToUnits(value));
+    this.setThumbsPosition(options.type, this.valueConverter.convertPixelToUnits({
+      pixel: value,
+      pixelInOneStep: this.pixelInOneStep, 
+      stepValue: this.stepValue, 
+      minValue: this.minValue
+    }));
   };
 
   modelClicOnSlider(options: ClicOnSliderData) {
@@ -250,7 +258,12 @@ this.pixelInOneStep = this.valueConverter.pixelInOneStep({
     const stepLeft = this._equatePixelValueToStep(pixelClick);
 
     if (this.type === "single") {
-      this.setThumbsPosition("min", this._convertPixelToUnits(stepLeft));
+      this.setThumbsPosition("min", this.valueConverter.convertPixelToUnits({
+      pixel: stepLeft,
+      pixelInOneStep: this.pixelInOneStep, 
+      stepValue: this.stepValue, 
+      minValue: this.minValue
+    }));
     }
 
     if (this.type === "double") {
@@ -259,9 +272,19 @@ this.pixelInOneStep = this.valueConverter.pixelInOneStep({
         (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
 
       if (stepLeft < middlePixels) {
-        this.setThumbsPosition("min", this._convertPixelToUnits(stepLeft));
+        this.setThumbsPosition("min", this.valueConverter.convertPixelToUnits({
+      pixel: stepLeft,
+      pixelInOneStep: this.pixelInOneStep, 
+      stepValue: this.stepValue, 
+      minValue: this.minValue
+    }));
       } else {
-        this.setThumbsPosition("max", this._convertPixelToUnits(stepLeft));
+        this.setThumbsPosition("max", this.valueConverter.convertPixelToUnits({
+      pixel: stepLeft,
+      pixelInOneStep: this.pixelInOneStep, 
+      stepValue: this.stepValue, 
+      minValue: this.minValue
+    }));
       }
     }
   }
@@ -377,24 +400,11 @@ this.pixelInOneStep = this.valueConverter.pixelInOneStep({
     if (isNaN(value)) {
       throw new Error("Получено NaN");
     }
-
     return Math.round(value / this.pixelInOneStep) * this.pixelInOneStep;
   }
 
   private _equateValueToStep(value: number): number {
     return Math.round(value / this.stepValue) * this.stepValue || this.minValue;
-  }
-
-  private _convertPixelToUnits(value: number): number {
-    return Math.round(
-      (value / this.pixelInOneStep) * this.stepValue + this.minValue,
-    );
-  }
-
-  private _convertUnitsToPixels(value: number): number {
-    const withMinvalue = value - this.minValue;
-    const pixels = withMinvalue * (this.pixelInOneStep / this.stepValue);
-    return pixels;
   }
 }
 export default Model;

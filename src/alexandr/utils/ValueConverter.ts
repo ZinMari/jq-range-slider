@@ -2,9 +2,17 @@ export default class ValueConverter {
   pixelInOneStep = ({sliderLength, max, min, step}: any):number => {
     return (sliderLength / (max - min)) * step ||
       1;
-  } 
-//   toPixels(value: number): number 
-//   toUnits(pixels: number): number 
-//   alignPixelsToStep(pixels: number): number 
-//   alignValueToStep(value: number): number
+  }
+
+  convertPixelToUnits({pixel, pixelInOneStep, stepValue, minValue}: any): number {
+    return Math.round(
+      (pixel / pixelInOneStep) * stepValue + minValue,
+    );
+  }
+
+  convertUnitsToPixels({units, minValue, pixelInOneStep, stepValue}: any): number {
+    const withMinvalue = units - minValue;
+    const pixels = withMinvalue * (pixelInOneStep / stepValue);
+    return pixels;
+  }
 }
