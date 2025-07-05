@@ -219,19 +219,10 @@ class Model extends Observer<ModelEvents> {
     const sliderLineCoords = this._getCoords(options.sliderLine);
     const thumbCoords = this._getCoords(options.thumb);
 
-    // разница между кликом и началок кнопки
-    const shiftClickThumb: number = this._getShiftThumb({
-      clickPageX: options.clickPageX,
-      clickPageY: options.clickPageY,
-      topClickThumbCoords: options.topClickThumbCoords,
-      leftClickThumbCoords: options.leftClickThumbCoords,
-      orientation: this.orientation,
-    });
-
     let value: number = this._getNewThumbCord({
       movePageX: options.movePageX,
       movePageY: options.movePageY,
-      shiftClickThumb: shiftClickThumb,
+      shiftClickThumb: options.shiftClickThumb,
       sliderLineCoords,
       thumbCoords,
     });
@@ -384,26 +375,6 @@ class Model extends Observer<ModelEvents> {
       top: boxTop + window.scrollY,
       height: boxBottom - boxTop,
     };
-  }
-
-  private _getShiftThumb({
-    clickPageX,
-    clickPageY,
-    topClickThumbCoords,
-    leftClickThumbCoords,
-    orientation,
-  }: {
-    clickPageX: number;
-    clickPageY: number;
-    topClickThumbCoords: number;
-    leftClickThumbCoords: number;
-    orientation: string;
-  }): number {
-    if (orientation === "vertical") {
-      return clickPageY - topClickThumbCoords;
-    } else {
-      return clickPageX - leftClickThumbCoords;
-    }
   }
 
   private _equatePixelValueToStep(value: number): number {

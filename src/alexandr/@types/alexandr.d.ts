@@ -44,14 +44,11 @@ interface AlexandrSettings {
 }
 
 interface UpdateThumbData {
-  clickPageX: number;
-  clickPageY: number;
   movePageX: number;
   movePageY: number;
   type: "max" | "min";
   sliderLine: JQuery<HTMLElement>;
-  leftClickThumbCoords: number;
-  topClickThumbCoords: number;
+  shiftClickThumb: number;
   thumb: JQuery<EventTarget>;
 }
 

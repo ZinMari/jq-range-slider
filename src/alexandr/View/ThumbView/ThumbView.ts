@@ -76,7 +76,6 @@ class ThumbView extends Observer<ThumbViewEvents> {
 
   private handler = (event: PointerEvent) => {
     event.preventDefault();
-
     const $currenThumb = $(event.target);
 
     const clickPageX = event.pageX;
@@ -85,19 +84,25 @@ class ThumbView extends Observer<ThumbViewEvents> {
     const leftClickThumbCoords = $currenThumb.offset().left + window.scrollX;
     const topClickThumbCoords = $currenThumb.offset().top + window.scrollY;
 
+    // разница между кликом и началок кнопки
+    const shiftClickThumb: number = this._getShiftThumb({
+      clickPageX,
+      clickPageY,
+      topClickThumbCoords,
+      leftClickThumbCoords,
+      orientation: this.orientation,
+    });
+
     const onMouseMove = (event: PointerEvent): void => {
       const options: UpdateThumbData = {
-        clickPageX,
-        clickPageY,
         movePageX: event.pageX,
         movePageY: event.pageY,
         type: $currenThumb.prop("classList").contains("alexandr__thumb--max")
           ? "max"
           : "min",
         sliderLine: this.line.item,
-        leftClickThumbCoords: leftClickThumbCoords,
-        topClickThumbCoords: topClickThumbCoords,
         thumb: $currenThumb,
+        shiftClickThumb: shiftClickThumb,
       };
 
       this.notify("updateThumbPosition", options);
@@ -134,6 +139,26 @@ class ThumbView extends Observer<ThumbViewEvents> {
       this.minThumb.css({ [moveDirection]: position });
     } else if (this.type === "double" && thumb === "max") {
       this.maxThumb.css({ [moveDirection]: position });
+    }
+  }
+
+  private _getShiftThumb({
+    clickPageX,
+    clickPageY,
+    topClickThumbCoords,
+    leftClickThumbCoords,
+    orientation,
+  }: {
+    clickPageX: number;
+    clickPageY: number;
+    topClickThumbCoords: number;
+    leftClickThumbCoords: number;
+    orientation: string;
+  }): number {
+    if (orientation === "vertical") {
+      return clickPageY - topClickThumbCoords;
+    } else {
+      return clickPageX - leftClickThumbCoords;
     }
   }
 }
