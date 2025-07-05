@@ -44,12 +44,14 @@ interface AlexandrSettings {
 }
 
 interface UpdateThumbData {
-  movePageX: number;
-  movePageY: number;
   type: "max" | "min";
   shiftClickThumb: number;
   lineCoords: ElementsCoords;
   thumbCoords: ElementsCoords;
+  clientEvent: number;
+  clientLineCoordsOffset: number;
+  clientLineCoordsSize: number;
+  clientThumbCoordsSize: number;
 }
 
 interface ProgressBarData {

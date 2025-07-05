@@ -95,15 +95,34 @@ class ThumbView extends Observer<ThumbViewEvents> {
     });
 
     const onMouseMove = (event: PointerEvent): void => {
+      let clientEvent;
+      let clientLineCoordsOffset;
+      let clientLineCoordsSize;
+      let clientThumbCoordsSize;
+
+      if (this.orientation === "vertical") {
+        clientEvent = event.pageY;
+        clientLineCoordsOffset = lineCoords.top;
+        clientLineCoordsSize = lineCoords.height;
+        clientThumbCoordsSize = thumbCoords.height;
+      } else {
+        clientEvent = event.pageX;
+        clientLineCoordsOffset = lineCoords.left;
+        clientLineCoordsSize = lineCoords.width;
+        clientThumbCoordsSize = thumbCoords.width;
+      }
+
       const options: UpdateThumbData = {
-        movePageX: event.pageX,
-        movePageY: event.pageY,
         type: $currenThumb.prop("classList").contains("alexandr__thumb--max")
           ? "max"
           : "min",
         thumbCoords,
         lineCoords,
         shiftClickThumb: shiftClickThumb,
+        clientEvent,
+        clientLineCoordsOffset,
+        clientLineCoordsSize,
+        clientThumbCoordsSize,
       };
 
       this.notify("updateThumbPosition", options);

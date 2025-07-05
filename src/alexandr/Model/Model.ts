@@ -217,11 +217,11 @@ class Model extends Observer<ModelEvents> {
 
   updateThumbPosition = (options: UpdateThumbData) => {
     let value: number = this._getNewThumbCord({
-      movePageX: options.movePageX,
-      movePageY: options.movePageY,
+      clientEvent: options.clientEvent,
+      clientLineCoordsOffset: options.clientLineCoordsOffset,
+      clientLineCoordsSize: options.clientLineCoordsSize,
+      clientThumbCoordsSize: options.clientThumbCoordsSize,
       shiftClickThumb: options.shiftClickThumb,
-      sliderLineCoords: options.lineCoords,
-      thumbCoords: options.thumbCoords,
     });
 
     this.setThumbsPosition(
@@ -313,35 +313,12 @@ class Model extends Observer<ModelEvents> {
   }
 
   private _getNewThumbCord({
-    movePageX,
-    movePageY,
+    clientEvent,
+    clientLineCoordsOffset,
+    clientLineCoordsSize,
+    clientThumbCoordsSize,
     shiftClickThumb,
-    sliderLineCoords,
-    thumbCoords,
-  }: {
-    movePageX: number;
-    movePageY: number;
-    shiftClickThumb: number;
-    sliderLineCoords: ElementsCoords;
-    thumbCoords: ElementsCoords;
-  }): number {
-    let clientEvent;
-    let clientLineCoordsOffset;
-    let clientLineCoordsSize;
-    let clientThumbCoordsSize;
-    if (this.orientation === "vertical") {
-      clientEvent = movePageY;
-
-      clientLineCoordsOffset = sliderLineCoords.top;
-      clientLineCoordsSize = sliderLineCoords.height;
-      clientThumbCoordsSize = thumbCoords.height;
-    } else {
-      clientEvent = movePageX;
-      clientLineCoordsOffset = sliderLineCoords.left;
-      clientLineCoordsSize = sliderLineCoords.width;
-      clientThumbCoordsSize = thumbCoords.width;
-    }
-
+  }: any): number {
     let newLeft = clientEvent - shiftClickThumb - clientLineCoordsOffset;
 
     //подгоним движение под шаг
