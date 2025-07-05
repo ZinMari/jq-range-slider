@@ -1,4 +1,5 @@
 import Observer from "../Observer/Observer";
+import ValueConverter from "../utils/ValueConverter";
 
 class Model extends Observer<ModelEvents> {
   minValue: number;
@@ -17,6 +18,7 @@ class Model extends Observer<ModelEvents> {
   minThumbHeight: number;
   maxThumbWidth: number;
   maxThumbHeight: number;
+  valueConverter: any;
 
   init({
     minValue,
@@ -27,6 +29,8 @@ class Model extends Observer<ModelEvents> {
     type,
     orientation,
   }: AlexandrSettings): void {
+    this.valueConverter = new ValueConverter();
+
     this.type = type;
     this.orientation = orientation;
     this.moveDirection = this.orientation === "vertical" ? "top" : "left";
@@ -54,7 +58,12 @@ class Model extends Observer<ModelEvents> {
     this.maxThumbWidth = maxThumbWidth;
     this.maxThumbHeight = maxThumbHeight;
 
-    this.setPixelInOneStep();
+    this.pixelInOneStep = this.valueConverter.pixelInOneStep({
+      sliderLength:this.sliderLength, 
+      max: this.maxValue,
+       min: this.minValue, 
+       step: this.stepValue
+      })
   };
 
   setInitialValues() {
@@ -68,12 +77,6 @@ class Model extends Observer<ModelEvents> {
 
     this.setThumbsPosition("min", Number(this.minPosition));
   }
-
-  setPixelInOneStep = () => {
-    this.pixelInOneStep =
-      (this.sliderLength / (this.maxValue - this.minValue)) * this.stepValue ||
-      1;
-  };
 
   setThumbsPosition = (typeThumb: "min" | "max", value: number): void => {
     let newPosition = this._equateValueToStep(value);
@@ -157,7 +160,12 @@ class Model extends Observer<ModelEvents> {
         ? this.maxValue - this.stepValue
         : minValue;
 
-    this.setPixelInOneStep();
+        this.pixelInOneStep = this.valueConverter.pixelInOneStep({
+      sliderLength:this.sliderLength, 
+      max: this.maxValue,
+       min: this.minValue, 
+       step: this.stepValue
+      })
 
     this.notify("modelMinMaxValuesChanged", {
       min: this.minValue,
@@ -170,8 +178,13 @@ class Model extends Observer<ModelEvents> {
       maxValue <= this.minValue || Number.isNaN(maxValue)
         ? this.minValue + this.stepValue
         : maxValue;
+this.pixelInOneStep = this.valueConverter.pixelInOneStep({
+      sliderLength:this.sliderLength, 
+      max: this.maxValue,
+       min: this.minValue, 
+       step: this.stepValue
+      })
 
-    this.setPixelInOneStep();
     this.notify("modelMinMaxValuesChanged", {
       min: this.minValue,
       max: this.maxValue,
@@ -188,7 +201,13 @@ class Model extends Observer<ModelEvents> {
         ? 1
         : stepValue;
 
-    this.setPixelInOneStep();
+        this.pixelInOneStep = this.valueConverter.pixelInOneStep({
+      sliderLength:this.sliderLength, 
+      max: this.maxValue,
+       min: this.minValue, 
+       step: this.stepValue
+      })
+
 
     this.notify("modelStepValueChenged", { stepValue: this.stepValue });
   }

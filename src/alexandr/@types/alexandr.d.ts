@@ -99,7 +99,6 @@ interface Model extends Observer<ModelEvents> {
   setMinValue: (minValue: number) => void;
   setMaxValue: (maxValue: number) => void;
   setStepValue: (value: number) => void;
-  setPixelInOneStep: () => void;
   updateThumbPosition: (options: UpdateThumbData) => void;
   modelClicOnSlider: (options: ClicOnSliderData) => void;
   modelGetCordsView: (viewCoords: ViewCoords) => void;
