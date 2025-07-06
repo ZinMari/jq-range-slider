@@ -83,7 +83,11 @@ class View extends Observer<ViewEvents> {
   setInitialValues() {
     this.slider = $("<div>", { class: "alexandr" });
     this.line = new LineView(this.slider, this.lineClass);
-    this.progressbar = new ProgressBar(this.line.item, this.progressBarClass);
+    this.progressbar = new ProgressBar(
+      this.line.item,
+      this.progressBarClass,
+      this.orientation,
+    );
 
     this.thumbs = new ThumbView({
       sliderLine: this.line,

@@ -1,5 +1,5 @@
 import Observer from "../../Observer/Observer";
-import getCoords from "../../utils/GetCoords";
+import getCoords from "../../utils/getCoords";
 
 class ThumbView extends Observer<ThumbViewEvents> {
   item: JQuery<HTMLElement>;

@@ -54,14 +54,6 @@ interface UpdateThumbData {
   clientThumbCoordsSize: number;
 }
 
-interface ProgressBarData {
-  [key: string]: string | number;
-  top?: number;
-  left?: string | number;
-  width: string | number;
-  height: string | number;
-}
-
 interface ClicOnSliderData {
   pageX: number;
   pageY: number;
@@ -140,7 +132,7 @@ interface MinMaxValueLineView {
 }
 
 interface ProgressBarView {
-  update: (styleobject: ProgressBarData) => void;
+  update: (data: any) => void;
 }
 
 interface View extends Observer<ViewEvents> {
@@ -196,7 +188,10 @@ interface ModelEvents {
     min: number;
     max: number;
   };
-  modelProressbarUpdated: ProgressBarData;
+  modelProressbarUpdated: {
+    from: number;
+    to: number;
+  };
 }
 
 interface ViewEvents {

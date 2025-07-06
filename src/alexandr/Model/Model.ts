@@ -107,55 +107,28 @@ class Model extends Observer<ModelEvents> {
   };
 
   setProgressBarSize = (): void => {
-    if (this.type === "single") {
-      if (this.orientation === "vertical") {
-        const coordsThumbStart =
-          this.minThumbPixelPosition + this.minThumbHeight / 2 + "px";
+    const halfMinThumb =
+      this.orientation === "vertical"
+        ? this.minThumbHeight / 2
+        : this.minThumbWidth / 2;
 
-        this.notify("modelProressbarUpdated", {
-          top: 0,
-          width: "100%",
-          height: coordsThumbStart,
-        });
-      }
-      if (this.orientation === "horizontal") {
-        const coordsThumbStart =
-          this.minThumbPixelPosition + this.minThumbWidth / 2 + "px";
+    const halfMaxThumb =
+      this.orientation === "vertical"
+        ? this.maxThumbHeight / 2
+        : this.maxThumbWidth / 2;
 
-        this.notify("modelProressbarUpdated", {
-          left: 0,
-          width: coordsThumbStart,
-          height: "100%",
-        });
-      }
-    }
-    if (this.type === "double") {
-      if (this.orientation === "vertical") {
-        const coordsThumbMin =
-          this.minThumbPixelPosition + this.minThumbHeight / 2;
-        const coordsThumbMax =
-          this.maxThumbPixelPosition + this.maxThumbHeight / 2;
+    let from =
+      this.type === "single" ? 0 : this.minThumbPixelPosition + halfMinThumb;
 
-        this.notify("modelProressbarUpdated", {
-          left: 0,
-          height: coordsThumbMax - coordsThumbMin + "px",
-          width: "100%",
-          top: coordsThumbMin,
-        });
-      }
-      if (this.orientation === "horizontal") {
-        const coordsThumbMin =
-          this.minThumbPixelPosition + this.minThumbWidth / 2;
-        const coordsThumbMax =
-          this.maxThumbPixelPosition + this.maxThumbWidth / 2;
+    let to =
+      this.type === "single"
+        ? this.minThumbPixelPosition + halfMinThumb
+        : this.maxThumbPixelPosition - this.minThumbPixelPosition;
 
-        this.notify("modelProressbarUpdated", {
-          left: coordsThumbMin + "px",
-          height: "100%",
-          width: coordsThumbMax - coordsThumbMin + "px",
-        });
-      }
-    }
+    this.notify("modelProressbarUpdated", {
+      from,
+      to,
+    });
   };
 
   setMinValue(minValue: number): void {
