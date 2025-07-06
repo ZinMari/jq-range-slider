@@ -14,7 +14,7 @@ class ProgressBarView {
     sliderLine.append(this.item);
   }
 
-  update = (dataObject: any): void => {
+  update = (dataObject: { from: number; to: number }): void => {
     if (this.orientation === "vertical") {
       this.item.css({
         top: dataObject.from,

@@ -356,6 +356,31 @@ class View extends Observer<ViewEvents> {
     }
   }
 
+  // обновить элементы слайдера
+  updateProgressBar(dataObject: { from: number; to: number }): void {
+    this.progressbar.update(dataObject);
+  }
+
+  updateRuler(min: number, max: number): void {
+    this.ruler.update(min, max);
+  }
+
+  updateMinMaxValueLine(min: number, max: number): void {
+    this.sliderMinMaxValueLine.update(min, max);
+  }
+
+  updateThumbsPosition(
+    type: "min" | "max",
+    pixelPosition: number,
+    moveDirection: "top" | "left",
+  ): void {
+    this.thumbs.updateThumbsPosition(type, pixelPosition, moveDirection);
+  }
+
+  updateFlagValues(thumb: "min" | "max", currentValue: number): void {
+    this.thumbs.updateFlagValues(thumb, currentValue);
+  }
+
   // работа с пописками
   private addSubscribersToSubViews() {
     this.line.addSubscriber("clicOnSlider", this._handlerClicOnSlider);

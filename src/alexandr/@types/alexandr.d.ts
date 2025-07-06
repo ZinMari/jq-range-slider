@@ -126,7 +126,7 @@ interface MinMaxValueLineView {
 }
 
 interface ProgressBarView {
-  update: (data: any) => void;
+  update: (data: { from: number; to: number }) => void;
 }
 
 interface View extends Observer<ViewEvents> {
@@ -138,6 +138,15 @@ interface View extends Observer<ViewEvents> {
   updateThumbsControlsValue: (type: "min" | "max", value: number) => void;
   updateSliderControlsValue: (type: "min" | "max", value: number) => void;
   updateStepControls: (stepValue: number) => void;
+  updateProgressBar: (data: { from: number; to: number }) => void;
+  updateRuler: (min: number, max: number) => void;
+  updateMinMaxValueLine: (min: number, max: number) => void;
+  updateThumbsPosition: (
+    type: "min" | "max",
+    pixelPosition: number,
+    moveDirection: "top" | "left",
+  ) => void;
+  updateFlagValues: (thumb: "min" | "max", currentValue: number) => void;
   destroy: () => void;
   setInitialValues: () => void;
 }

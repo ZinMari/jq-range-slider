@@ -142,11 +142,11 @@ class ThumbView extends Observer<ThumbViewEvents> {
     this.maxThumb?.addClass("alexandr__thumb_type_vertical");
   }
 
-  updateFlagValues(thumb: "min" | "max", position: number): void {
+  updateFlagValues(thumb: "min" | "max", currentValue: number): void {
     if (thumb === "min") {
-      this.minThumb.attr("data-value", position);
+      this.minThumb.attr("data-value", currentValue);
     } else if (this.type === "double" && thumb === "max") {
-      this.maxThumb.attr("data-value", position);
+      this.maxThumb.attr("data-value", currentValue);
     }
   }
 
