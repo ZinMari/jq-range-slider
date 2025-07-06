@@ -1,12 +1,18 @@
 import Observer from "../../Observer/Observer";
+import handlerClickOnSlider from "../../utils/handlerClickOnSlider";
 
 class RulerView extends Observer<SubViewEvents> implements RulerView {
   item: JQuery<HTMLElement>;
+  orientation: "horizontal" | "vertical";
   dividings: JQuery<HTMLElement>[];
   countDivivdings: number = 4;
 
-  constructor(slider: JQuery<HTMLElement>) {
+  constructor(
+    slider: JQuery<HTMLElement>,
+    orientation: "horizontal" | "vertical",
+  ) {
     super();
+    this.orientation = orientation;
     this.item = $("<div>", { class: "alexandr__ruler" });
     this.dividings = new Array(this.countDivivdings);
 
@@ -38,20 +44,13 @@ class RulerView extends Observer<SubViewEvents> implements RulerView {
   }
 
   handler = (event: PointerEvent) => {
-    event.preventDefault();
-    const target = event.currentTarget;
-
-    if (target instanceof HTMLElement) {
-      if (target.classList.contains("alexandr__thumb")) {
-        return;
-      }
-    }
-
-    this.notify("clicOnSlider", {
-      pageX: event.pageX,
-      pageY: event.pageY,
-      item: this.item,
-    });
+    handlerClickOnSlider.call(
+      this,
+      event,
+      this.item,
+      this.orientation,
+      this.notify.bind(this),
+    );
   };
 
   setVerticalOrientation() {

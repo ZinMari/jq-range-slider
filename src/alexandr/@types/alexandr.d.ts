@@ -54,12 +54,6 @@ interface UpdateThumbData {
   clientThumbCoordsSize: number;
 }
 
-interface ClicOnSliderData {
-  pageX: number;
-  pageY: number;
-  item: JQuery<HTMLElement>;
-}
-
 interface ViewCoords {
   sliderLength: number;
   minThumbWidth: number;
@@ -91,7 +85,7 @@ interface Model extends Observer<ModelEvents> {
   setMaxValue: (maxValue: number) => void;
   setStepValue: (value: number) => void;
   updateThumbPosition: (options: UpdateThumbData) => void;
-  modelClicOnSlider: (options: ClicOnSliderData) => void;
+  clicOnSlider: (options: { pixelClick: number }) => void;
   modelGetCordsView: (viewCoords: ViewCoords) => void;
   setProgressBarSize: () => void;
   setInitialValues: () => void;
@@ -207,7 +201,9 @@ interface ViewEvents {
     stepValue: number;
   };
   viewThumbsPositionChanged: UpdateThumbData;
-  viewClicOnSlider: ClicOnSliderData;
+  clicOnSlider: {
+    pixelClick: number;
+  };
   viewInit: ViewCoords;
 }
 
@@ -219,7 +215,9 @@ interface PresenterEvents {
 }
 
 interface SubViewEvents {
-  clicOnSlider: ClicOnSliderData;
+  clicOnSlider: {
+    pixelClick: number;
+  };
 }
 
 interface ThumbViewEvents {

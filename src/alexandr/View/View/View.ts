@@ -82,7 +82,7 @@ class View extends Observer<ViewEvents> {
   // создание частей слайдера
   setInitialValues() {
     this.slider = $("<div>", { class: "alexandr" });
-    this.line = new LineView(this.slider, this.lineClass);
+    this.line = new LineView(this.slider, this.lineClass, this.orientation);
     this.progressbar = new ProgressBar(
       this.line.item,
       this.progressBarClass,
@@ -141,7 +141,7 @@ class View extends Observer<ViewEvents> {
   }
 
   private _createRuler() {
-    this.ruler = new RulerView(this.slider);
+    this.ruler = new RulerView(this.slider, this.orientation);
     this.showRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
     this.updateControlsShowRuler();
   }
@@ -371,14 +371,10 @@ class View extends Observer<ViewEvents> {
   };
 
   private _handlerClicOnSlider = ({
-    pageX,
-    pageY,
-    item,
+    pixelClick,
   }: SubViewEvents["clicOnSlider"]) => {
-    this.notify("viewClicOnSlider", {
-      pageX,
-      pageY,
-      item,
+    this.notify("clicOnSlider", {
+      pixelClick,
     });
   };
 

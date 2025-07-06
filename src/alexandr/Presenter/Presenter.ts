@@ -47,7 +47,7 @@ class Presenter extends Observer<PresenterEvents> {
       this.viewThumbsPositionChanged,
     );
 
-    this.view.addSubscriber("viewClicOnSlider", this.viewClicOnSlider);
+    this.view.addSubscriber("clicOnSlider", this.clicOnSlider);
 
     this.model.addSubscriber(
       "modelThumbsPositionChanged",
@@ -133,8 +133,8 @@ class Presenter extends Observer<PresenterEvents> {
     this.model.updateThumbPosition(options);
   };
 
-  private viewClicOnSlider = (options: ViewEvents["viewClicOnSlider"]) => {
-    this.model.modelClicOnSlider(options);
+  private clicOnSlider = (options: ViewEvents["clicOnSlider"]) => {
+    this.model.clicOnSlider(options);
   };
 
   private viewThumbsControlsChanged = ({

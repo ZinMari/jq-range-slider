@@ -1,9 +1,17 @@
 import Observer from "../../Observer/Observer";
+import handlerClickOnSlider from "../../utils/handlerClickOnSlider";
 
 class LineView extends Observer<SubViewEvents> implements LineViewInterface {
   item: JQuery<HTMLElement>;
-  constructor(slider: JQuery<HTMLElement>, lineClass: string) {
+  orientation: "horizontal" | "vertical";
+
+  constructor(
+    slider: JQuery<HTMLElement>,
+    lineClass: string,
+    orientation: "horizontal" | "vertical",
+  ) {
     super();
+    this.orientation = orientation;
     this.item = $("<div>", { class: `alexandr__line ${lineClass}` });
 
     this.item[0].addEventListener("pointerdown", this.handler);
@@ -12,20 +20,13 @@ class LineView extends Observer<SubViewEvents> implements LineViewInterface {
   }
 
   handler = (event: PointerEvent) => {
-    event.preventDefault();
-    const target = event.currentTarget;
-
-    if (target instanceof HTMLElement) {
-      if (target.classList.contains("alexandr__thumb")) {
-        return;
-      }
-    }
-
-    this.notify("clicOnSlider", {
-      pageX: event.pageX,
-      pageY: event.pageY,
-      item: this.item,
-    });
+    handlerClickOnSlider.call(
+      this,
+      event,
+      this.item,
+      this.orientation,
+      this.notify.bind(this),
+    );
   };
 
   setVerticalOrientation(height: number) {
