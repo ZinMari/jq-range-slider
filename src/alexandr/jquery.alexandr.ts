@@ -88,7 +88,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
   }
 
   $.fn.alexandr = function (
-    options: string | AlexandrSettings,
+    options: string | AlexandrSettings
 ): JQuery<HTMLElement> {
     if (!isSliderInitialized($(this)) && isSetOptions(options)) {
       return;

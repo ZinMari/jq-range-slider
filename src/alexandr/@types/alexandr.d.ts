@@ -2,8 +2,7 @@ interface JQuery {
   alexandr: // eslint-disable-next-line @typescript-eslint/no-explicit-any
   | any
     | ((
-        options: string | AlexandrSettings,
-        restOptions: [],
+        options: string | AlexandrSettings
       ) => JQuery<HTMLElement>);
 }
 
