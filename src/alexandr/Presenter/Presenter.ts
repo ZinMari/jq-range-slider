@@ -28,21 +28,6 @@ class Presenter extends Observer<PresenterEvents> {
     this.view.addSubscriber("viewInit", this.viewInit);
 
     this.view.addSubscriber(
-      "viewThumbsControlsChanged",
-      this.viewThumbsControlsChanged,
-    );
-
-    this.view.addSubscriber(
-      "viewSliderValueControlsChanged",
-      this.viewSliderValueControlsChanged,
-    );
-
-    this.view.addSubscriber(
-      "viewStepControlsChanged",
-      this.viewStepControlsChanged,
-    );
-
-    this.view.addSubscriber(
       "viewThumbsPositionChanged",
       this.viewThumbsPositionChanged,
     );
@@ -52,11 +37,6 @@ class Presenter extends Observer<PresenterEvents> {
     this.model.addSubscriber(
       "modelThumbsPositionChanged",
       this.modelThumbsPositionChanged,
-    );
-
-    this.model.addSubscriber(
-      "modelStepValueChenged",
-      this.modelStepValueChenged,
     );
 
     this.model.addSubscriber(
@@ -84,33 +64,19 @@ class Presenter extends Observer<PresenterEvents> {
   }: ModelEvents["modelThumbsPositionChanged"]) => {
     this.view.updateThumbsPosition(type, pixelPosition, moveDirection);
     this.view.updateFlagValues(type, currentValue);
-    this.view.updateThumbsControlsValue(type, currentValue);
 
     this.notify("updateOptions", {
       propName: `${type}Position`,
       propValue: currentValue,
     });
   };
-
-  private modelStepValueChenged = ({
-    stepValue,
-  }: ModelEvents["modelStepValueChenged"]) => {
-    this.view.updateStepControls(stepValue);
-
-    this.notify("updateOptions", {
-      propName: `stepValue`,
-      propValue: stepValue,
-    });
-  };
-
+  
   private modelMinMaxValuesChanged = ({
     min,
     max,
   }: ModelEvents["modelMinMaxValuesChanged"]) => {
     this.view.updateMinMaxValueLine(min, max);
     this.view.updateRuler(min, max);
-    this.view.updateSliderControlsValue("min", min);
-    this.view.updateSliderControlsValue("max", max);
 
     this.notify("updateOptions", {
       propName: `minValue`,
@@ -135,30 +101,6 @@ class Presenter extends Observer<PresenterEvents> {
 
   private clicOnSlider = (options: ViewEvents["clicOnSlider"]) => {
     this.model.clicOnSlider(options);
-  };
-
-  private viewThumbsControlsChanged = ({
-    type,
-    currentValue,
-  }: ViewEvents["viewThumbsControlsChanged"]) => {
-    this.model.setThumbsPosition(type, currentValue);
-  };
-
-  private viewSliderValueControlsChanged = ({
-    type,
-    currentValue,
-  }: ViewEvents["viewSliderValueControlsChanged"]) => {
-    if (type === "min") {
-      this.model.setMinValue(currentValue);
-    } else if (type === "max") {
-      this.model.setMaxValue(currentValue);
-    }
-  };
-
-  private viewStepControlsChanged = ({
-    stepValue,
-  }: ViewEvents["viewStepControlsChanged"]) => {
-    this.model.setStepValue(stepValue);
   };
 }
 

@@ -151,12 +151,5 @@ requireAll(require.context("./", true, /\.(scss)$/));
     thumbMaxClass: "",
     showMinValueClass: "",
     showMaxValueClass: "",
-    controlsMinThumb: [],
-    controlsMaxThumb: [],
-    controlsStepValues: [],
-    controlsMinValue: [],
-    controlsMaxValue: [],
-    controlsFlag: [],
-    controlsRuler: [],
   };
 })(jQuery);

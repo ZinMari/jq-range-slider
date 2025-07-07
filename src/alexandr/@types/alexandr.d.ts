@@ -32,13 +32,6 @@ interface AlexandrSettings {
   thumbMaxClass?: string;
   showMinValueClass?: string;
   showMaxValueClass?: string;
-  controlsMinThumb?: [JQuery<HTMLElement>];
-  controlsMaxThumb?: [JQuery<HTMLElement>];
-  controlsMinValue?: [JQuery<HTMLElement>];
-  controlsMaxValue?: [JQuery<HTMLElement>];
-  controlsStepValues?: [JQuery<HTMLElement>];
-  controlsFlag?: [JQuery<HTMLElement>];
-  controlsRuler?: [JQuery<HTMLElement>];
   orientation?: "horizontal" | "vertical";
   type?: "single" | "double";
 }
@@ -135,9 +128,6 @@ interface View extends Observer<ViewEvents> {
   ruler: RulerView;
   progressbar: ProgressBarView;
   init: (options: AlexandrSettings) => void;
-  updateThumbsControlsValue: (type: "min" | "max", value: number) => void;
-  updateSliderControlsValue: (type: "min" | "max", value: number) => void;
-  updateStepControls: (stepValue: number) => void;
   updateProgressBar: (data: { from: number; to: number }) => void;
   updateRuler: (min: number, max: number) => void;
   updateMinMaxValueLine: (min: number, max: number) => void;
@@ -198,17 +188,6 @@ interface ModelEvents {
 }
 
 interface ViewEvents {
-  viewThumbsControlsChanged: {
-    type: "min" | "max";
-    currentValue: number;
-  };
-  viewSliderValueControlsChanged: {
-    type: "min" | "max";
-    currentValue: number;
-  };
-  viewStepControlsChanged: {
-    stepValue: number;
-  };
   viewThumbsPositionChanged: UpdateThumbData;
   clicOnSlider: {
     pixelClick: number;
