@@ -1,6 +1,7 @@
 import View from "./View/View/View";
 import Presenter from "./Presenter/Presenter";
 import Model from "./Model/Model";
+import Observer from "./Observer/Observer";
 
 function requireAll(r: __WebpackModuleApi.RequireContext) {
   return r.keys().map(r);
@@ -9,11 +10,12 @@ function requireAll(r: __WebpackModuleApi.RequireContext) {
 requireAll(require.context("./", true, /\.(scss)$/));
 
 (function ($) {
-  class Alexandr {
+  class Alexandr extends Observer<AlexandrEvents>{
     private presenter: Presenter;
     sliderData: AlexandrSettings = null;
 
     constructor(options: AlexandrSettings) {
+      super();
       this.presenter = new Presenter(new View(), new Model());
       this.presenter.init(options);
 
@@ -22,6 +24,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
 
     updateOptions = (dataOptions: PresenterEvents["updateOptions"]) => {
       this.sliderData[dataOptions.propName] = dataOptions.propValue;
+      this.notify("sliderUpdated", this.sliderData)
     };
 
     initPlugin(
@@ -59,6 +62,10 @@ requireAll(require.context("./", true, /\.(scss)$/));
       $(target).data("alexandr").presenter.destroy();
       $(target).removeData("alexandr");
     }
+
+    connectToPluginData(fn: any){
+      this.addSubscriber("sliderUpdated", fn)
+    }
   }
 
   function isSliderInitialized(elem: JQuery<HTMLElement>): boolean {
@@ -82,7 +89,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
 
   $.fn.alexandr = function (
     options: string | AlexandrSettings,
-  ): JQuery<HTMLElement> {
+): JQuery<HTMLElement> {
     if (!isSliderInitialized($(this)) && isSetOptions(options)) {
       return;
     }
@@ -102,12 +109,18 @@ requireAll(require.context("./", true, /\.(scss)$/));
       return $(this);
     }
 
+    if (isSliderInitialized($(this)) && options === "connect") {
+      $(this).data("alexandr").connectToPluginData(arguments[1]);
+      return $(this);
+    }
+
     if (isSliderInitialized($(this)) && isGetOptionsObject(options)) {
       return $(this).data("alexandr").sliderData;
     }
 
     if (isSliderInitialized($(this)) && isSetOptions(options)) {
       $(this).data("alexandr").refreshPlugin(this, arguments[1]);
+      return $(this);
     }
 
     if (

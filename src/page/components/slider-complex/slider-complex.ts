@@ -1,16 +1,7 @@
 function initSlider(slider: string, options: AlexandrSettings): void {
   $(slider)
     .children(".slider-complex__slider")
-    .alexandr({
-      controlsMinThumb: [$(slider).find(".js-form__controlMinThumb")],
-      controlsMaxThumb: [$(slider).find(".js-form__controlMaxThumb")],
-      controlsMinValue: [$(slider).find(".js-form__controlMinValue")],
-      controlsMaxValue: [$(slider).find(".js-form__controlMaxValue")],
-      controlsStepValues: [$(slider).find(".js-form__controlStep")],
-      controlsFlag: [$(slider).find(".js-form__controlFlag")],
-      controlsRuler: [$(slider).find(".js-form__controlRuler")],
-      ...options,
-    });
+    .alexandr(options).alexandr("connect", onSliderValueChange);
 }
 
 function setValueToPanel(slider: string): void {
@@ -23,6 +14,9 @@ function setValueToPanel(slider: string): void {
     .alexandr("options");
 
   const $radio: JQuery<HTMLElement> = $panel.find("input[type=radio]");
+  const $checkbox: JQuery<HTMLElement> = $panel.find("input[type=checkbox]");
+  const $number: JQuery<HTMLElement> = $panel.find("input[type=number]");
+
 
   $.each($radio, function () {
     const attrName: string = $(this).attr("name");
@@ -30,18 +24,48 @@ function setValueToPanel(slider: string): void {
       $(this).attr("checked", "true");
     }
   });
+
+  $.each($number, function () {  
+    const attrName: string = $(this).attr("name");
+     $(this).attr("value", sliderOptions[attrName].toString())
+  });
+
+  $.each($checkbox, function () {  
+    const attrName: string = $(this).attr("name");
+    $(this).prop("checked", sliderOptions[attrName]);
+  });
 }
 
 function onChangePanelValue(event: Event) {
   event.preventDefault();
-  const $target: JQuery<EventTarget> = $(event.target);
 
-  if ($target.attr("type") === "radio") {
+  const $target: JQuery<EventTarget> = $(event.target);
+  const attrType = $target.attr("type");
+
+  if (attrType === "radio" || attrType === "number") {
     $target
       .closest(".js-slider-complex")
       .find(".js-slider-complex__slider")
-      .alexandr("update", { [$target.attr("name")]: $target.val() });
+      .alexandr("update", { [$target.attr("name")]: $target.val() }).alexandr("connect", onSliderValueChange);;
   }
+
+  if (attrType === "checkbox") {
+    $target
+      .closest(".js-slider-complex")
+      .find(".js-slider-complex__slider")
+      .alexandr("update", { [$target.attr("name")]: $target.prop("checked") }).alexandr("connect", onSliderValueChange);;
+  }
+}
+
+function onSliderValueChange(options: AlexandrSettings){
+  const $panel = options.container.parent().find(".js-slider-complex__panel");
+  $panel.find(".js-form__controlMinThumb").val(options.minPosition);
+  $panel.find(".js-form__controlMaxThumb").val(options.maxPosition);
+  $panel.find(".js-form__controlMinValue").val(options.minValue);
+  $panel.find(".js-form__controlMaxValue").val(options.maxValue);
+  $panel.find(".js-form__controlStep").val(options.stepValue);
+  $panel.find(".js-form__controlFlag").prop("checked", options.showValueFlag);
+  $panel.find(".js-form__controlRuler").prop("checked", options.showRuler);
 }
 
 function initSliderComplex(slider: string, options: AlexandrSettings) {
@@ -49,5 +73,7 @@ function initSliderComplex(slider: string, options: AlexandrSettings) {
   setValueToPanel(slider);
   $(slider).on("change.alexandr", onChangePanelValue);
 }
+
+
 
 export default initSliderComplex;

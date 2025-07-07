@@ -170,7 +170,7 @@ interface Observer<T> {
   notify<K extends keyof T>(typeEvent: K, observerInfoObject: T[K]): void;
 }
 
-interface Alexandr {
+interface Alexandr extends Observer<AlexandrEvents>{
   update: (observerInfoObject: {
     [K in keyof AlexandrSettings]: AlexandrSettings[K];
   }) => void;
@@ -236,4 +236,8 @@ interface ThumbViewEvents {
     moveDirection: "top" | "left";
   };
   updateThumbPosition: UpdateThumbData;
+}
+
+interface AlexandrEvents {
+  sliderUpdated: any;
 }
