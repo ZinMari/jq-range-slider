@@ -235,7 +235,6 @@ class View extends Observer<ViewEvents> {
   private _handlerThumbsControls = (type: "min" | "max", event: Event) => {
     const $currentInput = $(event.target);
     let currentValue = parseInt($currentInput.val().toString());
-    currentValue = Number.isNaN(currentValue) ? 0 : currentValue;
 
     this.notify("viewThumbsControlsChanged", {
       type: type,
@@ -246,7 +245,6 @@ class View extends Observer<ViewEvents> {
   private _handlerSliderValueControls = (type: "min" | "max", event: Event) => {
     const $currentInput = $(event.target);
     let currentValue = parseInt($currentInput.val().toString());
-    currentValue = Number.isNaN(currentValue) ? 0 : currentValue;
 
     this.notify("viewSliderValueControlsChanged", {
       type: type,
@@ -257,7 +255,6 @@ class View extends Observer<ViewEvents> {
   private _handlerStepControls = (event: Event) => {
     const $currentInput = $(event.target);
     let currentValue = parseInt($currentInput.val().toString());
-    currentValue = Number.isNaN(currentValue) ? 0 : currentValue;
 
     this.notify("viewStepControlsChanged", {
       stepValue: currentValue,

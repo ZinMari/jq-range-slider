@@ -79,6 +79,8 @@ class Model extends Observer<ModelEvents> {
   }
 
   setThumbsPosition = (typeThumb: "min" | "max", value: number): void => {
+    value = Number.isNaN(value) ? 0 : value;
+
     let newPosition = this._equateValueToStep(value);
 
     newPosition = this._validatePosition(newPosition);
@@ -132,6 +134,7 @@ class Model extends Observer<ModelEvents> {
   };
 
   setMinValue(minValue: number): void {
+    minValue = Number.isNaN(minValue) ? 0 : minValue;
     this.minValue =
       minValue >= this.maxValue || Number.isNaN(minValue)
         ? this.maxValue - this.stepValue
@@ -151,6 +154,7 @@ class Model extends Observer<ModelEvents> {
   }
 
   setMaxValue(maxValue: number): void {
+    maxValue = Number.isNaN(maxValue) ? 0 : maxValue;
     this.maxValue =
       maxValue <= this.minValue || Number.isNaN(maxValue)
         ? this.minValue + this.stepValue
