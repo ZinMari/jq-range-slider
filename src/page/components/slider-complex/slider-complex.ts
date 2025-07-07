@@ -20,19 +20,19 @@ function setValueToPanel(slider: string): void {
 
   $.each($radio, function () {
     const attrName: string = $(this).attr("name");
-    if ($(this).attr("value") === sliderOptions[attrName]) {
+    if ($(this).attr("value") === sliderOptions[attrName as keyof AlexandrSettings]) {
       $(this).attr("checked", "true");
     }
   });
 
   $.each($number, function () {  
     const attrName: string = $(this).attr("name");
-     $(this).attr("value", sliderOptions[attrName].toString())
+     $(this).attr("value", sliderOptions[attrName as keyof AlexandrSettings].toString())
   });
 
   $.each($checkbox, function () {  
     const attrName: string = $(this).attr("name");
-    $(this).prop("checked", sliderOptions[attrName]);
+    $(this).prop("checked", sliderOptions[attrName as keyof AlexandrSettings]);
   });
 }
 

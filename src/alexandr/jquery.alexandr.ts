@@ -12,7 +12,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
 (function ($) {
   class Alexandr extends Observer<AlexandrEvents>{
     private presenter: Presenter;
-    sliderData: AlexandrSettings = null;
+    sliderData: Partial<Record<keyof AlexandrSettings, unknown>> = null;
 
     constructor(options: AlexandrSettings) {
       super();
