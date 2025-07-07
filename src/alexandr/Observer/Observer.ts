@@ -1,4 +1,4 @@
-class Observer<T> {
+class Observer<T> implements Observer<T>{
   subscribers: {
     [K in keyof T]?: Set<ObserverSubscriber<T>>;
   } = {};

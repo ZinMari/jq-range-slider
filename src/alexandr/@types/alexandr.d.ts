@@ -112,7 +112,7 @@ interface MinMaxValueLineView {
   update: (min: number, max: number) => void;
 }
 
-interface ProgressBarView {
+interface ProgressBarView{
   update: (data: { from: number; to: number }) => void;
 }
 
@@ -139,7 +139,9 @@ interface Presenter extends Observer<PresenterEvents> {
   init: (options: AlexandrSettings) => void;
 }
 
-type ObserverSubscriber<T> = (infoObject: T[keyof T]) => void;
+interface ObserverSubscriber<T> {
+  (infoObject: T[keyof T]): void;
+}
 
 interface Observer<T> {
   subscribers: { [K in keyof T]?: Set<ObserverSubscriber<T>> };
@@ -158,7 +160,7 @@ interface Alexandr extends Observer<AlexandrEvents>{
   update: (observerInfoObject: {
     [K in keyof AlexandrSettings]: AlexandrSettings[K];
   }) => void;
-  sliderData: AlexandrSettings;
+  sliderData: Partial<Record<keyof AlexandrSettings, unknown>>;
 }
 
 interface ModelEvents {

@@ -1,4 +1,4 @@
-class ProgressBarView {
+class ProgressBarView implements ProgressBarView{
   item: JQuery<HTMLElement>;
   orientation: "vertical" | "horizontal";
 

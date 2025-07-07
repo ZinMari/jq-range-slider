@@ -1,7 +1,7 @@
 import Observer from "../Observer/Observer";
 import ValueConverter from "../utils/ValueConverter";
 
-class Model extends Observer<ModelEvents> {
+class Model extends Observer<ModelEvents> implements Model{
   minValue: number;
   maxValue: number;
   minPosition: number;

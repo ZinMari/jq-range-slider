@@ -1,7 +1,7 @@
 import Observer from "../../Observer/Observer";
 import getCoords from "../../utils/getCoords";
 
-class ThumbView extends Observer<ThumbViewEvents> {
+class ThumbView extends Observer<ThumbViewEvents> implements ThumbView{
   item: JQuery<HTMLElement>;
   line: LineViewInterface;
   orientation: "vertical" | "horizontal";
