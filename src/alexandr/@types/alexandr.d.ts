@@ -130,10 +130,6 @@ interface View extends Observer<ViewEvents> {
   setInitialValues: () => void;
 }
 
-interface Presenter extends Observer<PresenterEvents> {
-  init: (options: AlexandrSettings) => void;
-}
-
 interface ObserverSubscriber<T> {
   (infoObject: T[keyof T]): void;
 }

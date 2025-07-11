@@ -1,6 +1,6 @@
 import Observer from "../Observer/Observer";
 
-class Presenter extends Observer<PresenterEvents> implements Presenter {
+class Presenter extends Observer<PresenterEvents> {
   constructor(
     private view: View,
     private model: Model,
@@ -8,9 +8,7 @@ class Presenter extends Observer<PresenterEvents> implements Presenter {
     super();
     this.view = view;
     this.model = model;
-  }
 
-  init(config: AlexandrSettings): void {
     this.bindSubscribers();
     this.view.setInitialValues();
     this.model.setInitialValues();

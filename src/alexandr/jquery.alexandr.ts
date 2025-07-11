@@ -20,7 +20,6 @@ requireAll(require.context("./", true, /\.(scss)$/));
         new View({ ...options }),
         new Model({ ...options }),
       );
-      this.presenter.init(options);
 
       this.presenter.addSubscriber("updateOptions", this.updateOptions);
     }
