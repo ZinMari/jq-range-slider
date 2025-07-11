@@ -58,7 +58,26 @@ class View extends Observer<ViewEvents> implements View {
 
   // создание частей слайдера
   setInitialValues() {
+    this._createBaseDOM();
+    this._initSubviews();
+    this._appendToDOM();
+    this._createRuler();
+    this._createFlugs();
+
+    // установить ориентацию
+    if (this.orientation === "vertical") {
+      this._setVerticalOrientation();
+    }
+
+    this.addSubscribersToSubViews();
+    this._notifyInitialCoords();
+  }
+
+  private _createBaseDOM = () => {
     this.slider = $("<div>", { class: "alexandr" });
+  };
+
+  private _initSubviews = () => {
     this.line = new LineView(this.slider, this.lineClass, this.orientation);
     this.progressbar = new ProgressBar(
       this.line.item,
@@ -75,9 +94,6 @@ class View extends Observer<ViewEvents> implements View {
       thumbClass: this.thumbClass,
     });
 
-    //добавлю слайдер на страницу
-    this.container.append(this.slider);
-
     // создать мин макс
     if (this.showMinMaxValue) {
       this.sliderMinMaxValueLine = new MinMaxValueLineView(
@@ -86,17 +102,14 @@ class View extends Observer<ViewEvents> implements View {
         this.showMaxValueClass,
       );
     }
+  };
 
-    this._createRuler();
-    this._createFlugs();
+  private _appendToDOM = () => {
+    //добавлю слайдер на страницу
+    this.container.append(this.slider);
+  };
 
-    // установить ориентацию
-    if (this.orientation === "vertical") {
-      this._setVerticalOrientation();
-    }
-
-    this.addSubscribersToSubViews();
-
+  private _notifyInitialCoords = () => {
     this.notify("viewInit", {
       sliderLength:
         this.slider.outerWidth() - this.thumbs.minThumb.outerWidth(),
@@ -105,7 +118,7 @@ class View extends Observer<ViewEvents> implements View {
       maxThumbWidth: this.thumbs.maxThumb?.outerWidth(),
       maxThumbHeight: this.thumbs.maxThumb?.outerHeight(),
     });
-  }
+  };
 
   private _createFlugs(): void {
     if (this.showValueFlag) {
