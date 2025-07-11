@@ -155,7 +155,6 @@ class View extends Observer<ViewEvents> implements View {
     this.thumbs.updateFlagValues(thumb, currentValue);
   }
 
-  // работа с пописками
   private addSubscribersToSubViews() {
     this.line.addSubscriber("clickOnSlider", this._handlerClickOnSlider);
     this.ruler.addSubscriber("clickOnSlider", this._handlerClickOnSlider);
@@ -177,28 +176,16 @@ class View extends Observer<ViewEvents> implements View {
     });
   };
 
-  // установка вертикальной ориентации
   private _setVerticalOrientation(): void {
     const height = this.slider.outerWidth();
-
-    //повернем весь слайдер
     this.slider.addClass("alexandr_type_vertical");
     this.slider.height(height);
-
-    //повернем линию
     this.line.setVerticalOrientation(height);
-
-    //повернем кнопки
     this.thumbs.setVerticalOrientation();
-
-    //повернуть линейку
     this.ruler.setVerticalOrientation();
-
-    //повернем линию со значениями
     this.sliderMinMaxValueLine.setVerticalOrientation(height);
   }
 
-  // удалить слайдер
   destroy() {
     this.slider.remove();
   }
