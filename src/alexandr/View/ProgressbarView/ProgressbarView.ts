@@ -1,9 +1,8 @@
-class ProgressBarView implements ProgressBarView{
+class ProgressBarView implements ProgressBarView {
   item: JQuery<HTMLElement>;
   orientation: "vertical" | "horizontal";
 
   constructor(
-    sliderLine: JQuery<HTMLElement>,
     progressBarClass: string,
     orientation: "vertical" | "horizontal",
   ) {
@@ -11,7 +10,6 @@ class ProgressBarView implements ProgressBarView{
     this.item = $("<span>", {
       class: `alexandr__progressbar ${progressBarClass}`,
     });
-    sliderLine.append(this.item);
   }
 
   update = (dataObject: { from: number; to: number }): void => {

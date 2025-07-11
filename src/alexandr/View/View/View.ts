@@ -79,11 +79,7 @@ class View extends Observer<ViewEvents> implements View {
 
   private _initSubViews = () => {
     this.line = new LineView(this.lineClass, this.orientation);
-    this.progressbar = new ProgressBar(
-      this.line.item,
-      this.progressBarClass,
-      this.orientation,
-    );
+    this.progressbar = new ProgressBar(this.progressBarClass, this.orientation);
 
     this.thumbs = new ThumbView({
       sliderLine: this.line,
@@ -107,6 +103,7 @@ class View extends Observer<ViewEvents> implements View {
   private _appendToDOM = () => {
     this.container.append(this.slider);
     this.slider.append(this.line.item);
+    this.line.item.append(this.progressbar.item);
   };
 
   private _notifyInitialCoords = () => {
