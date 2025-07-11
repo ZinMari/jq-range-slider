@@ -1,7 +1,7 @@
 import Observer from "../Observer/Observer";
 import ValueConverter from "../utils/ValueConverter";
 
-class Model extends Observer<ModelEvents> implements Model{
+class Model extends Observer<ModelEvents> implements Model {
   minValue: number;
   maxValue: number;
   minPosition: number;
@@ -127,7 +127,7 @@ class Model extends Observer<ModelEvents> implements Model{
         ? this.minThumbPixelPosition + halfMinThumb
         : this.maxThumbPixelPosition - this.minThumbPixelPosition;
 
-    this.notify("modelProressbarUpdated", {
+    this.notify("modelProgressbarUpdated", {
       from,
       to,
     });
@@ -189,7 +189,7 @@ class Model extends Observer<ModelEvents> implements Model{
       step: this.stepValue,
     });
 
-    this.notify("modelStepValueChenged", { stepValue: this.stepValue });
+    this.notify("modelStepValueChanged", { stepValue: this.stepValue });
   }
 
   updateThumbPosition = (options: UpdateThumbData) => {
@@ -212,7 +212,7 @@ class Model extends Observer<ModelEvents> implements Model{
     );
   };
 
-  clicOnSlider({ pixelClick }: any) {
+  clickOnSlider({ pixelClick }: any) {
     const stepLeft = this._equatePixelValueToStep(pixelClick);
 
     if (this.type === "single") {

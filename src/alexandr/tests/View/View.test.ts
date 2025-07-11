@@ -139,13 +139,13 @@
 
 //     const oldValues: string[] = [];
 
-//     $.each(view.ruler.dividings, function () {
+//     $.each(view.ruler.divisions, function () {
 //       oldValues.push(this.attr("data-dividing"));
 //     });
 
 //     view.updateRulerValue(10, 100);
 
-//     $.each(view.ruler.dividings, function (index, elem) {
+//     $.each(view.ruler.divisions, function (index, elem) {
 //       expect(elem.attr("data-dividing")).not.toBe(oldValues[index]);
 //     });
 //   });
@@ -154,8 +154,8 @@
 //     const view = new SliderView();
 //     view.init(baseSettings);
 
-//     const oldMinFlug = view.thumbs[0].item.attr("data-value");
-//     const oldMaxFlug = view.thumbs[1].item.attr("data-value");
+//     const oldMinFlag = view.thumbs[0].item.attr("data-value");
+//     const oldMaxFlag = view.thumbs[1].item.attr("data-value");
 
 //     test("Минимального: ", () => {
 //       view.updateFlagValues("min", 100);

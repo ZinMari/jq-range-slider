@@ -10,7 +10,7 @@ function requireAll(r: __WebpackModuleApi.RequireContext) {
 requireAll(require.context("./", true, /\.(scss)$/));
 
 (function ($) {
-  class Alexandr extends Observer<AlexandrEvents>{
+  class Alexandr extends Observer<AlexandrEvents> {
     private presenter: Presenter;
     sliderData: Partial<Record<keyof AlexandrSettings, unknown>> = null;
 
@@ -24,7 +24,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
 
     updateOptions = (dataOptions: PresenterEvents["updateOptions"]) => {
       this.sliderData[dataOptions.propName] = dataOptions.propValue;
-      this.notify("sliderUpdated", this.sliderData)
+      this.notify("sliderUpdated", this.sliderData);
     };
 
     initPlugin(
@@ -42,9 +42,9 @@ requireAll(require.context("./", true, /\.(scss)$/));
     }
 
     clearPlugin(target: HTMLElement) {
-      const jqtarget = $(target);
-      jqtarget.removeData("alexandr");
-      jqtarget.find(".alexandr").remove();
+      const $target = $(target);
+      $target.removeData("alexandr");
+      $target.find(".alexandr").remove();
       return target;
     }
 
@@ -63,8 +63,8 @@ requireAll(require.context("./", true, /\.(scss)$/));
       $(target).removeData("alexandr");
     }
 
-    connectToPluginData(fn: any){
-      this.addSubscriber("sliderUpdated", fn)
+    connectToPluginData(fn: any) {
+      this.addSubscriber("sliderUpdated", fn);
     }
   }
 
@@ -88,8 +88,8 @@ requireAll(require.context("./", true, /\.(scss)$/));
   }
 
   $.fn.alexandr = function (
-    options: string | AlexandrSettings
-): JQuery<HTMLElement> {
+    options: string | AlexandrSettings,
+  ): JQuery<HTMLElement> {
     if (!isSliderInitialized($(this)) && isSetOptions(options)) {
       return;
     }

@@ -1,9 +1,6 @@
 interface JQuery {
   alexandr: // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  | any
-    | ((
-        options: string | AlexandrSettings
-      ) => JQuery<HTMLElement>);
+  any | ((options: string | AlexandrSettings) => JQuery<HTMLElement>);
 }
 
 interface AlexandrSettings {
@@ -71,7 +68,7 @@ interface Model extends Observer<ModelEvents> {
   setMaxValue: (maxValue: number) => void;
   setStepValue: (value: number) => void;
   updateThumbPosition: (options: UpdateThumbData) => void;
-  clicOnSlider: (options: { pixelClick: number }) => void;
+  clickOnSlider: (options: { pixelClick: number }) => void;
   modelGetCordsView: (viewCoords: ViewCoords) => void;
   setProgressBarSize: () => void;
   setInitialValues: () => void;
@@ -86,16 +83,16 @@ interface LineViewInterface extends BaseSubViewInterface {
 }
 
 interface RulerView extends BaseSubViewInterface {
-  dividings: JQuery<HTMLElement>[];
-  countDivivdings: number;
+  divisions: JQuery<HTMLElement>[];
+  countDivisions: number;
   update: (min: number, max: number) => void;
   showRuler: () => void;
   hideRuler: () => void;
 }
 
 interface ThumbView {
-  showFlug: () => void;
-  hideFlug: () => void;
+  showFlag: () => void;
+  hideFlag: () => void;
   updateFlagValues: (thumb: "min" | "max", position: number) => void;
   updateThumbsPosition: (
     thumb: "min" | "max",
@@ -111,7 +108,7 @@ interface MinMaxValueLineView {
   update: (min: number, max: number) => void;
 }
 
-interface ProgressBarView{
+interface ProgressBarView {
   update: (data: { from: number; to: number }) => void;
 }
 
@@ -155,7 +152,7 @@ interface Observer<T> {
   notify<K extends keyof T>(typeEvent: K, observerInfoObject: T[K]): void;
 }
 
-interface Alexandr extends Observer<AlexandrEvents>{
+interface Alexandr extends Observer<AlexandrEvents> {
   update: (observerInfoObject: {
     [K in keyof AlexandrSettings]: AlexandrSettings[K];
   }) => void;
@@ -169,14 +166,14 @@ interface ModelEvents {
     pixelPosition: number;
     moveDirection: "top" | "left";
   };
-  modelStepValueChenged: {
+  modelStepValueChanged: {
     stepValue: number;
   };
   modelMinMaxValuesChanged: {
     min: number;
     max: number;
   };
-  modelProressbarUpdated: {
+  modelProgressbarUpdated: {
     from: number;
     to: number;
   };
@@ -184,7 +181,7 @@ interface ModelEvents {
 
 interface ViewEvents {
   viewThumbsPositionChanged: UpdateThumbData;
-  clicOnSlider: {
+  clickOnSlider: {
     pixelClick: number;
   };
   viewInit: ViewCoords;
@@ -198,7 +195,7 @@ interface PresenterEvents {
 }
 
 interface SubViewEvents {
-  clicOnSlider: {
+  clickOnSlider: {
     pixelClick: number;
   };
 }

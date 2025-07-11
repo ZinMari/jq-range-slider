@@ -5,7 +5,7 @@ const handlerClickOnSlider = (
   line: JQuery<HTMLElement>,
   orientation: "horizontal" | "vertical",
   notify: (
-    eventName: "clicOnSlider",
+    eventName: "clickOnSlider",
     data: {
       pixelClick: number;
     },
@@ -28,7 +28,7 @@ const handlerClickOnSlider = (
       ? event.pageX - sliderLineCoords.left
       : event.pageY - sliderLineCoords.top;
 
-  notify("clicOnSlider", {
+  notify("clickOnSlider", {
     pixelClick,
   });
 };

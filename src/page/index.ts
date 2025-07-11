@@ -10,14 +10,14 @@ initSliderComplex(".slider1", {
   showMaxValueClass: "newMax",
 });
 initSliderComplex(".slider2", { orientation: "vertical", stepValue: 500 });
-// initSliderComplex(".slider3", {
-//   minValue: -10,
-//   maxValue: 150,
-//   orientation: "vertical",
-// });
-// initSliderComplex(".slider4", {
-//   showValueFlag: false,
-//   showRuler: false,
-//   type: "single",
-//   minPosition: 900,
-// });
+initSliderComplex(".slider3", {
+  minValue: -10,
+  maxValue: 150,
+  orientation: "vertical",
+});
+initSliderComplex(".slider4", {
+  showValueFlag: false,
+  showRuler: false,
+  type: "single",
+  minPosition: 900,
+});

@@ -59,10 +59,10 @@ class View extends Observer<ViewEvents> implements View {
   // создание частей слайдера
   setInitialValues() {
     this._createBaseDOM();
-    this._initSubviews();
+    this._initSubViews();
     this._appendToDOM();
     this._createRuler();
-    this._createFlugs();
+    this._createFlags();
 
     // установить ориентацию
     if (this.orientation === "vertical") {
@@ -77,7 +77,7 @@ class View extends Observer<ViewEvents> implements View {
     this.slider = $("<div>", { class: "alexandr" });
   };
 
-  private _initSubviews = () => {
+  private _initSubViews = () => {
     this.line = new LineView(this.slider, this.lineClass, this.orientation);
     this.progressbar = new ProgressBar(
       this.line.item,
@@ -120,11 +120,11 @@ class View extends Observer<ViewEvents> implements View {
     });
   };
 
-  private _createFlugs(): void {
+  private _createFlags(): void {
     if (this.showValueFlag) {
-      this.thumbs.showFlug();
+      this.thumbs.showFlag();
     } else {
-      this.thumbs.hideFlug();
+      this.thumbs.hideFlag();
     }
   }
 
@@ -160,8 +160,8 @@ class View extends Observer<ViewEvents> implements View {
 
   // работа с пописками
   private addSubscribersToSubViews() {
-    this.line.addSubscriber("clicOnSlider", this._handlerClicOnSlider);
-    this.ruler.addSubscriber("clicOnSlider", this._handlerClicOnSlider);
+    this.line.addSubscriber("clickOnSlider", this._handlerClickOnSlider);
+    this.ruler.addSubscriber("clickOnSlider", this._handlerClickOnSlider);
     this.thumbs.addSubscriber(
       "updateThumbPosition",
       this._handlerUpdateThumbPosition,
@@ -172,10 +172,10 @@ class View extends Observer<ViewEvents> implements View {
     this.notify("viewThumbsPositionChanged", options);
   };
 
-  private _handlerClicOnSlider = ({
+  private _handlerClickOnSlider = ({
     pixelClick,
-  }: SubViewEvents["clicOnSlider"]) => {
-    this.notify("clicOnSlider", {
+  }: SubViewEvents["clickOnSlider"]) => {
+    this.notify("clickOnSlider", {
       pixelClick,
     });
   };

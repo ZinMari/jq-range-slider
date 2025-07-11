@@ -18,8 +18,8 @@ export default class ValueConverter {
     pixelInOneStep,
     stepValue,
   }: any): number {
-    const withMinvalue = units - minValue;
-    const pixels = withMinvalue * (pixelInOneStep / stepValue);
+    const withMinValue = units - minValue;
+    const pixels = withMinValue * (pixelInOneStep / stepValue);
     return pixels;
   }
 }

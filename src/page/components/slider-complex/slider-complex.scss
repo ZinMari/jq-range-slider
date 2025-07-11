@@ -4,7 +4,7 @@
   gap: 50px;
   padding: 50px 10px;
 
-  @media (max-width: 930px) {
+  @media (width <= 930px) {
     flex-direction: column;
   }
 

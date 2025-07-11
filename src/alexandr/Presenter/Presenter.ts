@@ -1,6 +1,6 @@
 import Observer from "../Observer/Observer";
 
-class Presenter extends Observer<PresenterEvents> implements Presenter{
+class Presenter extends Observer<PresenterEvents> implements Presenter {
   constructor(
     private view: View,
     private model: Model,
@@ -32,7 +32,7 @@ class Presenter extends Observer<PresenterEvents> implements Presenter{
       this.viewThumbsPositionChanged,
     );
 
-    this.view.addSubscriber("clicOnSlider", this.clicOnSlider);
+    this.view.addSubscriber("clickOnSlider", this.clickOnSlider);
 
     this.model.addSubscriber(
       "modelThumbsPositionChanged",
@@ -45,13 +45,13 @@ class Presenter extends Observer<PresenterEvents> implements Presenter{
     );
 
     this.model.addSubscriber(
-      "modelProressbarUpdated",
-      this.modelProressbarUpdated,
+      "modelProgressbarUpdated",
+      this.modelProgressbarUpdated,
     );
   }
 
-  private modelProressbarUpdated = (
-    dataObject: ModelEvents["modelProressbarUpdated"],
+  private modelProgressbarUpdated = (
+    dataObject: ModelEvents["modelProgressbarUpdated"],
   ) => {
     this.view.updateProgressBar(dataObject);
   };
@@ -70,7 +70,7 @@ class Presenter extends Observer<PresenterEvents> implements Presenter{
       propValue: currentValue,
     });
   };
-  
+
   private modelMinMaxValuesChanged = ({
     min,
     max,
@@ -99,8 +99,8 @@ class Presenter extends Observer<PresenterEvents> implements Presenter{
     this.model.updateThumbPosition(options);
   };
 
-  private clicOnSlider = (options: ViewEvents["clicOnSlider"]) => {
-    this.model.clicOnSlider(options);
+  private clickOnSlider = (options: ViewEvents["clickOnSlider"]) => {
+    this.model.clickOnSlider(options);
   };
 }
 

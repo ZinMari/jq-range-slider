@@ -1,7 +1,7 @@
 import Observer from "../../Observer/Observer";
 import getCoords from "../../utils/getCoords";
 
-class ThumbView extends Observer<ThumbViewEvents> implements ThumbView{
+class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
   item: JQuery<HTMLElement>;
   line: LineViewInterface;
   orientation: "vertical" | "horizontal";
@@ -65,12 +65,12 @@ class ThumbView extends Observer<ThumbViewEvents> implements ThumbView{
     return thumb;
   }
 
-  showFlug() {
+  showFlag() {
     this.minThumb.addClass("flag");
     this.maxThumb?.addClass("flag");
   }
 
-  hideFlug() {
+  hideFlag() {
     this.minThumb.removeClass("flag");
     this.maxThumb?.removeClass("flag");
   }

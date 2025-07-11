@@ -4,8 +4,8 @@ import handlerClickOnSlider from "../../utils/handlerClickOnSlider";
 class RulerView extends Observer<SubViewEvents> implements RulerView {
   item: JQuery<HTMLElement>;
   orientation: "horizontal" | "vertical";
-  dividings: JQuery<HTMLElement>[];
-  countDivivdings: number = 4;
+  divisions: JQuery<HTMLElement>[];
+  countDivisions: number = 4;
 
   constructor(
     slider: JQuery<HTMLElement>,
@@ -14,11 +14,11 @@ class RulerView extends Observer<SubViewEvents> implements RulerView {
     super();
     this.orientation = orientation;
     this.item = $("<div>", { class: "alexandr__ruler" });
-    this.dividings = new Array(this.countDivivdings);
+    this.divisions = new Array(this.countDivisions);
 
-    for (let i = 0; i < this.countDivivdings; i++) {
-      this.dividings[i] = $("<span>", { class: "alexandr__dividing" });
-      this.item.append(this.dividings[i]);
+    for (let i = 0; i < this.countDivisions; i++) {
+      this.divisions[i] = $("<span>", { class: "alexandr__dividing" });
+      this.item.append(this.divisions[i]);
     }
 
     this.item[0].addEventListener("pointerdown", this.handler);
@@ -27,9 +27,9 @@ class RulerView extends Observer<SubViewEvents> implements RulerView {
   }
 
   update(min: number, max: number): void {
-    const stepRuler = (max - min) / (this.dividings.length - 1);
+    const stepRuler = (max - min) / (this.divisions.length - 1);
 
-    $.each(this.dividings, function () {
+    $.each(this.divisions, function () {
       this.attr("data-dividing", Math.round(min));
       min += stepRuler;
     });
@@ -55,7 +55,7 @@ class RulerView extends Observer<SubViewEvents> implements RulerView {
 
   setVerticalOrientation() {
     this.item.addClass("alexandr__ruler_type_vertical");
-    this.dividings.forEach((elem: JQuery<HTMLElement>) => {
+    this.divisions.forEach((elem: JQuery<HTMLElement>) => {
       elem.addClass("alexandr__dividing_type_vertical");
     });
   }
