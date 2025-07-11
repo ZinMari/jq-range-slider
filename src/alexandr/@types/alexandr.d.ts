@@ -37,6 +37,20 @@ interface UpdateThumbData {
   clientThumbCoordsSize: number;
 }
 
+interface ConvertData {
+  value: number;
+  pixelInOneStep: number;
+  minValue: number;
+  stepValue: number;
+}
+
+interface PixelInOneStepData {
+  sliderLength: number;
+  max: number;
+  min: number;
+  step: number;
+}
+
 interface ViewCoords {
   sliderLength: number;
   minThumbWidth: number;
@@ -206,4 +220,10 @@ interface ThumbViewEvents {
 
 interface AlexandrEvents {
   sliderUpdated: any;
+}
+
+interface ValueConverter {
+  pixelInOneStep: (data: PixelInOneStepData) => number;
+  convertPixelToUnits: (data: ConvertData) => number;
+  convertUnitsToPixels: (data: ConvertData) => number;
 }

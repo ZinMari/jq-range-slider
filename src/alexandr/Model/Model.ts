@@ -18,7 +18,7 @@ class Model extends Observer<ModelEvents> implements Model {
   minThumbHeight: number;
   maxThumbWidth: number;
   maxThumbHeight: number;
-  valueConverter: any;
+  valueConverter: ValueConverter;
 
   constructor({
     minValue,
@@ -93,7 +93,7 @@ class Model extends Observer<ModelEvents> implements Model {
     this[`${typeThumb}Position`] = newPosition;
     this[`${typeThumb}ThumbPixelPosition`] =
       this.valueConverter.convertUnitsToPixels({
-        units: this[`${typeThumb}Position`],
+        value: this[`${typeThumb}Position`],
         minValue: this.minValue,
         pixelInOneStep: this.pixelInOneStep,
         stepValue: this.stepValue,
@@ -205,7 +205,7 @@ class Model extends Observer<ModelEvents> implements Model {
     this.setThumbsPosition(
       options.type,
       this.valueConverter.convertPixelToUnits({
-        pixel: value,
+        value,
         pixelInOneStep: this.pixelInOneStep,
         stepValue: this.stepValue,
         minValue: this.minValue,
@@ -220,7 +220,7 @@ class Model extends Observer<ModelEvents> implements Model {
       this.setThumbsPosition(
         "min",
         this.valueConverter.convertPixelToUnits({
-          pixel: stepLeft,
+          value: stepLeft,
           pixelInOneStep: this.pixelInOneStep,
           stepValue: this.stepValue,
           minValue: this.minValue,
@@ -237,7 +237,7 @@ class Model extends Observer<ModelEvents> implements Model {
         this.setThumbsPosition(
           "min",
           this.valueConverter.convertPixelToUnits({
-            pixel: stepLeft,
+            value: stepLeft,
             pixelInOneStep: this.pixelInOneStep,
             stepValue: this.stepValue,
             minValue: this.minValue,
@@ -247,7 +247,7 @@ class Model extends Observer<ModelEvents> implements Model {
         this.setThumbsPosition(
           "max",
           this.valueConverter.convertPixelToUnits({
-            pixel: stepLeft,
+            value: stepLeft,
             pixelInOneStep: this.pixelInOneStep,
             stepValue: this.stepValue,
             minValue: this.minValue,
