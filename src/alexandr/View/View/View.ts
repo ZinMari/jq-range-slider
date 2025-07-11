@@ -78,7 +78,7 @@ class View extends Observer<ViewEvents> implements View {
   };
 
   private _initSubViews = () => {
-    this.line = new LineView(this.slider, this.lineClass, this.orientation);
+    this.line = new LineView(this.lineClass, this.orientation);
     this.progressbar = new ProgressBar(
       this.line.item,
       this.progressBarClass,
@@ -105,8 +105,8 @@ class View extends Observer<ViewEvents> implements View {
   };
 
   private _appendToDOM = () => {
-    //добавлю слайдер на страницу
     this.container.append(this.slider);
+    this.slider.append(this.line.item);
   };
 
   private _notifyInitialCoords = () => {
