@@ -102,7 +102,7 @@ interface ThumbView {
 }
 
 interface MinMaxValueLineView {
-  wrap: JQuery<HTMLElement>;
+  item: JQuery<HTMLElement>;
   min: JQuery<HTMLElement>;
   max: JQuery<HTMLElement>;
   update: (min: number, max: number) => void;

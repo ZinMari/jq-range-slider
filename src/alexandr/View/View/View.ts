@@ -80,7 +80,6 @@ class View extends Observer<ViewEvents> implements View {
   private _initSubViews = () => {
     this.line = new LineView(this.lineClass, this.orientation);
     this.progressbar = new ProgressBar(this.progressBarClass, this.orientation);
-
     this.thumbs = new ThumbView({
       sliderLine: this.line,
       orientation: this.orientation,
@@ -90,10 +89,9 @@ class View extends Observer<ViewEvents> implements View {
       thumbClass: this.thumbClass,
     });
 
-    // создать мин макс
     if (this.showMinMaxValue) {
       this.sliderMinMaxValueLine = new MinMaxValueLineView(
-        this.slider,
+        /*this.slider,*/
         this.showMinValueClass,
         this.showMaxValueClass,
       );
@@ -105,6 +103,7 @@ class View extends Observer<ViewEvents> implements View {
     this.slider.append(this.line.item);
     this.line.item.append(this.progressbar.item);
     this.line.item.append(this.thumbs.minThumb, this.thumbs?.maxThumb);
+    this.slider.prepend(this.sliderMinMaxValueLine.item);
   };
 
   private _notifyInitialCoords = () => {
