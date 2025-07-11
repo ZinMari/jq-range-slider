@@ -20,7 +20,7 @@ class Model extends Observer<ModelEvents> implements Model {
   maxThumbHeight: number;
   valueConverter: any;
 
-  init({
+  constructor({
     minValue,
     maxValue,
     minPosition,
@@ -28,7 +28,8 @@ class Model extends Observer<ModelEvents> implements Model {
     stepValue,
     type,
     orientation,
-  }: AlexandrSettings): void {
+  }: AlexandrSettings) {
+    super();
     this.valueConverter = new ValueConverter();
 
     this.type = type;

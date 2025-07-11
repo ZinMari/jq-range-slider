@@ -12,7 +12,6 @@ class Presenter extends Observer<PresenterEvents> implements Presenter {
 
   init(config: AlexandrSettings): void {
     this.view.init({ ...config });
-    this.model.init({ ...config });
 
     this.bindSubscribers();
 

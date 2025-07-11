@@ -62,7 +62,6 @@ interface Model extends Observer<ModelEvents> {
   type: "single" | "double";
   moveDirection: "top" | "left";
   orientation: "horizontal" | "vertical";
-  init: (options: AlexandrSettings) => void;
   setThumbsPosition: (thumbType: "min" | "max", value: number) => void;
   setMinValue: (minValue: number) => void;
   setMaxValue: (maxValue: number) => void;
