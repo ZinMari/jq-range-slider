@@ -104,6 +104,7 @@ class View extends Observer<ViewEvents> implements View {
     this.container.append(this.slider);
     this.slider.append(this.line.item);
     this.line.item.append(this.progressbar.item);
+    this.line.item.append(this.thumbs.minThumb, this.thumbs?.maxThumb);
   };
 
   private _notifyInitialCoords = () => {

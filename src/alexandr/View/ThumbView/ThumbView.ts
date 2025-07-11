@@ -49,12 +49,8 @@ class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
       this.maxThumb = this._createThumb(
         `alexandr__thumb--max ${thumbMaxClass}`,
       );
-
-      this.line.item.append(this.minThumb, this.maxThumb);
     } else {
       this.minThumb = this._createThumb(thumbClass);
-
-      this.line.item.append(this.minThumb);
     }
   }
 
