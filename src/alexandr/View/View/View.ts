@@ -5,7 +5,7 @@ import ProgressBar from "../ProgressbarView/ProgressbarView";
 import RulerView from "../RulerView/RulerView";
 import ThumbView from "../ThumbView/ThumbView";
 
-class View extends Observer<ViewEvents> implements View{
+class View extends Observer<ViewEvents> implements View {
   ruler: RulerView;
   sliderMinMaxValueLine: MinMaxValueLineView;
   thumbs: ThumbView;
@@ -51,7 +51,7 @@ class View extends Observer<ViewEvents> implements View{
     this.thumbMaxClass = thumbMaxClass;
     this.thumbClass = thumbClass;
     this.showMinValueClass = showMinValueClass;
-    this.showMinValueClass = showMaxValueClass;
+    this.showMaxValueClass = showMaxValueClass;
     this.lineClass = lineClass;
     this.progressBarClass = progressBarClass;
   }
