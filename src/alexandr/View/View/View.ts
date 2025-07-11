@@ -91,7 +91,6 @@ class View extends Observer<ViewEvents> implements View {
 
     if (this.showMinMaxValue) {
       this.sliderMinMaxValueLine = new MinMaxValueLineView(
-        /*this.slider,*/
         this.showMinValueClass,
         this.showMaxValueClass,
       );
@@ -100,10 +99,12 @@ class View extends Observer<ViewEvents> implements View {
 
   private _appendToDOM = () => {
     this.container.append(this.slider);
-    this.slider.append(this.line.item);
-    this.line.item.append(this.progressbar.item);
-    this.line.item.append(this.thumbs.minThumb, this.thumbs?.maxThumb);
-    this.slider.prepend(this.sliderMinMaxValueLine.item);
+    this.slider.append(this.sliderMinMaxValueLine.item, this.line.item);
+    this.line.item.append(
+      this.progressbar.item,
+      this.thumbs.minThumb,
+      this.thumbs?.maxThumb,
+    );
   };
 
   private _notifyInitialCoords = () => {
