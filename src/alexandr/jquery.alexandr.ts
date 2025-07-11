@@ -16,7 +16,10 @@ requireAll(require.context("./", true, /\.(scss)$/));
 
     constructor(options: AlexandrSettings) {
       super();
-      this.presenter = new Presenter(new View(), new Model({ ...options }));
+      this.presenter = new Presenter(
+        new View({ ...options }),
+        new Model({ ...options }),
+      );
       this.presenter.init(options);
 
       this.presenter.addSubscriber("updateOptions", this.updateOptions);

@@ -26,7 +26,7 @@ class View extends Observer<ViewEvents> implements View {
   private lineClass: string;
   private progressBarClass: string;
 
-  init({
+  constructor({
     type,
     container,
     lineClass,
@@ -41,6 +41,7 @@ class View extends Observer<ViewEvents> implements View {
     showValueFlag,
     progressBarClass,
   }: AlexandrSettings) {
+    super();
     this.container = container;
     this.type = type;
     this.orientation = orientation;
@@ -56,7 +57,6 @@ class View extends Observer<ViewEvents> implements View {
     this.progressBarClass = progressBarClass;
   }
 
-  // создание частей слайдера
   setInitialValues() {
     this._createBaseDOM();
     this._initSubViews();
@@ -64,7 +64,6 @@ class View extends Observer<ViewEvents> implements View {
     this._createRuler();
     this._createFlags();
 
-    // установить ориентацию
     if (this.orientation === "vertical") {
       this._setVerticalOrientation();
     }

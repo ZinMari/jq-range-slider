@@ -117,7 +117,6 @@ interface View extends Observer<ViewEvents> {
   sliderMinMaxValueLine: MinMaxValueLineView;
   ruler: RulerView;
   progressbar: ProgressBarView;
-  init: (options: AlexandrSettings) => void;
   updateProgressBar: (data: { from: number; to: number }) => void;
   updateRuler: (min: number, max: number) => void;
   updateMinMaxValueLine: (min: number, max: number) => void;
