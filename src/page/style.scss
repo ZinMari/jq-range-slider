@@ -1,9 +1,9 @@
 @use "./components/slider-complex/slider-complex";
 
 :root {
-  --color-bg: rgb(39, 38, 43);
-  --color-light: rgb(255, 255, 255);
-  --bg-gradient: linear-gradient(135deg, #353535 0%, #000000 50%, #666666 100%);
+  --color-bg: rgb(39 38 43);
+  --color-light: rgb(255 255 255);
+  --bg-gradient: linear-gradient(135deg, #353535 0%, #000 50%, #666 100%);
   --z-index-base: 1;
   --z-index-container: 10;
 }
