@@ -73,12 +73,12 @@ class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
 
   private handler = (event: PointerEvent) => {
     event.preventDefault();
-    const $currenThumb = $(event.target);
+    const $currentThumb = $(event.target);
 
     const clickPageX = event.pageX;
     const clickPageY = event.pageY;
 
-    const thumbCoords = getCoords($currenThumb);
+    const thumbCoords = getCoords($currentThumb);
     const lineCoords = getCoords(this.line.item);
 
     // разница между кликом и началок кнопки
@@ -109,7 +109,7 @@ class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
       }
 
       const options: UpdateThumbData = {
-        type: $currenThumb.prop("classList").contains("alexandr__thumb--max")
+        type: $currentThumb.prop("classList").contains("alexandr__thumb--max")
           ? "max"
           : "min",
         thumbCoords,
