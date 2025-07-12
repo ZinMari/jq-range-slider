@@ -213,7 +213,7 @@ class Model extends Observer<ModelEvents> implements Model {
     );
   };
 
-  clickOnSlider({ pixelClick }: any) {
+  clickOnSlider({ pixelClick }: {pixelClick: number}) {
     const stepLeft = this._equatePixelValueToStep(pixelClick);
 
     if (this.type === "single") {
