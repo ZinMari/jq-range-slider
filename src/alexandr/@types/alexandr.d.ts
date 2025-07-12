@@ -93,6 +93,7 @@ interface BaseSubViewInterface extends Observer<SubViewEvents> {
 
 interface LineViewInterface extends BaseSubViewInterface {
   setVerticalOrientation: (height: number) => void;
+  destroy: (typeEvent: keyof SubViewEvents)=> void;
 }
 
 interface RulerView extends BaseSubViewInterface {
@@ -158,6 +159,7 @@ interface Observer<T> {
     typeEvent: keyof T,
     subscriber: ObserverSubscriber<T>,
   ) => void;
+  removeAllSubscribers: (typeEvent: keyof T) => void;
   notify<K extends keyof T>(typeEvent: K, observerInfoObject: T[K]): void;
 }
 

@@ -21,6 +21,10 @@ class Observer<T> implements Observer<T>{
     this.subscribers[typeEvent].delete(subscriber);
   }
 
+  removeAllSubscribers(typeEvent: keyof T){
+    this.subscribers[typeEvent].clear();
+  }
+
   notify<K extends keyof T>(typeEvent: K, observerInfoObject: T[K]): void {
     this.subscribers[typeEvent]?.forEach(updateSubscriber =>
       updateSubscriber(observerInfoObject),
