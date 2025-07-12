@@ -288,7 +288,7 @@ class Model extends Observer<ModelEvents> implements Model {
     clientLineCoordsSize,
     clientThumbCoordsSize,
     shiftClickThumb,
-  }: any): number {
+  }: GetNewThumbCordData): number {
     let newLeft = clientEvent - shiftClickThumb - clientLineCoordsOffset;
 
     //подгоним движение под шаг
