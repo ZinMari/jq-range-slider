@@ -188,7 +188,13 @@ class View extends Observer<ViewEvents> implements View {
 
   destroy() {
     this.slider.remove();
+    this._destroySubscribers();
+  }
+
+  private _destroySubscribers(){
+    this.line.removeAllSubscribers("clickOnSlider");
+    this.ruler.removeAllSubscribers("clickOnSlider");
+    this.thumbs.removeAllSubscribers("updateThumbPosition");
   }
 }
-
 export default View;

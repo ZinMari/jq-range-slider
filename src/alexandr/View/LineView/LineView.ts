@@ -27,6 +27,10 @@ class LineView extends Observer<SubViewEvents> implements LineViewInterface {
     this.item.addClass("alexandr__line_type_vertical");
     this.item.height(height);
   }
+
+  destroy(typeEvent: keyof SubViewEvents){
+    this.removeAllSubscribers(typeEvent);
+  }
 }
 
 export default LineView;
