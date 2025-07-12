@@ -46,14 +46,14 @@ function onChangePanelValue(event: Event) {
     $target
       .closest(".js-slider-complex")
       .find(".js-slider-complex__slider")
-      .alexandr("update", { [$target.attr("name")]: $target.val() }).alexandr("connect", onSliderValueChange);;
+      .alexandr("update", { [$target.attr("name")]: $target.val() });
   }
 
   if (attrType === "checkbox") {
     $target
       .closest(".js-slider-complex")
       .find(".js-slider-complex__slider")
-      .alexandr("update", { [$target.attr("name")]: $target.prop("checked") }).alexandr("connect", onSliderValueChange);;
+      .alexandr("update", { [$target.attr("name")]: $target.prop("checked") });
   }
 }
 
@@ -73,7 +73,5 @@ function initSliderComplex(slider: string, options: AlexandrSettings) {
   setValueToPanel(slider);
   $(slider).on("change.alexandr", onChangePanelValue);
 }
-
-
 
 export default initSliderComplex;
