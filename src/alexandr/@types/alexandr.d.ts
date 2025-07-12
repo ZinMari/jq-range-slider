@@ -229,7 +229,7 @@ interface ThumbViewEvents {
 }
 
 interface AlexandrEvents {
-  sliderUpdated: any;
+  sliderUpdated: Partial<Record<keyof AlexandrSettings, unknown>> | null;
 }
 
 interface ValueConverter {

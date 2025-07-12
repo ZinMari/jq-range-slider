@@ -12,7 +12,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
 (function ($) {
   class Alexandr extends Observer<AlexandrEvents> {
     private presenter: Presenter;
-    sliderData: Partial<Record<keyof AlexandrSettings, unknown>> = null;
+    sliderData: Partial<Record<keyof AlexandrSettings, unknown>> | null = null;
 
     constructor(options: AlexandrSettings) {
       super();
@@ -65,7 +65,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
       $(target).removeData("alexandr");
     }
 
-    connectToPluginData(fn: (options: PresenterEvents["updateOptions"])=>void) {
+    connectToPluginData(fn: (options: AlexandrEvents["sliderUpdated"])=>void) {
       this.addSubscriber("sliderUpdated", fn);
     }
   }
