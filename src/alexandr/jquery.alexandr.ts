@@ -65,7 +65,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
       $(target).removeData("alexandr");
     }
 
-    connectToPluginData(fn: any) {
+    connectToPluginData(fn: (options: PresenterEvents["updateOptions"])=>void) {
       this.addSubscriber("sliderUpdated", fn);
     }
   }
