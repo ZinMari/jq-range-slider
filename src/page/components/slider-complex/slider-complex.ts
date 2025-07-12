@@ -21,7 +21,7 @@ function setValueToPanel(slider: string): void {
   $.each($radio, function () {
     const attrName: string = $(this).attr("name");
     if ($(this).attr("value") === sliderOptions[attrName as keyof AlexandrSettings]) {
-      $(this).attr("checked", "true");
+      $(this).prop("checked", "true");
     }
   });
 
