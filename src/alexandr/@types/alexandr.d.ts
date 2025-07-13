@@ -102,7 +102,8 @@ interface BaseSubViewInterface extends Observer<SubViewEvents> {
 }
 
 interface LineViewInterface extends BaseSubViewInterface {
-  setVerticalOrientation: (height: number) => void;
+  setVerticalOrientation: () => void;
+  setHorizontalOrientation: () => void;
   destroy: (typeEvent: keyof SubViewEvents)=> void;
 }
 

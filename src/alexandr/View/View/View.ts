@@ -180,22 +180,21 @@ class View extends Observer<ViewEvents> implements View {
   };
 
   private _setVerticalOrientation(): void {
-    const height = this.slider.outerWidth();
     this.slider.addClass("alexandr_type_vertical");
-    this.slider.height(height);
-    this.line.setVerticalOrientation(height);
+    this.slider.height(this.slider.outerWidth());
+    this.line.setVerticalOrientation();
     this.thumbs.setVerticalOrientation();
     this.ruler.setVerticalOrientation();
-    this.sliderMinMaxValueLine.setVerticalOrientation(height);
+    this.sliderMinMaxValueLine.setVerticalOrientation();
   }
 
   private _setHorizontalOrientation(): void {
     this.slider.removeClass("alexandr_type_vertical");
     this.slider.width('100%');
-    // this.line.setHorizontalOrientation(height);
-    // this.thumbs.setVerticalOrientation();
-    // this.ruler.setVerticalOrientation();
-    // this.sliderMinMaxValueLine.setVerticalOrientation(height);  
+    this.line.setHorizontalOrientation();
+    this.thumbs.setHorizontalOrientation();
+    this.ruler.setHorizontalOrientation();
+    this.sliderMinMaxValueLine.setHorizontalOrientation();  
   }
 
   destroy() {

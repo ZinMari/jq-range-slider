@@ -20,9 +20,13 @@ class MinMaxValueLineView implements MinMaxValueLineView {
     this.max.text(max);
   }
 
-  setVerticalOrientation(height: number) {
+  setVerticalOrientation() {
     this.item.addClass("alexandr__values_type_vertical");
-    this.item.height(height);
+    this.item.height(this.item.parent().outerWidth());
+  }
+  setHorizontalOrientation() {
+    this.item.removeClass("alexandr__values_type_vertical");
+    this.item.removeAttr("style");
   }
 }
 

@@ -138,6 +138,11 @@ class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
     this.maxThumb?.addClass("alexandr__thumb_type_vertical");
   }
 
+  setHorizontalOrientation() {
+    this.minThumb?.removeClass("alexandr__thumb_type_vertical");
+    this.maxThumb?.removeClass("alexandr__thumb_type_vertical");
+  }
+
   updateFlagValues(thumb: "min" | "max", currentValue: number): void {
     if (thumb === "min") {
       this.minThumb.attr("data-value", currentValue);
