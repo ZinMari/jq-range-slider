@@ -207,10 +207,7 @@ interface ViewEvents {
 }
 
 interface PresenterEvents {
-  updateOptions: {
-    propName: keyof AlexandrSettings;
-    propValue: AlexandrSettings[keyof AlexandrSettings];
-  };
+  updateOptions: Partial<AlexandrSettings>;
 }
 
 interface SubViewEvents {

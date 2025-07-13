@@ -60,8 +60,7 @@ class Presenter extends Observer<PresenterEvents> {
     this.view.updateFlagValues(type, currentValue);
 
     this.notify("updateOptions", {
-      propName: `${type}Position`,
-      propValue: currentValue,
+      [`${type}Position`]: currentValue,
     });
   };
 
@@ -73,13 +72,11 @@ class Presenter extends Observer<PresenterEvents> {
     this.view.updateRuler(min, max);
 
     this.notify("updateOptions", {
-      propName: `minValue`,
-      propValue: min,
+      [`minValue`]: min,
     });
 
     this.notify("updateOptions", {
-      propName: `maxValue`,
-      propValue: max,
+      [`maxValue`]: max,
     });
   };
 

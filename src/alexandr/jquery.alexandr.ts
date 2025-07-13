@@ -12,7 +12,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
 (function ($) {
   class Alexandr extends Observer<AlexandrEvents> {
     private presenter: Presenter;
-    sliderData: Partial<Record<keyof AlexandrSettings, unknown>> | null = null;
+    sliderData: Partial<AlexandrSettings> | null = null;
 
     constructor(options: AlexandrSettings) {
       super();
@@ -25,7 +25,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
     }
 
     updateOptions = (dataOptions: PresenterEvents["updateOptions"]) => {
-      this.sliderData[dataOptions.propName] = dataOptions.propValue;
+      this.sliderData = Object.assign(this.sliderData, dataOptions);
       this.notify("sliderUpdated", this.sliderData);
     };
 
