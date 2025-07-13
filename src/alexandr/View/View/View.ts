@@ -16,7 +16,6 @@ class View extends Observer<ViewEvents> implements View {
   private orientation: "horizontal" | "vertical";
   private type: "single" | "double";
   private showMinMaxValue: boolean;
-  private showRuler: boolean;
   private showValueFlag: boolean;
   private thumbMinClass: string;
   private thumbMaxClass: string;
@@ -37,7 +36,6 @@ class View extends Observer<ViewEvents> implements View {
     showMinMaxValue,
     showMinValueClass,
     showMaxValueClass,
-    showRuler,
     showValueFlag,
     progressBarClass,
   }: AlexandrSettings) {
@@ -46,7 +44,6 @@ class View extends Observer<ViewEvents> implements View {
     this.type = type;
     this.orientation = orientation;
     this.showMinMaxValue = showMinMaxValue;
-    this.showRuler = showRuler;
     this.showValueFlag = showValueFlag;
     this.thumbMinClass = thumbMinClass;
     this.thumbMaxClass = thumbMaxClass;
@@ -127,16 +124,18 @@ class View extends Observer<ViewEvents> implements View {
 
   private _createRuler() {
     this.ruler = new RulerView(this.slider, this.orientation);
-    this.showRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
   }
 
-  // обновить элементы слайдера
   updateProgressBar(dataObject: { from: number; to: number }): void {
     this.progressbar.update(dataObject);
   }
 
   updateRuler(min: number, max: number): void {
     this.ruler.update(min, max);
+  }
+
+  updateShowRuler({isSetRuler}: ModelEvents['modelSetRulerChanged']){
+    isSetRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
   }
 
   updateMinMaxValueLine(min: number, max: number): void {

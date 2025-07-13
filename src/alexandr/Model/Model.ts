@@ -19,6 +19,8 @@ class Model extends Observer<ModelEvents> implements Model {
   maxThumbWidth: number;
   maxThumbHeight: number;
   valueConverter: ValueConverter;
+  showRuler: boolean;
+  
 
   constructor({
     minValue,
@@ -28,6 +30,7 @@ class Model extends Observer<ModelEvents> implements Model {
     stepValue,
     type,
     orientation,
+    showRuler
   }: AlexandrSettings) {
     super();
     this.valueConverter = new ValueConverter();
@@ -42,8 +45,9 @@ class Model extends Observer<ModelEvents> implements Model {
       minPosition >= this.minValue ? minPosition : this.minValue;
     this.maxPosition =
       maxPosition <= this.maxValue ? maxPosition : this.maxValue;
-
     this.stepValue = stepValue;
+
+    this.showRuler = showRuler;
   }
 
   modelGetCordsView = ({
@@ -77,6 +81,13 @@ class Model extends Observer<ModelEvents> implements Model {
     }
 
     this.setThumbsPosition("min", Number(this.minPosition));
+    this.setRuler(this.showRuler)
+  }
+
+  setRuler = (isSetRuler: boolean) => {
+    this.notify("modelSetRulerChanged", {
+     isSetRuler
+    });
   }
 
   setThumbsPosition = (typeThumb: "min" | "max", value: number): void => {

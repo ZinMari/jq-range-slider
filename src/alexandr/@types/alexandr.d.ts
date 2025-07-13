@@ -142,6 +142,7 @@ interface View extends Observer<ViewEvents> {
   progressbar: ProgressBarView;
   updateProgressBar: (data: { from: number; to: number }) => void;
   updateRuler: (min: number, max: number) => void;
+  updateShowRuler: (dataObject: ModelEvents['modelSetRulerChanged']) => void;
   updateMinMaxValueLine: (min: number, max: number) => void;
   updateThumbsPosition: (
     type: "min" | "max",
@@ -196,6 +197,9 @@ interface ModelEvents {
     from: number;
     to: number;
   };
+  modelSetRulerChanged: {
+    isSetRuler: boolean;
+  }
 }
 
 interface ViewEvents {
