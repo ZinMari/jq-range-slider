@@ -94,6 +94,7 @@ interface Model extends Observer<ModelEvents> {
   setProgressBarSize: () => void;
   setInitialValues: () => void;
   setOrientation: (orientation: "vertical" | "horizontal") => void;
+  refreshOptions: (options: AlexandrSettings) => void
 }
 
 interface BaseSubViewInterface extends Observer<SubViewEvents> {

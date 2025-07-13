@@ -54,6 +54,10 @@ class Presenter extends Observer<PresenterEvents> {
     );
   }
 
+  refreshOptions(options: AlexandrSettings): void{
+    this.model.refreshOptions(options)
+  }
+
   private modelOrientationChanged = (
     dataObject: ModelEvents["modelOrientationChanged"],
   ) => {

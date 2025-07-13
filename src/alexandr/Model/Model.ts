@@ -50,6 +50,30 @@ class Model extends Observer<ModelEvents> implements Model {
     this.showRuler = showRuler;
   }
 
+  refreshOptions = (options: AlexandrSettings): void => {
+    if(options.minValue) {
+      this.setMinValue(Number(options.minValue));
+    }
+    if(options.maxValue) {
+      this.setMaxValue(Number(options.maxValue));
+    }
+    if(options.minPosition) {
+      this.setThumbsPosition('min',Number(options.minPosition));
+    }
+    if(options.maxPosition) {
+      this.setThumbsPosition('max',Number(options.maxPosition));
+    }
+    if(options.stepValue) {
+      this.setStepValue(options.stepValue)
+    }
+    if(options.orientation) {
+      this.setOrientation(options.orientation)
+    }
+    if("showRuler" in options) {
+      this.setRuler(options.showRuler)
+    }
+  }
+
   modelGetCordsView = ({
     sliderLength,
     minThumbWidth,

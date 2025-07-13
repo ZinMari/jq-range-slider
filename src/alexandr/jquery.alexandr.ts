@@ -50,14 +50,8 @@ requireAll(require.context("./", true, /\.(scss)$/));
       return target;
     }
 
-    refreshPlugin(target: HTMLElement, options: AlexandrSettings) {
-      const upgradeOptions = $.extend(
-        {},
-        $(target).data("alexandr").sliderData,
-        options,
-      );
-      this.clearPlugin(target);
-      this.initPlugin(target, upgradeOptions);
+    refreshPlugin(options: AlexandrSettings) {
+      this.presenter.refreshOptions(options);
     }
 
     destroyPlugin(target: HTMLElement) {
@@ -121,7 +115,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
     }
 
     if (isSliderInitialized($(this)) && isSetOptions(options)) {
-      $(this).data("alexandr").refreshPlugin(this, arguments[1]);
+      $(this).data("alexandr").refreshPlugin(arguments[1]);
       return $(this);
     }
 
