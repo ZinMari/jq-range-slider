@@ -79,14 +79,21 @@ class Model extends Observer<ModelEvents> implements Model {
     if (this.type === "double") {
       this.setThumbsPosition("max", Number(this.maxPosition));
     }
-
     this.setThumbsPosition("min", Number(this.minPosition));
-    this.setRuler(this.showRuler)
+
+    this.setRuler(this.showRuler);
+    this.setOrientation(this.orientation);
   }
 
   setRuler = (isSetRuler: boolean) => {
     this.notify("modelSetRulerChanged", {
      isSetRuler
+    });
+  }
+
+  setOrientation = (orientation: "vertical" | "horizontal") => {
+    this.notify("modelOrientationChanged", {
+     orientation
     });
   }
 

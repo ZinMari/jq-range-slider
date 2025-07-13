@@ -32,7 +32,7 @@ class View extends Observer<ViewEvents> implements View {
     thumbMinClass,
     thumbMaxClass,
     thumbClass,
-    orientation,
+    // orientation,
     showMinMaxValue,
     showMinValueClass,
     showMaxValueClass,
@@ -42,7 +42,7 @@ class View extends Observer<ViewEvents> implements View {
     super();
     this.container = container;
     this.type = type;
-    this.orientation = orientation;
+    // this.orientation = orientation;
     this.showMinMaxValue = showMinMaxValue;
     this.showValueFlag = showValueFlag;
     this.thumbMinClass = thumbMinClass;
@@ -138,6 +138,10 @@ class View extends Observer<ViewEvents> implements View {
     isSetRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
   }
 
+  updateOrientation({orientation}: ModelEvents['modelOrientationChanged']){
+    orientation === "vertical" ? this._setVerticalOrientation() : this._setHorizontalOrientation();
+  }
+
   updateMinMaxValueLine(min: number, max: number): void {
     this.sliderMinMaxValueLine.update(min, max);
   }
@@ -183,6 +187,15 @@ class View extends Observer<ViewEvents> implements View {
     this.thumbs.setVerticalOrientation();
     this.ruler.setVerticalOrientation();
     this.sliderMinMaxValueLine.setVerticalOrientation(height);
+  }
+
+  private _setHorizontalOrientation(): void {
+    this.slider.removeClass("alexandr_type_vertical");
+    this.slider.width('100%');
+    // this.line.setHorizontalOrientation(height);
+    // this.thumbs.setVerticalOrientation();
+    // this.ruler.setVerticalOrientation();
+    // this.sliderMinMaxValueLine.setVerticalOrientation(height);  
   }
 
   destroy() {

@@ -47,7 +47,18 @@ class Presenter extends Observer<PresenterEvents> {
       "modelSetRulerChanged",
       this.modelSetRulerChanged,
     );
+
+    this.model.addSubscriber(
+      "modelOrientationChanged",
+      this.modelOrientationChanged,
+    );
   }
+
+  private modelOrientationChanged = (
+    dataObject: ModelEvents["modelOrientationChanged"],
+  ) => {
+    this.view.updateOrientation(dataObject);
+  };
 
   private modelSetRulerChanged = (
     dataObject: ModelEvents["modelSetRulerChanged"],

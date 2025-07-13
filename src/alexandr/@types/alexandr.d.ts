@@ -93,6 +93,7 @@ interface Model extends Observer<ModelEvents> {
   modelGetCordsView: (viewCoords: ViewCoords) => void;
   setProgressBarSize: () => void;
   setInitialValues: () => void;
+  setOrientation: (orientation: "vertical" | "horizontal") => void;
 }
 
 interface BaseSubViewInterface extends Observer<SubViewEvents> {
@@ -143,6 +144,7 @@ interface View extends Observer<ViewEvents> {
   updateProgressBar: (data: { from: number; to: number }) => void;
   updateRuler: (min: number, max: number) => void;
   updateShowRuler: (dataObject: ModelEvents['modelSetRulerChanged']) => void;
+  updateOrientation: (dataObject: ModelEvents['modelOrientationChanged']) => void;
   updateMinMaxValueLine: (min: number, max: number) => void;
   updateThumbsPosition: (
     type: "min" | "max",
@@ -199,6 +201,9 @@ interface ModelEvents {
   };
   modelSetRulerChanged: {
     isSetRuler: boolean;
+  }
+  modelOrientationChanged: {
+    orientation: "vertical" | "horizontal";
   }
 }
 
