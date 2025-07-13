@@ -133,14 +133,17 @@ class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
     document.addEventListener("pointerup", onMouseUp);
   };
 
-  setVerticalOrientation() {
-    this.minThumb?.addClass("alexandr__thumb_type_vertical");
-    this.maxThumb?.addClass("alexandr__thumb_type_vertical");
-  }
-
-  setHorizontalOrientation() {
-    this.minThumb?.removeClass("alexandr__thumb_type_vertical");
-    this.maxThumb?.removeClass("alexandr__thumb_type_vertical");
+  setOrientation(orientation: "vertical" | "horizontal") {
+    this.orientation = orientation;
+    if (orientation === "vertical") {
+      this.minThumb?.addClass("alexandr__thumb_type_vertical");
+      this.maxThumb?.addClass("alexandr__thumb_type_vertical");
+    } else {
+      this.minThumb?.removeClass("alexandr__thumb_type_vertical");
+      this.maxThumb?.removeClass("alexandr__thumb_type_vertical");
+    }
+    this.minThumb?.removeAttr("style");
+    this.maxThumb?.removeAttr("style");
   }
 
   updateFlagValues(thumb: "min" | "max", currentValue: number): void {

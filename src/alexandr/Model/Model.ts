@@ -20,7 +20,6 @@ class Model extends Observer<ModelEvents> implements Model {
   maxThumbHeight: number;
   valueConverter: ValueConverter;
   showRuler: boolean;
-  
 
   constructor({
     minValue,
@@ -30,7 +29,7 @@ class Model extends Observer<ModelEvents> implements Model {
     stepValue,
     type,
     orientation,
-    showRuler
+    showRuler,
   }: AlexandrSettings) {
     super();
     this.valueConverter = new ValueConverter();
@@ -51,28 +50,28 @@ class Model extends Observer<ModelEvents> implements Model {
   }
 
   refreshOptions = (options: AlexandrSettings): void => {
-    if(options.minValue) {
+    if (options.minValue) {
       this.setMinValue(Number(options.minValue));
     }
-    if(options.maxValue) {
+    if (options.maxValue) {
       this.setMaxValue(Number(options.maxValue));
     }
-    if(options.minPosition) {
-      this.setThumbsPosition('min',Number(options.minPosition));
+    if (options.minPosition) {
+      this.setThumbsPosition("min", Number(options.minPosition));
     }
-    if(options.maxPosition) {
-      this.setThumbsPosition('max',Number(options.maxPosition));
+    if (options.maxPosition) {
+      this.setThumbsPosition("max", Number(options.maxPosition));
     }
-    if(options.stepValue) {
-      this.setStepValue(options.stepValue)
+    if (options.stepValue) {
+      this.setStepValue(options.stepValue);
     }
-    if(options.orientation) {
-      this.setOrientation(options.orientation)
+    if (options.orientation) {
+      this.setOrientation(options.orientation);
     }
-    if("showRuler" in options) {
-      this.setRuler(options.showRuler)
+    if ("showRuler" in options) {
+      this.setRuler(options.showRuler);
     }
-  }
+  };
 
   modelGetCordsView = ({
     sliderLength,
@@ -111,15 +110,22 @@ class Model extends Observer<ModelEvents> implements Model {
 
   setRuler = (isSetRuler: boolean) => {
     this.notify("modelSetRulerChanged", {
-     isSetRuler
+      isSetRuler,
     });
-  }
+  };
 
   setOrientation = (orientation: "vertical" | "horizontal") => {
+    this.orientation = orientation;
+    this.moveDirection = this.orientation === "vertical" ? "top" : "left";
+
     this.notify("modelOrientationChanged", {
-     orientation
+      orientation,
     });
-  }
+    this.setThumbsPosition("min", this.minPosition);
+    if (this.type === "double") {
+      this.setThumbsPosition("min", this.minPosition);
+    }
+  };
 
   setThumbsPosition = (typeThumb: "min" | "max", value: number): void => {
     value = Number.isNaN(value) ? 0 : value;
@@ -255,7 +261,7 @@ class Model extends Observer<ModelEvents> implements Model {
     );
   };
 
-  clickOnSlider({ pixelClick }: {pixelClick: number}) {
+  clickOnSlider({ pixelClick }: { pixelClick: number }) {
     const stepLeft = this._equatePixelValueToStep(pixelClick);
 
     if (this.type === "single") {

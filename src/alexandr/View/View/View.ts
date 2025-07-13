@@ -134,12 +134,14 @@ class View extends Observer<ViewEvents> implements View {
     this.ruler.update(min, max);
   }
 
-  updateShowRuler({isSetRuler}: ModelEvents['modelSetRulerChanged']){
+  updateShowRuler({ isSetRuler }: ModelEvents["modelSetRulerChanged"]) {
     isSetRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
   }
 
-  updateOrientation({orientation}: ModelEvents['modelOrientationChanged']){
-    orientation === "vertical" ? this._setVerticalOrientation() : this._setHorizontalOrientation();
+  updateOrientation({ orientation }: ModelEvents["modelOrientationChanged"]) {
+    orientation === "vertical"
+      ? this._setVerticalOrientation()
+      : this._setHorizontalOrientation();
   }
 
   updateMinMaxValueLine(min: number, max: number): void {
@@ -180,21 +182,23 @@ class View extends Observer<ViewEvents> implements View {
   };
 
   private _setVerticalOrientation(): void {
+    this.orientation = "vertical";
     this.slider.addClass("alexandr_type_vertical");
     this.slider.height(this.slider.outerWidth());
     this.line.setVerticalOrientation();
-    this.thumbs.setVerticalOrientation();
+    this.thumbs.setOrientation("vertical");
     this.ruler.setVerticalOrientation();
     this.sliderMinMaxValueLine.setVerticalOrientation();
   }
 
   private _setHorizontalOrientation(): void {
+    this.orientation = "horizontal";
     this.slider.removeClass("alexandr_type_vertical");
-    this.slider.width('100%');
+    this.slider.width("100%");
     this.line.setHorizontalOrientation();
-    this.thumbs.setHorizontalOrientation();
+    this.thumbs.setOrientation("horizontal");
     this.ruler.setHorizontalOrientation();
-    this.sliderMinMaxValueLine.setHorizontalOrientation();  
+    this.sliderMinMaxValueLine.setHorizontalOrientation();
   }
 
   destroy() {
@@ -202,7 +206,7 @@ class View extends Observer<ViewEvents> implements View {
     this._destroySubscribers();
   }
 
-  private _destroySubscribers(){
+  private _destroySubscribers() {
     this.line.removeAllSubscribers("clickOnSlider");
     this.ruler.removeAllSubscribers("clickOnSlider");
     this.thumbs.removeAllSubscribers("updateThumbPosition");
