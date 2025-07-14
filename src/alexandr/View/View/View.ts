@@ -63,7 +63,6 @@ class View extends Observer<ViewEvents> implements View {
     this.progressbar = new ProgressBar(this.progressBarClass);
     this.thumbs = new ThumbView({
       sliderLine: this.line,
-      type: this.type,
       thumbMinClass: this.thumbMinClass,
       thumbMaxClass: this.thumbMaxClass,
     });

@@ -159,6 +159,7 @@ class Model extends Observer<ModelEvents> implements Model {
     this.setMinValue(Number(this.minValue));
     this.setStepValue(Number(this.stepValue));
     this.setOrientation(this.orientation);
+    this.setType(this.type);
 
     if (this.type === "double") {
       this.setThumbsPosition("max", Number(this.maxPosition));
