@@ -45,10 +45,7 @@ class Presenter extends Observer<PresenterEvents> {
 
     this.model.addSubscriber("modelSetRulerChanged", this.modelSetRulerChanged);
 
-    this.model.addSubscriber(
-      "modelSetValueFlagChanged",
-      this.modelSetValueFlagChanged,
-    );
+    this.model.addSubscriber("modelShowFlagChanged", this.modelShowFlagChanged);
 
     this.model.addSubscriber(
       "modelOrientationChanged",
@@ -78,10 +75,10 @@ class Presenter extends Observer<PresenterEvents> {
     this.view.updateShowRuler(dataObject);
   };
 
-  private modelSetValueFlagChanged = (
-    dataObject: ModelEvents["modelSetValueFlagChanged"],
+  private modelShowFlagChanged = (
+    dataObject: ModelEvents["modelShowFlagChanged"],
   ) => {
-    this.view.updateValueFlag(dataObject);
+    this.view.updateShowFlag(dataObject);
   };
 
   private modelProgressbarUpdated = (
@@ -96,8 +93,8 @@ class Presenter extends Observer<PresenterEvents> {
     pixelPosition,
     moveDirection,
   }: ModelEvents["modelThumbsPositionChanged"]) => {
-    this.view.updateThumbsPosition(type, pixelPosition, moveDirection);
-    this.view.updateFlagValues(type, currentValue);
+    this.view.updateThumbsPosition({ type, pixelPosition, moveDirection });
+    this.view.updateFlagValues({ type, currentValue });
 
     this.notify("updateOptions", {
       [`${type}Position`]: currentValue,
@@ -108,14 +105,11 @@ class Presenter extends Observer<PresenterEvents> {
     min,
     max,
   }: ModelEvents["modelMinMaxValuesChanged"]) => {
-    this.view.updateMinMaxValueLine(min, max);
-    this.view.updateRuler(min, max);
+    this.view.updateMinMaxValueLine({ min, max });
+    this.view.updateRuler({ min, max });
 
     this.notify("updateOptions", {
       [`minValue`]: min,
-    });
-
-    this.notify("updateOptions", {
       [`maxValue`]: max,
     });
   };

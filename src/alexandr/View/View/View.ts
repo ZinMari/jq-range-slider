@@ -44,7 +44,7 @@ class View extends Observer<ViewEvents> implements View {
     this._initSubViews();
     this._appendToDOM();
     this._notifyInitialCoords();
-    this.addSubscribersToSubViews();
+    this._addSubscribersToSubViews();
   }
 
   private _createBaseDOM = () => {
@@ -99,7 +99,7 @@ class View extends Observer<ViewEvents> implements View {
     this.progressbar.update(dataObject);
   }
 
-  updateRuler(min: number, max: number): void {
+  updateRuler({ min, max }: ModelEvents["modelMinMaxValuesChanged"]): void {
     this.ruler.update(min, max);
   }
 
@@ -107,7 +107,7 @@ class View extends Observer<ViewEvents> implements View {
     isSetRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
   }
 
-  updateValueFlag({ isSetValueFlag }: ModelEvents["modelSetValueFlagChanged"]) {
+  updateShowFlag({ isSetValueFlag }: ModelEvents["modelShowFlagChanged"]) {
     isSetValueFlag ? this.thumbs.showFlag() : this.thumbs.hideFlag();
   }
 
@@ -117,23 +117,29 @@ class View extends Observer<ViewEvents> implements View {
       : this._setHorizontalOrientation();
   }
 
-  updateMinMaxValueLine(min: number, max: number): void {
+  updateMinMaxValueLine({
+    min,
+    max,
+  }: ModelEvents["modelMinMaxValuesChanged"]): void {
     this.sliderMinMaxValueLine.update(min, max);
   }
 
-  updateThumbsPosition(
-    type: "min" | "max",
-    pixelPosition: number,
-    moveDirection: "top" | "left",
-  ): void {
+  updateThumbsPosition({
+    type,
+    pixelPosition,
+    moveDirection,
+  }: Partial<ModelEvents["modelThumbsPositionChanged"]>): void {
     this.thumbs.updateThumbsPosition(type, pixelPosition, moveDirection);
   }
 
-  updateFlagValues(thumb: "min" | "max", currentValue: number): void {
-    this.thumbs.updateFlagValues(thumb, currentValue);
+  updateFlagValues({
+    type,
+    currentValue,
+  }: Partial<ModelEvents["modelThumbsPositionChanged"]>): void {
+    this.thumbs.updateFlagValues(type, currentValue);
   }
 
-  private addSubscribersToSubViews() {
+  private _addSubscribersToSubViews() {
     this.line.addSubscriber("clickOnSlider", this._handlerClickOnSlider);
     this.ruler.addSubscriber("clickOnSlider", this._handlerClickOnSlider);
     this.thumbs.addSubscriber(

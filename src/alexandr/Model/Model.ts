@@ -178,7 +178,7 @@ class Model extends Observer<ModelEvents> implements Model {
   };
 
   setValueFlag = (isSetValueFlag: boolean) => {
-    this.notify("modelSetValueFlagChanged", {
+    this.notify("modelShowFlagChanged", {
       isSetValueFlag,
     });
   };

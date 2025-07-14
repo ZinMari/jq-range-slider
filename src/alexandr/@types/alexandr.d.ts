@@ -143,22 +143,28 @@ interface View extends Observer<ViewEvents> {
   ruler: RulerView;
   progressbar: ProgressBarView;
   updateProgressBar: (data: { from: number; to: number }) => void;
-  updateRuler: (min: number, max: number) => void;
+  updateRuler: ({ min, max }: ModelEvents["modelMinMaxValuesChanged"]) => void;
   updateShowRuler: (dataObject: ModelEvents["modelSetRulerChanged"]) => void;
   updateOrientation: (
     dataObject: ModelEvents["modelOrientationChanged"],
   ) => void;
-  updateMinMaxValueLine: (min: number, max: number) => void;
-  updateThumbsPosition: (
-    type: "min" | "max",
-    pixelPosition: number,
-    moveDirection: "top" | "left",
-  ) => void;
+  updateMinMaxValueLine: ({
+    min,
+    max,
+  }: ModelEvents["modelMinMaxValuesChanged"]) => void;
+  updateThumbsPosition: ({
+    type,
+    pixelPosition,
+    moveDirection,
+  }: Partial<ModelEvents["modelThumbsPositionChanged"]>) => void;
   updateType: (dataObject: ModelEvents["modelTypeChanged"]) => void;
-  updateValueFlag: ({
+  updateShowFlag: ({
     isSetValueFlag,
-  }: ModelEvents["modelSetValueFlagChanged"]) => void;
-  updateFlagValues: (thumb: "min" | "max", currentValue: number) => void;
+  }: ModelEvents["modelShowFlagChanged"]) => void;
+  updateFlagValues: ({
+    type,
+    currentValue,
+  }: Partial<ModelEvents["modelThumbsPositionChanged"]>) => void;
   destroy: () => void;
   setInitialValues: () => void;
 }
@@ -210,7 +216,7 @@ interface ModelEvents {
   modelSetRulerChanged: {
     isSetRuler: boolean;
   };
-  modelSetValueFlagChanged: {
+  modelShowFlagChanged: {
     isSetValueFlag: boolean;
   };
   modelOrientationChanged: {
