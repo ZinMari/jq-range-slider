@@ -80,11 +80,13 @@ class Model extends Observer<ModelEvents> implements Model {
   }
 
   private _normalizeMinMaxPositions() {
-    const min = this.minPosition;
-    const max = this.maxPosition;
+    if (this.type === "double") {
+      const min = this.minPosition;
+      const max = this.maxPosition;
 
-    this.minPosition = Math.min(min, max);
-    this.maxPosition = Math.max(min, max);
+      this.minPosition = Math.min(min, max);
+      this.maxPosition = Math.max(min, max);
+    }
 
     //проверю на пограничные минимальное
     this.minPosition =
