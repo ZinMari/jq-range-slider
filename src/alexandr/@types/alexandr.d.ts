@@ -155,6 +155,9 @@ interface View extends Observer<ViewEvents> {
     moveDirection: "top" | "left",
   ) => void;
   updateType: (dataObject: ModelEvents["modelTypeChanged"]) => void;
+  updateValueFlag: ({
+    isSetValueFlag,
+  }: ModelEvents["modelSetValueFlagChanged"]) => void;
   updateFlagValues: (thumb: "min" | "max", currentValue: number) => void;
   destroy: () => void;
   setInitialValues: () => void;
@@ -206,6 +209,9 @@ interface ModelEvents {
   };
   modelSetRulerChanged: {
     isSetRuler: boolean;
+  };
+  modelSetValueFlagChanged: {
+    isSetValueFlag: boolean;
   };
   modelOrientationChanged: {
     orientation: "vertical" | "horizontal";

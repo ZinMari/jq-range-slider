@@ -46,6 +46,11 @@ class Presenter extends Observer<PresenterEvents> {
     this.model.addSubscriber("modelSetRulerChanged", this.modelSetRulerChanged);
 
     this.model.addSubscriber(
+      "modelSetValueFlagChanged",
+      this.modelSetValueFlagChanged,
+    );
+
+    this.model.addSubscriber(
       "modelOrientationChanged",
       this.modelOrientationChanged,
     );
@@ -71,6 +76,12 @@ class Presenter extends Observer<PresenterEvents> {
     dataObject: ModelEvents["modelSetRulerChanged"],
   ) => {
     this.view.updateShowRuler(dataObject);
+  };
+
+  private modelSetValueFlagChanged = (
+    dataObject: ModelEvents["modelSetValueFlagChanged"],
+  ) => {
+    this.view.updateValueFlag(dataObject);
   };
 
   private modelProgressbarUpdated = (

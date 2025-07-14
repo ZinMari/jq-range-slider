@@ -16,7 +16,6 @@ class View extends Observer<ViewEvents> implements View {
   private orientation: "horizontal" | "vertical";
   private type: "single" | "double";
   private showMinMaxValue: boolean;
-  private showValueFlag: boolean;
   private thumbMinClass: string;
   private thumbMaxClass: string;
   private showMinValueClass: string;
@@ -34,7 +33,6 @@ class View extends Observer<ViewEvents> implements View {
     showMinMaxValue,
     showMinValueClass,
     showMaxValueClass,
-    showValueFlag,
     progressBarClass,
   }: AlexandrSettings) {
     super();
@@ -42,7 +40,6 @@ class View extends Observer<ViewEvents> implements View {
     this.type = type;
     this.orientation = orientation;
     this.showMinMaxValue = showMinMaxValue;
-    this.showValueFlag = showValueFlag;
     this.thumbMinClass = thumbMinClass;
     this.thumbMaxClass = thumbMaxClass;
     this.showMinValueClass = showMinValueClass;
@@ -56,7 +53,6 @@ class View extends Observer<ViewEvents> implements View {
     this._initSubViews();
     this._appendToDOM();
     this._createRuler();
-    this._createFlags();
 
     if (this.orientation === "vertical") {
       this._setVerticalOrientation();
@@ -110,14 +106,6 @@ class View extends Observer<ViewEvents> implements View {
     });
   };
 
-  private _createFlags(): void {
-    if (this.showValueFlag) {
-      this.thumbs.showFlag();
-    } else {
-      this.thumbs.hideFlag();
-    }
-  }
-
   private _createRuler() {
     this.ruler = new RulerView(this.slider, this.orientation);
   }
@@ -137,6 +125,10 @@ class View extends Observer<ViewEvents> implements View {
 
   updateShowRuler({ isSetRuler }: ModelEvents["modelSetRulerChanged"]) {
     isSetRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
+  }
+
+  updateValueFlag({ isSetValueFlag }: ModelEvents["modelSetValueFlagChanged"]) {
+    isSetValueFlag ? this.thumbs.showFlag() : this.thumbs.hideFlag();
   }
 
   updateOrientation({ orientation }: ModelEvents["modelOrientationChanged"]) {

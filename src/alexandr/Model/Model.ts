@@ -20,6 +20,7 @@ class Model extends Observer<ModelEvents> implements Model {
   maxThumbHeight: number;
   valueConverter: ValueConverter;
   showRuler: boolean;
+  showValueFlag: boolean;
 
   constructor({
     minValue,
@@ -30,6 +31,7 @@ class Model extends Observer<ModelEvents> implements Model {
     type,
     orientation,
     showRuler,
+    showValueFlag,
   }: AlexandrSettings) {
     super();
     this.valueConverter = new ValueConverter();
@@ -45,6 +47,7 @@ class Model extends Observer<ModelEvents> implements Model {
 
     this.stepValue = stepValue;
     this.showRuler = showRuler;
+    this.showValueFlag = showValueFlag;
 
     this._normalizeValues();
   }
@@ -122,6 +125,9 @@ class Model extends Observer<ModelEvents> implements Model {
     if ("showRuler" in options) {
       this.setRuler(options.showRuler);
     }
+    if ("showValueFlag" in options) {
+      this.setValueFlag(options.showValueFlag);
+    }
     if (options.type) {
       this.setType(options.type);
     }
@@ -159,11 +165,18 @@ class Model extends Observer<ModelEvents> implements Model {
     }
     this.setThumbsPosition("min", Number(this.minPosition));
     this.setRuler(this.showRuler);
+    this.setValueFlag(this.showValueFlag);
   }
 
   setRuler = (isSetRuler: boolean) => {
     this.notify("modelSetRulerChanged", {
       isSetRuler,
+    });
+  };
+
+  setValueFlag = (isSetValueFlag: boolean) => {
+    this.notify("modelSetValueFlagChanged", {
+      isSetValueFlag,
     });
   };
 
