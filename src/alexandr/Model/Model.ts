@@ -38,15 +38,66 @@ class Model extends Observer<ModelEvents> implements Model {
     this.orientation = orientation;
     this.moveDirection = this.orientation === "vertical" ? "top" : "left";
 
-    this.minValue = Math.min(minValue, maxValue);
-    this.maxValue = Math.max(minValue, maxValue);
-    this.minPosition =
-      minPosition >= this.minValue ? minPosition : this.minValue;
-    this.maxPosition =
-      maxPosition <= this.maxValue ? maxPosition : this.maxValue;
-    this.stepValue = stepValue;
+    this.minValue = minValue;
+    this.maxValue = maxValue;
+    this.minPosition = minPosition;
+    this.maxPosition = maxPosition;
 
+    this.stepValue = stepValue;
     this.showRuler = showRuler;
+
+    this._normalizeValues();
+  }
+
+  private _normalizeValues() {
+    this._normalizeMinMaxValues();
+    this._normalizeStepValue();
+    this._normalizeMinMaxPositions();
+  }
+
+  private _normalizeStepValue() {
+    const isValueLessThanZero = this.stepValue <= 0;
+    const isValueGreaterThanMax =
+      this.stepValue >=
+      Math.abs(Math.abs(this.maxValue) - Math.abs(this.minValue));
+    const valueIsNaN = Number.isNaN(this.stepValue);
+
+    this.stepValue = isValueLessThanZero || valueIsNaN ? 1 : this.stepValue;
+    this.stepValue = isValueGreaterThanMax
+      ? Math.abs(this.maxValue) - Math.abs(this.minValue)
+      : this.stepValue;
+  }
+
+  private _normalizeMinMaxValues() {
+    const min = this.minValue;
+    const max = this.maxValue;
+
+    this.minValue = Math.min(min, max);
+    this.maxValue = Math.max(min, max);
+  }
+
+  private _normalizeMinMaxPositions() {
+    const min = this.minPosition;
+    const max = this.maxPosition;
+
+    this.minPosition = Math.min(min, max);
+    this.maxPosition = Math.max(min, max);
+
+    //проверю на пограничные минимальное
+    this.minPosition =
+      this.minPosition < this.minValue ? this.minValue : this.minPosition;
+
+    this.minPosition =
+      this.minPosition > this.maxValue ? this.maxValue : this.minPosition;
+
+    if (this.type === "double") {
+      //проверю на пограничные максимальное
+      this.maxPosition =
+        this.maxPosition > this.maxValue ? this.maxValue : this.maxPosition;
+
+      this.maxPosition =
+        this.maxPosition < this.minValue ? this.minValue : this.maxPosition;
+    }
   }
 
   refreshOptions = (options: AlexandrSettings): void => {
@@ -107,7 +158,6 @@ class Model extends Observer<ModelEvents> implements Model {
       this.setThumbsPosition("max", Number(this.maxPosition));
     }
     this.setThumbsPosition("min", Number(this.minPosition));
-
     this.setRuler(this.showRuler);
   }
 
@@ -124,11 +174,7 @@ class Model extends Observer<ModelEvents> implements Model {
       this.maxPosition = null;
       this.maxThumbPixelPosition = null;
     } else {
-      this.maxPosition =
-        this.minPosition === this.maxValue
-          ? this.maxValue
-          : this.minPosition + this.stepValue;
-      this.minPosition = this.maxPosition - this.stepValue;
+      this.maxPosition = this.minPosition;
     }
 
     this.notify("modelTypeChanged", {
@@ -153,17 +199,21 @@ class Model extends Observer<ModelEvents> implements Model {
   };
 
   setThumbsPosition = (typeThumb: "min" | "max", value: number): void => {
-    value = Number.isNaN(value) ? 0 : value;
+    this[`${typeThumb}Position`] = value;
 
-    let newPosition = this._equateValueToStep(value);
-
-    newPosition = this._validatePosition(newPosition);
+    this[`${typeThumb}Position`] = this._equateValueToStep(
+      this[`${typeThumb}Position`],
+    );
 
     if (this.type === "double") {
-      newPosition = this._validateDoublePosition(typeThumb, newPosition);
+      this[`${typeThumb}Position`] = this._validateDoublePosition(
+        typeThumb,
+        this[`${typeThumb}Position`],
+      );
     }
 
-    this[`${typeThumb}Position`] = newPosition;
+    this._normalizeMinMaxPositions();
+
     this[`${typeThumb}ThumbPixelPosition`] =
       this.valueConverter.convertUnitsToPixels({
         value: this[`${typeThumb}Position`],
@@ -248,15 +298,8 @@ class Model extends Observer<ModelEvents> implements Model {
   }
 
   setStepValue(stepValue: number): void {
-    const isValueLessThanZero = stepValue <= 0;
-    const isValueGreaterThanMax = stepValue >= this.maxValue;
-    const valueIsNaN = Number.isNaN(stepValue);
-
-    this.stepValue =
-      isValueLessThanZero || valueIsNaN || isValueGreaterThanMax
-        ? 1
-        : stepValue;
-
+    this.stepValue = stepValue;
+    this._normalizeStepValue();
     this.pixelInOneStep = this.valueConverter.pixelInOneStep({
       sliderLength: this.sliderLength,
       max: this.maxValue,
@@ -331,19 +374,6 @@ class Model extends Observer<ModelEvents> implements Model {
     }
   }
 
-  private _validatePosition(value: number): number {
-    let validateValue;
-
-    //проверю на пограничное минимальное
-    validateValue = value <= this.minValue ? this.minValue : value;
-
-    //проверю на пограничное максимальное
-    validateValue =
-      validateValue >= this.maxValue ? this.maxValue : validateValue;
-
-    return validateValue;
-  }
-
   private _validateDoublePosition(type: "min" | "max", value: number): number {
     if (type === "min" && value >= this.maxPosition) {
       return this.maxPosition - this.stepValue;
@@ -389,9 +419,9 @@ class Model extends Observer<ModelEvents> implements Model {
   }
 
   private _equateValueToStep(value: number): number {
-    if (isNaN(value)) {
-      throw new Error("Получено NaN");
-    }
+    // if (isNaN(value)) {
+    //   throw new Error("Получено NaN");
+    // }
     return Math.round(value / this.stepValue) * this.stepValue;
   }
 }
