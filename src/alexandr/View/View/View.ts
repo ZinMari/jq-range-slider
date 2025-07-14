@@ -101,7 +101,7 @@ class View extends Observer<ViewEvents> implements View {
   };
 
   private _createRuler() {
-    this.ruler = new RulerView(this.slider, this.orientation);
+    this.ruler = new RulerView(this.slider);
   }
 
   updateType(dataObject: ModelEvents["modelTypeChanged"]): void {

@@ -7,12 +7,8 @@ class RulerView extends Observer<SubViewEvents> implements RulerView {
   divisions: JQuery<HTMLElement>[];
   countDivisions: number = 4;
 
-  constructor(
-    slider: JQuery<HTMLElement>,
-    orientation: "horizontal" | "vertical",
-  ) {
+  constructor(slider: JQuery<HTMLElement>) {
     super();
-    this.orientation = orientation;
     this.item = $("<div>", { class: "alexandr__ruler" });
     this.divisions = new Array(this.countDivisions);
 
