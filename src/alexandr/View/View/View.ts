@@ -13,7 +13,6 @@ class View extends Observer<ViewEvents> implements View {
   private slider: JQuery<HTMLElement>;
   private container: JQuery<HTMLElement>;
   private line: LineViewInterface;
-  private type: "single" | "double";
   private showMinMaxValue: boolean;
   private thumbMinClass: string;
   private thumbMaxClass: string;
@@ -23,7 +22,6 @@ class View extends Observer<ViewEvents> implements View {
   private progressBarClass: string;
 
   constructor({
-    type,
     container,
     lineClass,
     thumbMinClass,
@@ -35,7 +33,6 @@ class View extends Observer<ViewEvents> implements View {
   }: AlexandrSettings) {
     super();
     this.container = container;
-    this.type = type;
     this.showMinMaxValue = showMinMaxValue;
     this.thumbMinClass = thumbMinClass;
     this.thumbMaxClass = thumbMaxClass;
@@ -101,7 +98,6 @@ class View extends Observer<ViewEvents> implements View {
   }
 
   updateType(dataObject: ModelEvents["modelTypeChanged"]): void {
-    this.type = dataObject.type;
     this.thumbs.updateType(dataObject);
   }
 
