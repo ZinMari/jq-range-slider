@@ -101,6 +101,7 @@ class Model extends Observer<ModelEvents> implements Model {
     this.setMaxValue(Number(this.maxValue));
     this.setMinValue(Number(this.minValue));
     this.setStepValue(Number(this.stepValue));
+    this.setOrientation(this.orientation);
 
     if (this.type === "double") {
       this.setThumbsPosition("max", Number(this.maxPosition));
@@ -108,7 +109,6 @@ class Model extends Observer<ModelEvents> implements Model {
     this.setThumbsPosition("min", Number(this.minPosition));
 
     this.setRuler(this.showRuler);
-    this.setOrientation(this.orientation);
   }
 
   setRuler = (isSetRuler: boolean) => {
