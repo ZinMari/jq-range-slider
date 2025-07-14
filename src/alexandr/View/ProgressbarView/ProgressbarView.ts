@@ -4,16 +4,17 @@ class ProgressBarView implements ProgressBarView {
 
   constructor(
     progressBarClass: string,
-    orientation: "vertical" | "horizontal",
+    // orientation: "vertical" | "horizontal",
   ) {
-    this.orientation = orientation;
+    // this.orientation = orientation;
     this.item = $("<span>", {
       class: `alexandr__progressbar ${progressBarClass}`,
     });
   }
 
-  update = (dataObject: { from: number; to: number }): void => {
-    if (this.orientation === "vertical") {
+  update = (dataObject: ModelEvents["modelProgressbarUpdated"]): void => {
+    this.item.removeAttr("style");
+    if (dataObject.orientation === "vertical") {
       this.item.css({
         top: dataObject.from,
         width: "100%",
@@ -21,7 +22,7 @@ class ProgressBarView implements ProgressBarView {
       });
     }
 
-    if (this.orientation === "horizontal") {
+    if (dataObject.orientation === "horizontal") {
       this.item.css({
         left: dataObject.from,
         height: "100%",

@@ -177,6 +177,7 @@ class Model extends Observer<ModelEvents> implements Model {
         : this.maxThumbPixelPosition - this.minThumbPixelPosition;
 
     this.notify("modelProgressbarUpdated", {
+      orientation: this.orientation,
       from,
       to,
     });

@@ -32,7 +32,7 @@ class View extends Observer<ViewEvents> implements View {
     thumbMinClass,
     thumbMaxClass,
     thumbClass,
-    // orientation,
+    orientation,
     showMinMaxValue,
     showMinValueClass,
     showMaxValueClass,
@@ -42,7 +42,7 @@ class View extends Observer<ViewEvents> implements View {
     super();
     this.container = container;
     this.type = type;
-    // this.orientation = orientation;
+    this.orientation = orientation;
     this.showMinMaxValue = showMinMaxValue;
     this.showValueFlag = showValueFlag;
     this.thumbMinClass = thumbMinClass;
@@ -75,7 +75,9 @@ class View extends Observer<ViewEvents> implements View {
 
   private _initSubViews = () => {
     this.line = new LineView(this.lineClass, this.orientation);
-    this.progressbar = new ProgressBar(this.progressBarClass, this.orientation);
+    this.progressbar = new ProgressBar(
+      this.progressBarClass /*, this.orientation*/,
+    );
     this.thumbs = new ThumbView({
       sliderLine: this.line,
       orientation: this.orientation,
@@ -126,7 +128,7 @@ class View extends Observer<ViewEvents> implements View {
     this.ruler = new RulerView(this.slider, this.orientation);
   }
 
-  updateProgressBar(dataObject: { from: number; to: number }): void {
+  updateProgressBar(dataObject: ModelEvents["modelProgressbarUpdated"]): void {
     this.progressbar.update(dataObject);
   }
 

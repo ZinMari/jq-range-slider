@@ -94,7 +94,7 @@ interface Model extends Observer<ModelEvents> {
   setProgressBarSize: () => void;
   setInitialValues: () => void;
   setOrientation: (orientation: "vertical" | "horizontal") => void;
-  refreshOptions: (options: AlexandrSettings) => void
+  refreshOptions: (options: AlexandrSettings) => void;
 }
 
 interface BaseSubViewInterface extends Observer<SubViewEvents> {
@@ -104,7 +104,7 @@ interface BaseSubViewInterface extends Observer<SubViewEvents> {
 interface LineViewInterface extends BaseSubViewInterface {
   setVerticalOrientation: () => void;
   setHorizontalOrientation: () => void;
-  destroy: (typeEvent: keyof SubViewEvents)=> void;
+  destroy: (typeEvent: keyof SubViewEvents) => void;
 }
 
 interface RulerView extends BaseSubViewInterface {
@@ -145,8 +145,10 @@ interface View extends Observer<ViewEvents> {
   progressbar: ProgressBarView;
   updateProgressBar: (data: { from: number; to: number }) => void;
   updateRuler: (min: number, max: number) => void;
-  updateShowRuler: (dataObject: ModelEvents['modelSetRulerChanged']) => void;
-  updateOrientation: (dataObject: ModelEvents['modelOrientationChanged']) => void;
+  updateShowRuler: (dataObject: ModelEvents["modelSetRulerChanged"]) => void;
+  updateOrientation: (
+    dataObject: ModelEvents["modelOrientationChanged"],
+  ) => void;
   updateMinMaxValueLine: (min: number, max: number) => void;
   updateThumbsPosition: (
     type: "min" | "max",
@@ -198,15 +200,16 @@ interface ModelEvents {
     max: number;
   };
   modelProgressbarUpdated: {
+    orientation: "vertical" | "horizontal";
     from: number;
     to: number;
   };
   modelSetRulerChanged: {
     isSetRuler: boolean;
-  }
+  };
   modelOrientationChanged: {
     orientation: "vertical" | "horizontal";
-  }
+  };
 }
 
 interface ViewEvents {
