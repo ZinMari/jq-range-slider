@@ -53,11 +53,6 @@ class View extends Observer<ViewEvents> implements View {
     this._initSubViews();
     this._appendToDOM();
     this._createRuler();
-
-    if (this.orientation === "vertical") {
-      this._setVerticalOrientation();
-    }
-
     this.addSubscribersToSubViews();
     this._notifyInitialCoords();
   }
@@ -67,7 +62,7 @@ class View extends Observer<ViewEvents> implements View {
   };
 
   private _initSubViews = () => {
-    this.line = new LineView(this.lineClass, this.orientation);
+    this.line = new LineView(this.lineClass);
     this.progressbar = new ProgressBar(this.progressBarClass);
     this.thumbs = new ThumbView({
       sliderLine: this.line,

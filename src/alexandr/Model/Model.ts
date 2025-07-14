@@ -432,9 +432,6 @@ class Model extends Observer<ModelEvents> implements Model {
   }
 
   private _equateValueToStep(value: number): number {
-    // if (isNaN(value)) {
-    //   throw new Error("Получено NaN");
-    // }
     return Math.round(value / this.stepValue) * this.stepValue;
   }
 }
