@@ -15,42 +15,33 @@ class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
     type,
     thumbMinClass,
     thumbMaxClass,
-    thumbClass,
   }: {
     sliderLine: LineViewInterface;
     orientation: "vertical" | "horizontal";
     type: "single" | "double";
     thumbMinClass: string;
     thumbMaxClass: string;
-    thumbClass: string;
   }) {
     super();
     this.line = sliderLine;
     this.orientation = orientation;
     this.type = type;
 
-    this._createThumbs({ thumbMinClass, thumbMaxClass, thumbClass });
+    this._createThumbs({ thumbMinClass, thumbMaxClass });
   }
 
   private _createThumbs({
     thumbMinClass,
     thumbMaxClass,
-    thumbClass,
   }: {
     thumbMinClass: string;
     thumbMaxClass: string;
-    thumbClass: string;
   }): void {
-    //создам кнопки
-    if (this.type === "double") {
-      this.minThumb = this._createThumb(
-        `alexandr__thumb--min ${thumbMinClass}`,
-      );
-      this.maxThumb = this._createThumb(
-        `alexandr__thumb--max ${thumbMaxClass}`,
-      );
-    } else {
-      this.minThumb = this._createThumb(thumbClass);
+    this.minThumb = this._createThumb(`alexandr__thumb--min ${thumbMinClass}`);
+    this.maxThumb = this._createThumb(`alexandr__thumb--max ${thumbMaxClass}`);
+
+    if (this.type === "single") {
+      this.maxThumb.addClass("alexandr__thumb_hidden");
     }
   }
 
@@ -63,12 +54,12 @@ class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
 
   showFlag() {
     this.minThumb.addClass("flag");
-    this.maxThumb?.addClass("flag");
+    // this.maxThumb?.addClass("flag");
   }
 
   hideFlag() {
     this.minThumb.removeClass("flag");
-    this.maxThumb?.removeClass("flag");
+    // this.maxThumb?.removeClass("flag");
   }
 
   private handler = (event: PointerEvent) => {
@@ -142,8 +133,6 @@ class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
       this.minThumb?.removeClass("alexandr__thumb_type_vertical");
       this.maxThumb?.removeClass("alexandr__thumb_type_vertical");
     }
-    this.minThumb?.removeAttr("style");
-    this.maxThumb?.removeAttr("style");
   }
 
   updateFlagValues(thumb: "min" | "max", currentValue: number): void {

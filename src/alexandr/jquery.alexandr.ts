@@ -59,7 +59,9 @@ requireAll(require.context("./", true, /\.(scss)$/));
       $(target).removeData("alexandr");
     }
 
-    connectToPluginData(fn: (options: AlexandrEvents["sliderUpdated"])=>void) {
+    connectToPluginData(
+      fn: (options: AlexandrEvents["sliderUpdated"]) => void,
+    ) {
       this.addSubscriber("sliderUpdated", fn);
     }
   }
@@ -142,7 +144,6 @@ requireAll(require.context("./", true, /\.(scss)$/));
     elemForShowValueMax: $(".max"),
     lineClass: "",
     progressBarClass: "",
-    thumbClass: "",
     thumbMinClass: "",
     thumbMaxClass: "",
     showMinValueClass: "",

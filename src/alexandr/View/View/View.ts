@@ -19,7 +19,6 @@ class View extends Observer<ViewEvents> implements View {
   private showValueFlag: boolean;
   private thumbMinClass: string;
   private thumbMaxClass: string;
-  private thumbClass: string;
   private showMinValueClass: string;
   private showMaxValueClass: string;
   private lineClass: string;
@@ -31,7 +30,6 @@ class View extends Observer<ViewEvents> implements View {
     lineClass,
     thumbMinClass,
     thumbMaxClass,
-    thumbClass,
     orientation,
     showMinMaxValue,
     showMinValueClass,
@@ -47,7 +45,6 @@ class View extends Observer<ViewEvents> implements View {
     this.showValueFlag = showValueFlag;
     this.thumbMinClass = thumbMinClass;
     this.thumbMaxClass = thumbMaxClass;
-    this.thumbClass = thumbClass;
     this.showMinValueClass = showMinValueClass;
     this.showMaxValueClass = showMaxValueClass;
     this.lineClass = lineClass;
@@ -75,16 +72,13 @@ class View extends Observer<ViewEvents> implements View {
 
   private _initSubViews = () => {
     this.line = new LineView(this.lineClass, this.orientation);
-    this.progressbar = new ProgressBar(
-      this.progressBarClass /*, this.orientation*/,
-    );
+    this.progressbar = new ProgressBar(this.progressBarClass);
     this.thumbs = new ThumbView({
       sliderLine: this.line,
       orientation: this.orientation,
       type: this.type,
       thumbMinClass: this.thumbMinClass,
       thumbMaxClass: this.thumbMaxClass,
-      thumbClass: this.thumbClass,
     });
 
     if (this.showMinMaxValue) {

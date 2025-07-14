@@ -182,12 +182,6 @@ $(".slider").alexandr("update", {
             <td>Пользовательский класс для прогрессбара</td>
         </tr>
         <tr>
-            <td>17</td>
-            <td>thumbClass</td>
-            <td>string</td>
-            <td>Пользовательский класс для одиночного ползунка</td>
-        </tr>
-        <tr>
             <td>18</td>
             <td>thumbMinClass</td>
             <td>string</td>

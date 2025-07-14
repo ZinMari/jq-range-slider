@@ -17,7 +17,6 @@ interface AlexandrSettings {
   elemForShowValueMax?: JQuery<HTMLElement>;
   lineClass?: string;
   progressBarClass?: string;
-  thumbClass?: string;
   thumbMinClass?: string;
   thumbMaxClass?: string;
   showMinValueClass?: string;

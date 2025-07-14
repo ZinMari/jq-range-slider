@@ -20,7 +20,6 @@
 //     elemForShowValueMax: $(".max"),
 //     lineClass: "",
 //     progressBarClass: "",
-//     thumbClass: "",
 //     thumbMinClass: "",
 //     thumbMaxClass: "",
 //     showMinValueClass: "",

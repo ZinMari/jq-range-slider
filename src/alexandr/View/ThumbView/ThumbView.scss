@@ -1,50 +1,54 @@
 .alexandr__thumb {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  display: block;
+  width: 30px;
+  height: 30px;
+  background-color: var(--color-white);
+  border: 10px solid var(--color-gray);
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  cursor: pointer;
+
+  &.flag::before {
+    content: attr(data-value);
     position: absolute;
-    left: 0;
-    display: block;
-    width: 30px;
-    height: 30px;
-    background-color: var(--color-white);
-    border: 10px solid var(--color-gray);
-    top: 50%;
-    transform: translateY(-50%);
-    border-radius: 50%;
-    cursor: pointer;
-
-    &.flag::before {
-        content: attr(data-value);
-        position: absolute;
-        top: -50px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 20px;
-        height: 20px;
-        background: #27262b;
-        font-size: 10px;
-        font-weight: 700;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 20%;
-        border: 3px solid var(--color-white);
-        color: var(--color-white);
-      }
-
-      &_type {
-        &_vertical {
-            top: 0;
-            transform: translateY(0);
-            left: 50%;
-            transform: translateX(-50%);
-
-            &.flag::before {
-              left: -50px;
-              top: 50%;
-              transform: translateX(0) translateY(-50%);
-            }
-        }
-      }
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background: #27262b;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20%;
+    border: 3px solid var(--color-white);
+    color: var(--color-white);
   }
+
+  &_type {
+    &_vertical {
+      top: 0;
+      transform: translateY(0);
+      left: 50%;
+      transform: translateX(-50%);
+
+      &.flag::before {
+        left: -50px;
+        top: 50%;
+        transform: translateX(0) translateY(-50%);
+      }
+    }
+  }
+
+  &_hidden {
+    display: none;
+  }
+}
