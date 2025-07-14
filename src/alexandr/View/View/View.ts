@@ -13,7 +13,6 @@ class View extends Observer<ViewEvents> implements View {
   private slider: JQuery<HTMLElement>;
   private container: JQuery<HTMLElement>;
   private line: LineViewInterface;
-  private orientation: "horizontal" | "vertical";
   private type: "single" | "double";
   private showMinMaxValue: boolean;
   private thumbMinClass: string;
@@ -29,7 +28,6 @@ class View extends Observer<ViewEvents> implements View {
     lineClass,
     thumbMinClass,
     thumbMaxClass,
-    orientation,
     showMinMaxValue,
     showMinValueClass,
     showMaxValueClass,
@@ -38,7 +36,6 @@ class View extends Observer<ViewEvents> implements View {
     super();
     this.container = container;
     this.type = type;
-    this.orientation = orientation;
     this.showMinMaxValue = showMinMaxValue;
     this.thumbMinClass = thumbMinClass;
     this.thumbMaxClass = thumbMaxClass;
@@ -169,7 +166,6 @@ class View extends Observer<ViewEvents> implements View {
   };
 
   private _setVerticalOrientation(): void {
-    this.orientation = "vertical";
     this.slider.addClass("alexandr_type_vertical");
     this.slider.height(this.slider.outerWidth());
     this.line.setVerticalOrientation();
@@ -179,7 +175,6 @@ class View extends Observer<ViewEvents> implements View {
   }
 
   private _setHorizontalOrientation(): void {
-    this.orientation = "horizontal";
     this.slider.removeClass("alexandr_type_vertical");
     this.slider.width("100%");
     this.line.setHorizontalOrientation();
