@@ -133,7 +133,6 @@ requireAll(require.context("./", true, /\.(scss)$/));
     minValue: 1000,
     maxValue: 2000,
     stepValue: 10,
-    showMinMaxValue: true,
     orientation: "horizontal",
     type: "double",
     showValueFlag: true,

@@ -13,7 +13,6 @@ class View extends Observer<ViewEvents> implements View {
   private slider: JQuery<HTMLElement>;
   private container: JQuery<HTMLElement>;
   private line: LineViewInterface;
-  private showMinMaxValue: boolean;
   private thumbMinClass: string;
   private thumbMaxClass: string;
   private showMinValueClass: string;
@@ -26,14 +25,12 @@ class View extends Observer<ViewEvents> implements View {
     lineClass,
     thumbMinClass,
     thumbMaxClass,
-    showMinMaxValue,
     showMinValueClass,
     showMaxValueClass,
     progressBarClass,
   }: AlexandrSettings) {
     super();
     this.container = container;
-    this.showMinMaxValue = showMinMaxValue;
     this.thumbMinClass = thumbMinClass;
     this.thumbMaxClass = thumbMaxClass;
     this.showMinValueClass = showMinValueClass;
@@ -46,9 +43,8 @@ class View extends Observer<ViewEvents> implements View {
     this._createBaseDOM();
     this._initSubViews();
     this._appendToDOM();
-    this._createRuler();
-    this.addSubscribersToSubViews();
     this._notifyInitialCoords();
+    this.addSubscribersToSubViews();
   }
 
   private _createBaseDOM = () => {
@@ -63,18 +59,20 @@ class View extends Observer<ViewEvents> implements View {
       thumbMinClass: this.thumbMinClass,
       thumbMaxClass: this.thumbMaxClass,
     });
-
-    if (this.showMinMaxValue) {
-      this.sliderMinMaxValueLine = new MinMaxValueLineView(
-        this.showMinValueClass,
-        this.showMaxValueClass,
-      );
-    }
+    this.sliderMinMaxValueLine = new MinMaxValueLineView(
+      this.showMinValueClass,
+      this.showMaxValueClass,
+    );
+    this.ruler = new RulerView();
   };
 
   private _appendToDOM = () => {
     this.container.append(this.slider);
-    this.slider.append(this.sliderMinMaxValueLine.item, this.line.item);
+    this.slider.append(
+      this.sliderMinMaxValueLine.item,
+      this.line.item,
+      this.ruler.item,
+    );
     this.line.item.append(
       this.progressbar.item,
       this.thumbs.minThumb,
@@ -92,10 +90,6 @@ class View extends Observer<ViewEvents> implements View {
       maxThumbHeight: this.thumbs.maxThumb?.outerHeight(),
     });
   };
-
-  private _createRuler() {
-    this.ruler = new RulerView(this.slider);
-  }
 
   updateType(dataObject: ModelEvents["modelTypeChanged"]): void {
     this.thumbs.updateType(dataObject);

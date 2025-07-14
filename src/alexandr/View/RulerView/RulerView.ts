@@ -7,7 +7,7 @@ class RulerView extends Observer<SubViewEvents> implements RulerView {
   divisions: JQuery<HTMLElement>[];
   countDivisions: number = 4;
 
-  constructor(slider: JQuery<HTMLElement>) {
+  constructor() {
     super();
     this.item = $("<div>", { class: "alexandr__ruler" });
     this.divisions = new Array(this.countDivisions);
@@ -18,8 +18,6 @@ class RulerView extends Observer<SubViewEvents> implements RulerView {
     }
 
     this.item[0].addEventListener("pointerdown", this.handler);
-
-    slider.append(this.item);
   }
 
   update(min: number, max: number): void {
