@@ -11,20 +11,17 @@ class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
 
   constructor({
     sliderLine,
-    orientation,
     type,
     thumbMinClass,
     thumbMaxClass,
   }: {
     sliderLine: LineViewInterface;
-    orientation: "vertical" | "horizontal";
     type: "single" | "double";
     thumbMinClass: string;
     thumbMaxClass: string;
   }) {
     super();
     this.line = sliderLine;
-    this.orientation = orientation;
     this.type = type;
 
     this._createThumbs({ thumbMinClass, thumbMaxClass });
