@@ -54,6 +54,7 @@ class RulerView extends Observer<SubViewEvents> implements RulerView {
   };
 
   setVerticalOrientation() {
+    this.orientation = "vertical";
     this.item.addClass("alexandr__ruler_type_vertical");
     this.divisions.forEach((elem: JQuery<HTMLElement>) => {
       elem.addClass("alexandr__dividing_type_vertical");
@@ -61,6 +62,7 @@ class RulerView extends Observer<SubViewEvents> implements RulerView {
   }
 
   setHorizontalOrientation() {
+    this.orientation = "horizontal";
     this.item.removeClass("alexandr__ruler_type_vertical");
     this.divisions.forEach((elem: JQuery<HTMLElement>) => {
       elem.removeClass("alexandr__dividing_type_vertical");

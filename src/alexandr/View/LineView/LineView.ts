@@ -24,16 +24,18 @@ class LineView extends Observer<SubViewEvents> implements LineViewInterface {
   };
 
   setVerticalOrientation() {
+    this.orientation = "vertical";
     this.item.addClass("alexandr__line_type_vertical");
     this.item.height(this.item.parent().outerWidth());
   }
 
   setHorizontalOrientation() {
-    this.item.removeAttr('style')
+    this.orientation = "horizontal";
+    this.item.removeAttr("style");
     this.item.removeClass("alexandr__line_type_vertical");
   }
 
-  destroy(typeEvent: keyof SubViewEvents){
+  destroy(typeEvent: keyof SubViewEvents) {
     this.removeAllSubscribers(typeEvent);
   }
 }
