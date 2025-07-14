@@ -154,6 +154,7 @@ interface View extends Observer<ViewEvents> {
     pixelPosition: number,
     moveDirection: "top" | "left",
   ) => void;
+  updateType: (dataObject: ModelEvents["modelTypeChanged"]) => void;
   updateFlagValues: (thumb: "min" | "max", currentValue: number) => void;
   destroy: () => void;
   setInitialValues: () => void;
@@ -208,6 +209,9 @@ interface ModelEvents {
   };
   modelOrientationChanged: {
     orientation: "vertical" | "horizontal";
+  };
+  modelTypeChanged: {
+    type: "single" | "double";
   };
 }
 

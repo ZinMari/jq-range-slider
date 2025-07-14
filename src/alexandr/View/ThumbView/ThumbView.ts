@@ -54,12 +54,12 @@ class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
 
   showFlag() {
     this.minThumb.addClass("flag");
-    // this.maxThumb?.addClass("flag");
+    this.maxThumb?.addClass("flag");
   }
 
   hideFlag() {
     this.minThumb.removeClass("flag");
-    // this.maxThumb?.removeClass("flag");
+    this.maxThumb?.removeClass("flag");
   }
 
   private handler = (event: PointerEvent) => {
@@ -152,6 +152,16 @@ class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
       this.minThumb.css({ [moveDirection]: position });
     } else if (this.type === "double" && thumb === "max") {
       this.maxThumb.css({ [moveDirection]: position });
+    }
+  }
+
+  updateType({ type }: ModelEvents["modelTypeChanged"]) {
+    this.type = type;
+
+    if (this.type === "single") {
+      this.maxThumb.addClass("alexandr__thumb_hidden");
+    } else {
+      this.maxThumb.removeClass("alexandr__thumb_hidden");
     }
   }
 

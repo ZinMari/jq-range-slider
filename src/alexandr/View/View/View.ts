@@ -122,6 +122,11 @@ class View extends Observer<ViewEvents> implements View {
     this.ruler = new RulerView(this.slider, this.orientation);
   }
 
+  updateType(dataObject: ModelEvents["modelTypeChanged"]): void {
+    this.type = dataObject.type;
+    this.thumbs.updateType(dataObject);
+  }
+
   updateProgressBar(dataObject: ModelEvents["modelProgressbarUpdated"]): void {
     this.progressbar.update(dataObject);
   }

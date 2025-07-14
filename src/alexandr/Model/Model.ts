@@ -71,6 +71,9 @@ class Model extends Observer<ModelEvents> implements Model {
     if ("showRuler" in options) {
       this.setRuler(options.showRuler);
     }
+    if (options.type) {
+      this.setType(options.type);
+    }
   };
 
   modelGetCordsView = ({
@@ -112,6 +115,28 @@ class Model extends Observer<ModelEvents> implements Model {
     this.notify("modelSetRulerChanged", {
       isSetRuler,
     });
+  };
+
+  setType = (type: "single" | "double") => {
+    this.type = type;
+
+    if (type === "single") {
+      this.maxPosition = null;
+      this.maxThumbPixelPosition = null;
+    } else {
+      this.maxPosition =
+        this.minPosition === this.maxValue
+          ? this.maxValue
+          : this.minPosition + this.stepValue;
+      this.minPosition = this.maxPosition - this.stepValue;
+    }
+
+    this.notify("modelTypeChanged", {
+      type,
+    });
+
+    this.setThumbsPosition("min", this.minPosition);
+    this.setThumbsPosition("max", this.maxPosition);
   };
 
   setOrientation = (orientation: "vertical" | "horizontal") => {

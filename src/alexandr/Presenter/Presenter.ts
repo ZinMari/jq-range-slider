@@ -43,20 +43,23 @@ class Presenter extends Observer<PresenterEvents> {
       this.modelProgressbarUpdated,
     );
 
-    this.model.addSubscriber(
-      "modelSetRulerChanged",
-      this.modelSetRulerChanged,
-    );
+    this.model.addSubscriber("modelSetRulerChanged", this.modelSetRulerChanged);
 
     this.model.addSubscriber(
       "modelOrientationChanged",
       this.modelOrientationChanged,
     );
+
+    this.model.addSubscriber("modelTypeChanged", this.modelTypeChanged);
   }
 
-  refreshOptions(options: AlexandrSettings): void{
-    this.model.refreshOptions(options)
+  refreshOptions(options: AlexandrSettings): void {
+    this.model.refreshOptions(options);
   }
+
+  private modelTypeChanged = (dataObject: ModelEvents["modelTypeChanged"]) => {
+    this.view.updateType(dataObject);
+  };
 
   private modelOrientationChanged = (
     dataObject: ModelEvents["modelOrientationChanged"],
