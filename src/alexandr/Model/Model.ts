@@ -215,37 +215,41 @@ class Model extends Observer<ModelEvents> implements Model {
   };
 
   setThumbsPosition = (typeThumb: "min" | "max", value: number): void => {
-    this[`${typeThumb}Position`] = value;
+    if (value === null) {
+      return;
+    } else {
+      this[`${typeThumb}Position`] = value;
 
-    this[`${typeThumb}Position`] = this._equateValueToStep(
-      this[`${typeThumb}Position`],
-    );
-
-    if (this.type === "double") {
-      this[`${typeThumb}Position`] = this._validateDoublePosition(
-        typeThumb,
+      this[`${typeThumb}Position`] = this._equateValueToStep(
         this[`${typeThumb}Position`],
       );
-    }
 
-    this._normalizeMinMaxPositions();
+      if (this.type === "double") {
+        this[`${typeThumb}Position`] = this._validateDoublePosition(
+          typeThumb,
+          this[`${typeThumb}Position`],
+        );
+      }
 
-    this[`${typeThumb}ThumbPixelPosition`] =
-      this.valueConverter.convertUnitsToPixels({
-        value: this[`${typeThumb}Position`],
-        minValue: this.minValue,
-        pixelInOneStep: this.pixelInOneStep,
-        stepValue: this.stepValue,
+      this._normalizeMinMaxPositions();
+
+      this[`${typeThumb}ThumbPixelPosition`] =
+        this.valueConverter.convertUnitsToPixels({
+          value: this[`${typeThumb}Position`],
+          minValue: this.minValue,
+          pixelInOneStep: this.pixelInOneStep,
+          stepValue: this.stepValue,
+        });
+
+      this.setProgressBarSize();
+
+      this.notify("modelThumbsPositionChanged", {
+        type: typeThumb,
+        currentValue: this[`${typeThumb}Position`],
+        pixelPosition: this[`${typeThumb}ThumbPixelPosition`],
+        moveDirection: this.moveDirection,
       });
-
-    this.setProgressBarSize();
-
-    this.notify("modelThumbsPositionChanged", {
-      type: typeThumb,
-      currentValue: this[`${typeThumb}Position`],
-      pixelPosition: this[`${typeThumb}ThumbPixelPosition`],
-      moveDirection: this.moveDirection,
-    });
+    }
   };
 
   setProgressBarSize = (): void => {
