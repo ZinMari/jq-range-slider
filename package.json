@@ -12,6 +12,8 @@
     "test:model": "jest ./src/alexandr/tests/Model/Model.test.ts --coverage",
     "test:presenter": "jest ./src/alexandr/tests/Presenter/Presenter.test.ts --coverage",
     "test:view": "jest ./src/alexandr/tests/View/View.test.ts --coverage",
+    "test:line": "jest ./src/alexandr/tests/View/LineView.test.ts --coverage",
+    "test:thumbs": "jest ./src/alexandr/tests/View/ThumbView.test.ts --coverage",
     "lint": "npx stylelint **/*.css",
     "lint:f": "npx stylelint **/*.css --fix"
   },

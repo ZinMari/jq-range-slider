@@ -1,342 +1,168 @@
-// import "@testing-library/jest-dom";
-// import { fireEvent } from "@testing-library/dom";
+import "@testing-library/jest-dom";
+import { fireEvent } from "@testing-library/dom";
+import View from "../../View/View/View";
+import getRandomInteger from "../../utils/getRandomInteger";
 
-// import SliderView from "../../View/View/View";
+describe("Вид:", () => {
+  const settingsDefault: AlexandrSettings = {
+    container: $("<div>").attr({ class: "container" }),
+    minValue: 1000,
+    maxValue: 2000,
+    stepValue: 10,
+    orientation: "horizontal",
+    type: "double",
+    showValueFlag: true,
+    showRuler: true,
+    minPosition: 0,
+    maxPosition: 0,
+    elemForShowValueMin: $(".min"),
+    elemForShowValueMax: $(".max"),
+    lineClass: "",
+    progressBarClass: "",
+    thumbMinClass: "",
+    thumbMaxClass: "",
+    showMinValueClass: "",
+    showMaxValueClass: "",
+  };
+  describe("Создает сабвью:", () => {
+    const view: View = new View(settingsDefault);
+    view.setInitialValues();
+    test("Кнопки", () => {
+      expect(view.thumbs).toBeDefined();
+    });
+    test("Отображение инимального и максимальным знаечния", () => {
+      expect(view.sliderMinMaxValueLine).toBeDefined();
+    });
+    test("Линейку", () => {
+      expect(view.ruler).toBeDefined();
+    });
+    test("Прогрессбар", () => {
+      expect(view.progressbar).toBeDefined();
+    });
+  });
+  describe("Работает с подписчиками:", () => {
+    const view: View = new View(settingsDefault);
+    view.setInitialValues();
+    const subscriber = jest.fn();
+    const subscriber2 = jest.fn();
+    view.addSubscriber("viewThumbsPositionChanged", subscriber);
+    view.addSubscriber("viewThumbsPositionChanged", subscriber2);
+    test("Добавляет пописчиков:", () => {
+      expect(view.subscribers["viewThumbsPositionChanged"].size).toBe(2);
+    });
+    test("Удаляет пописчиков:", () => {
+      view.removeSubscriber("viewThumbsPositionChanged", subscriber);
+      expect(view.subscribers["viewThumbsPositionChanged"].size).toBe(1);
+    });
+  });
+  describe("Вызывет функции обновления в сабвью:", () => {
+    const view: View = new View(settingsDefault);
+    view.setInitialValues();
 
-// describe("Вид:", () => {
-//   const baseSettings: AlexandrSettings = {
-//     container: $("<div>").attr({ class: "container" }),
-//     minValue: 1000,
-//     maxValue: 1000,
-//     stepValue: 10,
-//     showMinMaxValue: true,
-//     orientation: "horizontal",
-//     type: "double",
-//     showValueFlag: true,
-//     showRuler: true,
-//     minPosition: 10,
-//     maxPosition: 20,
-//     elemForShowValueMin: $(".min"),
-//     elemForShowValueMax: $(".max"),
-//     lineClass: "",
-//     progressBarClass: "",
-//     thumbMinClass: "",
-//     thumbMaxClass: "",
-//     showMinValueClass: "",
-//     showMaxValueClass: "",
-//     controlsMinThumb: [$("<input>").attr({ class: "controlMinThumb" })],
-//     controlsMaxThumb: [$("<input>").attr({ class: "controlMaxThumb" })],
-//   };
-//   describe("Корректно обрабатывает переданные параметры:", () => {
-//     test("Слайдер добавляется в контейнер", () => {
-//       const view = new SliderView();
-//       view.init(baseSettings);
-//       expect(view.container[0]).toContainElement(view.slider[0]);
-//     });
-//     test("При указании типа double создается 2 кнопки", () => {
-//       const view = new SliderView();
-//       view.init(baseSettings);
-//       expect(view.thumbs.length).toBe(2);
-//     });
-//     test("При указании типа single создается 1 кнопка", () => {
-//       const view = new SliderView();
-//       view.init($.extend({}, baseSettings, { type: "single" }));
-//       expect(view.thumbs.length).toBe(1);
-//     });
-//     test("При передачи в кач-ве контейнера элемента, отличного от div или article - ошибка", () => {
-//       const view = new SliderView();
-//       expect(() => {
-//         view.init($.extend({}, baseSettings, { container: $("<input>") }));
-//       }).toThrow();
-//     });
-//   });
+    test("Флажков:", () => {
+      const spy = jest.spyOn(view.thumbs, "updateFlagValues");
+      view.updateFlagValues({
+        type: "max",
+        currentValue: getRandomInteger(),
+      });
+      expect(spy).toHaveBeenCalled();
+    });
+    test("Кнопок:", () => {
+      const spy = jest.spyOn(view.thumbs, "updateThumbsPosition");
+      view.updateThumbsPosition({
+        type: "min",
+        pixelPosition: getRandomInteger(),
+        moveDirection: "left",
+      });
+      expect(spy).toHaveBeenCalled();
+    });
+    test("Типа слайдера:", () => {
+      const spy = jest.spyOn(view.thumbs, "updateType");
+      view.updateType({
+        type: "double",
+      });
+      expect(spy).toHaveBeenCalled();
+    });
+    test("Минимального и максимального значения:", () => {
+      const spy = jest.spyOn(view.sliderMinMaxValueLine, "update");
+      view.updateMinMaxValueLine({
+        min: getRandomInteger(),
+        max: getRandomInteger(),
+      });
+      expect(spy).toHaveBeenCalled();
+    });
+    test("Прогрессбара:", () => {
+      const spy = jest.spyOn(view.progressbar, "update");
+      view.updateProgressBar({
+        orientation: "horizontal",
+        from: getRandomInteger(),
+        to: getRandomInteger(),
+      });
+      expect(spy).toHaveBeenCalled();
+    });
+  });
+  describe("Вертикальная ориентация устанавливается:", () => {
+    const view: View = new View(settingsDefault);
+    view.setInitialValues();
+    view.updateOrientation({ orientation: "vertical" });
 
-//   describe("При выборе вертикальной ориентации добавляются все необходимые классы:", () => {
-//     const view = new SliderView();
-//     view.init($.extend({}, baseSettings, { orientation: "vertical" }));
+    test("Добавляется класс на кнопки:", () => {
+      expect(view.thumbs.minThumb[0]).toHaveClass(
+        "alexandr__thumb_type_vertical",
+      );
+    });
 
-//     test("Слайдер: ", () => {
-//       expect(view.slider[0]).toHaveClass("alexandr_type_vertical");
-//     });
-//     test("Линия слайдера: ", () => {
-//       expect(view.line.item[0]).toHaveClass("alexandr__line_type_vertical");
-//     });
-//     test("Минимальное и максимальное значение: ", () => {
-//       expect(view.sliderMinMaxValueLine.wrap[0]).toHaveClass(
-//         "alexandr__values_type_vertical",
-//       );
-//     });
-//   });
+    test("При установке горизонтальной ориентации, на линейке нет класса для установки вертикальной ориентации:", () => {
+      view.updateOrientation({ orientation: "horizontal" });
+      expect(view.ruler.item[0]).not.toHaveClass(
+        "alexandr__ruler_type_vertical",
+      );
+    });
+  });
+  describe("Линейка устанавливает значения:", () => {
+    const view: View = new View(settingsDefault);
+    view.setInitialValues();
 
-//   describe("Функции для связки прослушиваетелей не вызывают ошибок:", () => {
-//     const view = new SliderView();
-//     view.init(baseSettings);
+    view.updateRuler({ min: 0, max: 50 });
 
-//     test("Движение ползунков - bindThumbsMove", () => {
-//       expect(() => {
-//         view.bindThumbsMove(() => {});
-//       }).not.toThrow();
-//     });
+    const divisions = view.ruler.divisions.map(elem => {
+      return elem.attr("data-dividing");
+    });
 
-//     test("Изменение инпутов - bindInputsChange", () => {
-//       expect(() => {
-//         view.bindInputsChange(() => {});
-//       }).not.toThrow();
-//     });
+    test("При вызове функции updateRuler значения устанавливаются в линейку:", () => {
+      expect(divisions.every(elem => elem !== undefined)).toBeTruthy();
+    });
+  });
+  describe("Клик по линейке работает:", () => {
+    const view: View = new View(settingsDefault);
+    view.setInitialValues();
 
-//     test("Клик по слайдеру - bindLineClick", () => {
-//       expect(() => {
-//         view.bindLineClick(() => {});
-//       }).not.toThrow();
-//     });
+    const spyHandler = jest.spyOn(view.ruler, "handler");
+    fireEvent.pointerDown(view.ruler.item[0]);
 
-//     test("Клик по линейке - bindRulerClick", () => {
-//       expect(() => {
-//         view.bindRulerClick(() => {});
-//       }).not.toThrow();
-//     });
-//   });
+    test("Функция handler вызывается ", () => {
+      expect(spyHandler).toHaveBeenCalled();
+    });
+  });
+  describe("Слайдер:", () => {
+    const container = $("<div>").attr({ class: "test-container" });
+    const settings = Object.assign(settingsDefault, {
+      container,
+    });
+    const view: View = new View(settings);
+    view.setInitialValues();
+    $("body").append(container);
 
-//   describe("Функция updateThumbsPosition обновляет позицию ползунка", () => {
-//     const view = new SliderView();
-//     view.init($.extend(baseSettings));
+    const line = container.find(".alexandr__line")[0];
 
-//     test("Минимального: ", () => {
-//       const newPosition = 6;
-//       view.updateThumbsPosition("min", newPosition);
-//       expect(view.thumbs[0].item[0]).toHaveStyle({
-//         [view.moveDirection]: newPosition + "px",
-//       });
-//     });
+    test("добавляется в DOM:", () => {
+      expect(line).not.toBe(null);
+    });
 
-//     test("Максимального: ", () => {
-//       const newPosition = 6;
-//       view.updateThumbsPosition("max", newPosition);
-//       expect(view.thumbs[1].item[0]).toHaveStyle({
-//         [view.moveDirection]: newPosition + "px",
-//       });
-//     });
-//   });
-
-//   describe("Функция updateMinMaxValueLine обновляет значения линии слайдера", () => {
-//     const view = new SliderView();
-//     view.init(baseSettings);
-
-//     test("Минимальное: ", () => {
-//       const oldMin = view.sliderMinMaxValueLine.min.text();
-//       const oldMax = view.sliderMinMaxValueLine.max.text();
-
-//       view.updateMinMaxValueLine(10, 100);
-//       expect(view.sliderMinMaxValueLine.min.text()).not.toBe(oldMin);
-//       expect(view.sliderMinMaxValueLine.max.text()).not.toBe(oldMax);
-//     });
-//   });
-
-//   test("Функция updateRulerValue обновляет значения линейки", () => {
-//     const view = new SliderView();
-//     view.init(baseSettings);
-
-//     const oldValues: string[] = [];
-
-//     $.each(view.ruler.divisions, function () {
-//       oldValues.push(this.attr("data-dividing"));
-//     });
-
-//     view.updateRulerValue(10, 100);
-
-//     $.each(view.ruler.divisions, function (index, elem) {
-//       expect(elem.attr("data-dividing")).not.toBe(oldValues[index]);
-//     });
-//   });
-
-//   describe("Функция updateFlagValues обновляет значения флажков", () => {
-//     const view = new SliderView();
-//     view.init(baseSettings);
-
-//     const oldMinFlag = view.thumbs[0].item.attr("data-value");
-//     const oldMaxFlag = view.thumbs[1].item.attr("data-value");
-
-//     test("Минимального: ", () => {
-//       view.updateFlagValues("min", 100);
-//       expect(view.thumbs[0].item.attr("data-value")).not.toBe(oldMinFlug);
-//     });
-
-//     test("Максимального: ", () => {
-//       view.updateFlagValues("max", 100);
-//       expect(view.thumbs[1].item.attr("data-value")).not.toBe(oldMaxFlug);
-//     });
-//   });
-
-//   describe("Функция updateThumbsControlsValue обновляет значения инпутов", () => {
-//     const view = new SliderView();
-//     view.init(baseSettings);
-
-//     view.updateThumbsControlsValue("min", 1);
-//     view.updateThumbsControlsValue("max", 5);
-
-//     const oldValueMin = view.controlsMinThumb[0].val();
-//     const oldValueMax = view.controlsMaxThumb[0].val();
-
-//     test("Минимального: ", () => {
-//       view.updateThumbsControlsValue("min", 10);
-//       expect(view.controlsMinThumb[0][0]).not.toHaveValue(oldValueMin);
-//     });
-
-//     test("Максимального: ", () => {
-//       view.updateThumbsControlsValue("max", 100);
-//       expect(view.controlsMaxThumb[0][0]).not.toHaveValue(oldValueMax);
-//     });
-//   });
-
-//   describe("Функция setPixelInOneStep корректно рассчитывает количество пикселей в шаге:", () => {
-//     const view = new SliderView();
-//     view.init(baseSettings);
-
-//     test("при полученном отрицательном значении шага вернет 1: ", () => {
-//       view.setPixelInOneStep({ min: 5, max: 10, step: -100 });
-//       expect(view.pixelInOneStep).toBeGreaterThan(0);
-//     });
-//   });
-
-//   describe("Функция _equateValueToStep:", () => {
-//     const view = new SliderView();
-//     view.init(baseSettings);
-
-//     test("выбросит ошибку при получении NaN:", () => {
-//       expect(() => {
-//         view._equateValueToStep(NaN);
-//       }).toThrow();
-//     });
-
-//     test("возвращает число:", () => {
-//       expect(typeof view._equateValueToStep(60)).toBe("number");
-//     });
-//   });
-
-//   describe("Инпуты получают значения:", () => {
-//     const view = new SliderView();
-//     view.init(baseSettings);
-
-//     test("Минимальный", () => {
-//       fireEvent.change(view.controlsMinThumb[0][0], { target: { value: 135 } });
-//       expect(view.controlsMinThumb[0][0]).toHaveValue("135");
-//     });
-
-//     test("Максимальный", () => {
-//       fireEvent.change(view.controlsMaxThumb[0][0], { target: { value: 135 } });
-//       expect(view.controlsMaxThumb[0][0]).toHaveValue("135");
-//     });
-//   });
-
-//   describe("Инпуты вызывают коллбэк:", () => {
-//     const view = new SliderView();
-//     view.init(baseSettings);
-
-//     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-//     const mockCallback = jest.fn((type, value) => {});
-//     view.bindInputsChange(mockCallback);
-
-//     test("Минимальный", () => {
-//       fireEvent.change(view.controlsMinThumb[0][0], { target: { value: 135 } });
-//       expect(mockCallback).toHaveBeenCalledWith("min", 135);
-//     });
-
-//     test("Максимальный", () => {
-//       fireEvent.change(view.controlsMaxThumb[0][0], { target: { value: 135 } });
-//       expect(mockCallback).toHaveBeenCalledWith("max", 135);
-//     });
-//   });
-
-//   describe("Функция _getCoords возвращает объект с требуемыми ключами:", () => {
-//     const view = new SliderView();
-
-//     test("Left", () => {
-//       expect(Object.keys(view._getCoords($("<input>")))).toContain("left");
-//     });
-//   });
-
-//   describe("Функция _validateDoubleThumbValue: ", () => {
-//     const view = new SliderView();
-//     view.init(baseSettings);
-
-//     const args = {
-//       currenThumb: view.thumbs[0],
-//       value: 50,
-//       minThumbPixelPosition: 0,
-//       maxThumbPixelPosition: 50,
-//       pixelInOneStep: 30,
-//     };
-
-//     test("не вернет одинаковые позиции для ползунков:", () => {
-//       expect(
-//         view._validateDoubleThumbValue({
-//           currenThumb: view.thumbs[0].item,
-//           value: 50,
-//           minThumbPixelPosition: 0,
-//           maxThumbPixelPosition: 50,
-//           pixelInOneStep: 30,
-//         }),
-//       ).not.toBe(args.maxThumbPixelPosition);
-//     });
-
-//     test("вернет число:", () => {
-//       expect(
-//         typeof view._validateDoubleThumbValue({
-//           currenThumb: view.thumbs[1].item,
-//           value: 50,
-//           minThumbPixelPosition: 0,
-//           maxThumbPixelPosition: 300,
-//           pixelInOneStep: 30,
-//         }),
-//       ).toBe("number");
-//     });
-
-//     test("не вернет одинаковые позиции для ползунков:", () => {
-//       expect(
-//         typeof view._validateDoubleThumbValue({
-//           currenThumb: view.thumbs[1].item,
-//           value: -50,
-//           minThumbPixelPosition: 0,
-//           maxThumbPixelPosition: 300,
-//           pixelInOneStep: 30,
-//         }),
-//       ).toBe("number");
-//     });
-//   });
-
-//   describe("Функция _setProgressBar: ", () => {
-//     test("устанавливает ширину при вертикальной ориентации: ", () => {
-//       const view = new SliderView();
-//       view.init($.extend({}, baseSettings, { orientation: "vertical" }));
-
-//       const oldHeight = view.progressbar.item.css("width");
-//       view._setProgressBar();
-//       expect(view.progressbar.item.css("width")).not.toBe(oldHeight);
-//     });
-
-//     test("устанавливает ширину при вертикальной ориентации и одном ползунке: ", () => {
-//       const view = new SliderView();
-//       view.init(
-//         $.extend({}, baseSettings, { orientation: "vertical", type: "single" }),
-//       );
-
-//       const oldHeight = view.progressbar.item.css("width");
-//       view._setProgressBar();
-//       expect(view.progressbar.item.css("width")).not.toBe(oldHeight);
-//     });
-
-//     test("устанавливает высоту при горизонтальной ориентации и одном ползунке: ", () => {
-//       const view = new SliderView();
-//       view.init(
-//         $.extend({}, baseSettings, {
-//           orientation: "horizontal",
-//           type: "single",
-//         }),
-//       );
-
-//       const oldHeight = view.progressbar.item.css("height");
-//       view._setProgressBar();
-//       expect(view.progressbar.item.css("height")).not.toBe(oldHeight);
-//     });
-//   });
-// });
+    test("Для линии устанавливается вертикальная ориентация", () => {
+      view.updateOrientation({ orientation: "vertical" });
+      expect(line).toHaveClass("alexandr__line_type_vertical");
+    });
+    container.remove();
+  });
+});

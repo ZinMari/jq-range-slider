@@ -21,81 +21,93 @@ describe("Модель:", () => {
     height: getRandomInteger(),
   };
 
-  describe("Минимальное значение слайдера всегда меньше максимального:", () => {
+  describe("Минимальное значение слайдера меньше максимального:", () => {
     test("при minValue=5 maxValue=0", () => {
       const model: Model = new Model(settingsDefault);
       expect(model.minValue < model.maxValue).toBeTruthy();
     });
   });
-  describe("Значение шага всегда больше нуля:", () => {
-    test("при заданном значении 0", () => {
+  describe("Значение шага: ", () => {
+    test("больше нуля при заданном значении 0", () => {
       const settings = Object.assign(settingsDefault, { stepValue: 0 });
       const model: Model = new Model(settings);
       expect(model.stepValue).toBeGreaterThan(0);
     });
-    test("при заданном отрицательном значении -100", () => {
+    test("больше нуля при заданном отрицательном значении -100", () => {
       const settings = Object.assign(settingsDefault, { stepValue: -100 });
       const model: Model = new Model(settings);
       expect(model.stepValue).toBeGreaterThan(0);
     });
-  });
-  describe("Функция установки ориентации меняет ориентацию:", () => {
-    test("Установка вертикальной ориентации", () => {
-      const settings = Object.assign(settingsDefault, {
-        orientation: "horizontal",
+    describe("при установке нового значения будет в допустимом диапазоне:", () => {
+      test("при минзначении слайдера 100 и максзначении слайдера 200 и  шаге 300", () => {
+        const settings: AlexandrSettings = Object.assign(settingsDefault, {
+          minValue: 100,
+          maxValue: 200,
+        });
+        const model: Model = new Model(settings);
+        model.setStepValue(300);
+        expect(model.stepValue).toBeLessThanOrEqual(
+          model.maxValue - model.minValue,
+        );
       });
-      const model: Model = new Model(settings);
-      model.setOrientation("vertical");
-      expect(model.orientation).toBe("vertical");
-    });
-  });
-  describe("При изменении типа слайдера с диапазона на одиночное значение, данные второго ползунка сбрасываются :", () => {
-    test("", () => {
-      const settings: AlexandrSettings = Object.assign(settingsDefault, {
-        type: "double",
+      test("при минзначении слайдера 100 и максзначении слайдера 200 и  шаге -300", () => {
+        const settings: AlexandrSettings = Object.assign(settingsDefault, {
+          minValue: 100,
+          maxValue: 200,
+        });
+        const model: Model = new Model(settings);
+        model.setStepValue(-300);
+        expect(model.stepValue).toBeGreaterThan(0);
       });
-      const model: Model = new Model(settings);
-      model.setType("single");
-      expect(model.maxPosition).toBeNull();
     });
   });
-  describe("После вызова updateThumbPosition, позиция ползунка была изменена:", () => {
-    test("", () => {
-      const model: Model = new Model(settingsDefault);
-      const options: UpdateThumbData = {
-        type: "max",
-        shiftClickThumb: getRandomInteger(),
-        lineCoords: coords,
-        thumbCoords: coords,
-        clientEvent: getRandomInteger(),
-        clientLineCoordsOffset: getRandomInteger(),
-        clientLineCoordsSize: getRandomInteger(),
-        clientThumbCoordsSize: getRandomInteger(),
-      };
-      const oldThumbPosition = model.maxThumbPixelPosition;
-      model.updateThumbPosition(options);
-      expect(model.maxThumbPixelPosition).not.toBe(oldThumbPosition);
+  test("Функция установки ориентации меняет ориентацию:", () => {
+    const settings = Object.assign(settingsDefault, {
+      orientation: "horizontal",
     });
+    const model: Model = new Model(settings);
+    model.setOrientation("vertical");
+    expect(model.orientation).toBe("vertical");
   });
-  describe("Подписка на события прогрессбара работает:", () => {
-    test("", () => {
-      const model: Model = new Model(settingsDefault);
-      const subscriber = jest.fn();
+  test("При изменении типа слайдера с диапазона на одиночное значение, данные второго ползунка сбрасываются :", () => {
+    const settings: AlexandrSettings = Object.assign(settingsDefault, {
+      type: "double",
+    });
+    const model: Model = new Model(settings);
+    model.setType("single");
+    expect(model.maxPosition).toBeNull();
+  });
+  test("После вызова updateThumbPosition, позиция ползунка была изменена:", () => {
+    const model: Model = new Model(settingsDefault);
+    const options: UpdateThumbData = {
+      type: "max",
+      shiftClickThumb: getRandomInteger(),
+      lineCoords: coords,
+      thumbCoords: coords,
+      clientEvent: getRandomInteger(),
+      clientLineCoordsOffset: getRandomInteger(),
+      clientLineCoordsSize: getRandomInteger(),
+      clientThumbCoordsSize: getRandomInteger(),
+    };
+    const oldThumbPosition = model.maxThumbPixelPosition;
+    model.updateThumbPosition(options);
+    expect(model.maxThumbPixelPosition).not.toBe(oldThumbPosition);
+  });
+  describe("Подписка работает:", () => {
+    const model: Model = new Model(settingsDefault);
+    const subscriber = jest.fn();
+    test("на события прогрессбара:", () => {
       model.addSubscriber("modelProgressbarUpdated", subscriber);
       model.setProgressBarSize();
       expect(subscriber).toHaveBeenCalled();
     });
-  });
-  describe("Подписка на события установки линейки работает:", () => {
-    test("", () => {
-      const model: Model = new Model(settingsDefault);
-      const subscriber = jest.fn();
+    test("на события установки линейки", () => {
       model.addSubscriber("modelSetRulerChanged", subscriber);
       model.setRuler(true);
       expect(subscriber).toHaveBeenCalled();
     });
   });
-  describe("При диапазоне, минимальное положение ползунка, всегда меньше максимального:", () => {
+  describe("Минимальное положение ползунка, всегда меньше максимального:", () => {
     const model: Model = new Model(settingsDefault);
     model.pixelInOneStep = getRandomInteger();
     model.sliderLength = getRandomInteger();
@@ -112,30 +124,8 @@ describe("Модель:", () => {
       expect(model.minPosition).toBeLessThan(model.maxPosition);
     });
   });
-  describe("При установке нового значения шага он будет в допустимом диапазоне:", () => {
-    test("при минзначении слайдера 100 и максзначении слайдера 200 и  шаге 300", () => {
-      const settings: AlexandrSettings = Object.assign(settingsDefault, {
-        minValue: 100,
-        maxValue: 200,
-      });
-      const model: Model = new Model(settings);
-      model.setStepValue(300);
-      expect(model.stepValue).toBeLessThanOrEqual(
-        model.maxValue - model.minValue,
-      );
-    });
-    test("при минзначении слайдера 100 и максзначении слайдера 200 и  шаге -300", () => {
-      const settings: AlexandrSettings = Object.assign(settingsDefault, {
-        minValue: 100,
-        maxValue: 200,
-      });
-      const model: Model = new Model(settings);
-      model.setStepValue(-300);
-      expect(model.stepValue).toBeGreaterThan(0);
-    });
-  });
   describe("При установке нового максимального значения слайдера оно больше минимального:", () => {
-    test("при минзначении слайдера 100 и и новом максимальном значении -30", () => {
+    test("при минзначении слайдера 100 и максимальном значении -30", () => {
       const settings: AlexandrSettings = Object.assign(settingsDefault, {
         minValue: 100,
         maxValue: 200,
@@ -146,7 +136,7 @@ describe("Модель:", () => {
     });
   });
   describe("При установке нового минимального значения слайдера оно меньше максимального:", () => {
-    test("при максзначении слайдера 100 и и новом минимальном значении 300", () => {
+    test("при максзначении слайдера 100 и минимальном значении 300", () => {
       const settings: AlexandrSettings = Object.assign(settingsDefault, {
         maxValue: 100,
       });
@@ -164,7 +154,7 @@ describe("Модель:", () => {
     });
   });
   describe("Подписчики модели удаляются: ", () => {
-    test("Подписчик на флажки:", () => {
+    test("на флажки:", () => {
       const model: Model = new Model(settingsDefault);
       const fn = jest.fn();
       model.addSubscriber("modelShowFlagChanged", fn);
