@@ -1,3 +1,5 @@
+import type { ConvertData } from "./type";
+
 export default class ValueConverter implements ValueConverter {
   pixelInOneStep = ({
     sliderLength,

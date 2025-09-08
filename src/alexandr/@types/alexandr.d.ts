@@ -1,10 +1,3 @@
-interface ConvertData {
-  value: number;
-  pixelInOneStep: number;
-  minValue: number;
-  stepValue: number;
-}
-
 interface PixelInOneStepData {
   sliderLength: number;
   max: number;
