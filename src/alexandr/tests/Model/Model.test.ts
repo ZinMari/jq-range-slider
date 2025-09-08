@@ -1,4 +1,5 @@
 import Model from "../../Model/Model";
+import { ElementsCoords } from "../../utils/getCoords";
 import getRandomInteger from "../../utils/getRandomInteger";
 import type { UpdateThumbData } from "../../View/ThumbView/type";
 

@@ -12,12 +12,7 @@ interface PixelInOneStepData {
   step: number;
 }
 
-interface ElementsCoords {
-  left: number;
-  width: number;
-  top: number;
-  height: number;
-}
+
 
 interface ObserverSubscriber<T> {
   (infoObject: T[keyof T]): void;
