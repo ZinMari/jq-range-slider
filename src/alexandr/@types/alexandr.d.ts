@@ -52,13 +52,6 @@ interface BaseSubViewInterface extends Observer<SubViewEvents> {
   item: JQuery<HTMLElement>;
 }
 
-interface ProgressBarView {
-  item: JQuery<HTMLElement>;
-  update: (data: { from: number; to: number }) => void;
-}
-
-
-
 interface ObserverSubscriber<T> {
   (infoObject: T[keyof T]): void;
 }

@@ -6,6 +6,7 @@ import RulerView from "../RulerView/RulerView";
 import ThumbView from "../ThumbView/ThumbView";
 
 import type { LineViewInterface } from "../LineView/type";
+import type { ProgressBarView } from "../ProgressbarView/type";
 
 class View extends Observer<ViewEvents> implements View {
   ruler: RulerView;
