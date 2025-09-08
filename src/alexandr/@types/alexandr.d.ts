@@ -52,12 +52,6 @@ interface BaseSubViewInterface extends Observer<SubViewEvents> {
   item: JQuery<HTMLElement>;
 }
 
-interface LineViewInterface extends BaseSubViewInterface {
-  setVerticalOrientation: () => void;
-  setHorizontalOrientation: () => void;
-  destroy: (typeEvent: keyof SubViewEvents) => void;
-}
-
 interface RulerView extends BaseSubViewInterface {
   divisions: JQuery<HTMLElement>[];
   countDivisions: number;

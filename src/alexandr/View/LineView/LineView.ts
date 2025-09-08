@@ -1,5 +1,6 @@
 import Observer from "../../Observer/Observer";
 import handlerClickOnSlider from "../../utils/handlerClickOnSlider";
+import type { LineViewInterface } from "./type";
 
 class LineView extends Observer<SubViewEvents> implements LineViewInterface {
   item: JQuery<HTMLElement>;

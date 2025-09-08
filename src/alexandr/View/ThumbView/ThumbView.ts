@@ -1,5 +1,6 @@
 import Observer from "../../Observer/Observer";
 import getCoords from "../../utils/getCoords";
+import type { LineViewInterface } from "../LineView/type";
 
 class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
   item: JQuery<HTMLElement>;

@@ -5,6 +5,8 @@ import ProgressBar from "../ProgressbarView/ProgressbarView";
 import RulerView from "../RulerView/RulerView";
 import ThumbView from "../ThumbView/ThumbView";
 
+import type { LineViewInterface } from "../LineView/type";
+
 class View extends Observer<ViewEvents> implements View {
   ruler: RulerView;
   sliderMinMaxValueLine: MinMaxValueLineView;
