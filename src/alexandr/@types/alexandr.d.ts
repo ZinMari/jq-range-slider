@@ -1,12 +1,3 @@
-interface PixelInOneStepData {
-  sliderLength: number;
-  max: number;
-  min: number;
-  step: number;
-}
-
-
-
 interface ObserverSubscriber<T> {
   (infoObject: T[keyof T]): void;
 }

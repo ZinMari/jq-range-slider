@@ -10,3 +10,10 @@ export interface ConvertData {
   minValue: number;
   stepValue: number;
 }
+
+export interface PixelInOneStepData {
+  sliderLength: number;
+  max: number;
+  min: number;
+  step: number;
+}

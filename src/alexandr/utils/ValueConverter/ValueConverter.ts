@@ -1,4 +1,4 @@
-import type { ConvertData } from "./type";
+import type { ConvertData, PixelInOneStepData } from "./type";
 
 export default class ValueConverter implements ValueConverter {
   pixelInOneStep = ({
