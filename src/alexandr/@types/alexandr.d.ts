@@ -75,16 +75,6 @@ interface Alexandr extends Observer<AlexandrEvents> {
   sliderData: Partial<Record<keyof AlexandrSettings, unknown>>;
 }
 
-
-
-interface ViewEvents {
-  viewThumbsPositionChanged: UpdateThumbData;
-  clickOnSlider: {
-    pixelClick: number;
-  };
-  viewInit: ViewCoords;
-}
-
 interface PresenterEvents {
   updateOptions: Partial<AlexandrSettings>;
 }

@@ -1,8 +1,13 @@
+import type { ModelEvents } from "../../Model/type";
+import type { MinMaxValueLineView } from "../MinMaxValueLineView/type";
+import type { ProgressBarView } from "../ProgressbarView/type";
+import type { RulerView } from "../RulerView/type";
+import type { ThumbView } from "../ThumbView/type";
+
 export interface View extends Observer<ViewEvents> {
   thumbs: ThumbView;
   sliderMinMaxValueLine: MinMaxValueLineView;
-  ruler: any;
-  // ruler: RulerView;
+  ruler: RulerView;
   progressbar: ProgressBarView;
   updateProgressBar: (data: { from: number; to: number }) => void;
   updateRuler: ({ min, max }: ModelEvents["modelMinMaxValuesChanged"]) => void;
@@ -29,4 +34,12 @@ export interface View extends Observer<ViewEvents> {
   }: Partial<ModelEvents["modelThumbsPositionChanged"]>) => void;
   destroy: () => void;
   setInitialValues: () => void;
+}
+
+export interface ViewEvents {
+  viewThumbsPositionChanged: UpdateThumbData;
+  clickOnSlider: {
+    pixelClick: number;
+  };
+  viewInit: ViewCoords;
 }
