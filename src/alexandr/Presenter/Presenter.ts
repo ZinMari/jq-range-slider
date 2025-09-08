@@ -1,5 +1,6 @@
 import Observer from "../Observer/Observer"
 import type { Model } from "../Model/type";
+import type { View } from "../View/View/type";
 
 class Presenter extends Observer<PresenterEvents> {
   constructor(
