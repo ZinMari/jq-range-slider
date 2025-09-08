@@ -3,6 +3,7 @@ import getCoords from "../../utils/getCoords";
 
 import type { LineViewInterface } from "../LineView/type";
 import type { ModelEvents } from "../../Model/type";
+import type { ThumbViewEvents } from "./type";
 
 class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
   item: JQuery<HTMLElement>;

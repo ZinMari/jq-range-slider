@@ -81,15 +81,6 @@ interface SubViewEvents {
   };
 }
 
-interface ThumbViewEvents {
-  thumbsPositionChanged: {
-    type: "max" | "min";
-    currentValue: number;
-    moveDirection: "top" | "left";
-  };
-  updateThumbPosition: UpdateThumbData;
-}
-
 interface AlexandrEvents {
   sliderUpdated: Partial<Record<keyof AlexandrSettings, unknown>> | null;
 }
