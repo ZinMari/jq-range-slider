@@ -1,3 +1,5 @@
+import type { ObserverSubscriber } from "./type";
+
 class Observer<T> implements Observer<T>{
   subscribers: {
     [K in keyof T]?: Set<ObserverSubscriber<T>>;

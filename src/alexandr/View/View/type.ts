@@ -1,4 +1,5 @@
 import type { ModelEvents } from "../../Model/type";
+import type { Observer } from "../../Observer/type";
 import type { MinMaxValueLineView } from "../MinMaxValueLineView/type";
 import type { ProgressBarView } from "../ProgressbarView/type";
 import type { RulerView } from "../RulerView/type";

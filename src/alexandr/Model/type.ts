@@ -1,3 +1,7 @@
+import type { Observer } from "../Observer/type";
+import type { UpdateThumbData } from "../View/ThumbView/type";
+import type { ViewCoords } from "../View/View/type";
+
 export interface Model extends Observer<ModelEvents> {
   minValue: number;
   maxValue: number;

@@ -3,7 +3,8 @@ import Presenter from "./Presenter/Presenter";
 import Model from "./Model/Model";
 import Observer from "./Observer/Observer";
 
-import type{ PresenterEvents } from "./Presenter/type";
+import type { PresenterEvents } from "./Presenter/type";
+import type { AlexandrEvents } from "./@types/alexandr";
 
 function requireAll(r: __WebpackModuleApi.RequireContext) {
   return r.keys().map(r);
