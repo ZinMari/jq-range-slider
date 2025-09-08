@@ -1,5 +1,6 @@
 import Model from "../../Model/Model";
 import getRandomInteger from "../../utils/getRandomInteger";
+import type { UpdateThumbData } from "../../View/ThumbView/type";
 
 describe("Модель:", () => {
   const settingsDefault: AlexandrSettings = {

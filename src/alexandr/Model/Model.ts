@@ -1,5 +1,6 @@
 import Observer from "../Observer/Observer";
 import ValueConverter from "../utils/ValueConverter/ValueConverter";
+import { UpdateThumbData } from "../View/ThumbView/type";
 
 import type { GetNewThumbCordData, ModelEvents } from "./type";
 

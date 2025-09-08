@@ -10,6 +10,7 @@ import type { ProgressBarView } from "../ProgressbarView/type";
 import type { ModelEvents } from "../../Model/type";
 import type { ViewEvents } from "./type";
 import type { SubViewEvents } from "../type";
+import type { UpdateThumbData } from "../ThumbView/type";
 
 class View extends Observer<ViewEvents> implements View {
   ruler: RulerView;

@@ -1,14 +1,3 @@
-interface UpdateThumbData {
-  type: "max" | "min";
-  shiftClickThumb: number;
-  lineCoords: ElementsCoords;
-  thumbCoords: ElementsCoords;
-  clientEvent: number;
-  clientLineCoordsOffset: number;
-  clientLineCoordsSize: number;
-  clientThumbCoordsSize: number;
-}
-
 interface ConvertData {
   value: number;
   pixelInOneStep: number;

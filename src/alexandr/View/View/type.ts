@@ -2,7 +2,7 @@ import type { ModelEvents } from "../../Model/type";
 import type { MinMaxValueLineView } from "../MinMaxValueLineView/type";
 import type { ProgressBarView } from "../ProgressbarView/type";
 import type { RulerView } from "../RulerView/type";
-import type { ThumbView } from "../ThumbView/type";
+import type { ThumbView, UpdateThumbData } from "../ThumbView/type";
 
 export interface View extends Observer<ViewEvents> {
   thumbs: ThumbView;
