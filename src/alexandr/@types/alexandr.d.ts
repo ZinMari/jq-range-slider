@@ -52,13 +52,6 @@ interface BaseSubViewInterface extends Observer<SubViewEvents> {
   item: JQuery<HTMLElement>;
 }
 
-interface MinMaxValueLineView {
-  item: JQuery<HTMLElement>;
-  min: JQuery<HTMLElement>;
-  max: JQuery<HTMLElement>;
-  update: (min: number, max: number) => void;
-}
-
 interface ProgressBarView {
   item: JQuery<HTMLElement>;
   update: (data: { from: number; to: number }) => void;
