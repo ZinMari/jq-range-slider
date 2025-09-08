@@ -52,17 +52,6 @@ interface BaseSubViewInterface extends Observer<SubViewEvents> {
   item: JQuery<HTMLElement>;
 }
 
-interface ThumbView {
-  showFlag: () => void;
-  hideFlag: () => void;
-  updateFlagValues: (thumb: "min" | "max", position: number) => void;
-  updateThumbsPosition: (
-    thumb: "min" | "max",
-    position: number,
-    moveDirection: "top" | "left",
-  ) => void;
-}
-
 interface MinMaxValueLineView {
   item: JQuery<HTMLElement>;
   min: JQuery<HTMLElement>;
