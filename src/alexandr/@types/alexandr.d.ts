@@ -46,9 +46,7 @@ interface ElementsCoords {
   height: number;
 }
 
-interface BaseSubViewInterface extends Observer<SubViewEvents> {
-  item: JQuery<HTMLElement>;
-}
+
 
 interface ObserverSubscriber<T> {
   (infoObject: T[keyof T]): void;
