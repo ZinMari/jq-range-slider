@@ -53,3 +53,11 @@ export interface ModelEvents {
     type: "single" | "double";
   };
 }
+
+export interface GetNewThumbCordData {
+  clientEvent: number;
+  clientLineCoordsOffset: number;
+  clientLineCoordsSize: number;
+  clientThumbCoordsSize: number;
+  shiftClickThumb: number;
+}

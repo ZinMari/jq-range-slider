@@ -1,7 +1,7 @@
 import Observer from "../Observer/Observer";
 import ValueConverter from "../utils/ValueConverter/ValueConverter";
 
-import { ModelEvents } from "./type";
+import type { GetNewThumbCordData, ModelEvents } from "./type";
 
 class Model extends Observer<ModelEvents> implements Model {
   minValue: number;

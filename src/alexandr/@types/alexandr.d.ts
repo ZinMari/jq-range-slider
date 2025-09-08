@@ -23,14 +23,6 @@ interface PixelInOneStepData {
   step: number;
 }
 
-interface GetNewThumbCordData {
-  clientEvent: number;
-  clientLineCoordsOffset: number;
-  clientLineCoordsSize: number;
-  clientThumbCoordsSize: number;
-  shiftClickThumb: number;
-}
-
 interface ViewCoords {
   sliderLength: number;
   minThumbWidth: number;
