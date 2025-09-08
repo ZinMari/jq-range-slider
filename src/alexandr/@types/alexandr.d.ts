@@ -75,10 +75,6 @@ interface Alexandr extends Observer<AlexandrEvents> {
   sliderData: Partial<Record<keyof AlexandrSettings, unknown>>;
 }
 
-interface PresenterEvents {
-  updateOptions: Partial<AlexandrSettings>;
-}
-
 interface SubViewEvents {
   clickOnSlider: {
     pixelClick: number;
