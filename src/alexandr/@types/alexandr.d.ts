@@ -52,14 +52,6 @@ interface BaseSubViewInterface extends Observer<SubViewEvents> {
   item: JQuery<HTMLElement>;
 }
 
-interface RulerView extends BaseSubViewInterface {
-  divisions: JQuery<HTMLElement>[];
-  countDivisions: number;
-  update: (min: number, max: number) => void;
-  showRuler: () => void;
-  hideRuler: () => void;
-}
-
 interface ThumbView {
   showFlag: () => void;
   hideFlag: () => void;
@@ -86,7 +78,8 @@ interface ProgressBarView {
 interface View extends Observer<ViewEvents> {
   thumbs: ThumbView;
   sliderMinMaxValueLine: MinMaxValueLineView;
-  ruler: RulerView;
+  ruler: any;
+  // ruler: RulerView;
   progressbar: ProgressBarView;
   updateProgressBar: (data: { from: number; to: number }) => void;
   updateRuler: ({ min, max }: ModelEvents["modelMinMaxValuesChanged"]) => void;
