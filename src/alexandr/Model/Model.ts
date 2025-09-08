@@ -1,5 +1,5 @@
 import Observer from "../Observer/Observer";
-import ValueConverter from "../utils/ValueConverter";
+import ValueConverter from "../utils/ValueConverter/ValueConverter";
 
 import { ModelEvents } from "./type";
 
