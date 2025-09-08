@@ -46,8 +46,6 @@ interface ElementsCoords {
   height: number;
 }
 
-
-
 interface ObserverSubscriber<T> {
   (infoObject: T[keyof T]): void;
 }
@@ -71,12 +69,6 @@ interface Alexandr extends Observer<AlexandrEvents> {
     [K in keyof AlexandrSettings]: AlexandrSettings[K];
   }) => void;
   sliderData: Partial<Record<keyof AlexandrSettings, unknown>>;
-}
-
-interface SubViewEvents {
-  clickOnSlider: {
-    pixelClick: number;
-  };
 }
 
 interface AlexandrEvents {

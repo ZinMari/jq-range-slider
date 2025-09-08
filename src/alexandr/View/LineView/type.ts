@@ -1,4 +1,4 @@
-import type { BaseSubViewInterface } from "../type";
+import type { BaseSubViewInterface, SubViewEvents } from "../type";
 
 export interface LineViewInterface extends BaseSubViewInterface {
   setVerticalOrientation: () => void;

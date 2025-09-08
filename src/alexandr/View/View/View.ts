@@ -9,6 +9,7 @@ import type { LineViewInterface } from "../LineView/type";
 import type { ProgressBarView } from "../ProgressbarView/type";
 import type { ModelEvents } from "../../Model/type";
 import type { ViewEvents } from "./type";
+import type { SubViewEvents } from "../type";
 
 class View extends Observer<ViewEvents> implements View {
   ruler: RulerView;
