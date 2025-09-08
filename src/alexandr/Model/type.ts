@@ -20,3 +20,36 @@ export interface Model extends Observer<ModelEvents> {
   setOrientation: (orientation: "vertical" | "horizontal") => void;
   refreshOptions: (options: AlexandrSettings) => void;
 }
+
+export interface ModelEvents {
+  modelThumbsPositionChanged: {
+    type: "min" | "max";
+    currentValue: number;
+    pixelPosition: number;
+    moveDirection: "top" | "left";
+  };
+  modelStepValueChanged: {
+    stepValue: number;
+  };
+  modelMinMaxValuesChanged: {
+    min: number;
+    max: number;
+  };
+  modelProgressbarUpdated: {
+    orientation: "vertical" | "horizontal";
+    from: number;
+    to: number;
+  };
+  modelSetRulerChanged: {
+    isSetRuler: boolean;
+  };
+  modelShowFlagChanged: {
+    isSetValueFlag: boolean;
+  };
+  modelOrientationChanged: {
+    orientation: "vertical" | "horizontal";
+  };
+  modelTypeChanged: {
+    type: "single" | "double";
+  };
+}

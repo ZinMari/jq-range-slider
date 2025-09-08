@@ -1,12 +1,12 @@
+import type { ModelEvents } from "../../Model/type";
+
 class ProgressBarView implements ProgressBarView {
   item: JQuery<HTMLElement>;
   orientation: "vertical" | "horizontal";
 
   constructor(
     progressBarClass: string,
-    // orientation: "vertical" | "horizontal",
   ) {
-    // this.orientation = orientation;
     this.item = $("<span>", {
       class: `alexandr__progressbar ${progressBarClass}`,
     });

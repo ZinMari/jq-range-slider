@@ -1,5 +1,3 @@
-
-
 interface UpdateThumbData {
   type: "max" | "min";
   shiftClickThumb: number;
@@ -77,38 +75,7 @@ interface Alexandr extends Observer<AlexandrEvents> {
   sliderData: Partial<Record<keyof AlexandrSettings, unknown>>;
 }
 
-interface ModelEvents {
-  modelThumbsPositionChanged: {
-    type: "min" | "max";
-    currentValue: number;
-    pixelPosition: number;
-    moveDirection: "top" | "left";
-  };
-  modelStepValueChanged: {
-    stepValue: number;
-  };
-  modelMinMaxValuesChanged: {
-    min: number;
-    max: number;
-  };
-  modelProgressbarUpdated: {
-    orientation: "vertical" | "horizontal";
-    from: number;
-    to: number;
-  };
-  modelSetRulerChanged: {
-    isSetRuler: boolean;
-  };
-  modelShowFlagChanged: {
-    isSetValueFlag: boolean;
-  };
-  modelOrientationChanged: {
-    orientation: "vertical" | "horizontal";
-  };
-  modelTypeChanged: {
-    type: "single" | "double";
-  };
-}
+
 
 interface ViewEvents {
   viewThumbsPositionChanged: UpdateThumbData;
