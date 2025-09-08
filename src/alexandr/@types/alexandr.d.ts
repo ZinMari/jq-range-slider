@@ -85,8 +85,4 @@ interface AlexandrEvents {
   sliderUpdated: Partial<Record<keyof AlexandrSettings, unknown>> | null;
 }
 
-interface ValueConverter {
-  pixelInOneStep: (data: PixelInOneStepData) => number;
-  convertPixelToUnits: (data: ConvertData) => number;
-  convertUnitsToPixels: (data: ConvertData) => number;
-}
+
