@@ -1,7 +1,8 @@
 import Observer from "../Observer/Observer";
 import ValueConverter from "../utils/ValueConverter/ValueConverter";
-import { UpdateThumbData } from "../View/ThumbView/type";
 
+import type { UpdateThumbData } from "../View/ThumbView/type";
+import type { ViewCoords } from "../View/View/type";
 import type { GetNewThumbCordData, ModelEvents } from "./type";
 
 class Model extends Observer<ModelEvents> implements Model {

@@ -43,3 +43,11 @@ export interface ViewEvents {
   };
   viewInit: ViewCoords;
 }
+
+export interface ViewCoords {
+  sliderLength: number;
+  minThumbWidth: number;
+  minThumbHeight: number;
+  maxThumbWidth: number | undefined;
+  maxThumbHeight: number | undefined;
+}

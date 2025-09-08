@@ -12,14 +12,6 @@ interface PixelInOneStepData {
   step: number;
 }
 
-interface ViewCoords {
-  sliderLength: number;
-  minThumbWidth: number;
-  minThumbHeight: number;
-  maxThumbWidth: number | undefined;
-  maxThumbHeight: number | undefined;
-}
-
 interface ElementsCoords {
   left: number;
   width: number;
