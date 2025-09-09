@@ -1,3 +1,5 @@
+import type { ElementsCoords } from "../../utils/getCoords";
+
 export interface ThumbView {
   showFlag: () => void;
   hideFlag: () => void;

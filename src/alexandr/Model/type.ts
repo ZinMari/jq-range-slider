@@ -1,4 +1,5 @@
 import type { Observer } from "../Observer/type";
+import type { AlexandrSettings } from "../type";
 import type { UpdateThumbData } from "../View/ThumbView/type";
 import type { ViewCoords } from "../View/View/type";
 

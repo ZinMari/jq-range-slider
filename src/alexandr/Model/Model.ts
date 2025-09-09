@@ -4,6 +4,7 @@ import ValueConverter from "../utils/ValueConverter/ValueConverter";
 import type { UpdateThumbData } from "../View/ThumbView/type";
 import type { ViewCoords } from "../View/View/type";
 import type { GetNewThumbCordData, ModelEvents } from "./type";
+import type { AlexandrSettings } from "../type";
 
 class Model extends Observer<ModelEvents> implements Model {
   minValue: number;

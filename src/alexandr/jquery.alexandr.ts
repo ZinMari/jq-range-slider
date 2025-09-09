@@ -4,7 +4,7 @@ import Model from "./Model/Model";
 import Observer from "./Observer/Observer";
 
 import type { PresenterEvents } from "./Presenter/type";
-import type { AlexandrEvents } from "./@types/alexandr";
+import type { AlexandrEvents, AlexandrSettings } from "./type";
 
 function requireAll(r: __WebpackModuleApi.RequireContext) {
   return r.keys().map(r);

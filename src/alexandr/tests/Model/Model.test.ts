@@ -1,6 +1,8 @@
 import Model from "../../Model/Model";
-import { ElementsCoords } from "../../utils/getCoords";
 import getRandomInteger from "../../utils/getRandomInteger";
+
+import type { AlexandrSettings } from "../../type";
+import type { ElementsCoords } from "../../utils/getCoords";
 import type { UpdateThumbData } from "../../View/ThumbView/type";
 
 describe("Модель:", () => {

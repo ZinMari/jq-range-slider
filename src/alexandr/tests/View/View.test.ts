@@ -2,6 +2,7 @@ import "@testing-library/jest-dom";
 import { fireEvent } from "@testing-library/dom";
 import View from "../../View/View/View";
 import getRandomInteger from "../../utils/getRandomInteger";
+import type { AlexandrSettings } from "../../type";
 
 describe("Вид:", () => {
   const settingsDefault: AlexandrSettings = {

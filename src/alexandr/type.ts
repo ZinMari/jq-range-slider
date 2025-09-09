@@ -1,9 +1,14 @@
-interface JQuery {
-  alexandr:
-  any | ((options: string | AlexandrSettings) => JQuery<HTMLElement>);
+import type { Observer } from "./Observer/type";
+
+declare global {
+  interface JQuery {
+    alexandr:
+      | any
+      | ((options: string | AlexandrSettings) => JQuery<HTMLElement>);
+  }
 }
 
-interface AlexandrSettings {
+export interface AlexandrSettings {
   minValue?: number;
   maxValue?: number;
   container?: JQuery<HTMLElement>;
@@ -23,4 +28,15 @@ interface AlexandrSettings {
   showMaxValueClass?: string;
   orientation?: "horizontal" | "vertical";
   type?: "single" | "double";
+}
+
+export interface Alexandr extends Observer<AlexandrEvents> {
+  update: (observerInfoObject: {
+    [K in keyof AlexandrSettings]: AlexandrSettings[K];
+  }) => void;
+  sliderData: Partial<Record<keyof AlexandrSettings, unknown>>;
+}
+
+export interface AlexandrEvents {
+  sliderUpdated: Partial<Record<keyof AlexandrSettings, unknown>> | null;
 }

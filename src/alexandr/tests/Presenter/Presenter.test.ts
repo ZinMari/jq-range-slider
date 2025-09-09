@@ -2,6 +2,8 @@ import Presenter from "../../Presenter/Presenter";
 import Model from "../../Model/Model";
 import View from "../../View/View/View";
 
+import type { AlexandrSettings } from "../../type";
+
 describe("Презентер:", () => {
   const settingsDefault: AlexandrSettings = {
     container: $("<div>").attr({ class: "container" }),

@@ -1,3 +1,5 @@
+import type { BaseSubViewInterface } from "../type";
+
 export interface RulerView extends BaseSubViewInterface {
   divisions: JQuery<HTMLElement>[];
   countDivisions: number;
