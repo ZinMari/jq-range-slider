@@ -2,8 +2,9 @@ import Observer from "../../Observer/Observer";
 import handlerClickOnSlider from "../../utils/handlerClickOnSlider";
 
 import type { SubViewEvents } from "../type";
+import type { IRulerView } from "./type";
 
-class RulerView extends Observer<SubViewEvents> implements RulerView {
+class RulerView extends Observer<SubViewEvents> implements IRulerView {
   item: JQuery<HTMLElement>;
   orientation: "horizontal" | "vertical";
   divisions: JQuery<HTMLElement>[];
