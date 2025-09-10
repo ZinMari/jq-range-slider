@@ -1,4 +1,6 @@
-class MinMaxValueLineView implements MinMaxValueLineView {
+import type { IMinMaxValueLine } from "./type";
+
+class MinMaxValueLineView implements IMinMaxValueLine {
   item: JQuery<HTMLElement>;
   min: JQuery<HTMLElement>;
   max: JQuery<HTMLElement>;

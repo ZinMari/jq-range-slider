@@ -1,4 +1,4 @@
-export interface MinMaxValueLineView {
+export interface IMinMaxValueLine {
   item: JQuery<HTMLElement>;
   min: JQuery<HTMLElement>;
   max: JQuery<HTMLElement>;
