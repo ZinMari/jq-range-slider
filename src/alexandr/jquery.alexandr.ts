@@ -4,7 +4,7 @@ import Model from "./Model/Model";
 import Observer from "./Observer/Observer";
 
 import type { TPresenterEvents } from "./Presenter/type";
-import type { AlexandrEvents, AlexandrSettings } from "./type";
+import type { TAlexandrEvents, TAlexandrSettings } from "./type";
 
 function requireAll(r: __WebpackModuleApi.RequireContext) {
   return r.keys().map(r);
@@ -13,11 +13,11 @@ function requireAll(r: __WebpackModuleApi.RequireContext) {
 requireAll(require.context("./", true, /\.(scss)$/));
 
 (function ($) {
-  class Alexandr extends Observer<AlexandrEvents> {
+  class Alexandr extends Observer<TAlexandrEvents> {
     private presenter: Presenter;
-    sliderData: Partial<AlexandrSettings> | null = null;
+    sliderData: Partial<TAlexandrSettings> | null = null;
 
-    constructor(options: AlexandrSettings) {
+    constructor(options: TAlexandrSettings) {
       super();
       this.presenter = new Presenter(
         new View({ ...options }),
@@ -34,7 +34,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
 
     initPlugin(
       target: HTMLElement,
-      options: AlexandrSettings,
+      options: TAlexandrSettings,
     ): JQuery<HTMLElement> {
       options.container = $(target);
 
@@ -53,7 +53,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
       return target;
     }
 
-    refreshPlugin(options: AlexandrSettings) {
+    refreshPlugin(options: TAlexandrSettings) {
       this.presenter.refreshOptions(options);
     }
 
@@ -63,7 +63,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
     }
 
     connectToPluginData(
-      fn: (options: AlexandrEvents["sliderUpdated"]) => void,
+      fn: (options: TAlexandrEvents["sliderUpdated"]) => void,
     ) {
       this.addSubscriber("sliderUpdated", fn);
     }
@@ -73,23 +73,23 @@ requireAll(require.context("./", true, /\.(scss)$/));
     return elem.data("alexandr");
   }
 
-  function isGetOptionsObject(argument: string | AlexandrSettings) {
+  function isGetOptionsObject(argument: string | TAlexandrSettings) {
     return argument === "options";
   }
 
-  function isSetOptions(option: string | AlexandrSettings) {
+  function isSetOptions(option: string | TAlexandrSettings) {
     return option === "update";
   }
 
   function isGetOption(
     slider: Alexandr,
-    optionName: string | AlexandrSettings,
+    optionName: string | TAlexandrSettings,
   ) {
     return typeof optionName === "string" && optionName in slider.sliderData;
   }
 
   $.fn.alexandr = function (
-    options: string | AlexandrSettings,
+    options: string | TAlexandrSettings,
   ): JQuery<HTMLElement> {
     if (!isSliderInitialized($(this)) && isSetOptions(options)) {
       return;

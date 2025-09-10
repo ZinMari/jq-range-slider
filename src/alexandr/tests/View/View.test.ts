@@ -2,10 +2,11 @@ import "@testing-library/jest-dom";
 import { fireEvent } from "@testing-library/dom";
 import View from "../../View/View/View";
 import getRandomInteger from "../../utils/getRandomInteger";
-import type { AlexandrSettings } from "../../type";
+
+import type { TAlexandrSettings } from "../../type";
 
 describe("Вид:", () => {
-  const settingsDefault: AlexandrSettings = {
+  const settingsDefault: TAlexandrSettings = {
     container: $("<div>").attr({ class: "container" }),
     minValue: 1000,
     maxValue: 2000,

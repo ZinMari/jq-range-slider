@@ -1,5 +1,5 @@
-import type { AlexandrSettings } from "../type";
+import type { TAlexandrSettings } from "../type";
 
 export type TPresenterEvents = {
-  updateOptions: Partial<AlexandrSettings>;
+  updateOptions: Partial<TAlexandrSettings>;
 };

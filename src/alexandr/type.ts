@@ -4,11 +4,18 @@ declare global {
   interface JQuery {
     alexandr:
       | any
-      | ((options: string | AlexandrSettings) => JQuery<HTMLElement>);
+      | ((options: string | TAlexandrSettings) => JQuery<HTMLElement>);
   }
 }
 
-export interface AlexandrSettings {
+export interface IAlexandr extends IObserver<TAlexandrEvents> {
+  update: (observerInfoObject: {
+    [K in keyof TAlexandrSettings]: TAlexandrSettings[K];
+  }) => void;
+  sliderData: Partial<Record<keyof TAlexandrSettings, unknown>>;
+}
+
+export type TAlexandrSettings = {
   minValue?: number;
   maxValue?: number;
   container?: JQuery<HTMLElement>;
@@ -28,15 +35,8 @@ export interface AlexandrSettings {
   showMaxValueClass?: string;
   orientation?: "horizontal" | "vertical";
   type?: "single" | "double";
-}
+};
 
-export interface Alexandr extends IObserver<AlexandrEvents> {
-  update: (observerInfoObject: {
-    [K in keyof AlexandrSettings]: AlexandrSettings[K];
-  }) => void;
-  sliderData: Partial<Record<keyof AlexandrSettings, unknown>>;
-}
-
-export interface AlexandrEvents {
-  sliderUpdated: Partial<Record<keyof AlexandrSettings, unknown>> | null;
-}
+export type TAlexandrEvents = {
+  sliderUpdated: Partial<Record<keyof TAlexandrSettings, unknown>> | null;
+};

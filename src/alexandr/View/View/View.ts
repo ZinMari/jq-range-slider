@@ -11,7 +11,7 @@ import type { TModelEvents } from "../../Model/type";
 import type { IView, TViewEvents } from "./type";
 import type { TSubViewEvents } from "../type";
 import type { TUpdateThumbData } from "../ThumbView/type";
-import type { AlexandrSettings } from "../../type";
+import type { TAlexandrSettings } from "../../type";
 
 class View extends Observer<TViewEvents> implements IView {
   ruler: RulerView;
@@ -36,7 +36,7 @@ class View extends Observer<TViewEvents> implements IView {
     showMinValueClass,
     showMaxValueClass,
     progressBarClass,
-  }: AlexandrSettings) {
+  }: TAlexandrSettings) {
     super();
     this.container = container;
     this.thumbMinClass = thumbMinClass;

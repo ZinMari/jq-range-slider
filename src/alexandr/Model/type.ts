@@ -1,5 +1,5 @@
 import type { IObserver } from "../Observer/type";
-import type { AlexandrSettings } from "../type";
+import type { TAlexandrSettings } from "../type";
 import type { TUpdateThumbData } from "../View/ThumbView/type";
 import type { TViewCoords } from "../View/View/type";
 
@@ -23,7 +23,7 @@ export interface IModel extends IObserver<TModelEvents> {
   setProgressBarSize: () => void;
   setInitialValues: () => void;
   setOrientation: (orientation: "vertical" | "horizontal") => void;
-  refreshOptions: (options: AlexandrSettings) => void;
+  refreshOptions: (options: TAlexandrSettings) => void;
 }
 
 export type TModelEvents = {

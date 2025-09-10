@@ -1,6 +1,6 @@
-import type { AlexandrSettings } from "../../../alexandr/type";
+import type { TAlexandrSettings } from "../../../alexandr/type";
 
-function initSlider(slider: string, options: AlexandrSettings): void {
+function initSlider(slider: string, options: TAlexandrSettings): void {
   $(slider)
     .children(".slider-complex__slider")
     .alexandr(options)
@@ -12,7 +12,7 @@ function setValueToPanel(slider: string): void {
     ".js-slider-complex__panel",
   );
 
-  const sliderOptions: AlexandrSettings = $(slider)
+  const sliderOptions: TAlexandrSettings = $(slider)
     .find(".js-slider-complex__slider")
     .alexandr("options");
 
@@ -24,7 +24,7 @@ function setValueToPanel(slider: string): void {
     const attrName: string = $(this).attr("name");
     if (
       $(this).attr("value") ===
-      sliderOptions[attrName as keyof AlexandrSettings]
+      sliderOptions[attrName as keyof TAlexandrSettings]
     ) {
       $(this).prop("checked", "true");
     }
@@ -34,13 +34,13 @@ function setValueToPanel(slider: string): void {
     const attrName: string = $(this).attr("name");
     $(this).attr(
       "value",
-      sliderOptions[attrName as keyof AlexandrSettings].toString(),
+      sliderOptions[attrName as keyof TAlexandrSettings].toString(),
     );
   });
 
   $.each($checkbox, function () {
     const attrName: string = $(this).attr("name");
-    $(this).prop("checked", sliderOptions[attrName as keyof AlexandrSettings]);
+    $(this).prop("checked", sliderOptions[attrName as keyof TAlexandrSettings]);
   });
 }
 
@@ -65,7 +65,7 @@ function onChangePanelValue(event: Event) {
   }
 }
 
-function onSliderValueChange(options: AlexandrSettings) {
+function onSliderValueChange(options: TAlexandrSettings) {
   const $panel = options.container.parent().find(".js-slider-complex__panel");
   $panel.find(".js-form__controlMinThumb").val(options.minPosition);
   $panel.find(".js-form__controlMaxThumb").val(options.maxPosition);
@@ -76,7 +76,7 @@ function onSliderValueChange(options: AlexandrSettings) {
   $panel.find(".js-form__controlRuler").prop("checked", options.showRuler);
 }
 
-function initSliderComplex(slider: string, options: AlexandrSettings) {
+function initSliderComplex(slider: string, options: TAlexandrSettings) {
   initSlider(slider, options);
   setValueToPanel(slider);
   $(slider).on("change.alexandr", onChangePanelValue);
