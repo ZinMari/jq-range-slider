@@ -1,4 +1,4 @@
-import type { ElementsCoords } from "../../utils/getCoords";
+import type { TElementsCoords } from "../../utils/getCoords";
 
 export interface ThumbView {
   showFlag: () => void;
@@ -23,8 +23,8 @@ export interface ThumbViewEvents {
 export interface UpdateThumbData {
   type: "max" | "min";
   shiftClickThumb: number;
-  lineCoords: ElementsCoords;
-  thumbCoords: ElementsCoords;
+  lineCoords: TElementsCoords;
+  thumbCoords: TElementsCoords;
   clientEvent: number;
   clientLineCoordsOffset: number;
   clientLineCoordsSize: number;

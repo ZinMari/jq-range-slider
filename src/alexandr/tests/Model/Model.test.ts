@@ -2,7 +2,7 @@ import Model from "../../Model/Model";
 import getRandomInteger from "../../utils/getRandomInteger";
 
 import type { AlexandrSettings } from "../../type";
-import type { ElementsCoords } from "../../utils/getCoords";
+import type { TElementsCoords } from "../../utils/getCoords";
 import type { UpdateThumbData } from "../../View/ThumbView/type";
 
 describe("Модель:", () => {
@@ -18,7 +18,7 @@ describe("Модель:", () => {
     maxPosition: 0,
   };
 
-  const coords: ElementsCoords = {
+  const coords: TElementsCoords = {
     left: getRandomInteger(),
     width: getRandomInteger(),
     top: getRandomInteger(),

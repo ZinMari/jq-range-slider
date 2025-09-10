@@ -1,11 +1,11 @@
-export type ElementsCoords = {
+export type TElementsCoords = {
   left: number;
   width: number;
   top: number;
   height: number;
 };
 
-export default function getCoords(elem: JQuery<EventTarget>): ElementsCoords {
+export default function getCoords(elem: JQuery<EventTarget>): TElementsCoords {
   const boxLeft = elem.offset().left;
   const boxRight = boxLeft + elem.outerWidth();
   const boxTop = elem.offset().top;
