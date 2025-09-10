@@ -3,7 +3,7 @@ import Presenter from "./Presenter/Presenter";
 import Model from "./Model/Model";
 import Observer from "./Observer/Observer";
 
-import type { PresenterEvents } from "./Presenter/type";
+import type { TPresenterEvents } from "./Presenter/type";
 import type { AlexandrEvents, AlexandrSettings } from "./type";
 
 function requireAll(r: __WebpackModuleApi.RequireContext) {
@@ -27,7 +27,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
       this.presenter.addSubscriber("updateOptions", this.updateOptions);
     }
 
-    updateOptions = (dataOptions: PresenterEvents["updateOptions"]) => {
+    updateOptions = (dataOptions: TPresenterEvents["updateOptions"]) => {
       this.sliderData = Object.assign(this.sliderData, dataOptions);
       this.notify("sliderUpdated", this.sliderData);
     };

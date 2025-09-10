@@ -2,10 +2,10 @@ import Observer from "../Observer/Observer";
 
 import type { IModel, TModelEvents } from "../Model/type";
 import type { View, ViewEvents } from "../View/View/type";
-import type { PresenterEvents } from "./type";
+import type { TPresenterEvents } from "./type";
 import type { AlexandrSettings } from "../type";
 
-class Presenter extends Observer<PresenterEvents> {
+class Presenter extends Observer<TPresenterEvents> {
   constructor(
     private view: View,
     private model: IModel,
