@@ -1,13 +1,13 @@
 import Observer from "../../Observer/Observer";
 import getCoords from "../../utils/getCoords";
 
-import type { LineViewInterface } from "../LineView/type";
+import type { ILineView } from "../LineView/type";
 import type { TModelEvents } from "../../Model/type";
 import type { ThumbViewEvents, UpdateThumbData } from "./type";
 
 class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
   item: JQuery<HTMLElement>;
-  line: LineViewInterface;
+  line: ILineView;
   orientation: "vertical" | "horizontal";
   type: "single" | "double";
   minThumb: JQuery<HTMLElement>;
@@ -18,7 +18,7 @@ class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
     thumbMinClass,
     thumbMaxClass,
   }: {
-    sliderLine: LineViewInterface;
+    sliderLine: ILineView;
     thumbMinClass: string;
     thumbMaxClass: string;
   }) {
