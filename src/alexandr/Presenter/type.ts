@@ -1,5 +1,5 @@
 import type { AlexandrSettings } from "../type";
 
-export interface PresenterEvents {
+export type PresenterEvents = {
   updateOptions: Partial<AlexandrSettings>;
-}
+};
