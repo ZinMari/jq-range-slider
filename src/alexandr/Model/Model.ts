@@ -2,7 +2,7 @@ import Observer from "../Observer/Observer";
 import ValueConverter from "../utils/ValueConverter/ValueConverter";
 
 import type { TUpdateThumbData } from "../View/ThumbView/type";
-import type { ViewCoords } from "../View/View/type";
+import type { TViewCoords } from "../View/View/type";
 import type { GetNewThumbCordData, IModel, TModelEvents } from "./type";
 import type { AlexandrSettings } from "../type";
 
@@ -146,7 +146,7 @@ class Model extends Observer<TModelEvents> implements IModel {
     minThumbHeight,
     maxThumbWidth,
     maxThumbHeight,
-  }: ViewCoords) => {
+  }: TViewCoords) => {
     this.sliderLength = sliderLength;
     this.minThumbWidth = minThumbWidth;
     this.minThumbHeight = minThumbHeight;

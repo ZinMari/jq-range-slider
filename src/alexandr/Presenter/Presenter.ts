@@ -1,13 +1,13 @@
 import Observer from "../Observer/Observer";
 
 import type { IModel, TModelEvents } from "../Model/type";
-import type { View, ViewEvents } from "../View/View/type";
+import type { IView, TViewEvents } from "../View/View/type";
 import type { TPresenterEvents } from "./type";
 import type { AlexandrSettings } from "../type";
 
 class Presenter extends Observer<TPresenterEvents> {
   constructor(
-    private view: View,
+    private view: IView,
     private model: IModel,
   ) {
     super();
@@ -119,17 +119,17 @@ class Presenter extends Observer<TPresenterEvents> {
     });
   };
 
-  private viewInit = (viewCoords: ViewEvents["viewInit"]) => {
+  private viewInit = (viewCoords: TViewEvents["viewInit"]) => {
     this.model.modelGetCordsView(viewCoords);
   };
 
   private viewThumbsPositionChanged = (
-    options: ViewEvents["viewThumbsPositionChanged"],
+    options: TViewEvents["viewThumbsPositionChanged"],
   ) => {
     this.model.updateThumbPosition(options);
   };
 
-  private clickOnSlider = (options: ViewEvents["clickOnSlider"]) => {
+  private clickOnSlider = (options: TViewEvents["clickOnSlider"]) => {
     this.model.clickOnSlider(options);
   };
 }

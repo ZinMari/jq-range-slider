@@ -8,12 +8,12 @@ import ThumbView from "../ThumbView/ThumbView";
 import type { ILineView } from "../LineView/type";
 import type { IProgressBarView } from "../ProgressbarView/type";
 import type { TModelEvents } from "../../Model/type";
-import type { ViewEvents } from "./type";
+import type { IView, TViewEvents } from "./type";
 import type { TSubViewEvents } from "../type";
 import type { TUpdateThumbData } from "../ThumbView/type";
 import type { AlexandrSettings } from "../../type";
 
-class View extends Observer<ViewEvents> implements View {
+class View extends Observer<TViewEvents> implements IView {
   ruler: RulerView;
   sliderMinMaxValueLine: MinMaxValueLineView;
   thumbs: ThumbView;

@@ -5,7 +5,7 @@ import type { IProgressBarView } from "../ProgressbarView/type";
 import type { IRulerView } from "../RulerView/type";
 import type { IThumbView, TUpdateThumbData } from "../ThumbView/type";
 
-export interface View extends IObserver<ViewEvents> {
+export interface IView extends IObserver<TViewEvents> {
   thumbs: IThumbView;
   sliderMinMaxValueLine: IMinMaxValueLine;
   ruler: IRulerView;
@@ -37,18 +37,18 @@ export interface View extends IObserver<ViewEvents> {
   setInitialValues: () => void;
 }
 
-export interface ViewEvents {
+export type TViewEvents = {
   viewThumbsPositionChanged: TUpdateThumbData;
   clickOnSlider: {
     pixelClick: number;
   };
-  viewInit: ViewCoords;
-}
+  viewInit: TViewCoords;
+};
 
-export interface ViewCoords {
+export type TViewCoords = {
   sliderLength: number;
   minThumbWidth: number;
   minThumbHeight: number;
   maxThumbWidth: number | undefined;
   maxThumbHeight: number | undefined;
-}
+};
