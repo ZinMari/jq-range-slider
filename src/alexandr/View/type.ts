@@ -1,6 +1,6 @@
-import type { Observer } from "../Observer/type";
+import type { IObserver } from "../Observer/type";
 
-export interface BaseSubViewInterface extends Observer<SubViewEvents> {
+export interface BaseSubViewInterface extends IObserver<SubViewEvents> {
   item: JQuery<HTMLElement>;
 }
 

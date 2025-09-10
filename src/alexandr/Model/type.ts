@@ -1,9 +1,9 @@
-import type { Observer } from "../Observer/type";
+import type { IObserver } from "../Observer/type";
 import type { AlexandrSettings } from "../type";
 import type { UpdateThumbData } from "../View/ThumbView/type";
 import type { ViewCoords } from "../View/View/type";
 
-export interface IModel extends Observer<TModelEvents> {
+export interface IModel extends IObserver<TModelEvents> {
   minValue: number;
   maxValue: number;
   minPosition: number;

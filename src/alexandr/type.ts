@@ -1,4 +1,4 @@
-import type { Observer } from "./Observer/type";
+import type { IObserver } from "./Observer/type";
 
 declare global {
   interface JQuery {
@@ -30,7 +30,7 @@ export interface AlexandrSettings {
   type?: "single" | "double";
 }
 
-export interface Alexandr extends Observer<AlexandrEvents> {
+export interface Alexandr extends IObserver<AlexandrEvents> {
   update: (observerInfoObject: {
     [K in keyof AlexandrSettings]: AlexandrSettings[K];
   }) => void;

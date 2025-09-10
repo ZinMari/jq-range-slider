@@ -1,8 +1,8 @@
-import type { ObserverSubscriber } from "./type";
+import type { IObserver, TObserverSubscriber } from "./type";
 
-class Observer<T> implements Observer<T>{
+class Observer<T> implements IObserver<T> {
   subscribers: {
-    [K in keyof T]?: Set<ObserverSubscriber<T>>;
+    [K in keyof T]?: Set<TObserverSubscriber<T>>;
   } = {};
 
   addSubscriber<K extends keyof T>(
@@ -23,7 +23,7 @@ class Observer<T> implements Observer<T>{
     this.subscribers[typeEvent].delete(subscriber);
   }
 
-  removeAllSubscribers(typeEvent: keyof T){
+  removeAllSubscribers(typeEvent: keyof T) {
     this.subscribers[typeEvent].clear();
   }
 
