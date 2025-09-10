@@ -1,6 +1,6 @@
 import type { IObserver } from "../Observer/type";
 import type { AlexandrSettings } from "../type";
-import type { UpdateThumbData } from "../View/ThumbView/type";
+import type { TUpdateThumbData } from "../View/ThumbView/type";
 import type { ViewCoords } from "../View/View/type";
 
 export interface IModel extends IObserver<TModelEvents> {
@@ -17,7 +17,7 @@ export interface IModel extends IObserver<TModelEvents> {
   setMinValue: (minValue: number) => void;
   setMaxValue: (maxValue: number) => void;
   setStepValue: (value: number) => void;
-  updateThumbPosition: (options: UpdateThumbData) => void;
+  updateThumbPosition: (options: TUpdateThumbData) => void;
   clickOnSlider: (options: { pixelClick: number }) => void;
   modelGetCordsView: (viewCoords: ViewCoords) => void;
   setProgressBarSize: () => void;

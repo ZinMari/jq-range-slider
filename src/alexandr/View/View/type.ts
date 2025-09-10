@@ -3,10 +3,10 @@ import type { IObserver } from "../../Observer/type";
 import type { IMinMaxValueLine } from "../MinMaxValueLineView/type";
 import type { IProgressBarView } from "../ProgressbarView/type";
 import type { IRulerView } from "../RulerView/type";
-import type { ThumbView, UpdateThumbData } from "../ThumbView/type";
+import type { IThumbView, TUpdateThumbData } from "../ThumbView/type";
 
 export interface View extends IObserver<ViewEvents> {
-  thumbs: ThumbView;
+  thumbs: IThumbView;
   sliderMinMaxValueLine: IMinMaxValueLine;
   ruler: IRulerView;
   progressbar: IProgressBarView;
@@ -38,7 +38,7 @@ export interface View extends IObserver<ViewEvents> {
 }
 
 export interface ViewEvents {
-  viewThumbsPositionChanged: UpdateThumbData;
+  viewThumbsPositionChanged: TUpdateThumbData;
   clickOnSlider: {
     pixelClick: number;
   };

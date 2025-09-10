@@ -10,7 +10,7 @@ import type { IProgressBarView } from "../ProgressbarView/type";
 import type { TModelEvents } from "../../Model/type";
 import type { ViewEvents } from "./type";
 import type { SubViewEvents } from "../type";
-import type { UpdateThumbData } from "../ThumbView/type";
+import type { TUpdateThumbData } from "../ThumbView/type";
 import type { AlexandrSettings } from "../../type";
 
 class View extends Observer<ViewEvents> implements View {
@@ -156,7 +156,7 @@ class View extends Observer<ViewEvents> implements View {
     );
   }
 
-  private _handlerUpdateThumbPosition = (options: UpdateThumbData) => {
+  private _handlerUpdateThumbPosition = (options: TUpdateThumbData) => {
     this.notify("viewThumbsPositionChanged", options);
   };
 

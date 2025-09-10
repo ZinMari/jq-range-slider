@@ -1,7 +1,7 @@
 import Observer from "../Observer/Observer";
 import ValueConverter from "../utils/ValueConverter/ValueConverter";
 
-import type { UpdateThumbData } from "../View/ThumbView/type";
+import type { TUpdateThumbData } from "../View/ThumbView/type";
 import type { ViewCoords } from "../View/View/type";
 import type { GetNewThumbCordData, IModel, TModelEvents } from "./type";
 import type { AlexandrSettings } from "../type";
@@ -335,7 +335,7 @@ class Model extends Observer<TModelEvents> implements IModel {
     this.notify("modelStepValueChanged", { stepValue: this.stepValue });
   }
 
-  updateThumbPosition = (options: UpdateThumbData) => {
+  updateThumbPosition = (options: TUpdateThumbData) => {
     let value: number = this._getNewThumbCord({
       clientEvent: options.clientEvent,
       clientLineCoordsOffset: options.clientLineCoordsOffset,

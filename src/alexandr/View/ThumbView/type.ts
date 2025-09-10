@@ -1,6 +1,6 @@
 import type { TElementsCoords } from "../../utils/getCoords";
 
-export interface ThumbView {
+export interface IThumbView {
   showFlag: () => void;
   hideFlag: () => void;
   updateFlagValues: (thumb: "min" | "max", position: number) => void;
@@ -11,16 +11,16 @@ export interface ThumbView {
   ) => void;
 }
 
-export interface ThumbViewEvents {
+export type TThumbViewEvents = {
   thumbsPositionChanged: {
     type: "max" | "min";
     currentValue: number;
     moveDirection: "top" | "left";
   };
-  updateThumbPosition: UpdateThumbData;
-}
+  updateThumbPosition: TUpdateThumbData;
+};
 
-export interface UpdateThumbData {
+export type TUpdateThumbData = {
   type: "max" | "min";
   shiftClickThumb: number;
   lineCoords: TElementsCoords;
@@ -29,4 +29,4 @@ export interface UpdateThumbData {
   clientLineCoordsOffset: number;
   clientLineCoordsSize: number;
   clientThumbCoordsSize: number;
-}
+};

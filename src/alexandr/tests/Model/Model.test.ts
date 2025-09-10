@@ -3,7 +3,7 @@ import getRandomInteger from "../../utils/getRandomInteger";
 
 import type { AlexandrSettings } from "../../type";
 import type { TElementsCoords } from "../../utils/getCoords";
-import type { UpdateThumbData } from "../../View/ThumbView/type";
+import type { TUpdateThumbData } from "../../View/ThumbView/type";
 
 describe("Модель:", () => {
   const settingsDefault: AlexandrSettings = {
@@ -83,7 +83,7 @@ describe("Модель:", () => {
   });
   test("После вызова updateThumbPosition, позиция ползунка была изменена:", () => {
     const model: Model = new Model(settingsDefault);
-    const options: UpdateThumbData = {
+    const options: TUpdateThumbData = {
       type: "max",
       shiftClickThumb: getRandomInteger(),
       lineCoords: coords,

@@ -3,9 +3,9 @@ import getCoords from "../../utils/getCoords";
 
 import type { ILineView } from "../LineView/type";
 import type { TModelEvents } from "../../Model/type";
-import type { ThumbViewEvents, UpdateThumbData } from "./type";
+import type { IThumbView, TThumbViewEvents, TUpdateThumbData } from "./type";
 
-class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
+class ThumbView extends Observer<TThumbViewEvents> implements IThumbView {
   item: JQuery<HTMLElement>;
   line: ILineView;
   orientation: "vertical" | "horizontal";
@@ -97,7 +97,7 @@ class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
         clientThumbCoordsSize = thumbCoords.width;
       }
 
-      const options: UpdateThumbData = {
+      const options: TUpdateThumbData = {
         type: $currentThumb.prop("classList").contains("alexandr__thumb--max")
           ? "max"
           : "min",
