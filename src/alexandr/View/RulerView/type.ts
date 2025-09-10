@@ -1,6 +1,6 @@
-import type { BaseSubViewInterface } from "../type";
+import type { IBaseSubView } from "../type";
 
-export interface IRulerView extends BaseSubViewInterface {
+export interface IRulerView extends IBaseSubView {
   divisions: JQuery<HTMLElement>[];
   countDivisions: number;
   update: (min: number, max: number) => void;

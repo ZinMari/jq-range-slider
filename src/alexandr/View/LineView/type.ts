@@ -1,7 +1,7 @@
-import type { BaseSubViewInterface, SubViewEvents } from "../type";
+import type { IBaseSubView, TSubViewEvents } from "../type";
 
-export interface ILineView extends BaseSubViewInterface {
+export interface ILineView extends IBaseSubView {
   setVerticalOrientation: () => void;
   setHorizontalOrientation: () => void;
-  destroy: (typeEvent: keyof SubViewEvents) => void;
+  destroy: (typeEvent: keyof TSubViewEvents) => void;
 }

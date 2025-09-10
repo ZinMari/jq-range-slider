@@ -1,10 +1,10 @@
 import Observer from "../../Observer/Observer";
 import handlerClickOnSlider from "../../utils/handlerClickOnSlider";
 
-import type { SubViewEvents } from "../type";
+import type { TSubViewEvents } from "../type";
 import type { ILineView } from "./type";
 
-class LineView extends Observer<SubViewEvents> implements ILineView {
+class LineView extends Observer<TSubViewEvents> implements ILineView {
   item: JQuery<HTMLElement>;
   orientation: "horizontal" | "vertical";
 
@@ -37,7 +37,7 @@ class LineView extends Observer<SubViewEvents> implements ILineView {
     this.item.removeClass("alexandr__line_type_vertical");
   }
 
-  destroy(typeEvent: keyof SubViewEvents) {
+  destroy(typeEvent: keyof TSubViewEvents) {
     this.removeAllSubscribers(typeEvent);
   }
 }

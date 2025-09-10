@@ -1,11 +1,11 @@
 import type { IObserver } from "../Observer/type";
 
-export interface BaseSubViewInterface extends IObserver<SubViewEvents> {
+export interface IBaseSubView extends IObserver<TSubViewEvents> {
   item: JQuery<HTMLElement>;
 }
 
-export interface SubViewEvents {
+export type TSubViewEvents = {
   clickOnSlider: {
     pixelClick: number;
   };
-}
+};
