@@ -1,19 +1,19 @@
-export interface ValueConverter {
+export type ValueConverter = {
   pixelInOneStep: (data: PixelInOneStepData) => number;
   convertPixelToUnits: (data: ConvertData) => number;
   convertUnitsToPixels: (data: ConvertData) => number;
-}
+};
 
-export interface ConvertData {
+export type ConvertData = {
   value: number;
   pixelInOneStep: number;
   minValue: number;
   stepValue: number;
-}
+};
 
-export interface PixelInOneStepData {
+export type PixelInOneStepData = {
   sliderLength: number;
   max: number;
   min: number;
   step: number;
-}
+};
