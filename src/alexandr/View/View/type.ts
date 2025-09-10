@@ -1,4 +1,4 @@
-import type { ModelEvents } from "../../Model/type";
+import type { TModelEvents } from "../../Model/type";
 import type { Observer } from "../../Observer/type";
 import type { MinMaxValueLineView } from "../MinMaxValueLineView/type";
 import type { ProgressBarView } from "../ProgressbarView/type";
@@ -11,28 +11,28 @@ export interface View extends Observer<ViewEvents> {
   ruler: RulerView;
   progressbar: ProgressBarView;
   updateProgressBar: (data: { from: number; to: number }) => void;
-  updateRuler: ({ min, max }: ModelEvents["modelMinMaxValuesChanged"]) => void;
-  updateShowRuler: (dataObject: ModelEvents["modelSetRulerChanged"]) => void;
+  updateRuler: ({ min, max }: TModelEvents["modelMinMaxValuesChanged"]) => void;
+  updateShowRuler: (dataObject: TModelEvents["modelSetRulerChanged"]) => void;
   updateOrientation: (
-    dataObject: ModelEvents["modelOrientationChanged"],
+    dataObject: TModelEvents["modelOrientationChanged"],
   ) => void;
   updateMinMaxValueLine: ({
     min,
     max,
-  }: ModelEvents["modelMinMaxValuesChanged"]) => void;
+  }: TModelEvents["modelMinMaxValuesChanged"]) => void;
   updateThumbsPosition: ({
     type,
     pixelPosition,
     moveDirection,
-  }: Partial<ModelEvents["modelThumbsPositionChanged"]>) => void;
-  updateType: (dataObject: ModelEvents["modelTypeChanged"]) => void;
+  }: Partial<TModelEvents["modelThumbsPositionChanged"]>) => void;
+  updateType: (dataObject: TModelEvents["modelTypeChanged"]) => void;
   updateShowFlag: ({
     isSetValueFlag,
-  }: ModelEvents["modelShowFlagChanged"]) => void;
+  }: TModelEvents["modelShowFlagChanged"]) => void;
   updateFlagValues: ({
     type,
     currentValue,
-  }: Partial<ModelEvents["modelThumbsPositionChanged"]>) => void;
+  }: Partial<TModelEvents["modelThumbsPositionChanged"]>) => void;
   destroy: () => void;
   setInitialValues: () => void;
 }

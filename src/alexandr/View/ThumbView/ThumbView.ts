@@ -2,7 +2,7 @@ import Observer from "../../Observer/Observer";
 import getCoords from "../../utils/getCoords";
 
 import type { LineViewInterface } from "../LineView/type";
-import type { ModelEvents } from "../../Model/type";
+import type { TModelEvents } from "../../Model/type";
 import type { ThumbViewEvents, UpdateThumbData } from "./type";
 
 class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
@@ -155,7 +155,7 @@ class ThumbView extends Observer<ThumbViewEvents> implements ThumbView {
     }
   }
 
-  updateType({ type }: ModelEvents["modelTypeChanged"]) {
+  updateType({ type }: TModelEvents["modelTypeChanged"]) {
     this.type = type;
 
     if (this.type === "single") {

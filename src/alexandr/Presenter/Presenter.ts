@@ -1,6 +1,6 @@
 import Observer from "../Observer/Observer";
 
-import type { Model, ModelEvents } from "../Model/type";
+import type { IModel, TModelEvents } from "../Model/type";
 import type { View, ViewEvents } from "../View/View/type";
 import type { PresenterEvents } from "./type";
 import type { AlexandrSettings } from "../type";
@@ -8,7 +8,7 @@ import type { AlexandrSettings } from "../type";
 class Presenter extends Observer<PresenterEvents> {
   constructor(
     private view: View,
-    private model: Model,
+    private model: IModel,
   ) {
     super();
     this.view = view;
@@ -64,30 +64,30 @@ class Presenter extends Observer<PresenterEvents> {
     this.model.refreshOptions(options);
   }
 
-  private modelTypeChanged = (dataObject: ModelEvents["modelTypeChanged"]) => {
+  private modelTypeChanged = (dataObject: TModelEvents["modelTypeChanged"]) => {
     this.view.updateType(dataObject);
   };
 
   private modelOrientationChanged = (
-    dataObject: ModelEvents["modelOrientationChanged"],
+    dataObject: TModelEvents["modelOrientationChanged"],
   ) => {
     this.view.updateOrientation(dataObject);
   };
 
   private modelSetRulerChanged = (
-    dataObject: ModelEvents["modelSetRulerChanged"],
+    dataObject: TModelEvents["modelSetRulerChanged"],
   ) => {
     this.view.updateShowRuler(dataObject);
   };
 
   private modelShowFlagChanged = (
-    dataObject: ModelEvents["modelShowFlagChanged"],
+    dataObject: TModelEvents["modelShowFlagChanged"],
   ) => {
     this.view.updateShowFlag(dataObject);
   };
 
   private modelProgressbarUpdated = (
-    dataObject: ModelEvents["modelProgressbarUpdated"],
+    dataObject: TModelEvents["modelProgressbarUpdated"],
   ) => {
     this.view.updateProgressBar(dataObject);
   };
@@ -97,7 +97,7 @@ class Presenter extends Observer<PresenterEvents> {
     currentValue,
     pixelPosition,
     moveDirection,
-  }: ModelEvents["modelThumbsPositionChanged"]) => {
+  }: TModelEvents["modelThumbsPositionChanged"]) => {
     this.view.updateThumbsPosition({ type, pixelPosition, moveDirection });
     this.view.updateFlagValues({ type, currentValue });
 
@@ -109,7 +109,7 @@ class Presenter extends Observer<PresenterEvents> {
   private modelMinMaxValuesChanged = ({
     min,
     max,
-  }: ModelEvents["modelMinMaxValuesChanged"]) => {
+  }: TModelEvents["modelMinMaxValuesChanged"]) => {
     this.view.updateMinMaxValueLine({ min, max });
     this.view.updateRuler({ min, max });
 

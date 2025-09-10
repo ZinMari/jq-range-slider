@@ -1,18 +1,16 @@
-import type { ModelEvents } from "../../Model/type";
+import type { TModelEvents } from "../../Model/type";
 
 class ProgressBarView implements ProgressBarView {
   item: JQuery<HTMLElement>;
   orientation: "vertical" | "horizontal";
 
-  constructor(
-    progressBarClass: string,
-  ) {
+  constructor(progressBarClass: string) {
     this.item = $("<span>", {
       class: `alexandr__progressbar ${progressBarClass}`,
     });
   }
 
-  update = (dataObject: ModelEvents["modelProgressbarUpdated"]): void => {
+  update = (dataObject: TModelEvents["modelProgressbarUpdated"]): void => {
     this.item.removeAttr("style");
     if (dataObject.orientation === "vertical") {
       this.item.css({

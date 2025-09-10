@@ -7,7 +7,7 @@ import ThumbView from "../ThumbView/ThumbView";
 
 import type { LineViewInterface } from "../LineView/type";
 import type { ProgressBarView } from "../ProgressbarView/type";
-import type { ModelEvents } from "../../Model/type";
+import type { TModelEvents } from "../../Model/type";
 import type { ViewEvents } from "./type";
 import type { SubViewEvents } from "../type";
 import type { UpdateThumbData } from "../ThumbView/type";
@@ -99,27 +99,27 @@ class View extends Observer<ViewEvents> implements View {
     });
   };
 
-  updateType(dataObject: ModelEvents["modelTypeChanged"]): void {
+  updateType(dataObject: TModelEvents["modelTypeChanged"]): void {
     this.thumbs.updateType(dataObject);
   }
 
-  updateProgressBar(dataObject: ModelEvents["modelProgressbarUpdated"]): void {
+  updateProgressBar(dataObject: TModelEvents["modelProgressbarUpdated"]): void {
     this.progressbar.update(dataObject);
   }
 
-  updateRuler({ min, max }: ModelEvents["modelMinMaxValuesChanged"]): void {
+  updateRuler({ min, max }: TModelEvents["modelMinMaxValuesChanged"]): void {
     this.ruler.update(min, max);
   }
 
-  updateShowRuler({ isSetRuler }: ModelEvents["modelSetRulerChanged"]) {
+  updateShowRuler({ isSetRuler }: TModelEvents["modelSetRulerChanged"]) {
     isSetRuler ? this.ruler.showRuler() : this.ruler.hideRuler();
   }
 
-  updateShowFlag({ isSetValueFlag }: ModelEvents["modelShowFlagChanged"]) {
+  updateShowFlag({ isSetValueFlag }: TModelEvents["modelShowFlagChanged"]) {
     isSetValueFlag ? this.thumbs.showFlag() : this.thumbs.hideFlag();
   }
 
-  updateOrientation({ orientation }: ModelEvents["modelOrientationChanged"]) {
+  updateOrientation({ orientation }: TModelEvents["modelOrientationChanged"]) {
     orientation === "vertical"
       ? this._setVerticalOrientation()
       : this._setHorizontalOrientation();
@@ -128,7 +128,7 @@ class View extends Observer<ViewEvents> implements View {
   updateMinMaxValueLine({
     min,
     max,
-  }: ModelEvents["modelMinMaxValuesChanged"]): void {
+  }: TModelEvents["modelMinMaxValuesChanged"]): void {
     this.sliderMinMaxValueLine.update(min, max);
   }
 
@@ -136,14 +136,14 @@ class View extends Observer<ViewEvents> implements View {
     type,
     pixelPosition,
     moveDirection,
-  }: Partial<ModelEvents["modelThumbsPositionChanged"]>): void {
+  }: Partial<TModelEvents["modelThumbsPositionChanged"]>): void {
     this.thumbs.updateThumbsPosition(type, pixelPosition, moveDirection);
   }
 
   updateFlagValues({
     type,
     currentValue,
-  }: Partial<ModelEvents["modelThumbsPositionChanged"]>): void {
+  }: Partial<TModelEvents["modelThumbsPositionChanged"]>): void {
     this.thumbs.updateFlagValues(type, currentValue);
   }
 

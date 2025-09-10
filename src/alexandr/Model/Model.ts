@@ -3,10 +3,10 @@ import ValueConverter from "../utils/ValueConverter/ValueConverter";
 
 import type { UpdateThumbData } from "../View/ThumbView/type";
 import type { ViewCoords } from "../View/View/type";
-import type { GetNewThumbCordData, ModelEvents } from "./type";
+import type { GetNewThumbCordData, IModel, TModelEvents } from "./type";
 import type { AlexandrSettings } from "../type";
 
-class Model extends Observer<ModelEvents> implements Model {
+class Model extends Observer<TModelEvents> implements IModel {
   minValue: number;
   maxValue: number;
   minPosition: number;
