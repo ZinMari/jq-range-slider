@@ -1,8 +1,8 @@
-export interface ObserverSubscriber<T> {
+export type ObserverSubscriber<T> = {
   (infoObject: T[keyof T]): void;
-}
+};
 
-export interface Observer<T> {
+export type Observer<T> = {
   subscribers: { [K in keyof T]?: Set<ObserverSubscriber<T>> };
   addSubscriber<K extends keyof T>(
     typeEvent: K,
@@ -14,4 +14,4 @@ export interface Observer<T> {
   ) => void;
   removeAllSubscribers: (typeEvent: keyof T) => void;
   notify<K extends keyof T>(typeEvent: K, observerInfoObject: T[K]): void;
-}
+};
