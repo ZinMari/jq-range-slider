@@ -1,7 +1,7 @@
 import type { TModelEvents } from "../../Model/type";
 import type { IObserver } from "../../Observer/type";
 import type { IMinMaxValueLine } from "../MinMaxValueLineView/type";
-import type { ProgressBarView } from "../ProgressbarView/type";
+import type { IProgressBarView } from "../ProgressbarView/type";
 import type { RulerView } from "../RulerView/type";
 import type { ThumbView, UpdateThumbData } from "../ThumbView/type";
 
@@ -9,7 +9,7 @@ export interface View extends IObserver<ViewEvents> {
   thumbs: ThumbView;
   sliderMinMaxValueLine: IMinMaxValueLine;
   ruler: RulerView;
-  progressbar: ProgressBarView;
+  progressbar: IProgressBarView;
   updateProgressBar: (data: { from: number; to: number }) => void;
   updateRuler: ({ min, max }: TModelEvents["modelMinMaxValuesChanged"]) => void;
   updateShowRuler: (dataObject: TModelEvents["modelSetRulerChanged"]) => void;

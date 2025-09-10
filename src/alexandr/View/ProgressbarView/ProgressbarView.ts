@@ -1,6 +1,7 @@
 import type { TModelEvents } from "../../Model/type";
+import type { IProgressBarView } from "./type";
 
-class ProgressBarView implements ProgressBarView {
+class ProgressBarView implements IProgressBarView {
   item: JQuery<HTMLElement>;
   orientation: "vertical" | "horizontal";
 

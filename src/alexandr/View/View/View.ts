@@ -6,7 +6,7 @@ import RulerView from "../RulerView/RulerView";
 import ThumbView from "../ThumbView/ThumbView";
 
 import type { ILineView } from "../LineView/type";
-import type { ProgressBarView } from "../ProgressbarView/type";
+import type { IProgressBarView } from "../ProgressbarView/type";
 import type { TModelEvents } from "../../Model/type";
 import type { ViewEvents } from "./type";
 import type { SubViewEvents } from "../type";
@@ -17,7 +17,7 @@ class View extends Observer<ViewEvents> implements View {
   ruler: RulerView;
   sliderMinMaxValueLine: MinMaxValueLineView;
   thumbs: ThumbView;
-  progressbar: ProgressBarView;
+  progressbar: IProgressBarView;
   private slider: JQuery<HTMLElement>;
   private container: JQuery<HTMLElement>;
   private line: ILineView;
