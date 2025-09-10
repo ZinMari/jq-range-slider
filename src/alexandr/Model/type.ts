@@ -3,7 +3,7 @@ import type { AlexandrSettings } from "../type";
 import type { UpdateThumbData } from "../View/ThumbView/type";
 import type { ViewCoords } from "../View/View/type";
 
-export interface Model extends Observer<ModelEvents> {
+export type Model = Observer<ModelEvents> & {
   minValue: number;
   maxValue: number;
   minPosition: number;
@@ -24,9 +24,9 @@ export interface Model extends Observer<ModelEvents> {
   setInitialValues: () => void;
   setOrientation: (orientation: "vertical" | "horizontal") => void;
   refreshOptions: (options: AlexandrSettings) => void;
-}
+};
 
-export interface ModelEvents {
+export type ModelEvents = {
   modelThumbsPositionChanged: {
     type: "min" | "max";
     currentValue: number;
@@ -57,12 +57,12 @@ export interface ModelEvents {
   modelTypeChanged: {
     type: "single" | "double";
   };
-}
+};
 
-export interface GetNewThumbCordData {
+export type GetNewThumbCordData = {
   clientEvent: number;
   clientLineCoordsOffset: number;
   clientLineCoordsSize: number;
   clientThumbCoordsSize: number;
   shiftClickThumb: number;
-}
+};
