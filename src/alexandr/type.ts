@@ -2,10 +2,13 @@ import type { IObserver } from "./Observer/type";
 
 declare global {
   interface JQuery {
-    alexandr:
-      | any
-      | ((options: string | TAlexandrSettings) => JQuery<HTMLElement>);
+    alexandr: AlexandrFunction;
   }
+}
+
+interface AlexandrFunction {
+  (options: string | TAlexandrSettings): JQuery<HTMLElement>;
+  defaults?: TAlexandrSettings;
 }
 
 export interface IAlexandr extends IObserver<TAlexandrEvents> {
