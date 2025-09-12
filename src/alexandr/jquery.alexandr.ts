@@ -4,7 +4,7 @@ import Model from "./Model/Model";
 import Observer from "./Observer/Observer";
 
 import type { TPresenterEvents } from "./Presenter/type";
-import type { TAlexandrEvents, TAlexandrSettings } from "./type";
+import type { IAlexandr, TAlexandrEvents, TAlexandrSettings } from "./type";
 
 function requireAll(r: __WebpackModuleApi.RequireContext) {
   return r.keys().map(r);
@@ -13,7 +13,7 @@ function requireAll(r: __WebpackModuleApi.RequireContext) {
 requireAll(require.context("./", true, /\.(scss)$/));
 
 (function ($) {
-  class Alexandr extends Observer<TAlexandrEvents> {
+  class Alexandr extends Observer<TAlexandrEvents> implements IAlexandr  {
     private presenter: Presenter;
     sliderData: Partial<TAlexandrSettings> | null = null;
 
@@ -24,10 +24,10 @@ requireAll(require.context("./", true, /\.(scss)$/));
         new Model({ ...options }),
       );
 
-      this.presenter.addSubscriber("updateOptions", this.updateOptions);
+      this.presenter.addSubscriber("updateOptions", this.update);
     }
 
-    updateOptions = (dataOptions: TPresenterEvents["updateOptions"]) => {
+    update = (dataOptions: TPresenterEvents["updateOptions"]) => {
       this.sliderData = Object.assign(this.sliderData, dataOptions);
       this.notify("sliderUpdated", this.sliderData);
     };
