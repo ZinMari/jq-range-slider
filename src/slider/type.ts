@@ -9,14 +9,14 @@ declare global {
 interface SliderFunction {
   (
     options: string | TSliderSettings,
-    newOptions?: TSliderSettings | JQuery<HTMLElement> | TAlexandrCoonect,
+    newOptions?: TSliderSettings | JQuery<HTMLElement> | TSliderConnect,
   ): JQuery<HTMLElement>;
   defaults?: TSliderSettings;
 }
 
-type TAlexandrCoonect = (options: TSliderSettings) => void;
+type TSliderConnect = (options: TSliderSettings) => void;
 
-export interface IAlexandr extends IObserver<TAlexandrEvents> {
+export interface ISlider extends IObserver<TSliderEvents> {
   update: (observerInfoObject: {
     [K in keyof TSliderSettings]: TSliderSettings[K];
   }) => void;
@@ -45,6 +45,6 @@ export type TSliderSettings = {
   type?: "single" | "double";
 };
 
-export type TAlexandrEvents = {
+export type TSliderEvents = {
   sliderUpdated: Partial<Record<keyof TSliderSettings, unknown>> | null;
 };

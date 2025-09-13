@@ -4,7 +4,7 @@ import Model from "./Model/Model";
 import Observer from "./Observer/Observer";
 
 import type { TPresenterEvents } from "./Presenter/type";
-import type { IAlexandr, TAlexandrEvents, TSliderSettings } from "./type";
+import type { ISlider, TSliderEvents, TSliderSettings } from "./type";
 
 function requireAll(r: __WebpackModuleApi.RequireContext) {
   return r.keys().map(r);
@@ -13,7 +13,7 @@ function requireAll(r: __WebpackModuleApi.RequireContext) {
 requireAll(require.context("./", true, /\.(scss)$/));
 
 (function ($) {
-  class Slider extends Observer<TAlexandrEvents> implements IAlexandr {
+  class Slider extends Observer<TSliderEvents> implements ISlider {
     private presenter: Presenter;
     sliderData: Partial<TSliderSettings> | null = null;
 
@@ -62,9 +62,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
       $(target).removeData("slider");
     }
 
-    connectToPluginData(
-      fn: (options: TAlexandrEvents["sliderUpdated"]) => void,
-    ) {
+    connectToPluginData(fn: (options: TSliderEvents["sliderUpdated"]) => void) {
       this.addSubscriber("sliderUpdated", fn);
     }
   }
