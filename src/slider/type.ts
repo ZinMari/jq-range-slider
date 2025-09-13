@@ -2,12 +2,15 @@ import type { IObserver } from "./Observer/type";
 
 declare global {
   interface JQuery {
-    alexandr: AlexandrFunction;
+    slider: AlexandrFunction;
   }
 }
 
 interface AlexandrFunction {
-  (options: string | TAlexandrSettings, newOptions?:TAlexandrSettings | JQuery<HTMLElement> | TAlexandrCoonect): JQuery<HTMLElement>;
+  (
+    options: string | TAlexandrSettings,
+    newOptions?: TAlexandrSettings | JQuery<HTMLElement> | TAlexandrCoonect,
+  ): JQuery<HTMLElement>;
   defaults?: TAlexandrSettings;
 }
 

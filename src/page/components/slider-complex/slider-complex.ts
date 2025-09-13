@@ -3,8 +3,8 @@ import type { TAlexandrSettings } from "../../../slider/type";
 function initSlider(slider: string, options: TAlexandrSettings): void {
   $(slider)
     .children(".slider-complex__slider")
-    .alexandr(options)
-    .alexandr("connect", onSliderValueChange);
+    .slider(options)
+    .slider("connect", onSliderValueChange);
 }
 
 function setValueToPanel(slider: string): void {
@@ -14,7 +14,7 @@ function setValueToPanel(slider: string): void {
 
   const sliderOptions: TAlexandrSettings = $(slider)
     .find(".js-slider-complex__slider")
-    .alexandr("options") as TAlexandrSettings;
+    .slider("options") as TAlexandrSettings;
 
   const $radio: JQuery<HTMLElement> = $panel.find("input[type=radio]");
   const $checkbox: JQuery<HTMLElement> = $panel.find("input[type=checkbox]");
@@ -54,14 +54,14 @@ function onChangePanelValue(event: Event) {
     $target
       .closest(".js-slider-complex")
       .find(".js-slider-complex__slider")
-      .alexandr("update", { [$target.attr("name")]: $target.val() });
+      .slider("update", { [$target.attr("name")]: $target.val() });
   }
 
   if (attrType === "checkbox") {
     $target
       .closest(".js-slider-complex")
       .find(".js-slider-complex__slider")
-      .alexandr("update", { [$target.attr("name")]: $target.prop("checked") });
+      .slider("update", { [$target.attr("name")]: $target.prop("checked") });
   }
 }
 

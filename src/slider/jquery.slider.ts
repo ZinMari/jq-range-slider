@@ -13,7 +13,7 @@ function requireAll(r: __WebpackModuleApi.RequireContext) {
 requireAll(require.context("./", true, /\.(scss)$/));
 
 (function ($) {
-  class Alexandr extends Observer<TAlexandrEvents> implements IAlexandr  {
+  class Slider extends Observer<TAlexandrEvents> implements IAlexandr {
     private presenter: Presenter;
     sliderData: Partial<TAlexandrSettings> | null = null;
 
@@ -38,17 +38,17 @@ requireAll(require.context("./", true, /\.(scss)$/));
     ): JQuery<HTMLElement> {
       options.container = $(target);
 
-      const alexandr = new Alexandr(options);
-      alexandr.sliderData = options;
+      const slider = new Slider(options);
+      slider.sliderData = options;
 
-      $(target).data("alexandr", alexandr);
+      $(target).data("slider", slider);
 
       return $(target);
     }
 
     clearPlugin(target: HTMLElement) {
       const $target = $(target);
-      $target.removeData("alexandr");
+      $target.removeData("slider");
       $target.find(".alexandr").remove();
       return target;
     }
@@ -58,8 +58,8 @@ requireAll(require.context("./", true, /\.(scss)$/));
     }
 
     destroyPlugin(target: HTMLElement) {
-      $(target).data("alexandr").presenter.destroy();
-      $(target).removeData("alexandr");
+      $(target).data("slider").presenter.destroy();
+      $(target).removeData("slider");
     }
 
     connectToPluginData(
@@ -70,7 +70,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
   }
 
   function isSliderInitialized(elem: JQuery<HTMLElement>): boolean {
-    return elem.data("alexandr");
+    return elem.data("slider");
   }
 
   function isGetOptionsObject(argument: string | TAlexandrSettings) {
@@ -81,58 +81,55 @@ requireAll(require.context("./", true, /\.(scss)$/));
     return option === "update";
   }
 
-  function isGetOption(
-    slider: Alexandr,
-    optionName: string | TAlexandrSettings,
-  ) {
+  function isGetOption(slider: Slider, optionName: string | TAlexandrSettings) {
     return typeof optionName === "string" && optionName in slider.sliderData;
   }
 
-  $.fn.alexandr = function (
+  $.fn.slider = function (
     options: string | TAlexandrSettings,
   ): JQuery<HTMLElement> {
     if (!isSliderInitialized($(this)) && isSetOptions(options)) {
       return;
     }
     if (!isSliderInitialized($(this))) {
-      const config = $.extend({}, $.fn.alexandr.defaults, options);
+      const config = $.extend({}, $.fn.slider.defaults, options);
       config.container = this;
 
-      const alexandr = new Alexandr(config);
-      alexandr.sliderData = config;
+      const slider = new Slider(config);
+      slider.sliderData = config;
 
-      $(this).data("alexandr", alexandr);
+      $(this).data("slider", slider);
       return this;
     }
 
     if (isSliderInitialized($(this)) && options === "destroy") {
-      $(this).data("alexandr").destroyPlugin(this);
+      $(this).data("slider").destroyPlugin(this);
       return $(this);
     }
 
     if (isSliderInitialized($(this)) && options === "connect") {
-      $(this).data("alexandr").connectToPluginData(arguments[1]);
+      $(this).data("slider").connectToPluginData(arguments[1]);
       return $(this);
     }
 
     if (isSliderInitialized($(this)) && isGetOptionsObject(options)) {
-      return $(this).data("alexandr").sliderData;
+      return $(this).data("slider").sliderData;
     }
 
     if (isSliderInitialized($(this)) && isSetOptions(options)) {
-      $(this).data("alexandr").refreshPlugin(arguments[1]);
+      $(this).data("slider").refreshPlugin(arguments[1]);
       return $(this);
     }
 
     if (
       isSliderInitialized($(this)) &&
-      isGetOption($(this).data("alexandr"), options)
+      isGetOption($(this).data("slider"), options)
     ) {
-      return $(this).data("alexandr").sliderData[String(options)];
+      return $(this).data("slider").sliderData[String(options)];
     }
   };
 
-  $.fn.alexandr.defaults = {
+  $.fn.slider.defaults = {
     minValue: 1000,
     maxValue: 2000,
     stepValue: 10,
