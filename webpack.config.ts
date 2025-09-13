@@ -12,11 +12,11 @@ export default (env: EnvVariables) => {
   const paths: BuildPaths = {
     output: path.resolve(__dirname, "build"),
     entry: {
-      "jquery.alexandr": path.resolve(
+      "jquery.slider": path.resolve(
         __dirname,
         "src",
         "slider",
-        "jquery.alexandr.ts",
+        "jquery.slider.ts",
       ),
       index: path.resolve(__dirname, "src", "page", "index.ts"),
     },

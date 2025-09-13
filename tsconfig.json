@@ -15,7 +15,6 @@
   "ts-node": {
     "compilerOptions": {
       "module": "CommonJS"
-      // "typeRoots": ["./src/alexandr/@types", "./node_modules/@types"]
     }
   }
 }
