@@ -12,7 +12,7 @@ function setValueToPanel(slider: string): void {
     ".js-slider-complex__panel",
   );
 
-  const sliderOptions: TAlexandrSettings = $(slider)
+  const sliderOptions: TAlexandrSettings | any = $(slider)
     .find(".js-slider-complex__slider")
     .alexandr("options");
 

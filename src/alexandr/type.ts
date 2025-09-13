@@ -7,9 +7,11 @@ declare global {
 }
 
 interface AlexandrFunction {
-  (options: string | TAlexandrSettings): JQuery<HTMLElement>;
+  (options: string | TAlexandrSettings, newOptions?:TAlexandrSettings | JQuery<HTMLElement> | TAlexandrCoonect): JQuery<HTMLElement>;
   defaults?: TAlexandrSettings;
 }
+
+type TAlexandrCoonect = (options: TAlexandrSettings) => void;
 
 export interface IAlexandr extends IObserver<TAlexandrEvents> {
   update: (observerInfoObject: {
