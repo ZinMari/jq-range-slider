@@ -1,4 +1,4 @@
-import type { TAlexandrSettings } from "../../../alexandr/type";
+import type { TAlexandrSettings } from "../../../slider/type";
 
 function initSlider(slider: string, options: TAlexandrSettings): void {
   $(slider)
