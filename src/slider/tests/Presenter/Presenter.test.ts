@@ -2,10 +2,10 @@ import Presenter from "../../Presenter/Presenter";
 import Model from "../../Model/Model";
 import View from "../../View/View/View";
 
-import type { TAlexandrSettings } from "../../type";
+import type { TSliderSettings } from "../../type";
 
 describe("Презентер:", () => {
-  const settingsDefault: TAlexandrSettings = {
+  const settingsDefault: TSliderSettings = {
     container: $("<div>").attr({ class: "container" }),
     minValue: 1000,
     maxValue: 2000,

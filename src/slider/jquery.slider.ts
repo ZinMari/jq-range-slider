@@ -4,7 +4,7 @@ import Model from "./Model/Model";
 import Observer from "./Observer/Observer";
 
 import type { TPresenterEvents } from "./Presenter/type";
-import type { IAlexandr, TAlexandrEvents, TAlexandrSettings } from "./type";
+import type { IAlexandr, TAlexandrEvents, TSliderSettings } from "./type";
 
 function requireAll(r: __WebpackModuleApi.RequireContext) {
   return r.keys().map(r);
@@ -15,9 +15,9 @@ requireAll(require.context("./", true, /\.(scss)$/));
 (function ($) {
   class Slider extends Observer<TAlexandrEvents> implements IAlexandr {
     private presenter: Presenter;
-    sliderData: Partial<TAlexandrSettings> | null = null;
+    sliderData: Partial<TSliderSettings> | null = null;
 
-    constructor(options: TAlexandrSettings) {
+    constructor(options: TSliderSettings) {
       super();
       this.presenter = new Presenter(
         new View({ ...options }),
@@ -34,7 +34,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
 
     initPlugin(
       target: HTMLElement,
-      options: TAlexandrSettings,
+      options: TSliderSettings,
     ): JQuery<HTMLElement> {
       options.container = $(target);
 
@@ -53,7 +53,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
       return target;
     }
 
-    refreshPlugin(options: TAlexandrSettings) {
+    refreshPlugin(options: TSliderSettings) {
       this.presenter.refreshOptions(options);
     }
 
@@ -73,20 +73,20 @@ requireAll(require.context("./", true, /\.(scss)$/));
     return elem.data("slider");
   }
 
-  function isGetOptionsObject(argument: string | TAlexandrSettings) {
+  function isGetOptionsObject(argument: string | TSliderSettings) {
     return argument === "options";
   }
 
-  function isSetOptions(option: string | TAlexandrSettings) {
+  function isSetOptions(option: string | TSliderSettings) {
     return option === "update";
   }
 
-  function isGetOption(slider: Slider, optionName: string | TAlexandrSettings) {
+  function isGetOption(slider: Slider, optionName: string | TSliderSettings) {
     return typeof optionName === "string" && optionName in slider.sliderData;
   }
 
   $.fn.slider = function (
-    options: string | TAlexandrSettings,
+    options: string | TSliderSettings,
   ): JQuery<HTMLElement> {
     if (!isSliderInitialized($(this)) && isSetOptions(options)) {
       return;

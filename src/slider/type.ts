@@ -2,28 +2,28 @@ import type { IObserver } from "./Observer/type";
 
 declare global {
   interface JQuery {
-    slider: AlexandrFunction;
+    slider: SliderFunction;
   }
 }
 
-interface AlexandrFunction {
+interface SliderFunction {
   (
-    options: string | TAlexandrSettings,
-    newOptions?: TAlexandrSettings | JQuery<HTMLElement> | TAlexandrCoonect,
+    options: string | TSliderSettings,
+    newOptions?: TSliderSettings | JQuery<HTMLElement> | TAlexandrCoonect,
   ): JQuery<HTMLElement>;
-  defaults?: TAlexandrSettings;
+  defaults?: TSliderSettings;
 }
 
-type TAlexandrCoonect = (options: TAlexandrSettings) => void;
+type TAlexandrCoonect = (options: TSliderSettings) => void;
 
 export interface IAlexandr extends IObserver<TAlexandrEvents> {
   update: (observerInfoObject: {
-    [K in keyof TAlexandrSettings]: TAlexandrSettings[K];
+    [K in keyof TSliderSettings]: TSliderSettings[K];
   }) => void;
-  sliderData: Partial<Record<keyof TAlexandrSettings, unknown>>;
+  sliderData: Partial<Record<keyof TSliderSettings, unknown>>;
 }
 
-export type TAlexandrSettings = {
+export type TSliderSettings = {
   minValue?: number;
   maxValue?: number;
   container?: JQuery<HTMLElement>;
@@ -46,5 +46,5 @@ export type TAlexandrSettings = {
 };
 
 export type TAlexandrEvents = {
-  sliderUpdated: Partial<Record<keyof TAlexandrSettings, unknown>> | null;
+  sliderUpdated: Partial<Record<keyof TSliderSettings, unknown>> | null;
 };

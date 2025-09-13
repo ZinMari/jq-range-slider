@@ -4,7 +4,7 @@ import ValueConverter from "../utils/ValueConverter/ValueConverter";
 import type { TUpdateThumbData } from "../View/ThumbView/type";
 import type { TViewCoords } from "../View/View/type";
 import type { GetNewThumbCordData, IModel, TModelEvents } from "./type";
-import type { TAlexandrSettings } from "../type";
+import type { TSliderSettings } from "../type";
 
 class Model extends Observer<TModelEvents> implements IModel {
   minValue: number;
@@ -37,7 +37,7 @@ class Model extends Observer<TModelEvents> implements IModel {
     orientation,
     showRuler,
     showValueFlag,
-  }: TAlexandrSettings) {
+  }: TSliderSettings) {
     super();
     this.valueConverter = new ValueConverter();
 
@@ -110,7 +110,7 @@ class Model extends Observer<TModelEvents> implements IModel {
     }
   }
 
-  refreshOptions = (options: TAlexandrSettings): void => {
+  refreshOptions = (options: TSliderSettings): void => {
     if (options.minValue) {
       this.setMinValue(Number(options.minValue));
     }

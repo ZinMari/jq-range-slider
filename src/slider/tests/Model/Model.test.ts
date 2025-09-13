@@ -1,12 +1,12 @@
 import Model from "../../Model/Model";
 import getRandomInteger from "../../utils/getRandomInteger";
 
-import type { TAlexandrSettings } from "../../type";
+import type { TSliderSettings } from "../../type";
 import type { TElementsCoords } from "../../utils/getCoords";
 import type { TUpdateThumbData } from "../../View/ThumbView/type";
 
 describe("Модель:", () => {
-  const settingsDefault: TAlexandrSettings = {
+  const settingsDefault: TSliderSettings = {
     minValue: 5,
     maxValue: 0,
     stepValue: 10,
@@ -44,7 +44,7 @@ describe("Модель:", () => {
     });
     describe("при установке нового значения будет в допустимом диапазоне:", () => {
       test("при минзначении слайдера 100 и максзначении слайдера 200 и  шаге 300", () => {
-        const settings: TAlexandrSettings = Object.assign(settingsDefault, {
+        const settings: TSliderSettings = Object.assign(settingsDefault, {
           minValue: 100,
           maxValue: 200,
         });
@@ -55,7 +55,7 @@ describe("Модель:", () => {
         );
       });
       test("при минзначении слайдера 100 и максзначении слайдера 200 и  шаге -300", () => {
-        const settings: TAlexandrSettings = Object.assign(settingsDefault, {
+        const settings: TSliderSettings = Object.assign(settingsDefault, {
           minValue: 100,
           maxValue: 200,
         });
@@ -74,7 +74,7 @@ describe("Модель:", () => {
     expect(model.orientation).toBe("vertical");
   });
   test("При изменении типа слайдера с диапазона на одиночное значение, данные второго ползунка сбрасываются :", () => {
-    const settings: TAlexandrSettings = Object.assign(settingsDefault, {
+    const settings: TSliderSettings = Object.assign(settingsDefault, {
       type: "double",
     });
     const model: Model = new Model(settings);
@@ -130,7 +130,7 @@ describe("Модель:", () => {
   });
   describe("При установке нового максимального значения слайдера оно больше минимального:", () => {
     test("при минзначении слайдера 100 и максимальном значении -30", () => {
-      const settings: TAlexandrSettings = Object.assign(settingsDefault, {
+      const settings: TSliderSettings = Object.assign(settingsDefault, {
         minValue: 100,
         maxValue: 200,
       });
@@ -141,7 +141,7 @@ describe("Модель:", () => {
   });
   describe("При установке нового минимального значения слайдера оно меньше максимального:", () => {
     test("при максзначении слайдера 100 и минимальном значении 300", () => {
-      const settings: TAlexandrSettings = Object.assign(settingsDefault, {
+      const settings: TSliderSettings = Object.assign(settingsDefault, {
         maxValue: 100,
       });
       const model: Model = new Model(settings);

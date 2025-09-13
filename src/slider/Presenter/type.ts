@@ -1,5 +1,5 @@
-import type { TAlexandrSettings } from "../type";
+import type { TSliderSettings } from "../type";
 
 export type TPresenterEvents = {
-  updateOptions: Partial<TAlexandrSettings>;
+  updateOptions: Partial<TSliderSettings>;
 };

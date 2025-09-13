@@ -3,7 +3,7 @@ import Observer from "../Observer/Observer";
 import type { IModel, TModelEvents } from "../Model/type";
 import type { IView, TViewEvents } from "../View/View/type";
 import type { TPresenterEvents } from "./type";
-import type { TAlexandrSettings } from "../type";
+import type { TSliderSettings } from "../type";
 
 class Presenter extends Observer<TPresenterEvents> {
   constructor(
@@ -60,7 +60,7 @@ class Presenter extends Observer<TPresenterEvents> {
     this.model.addSubscriber("modelTypeChanged", this.modelTypeChanged);
   }
 
-  refreshOptions(options: TAlexandrSettings): void {
+  refreshOptions(options: TSliderSettings): void {
     this.model.refreshOptions(options);
   }
 

@@ -3,10 +3,10 @@ import { fireEvent } from "@testing-library/dom";
 import View from "../../View/View/View";
 import getRandomInteger from "../../utils/getRandomInteger";
 
-import type { TAlexandrSettings } from "../../type";
+import type { TSliderSettings } from "../../type";
 
 describe("Вид:", () => {
-  const settingsDefault: TAlexandrSettings = {
+  const settingsDefault: TSliderSettings = {
     container: $("<div>").attr({ class: "container" }),
     minValue: 1000,
     maxValue: 2000,
