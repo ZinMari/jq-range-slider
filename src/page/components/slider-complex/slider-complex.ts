@@ -12,9 +12,9 @@ function setValueToPanel(slider: string): void {
     ".js-slider-complex__panel",
   );
 
-  const sliderOptions: TAlexandrSettings | any = $(slider)
+  const sliderOptions: TAlexandrSettings = $(slider)
     .find(".js-slider-complex__slider")
-    .alexandr("options");
+    .alexandr("options") as TAlexandrSettings;
 
   const $radio: JQuery<HTMLElement> = $panel.find("input[type=radio]");
   const $checkbox: JQuery<HTMLElement> = $panel.find("input[type=checkbox]");
