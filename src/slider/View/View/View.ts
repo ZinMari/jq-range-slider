@@ -56,7 +56,7 @@ class View extends Observer<TViewEvents> implements IView {
   }
 
   private _createBaseDOM = () => {
-    this.slider = $("<div>", { class: "alexandr" });
+    this.slider = $("<div>", { class: "slider" });
   };
 
   private _initSubViews = () => {
@@ -169,7 +169,7 @@ class View extends Observer<TViewEvents> implements IView {
   };
 
   private _setVerticalOrientation(): void {
-    this.slider.addClass("alexandr_type_vertical");
+    this.slider.addClass("slider_type_vertical");
     this.slider.height(this.slider.outerWidth());
     this.line.setVerticalOrientation();
     this.thumbs.setOrientation("vertical");
@@ -178,7 +178,7 @@ class View extends Observer<TViewEvents> implements IView {
   }
 
   private _setHorizontalOrientation(): void {
-    this.slider.removeClass("alexandr_type_vertical");
+    this.slider.removeClass("slider_type_vertical");
     this.slider.width("100%");
     this.line.setHorizontalOrientation();
     this.thumbs.setOrientation("horizontal");

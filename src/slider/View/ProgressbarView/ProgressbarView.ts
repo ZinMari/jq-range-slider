@@ -7,7 +7,7 @@ class ProgressBarView implements IProgressBarView {
 
   constructor(progressBarClass: string) {
     this.item = $("<span>", {
-      class: `alexandr__progressbar ${progressBarClass}`,
+      class: `slider__progressbar ${progressBarClass}`,
     });
   }
 

@@ -35,16 +35,16 @@ class ThumbView extends Observer<TThumbViewEvents> implements IThumbView {
     thumbMinClass: string;
     thumbMaxClass: string;
   }): void {
-    this.minThumb = this._createThumb(`alexandr__thumb--min ${thumbMinClass}`);
-    this.maxThumb = this._createThumb(`alexandr__thumb--max ${thumbMaxClass}`);
+    this.minThumb = this._createThumb(`slider__thumb--min ${thumbMinClass}`);
+    this.maxThumb = this._createThumb(`slider__thumb--max ${thumbMaxClass}`);
 
     if (this.type === "single") {
-      this.maxThumb.addClass("alexandr__thumb_hidden");
+      this.maxThumb.addClass("slider__thumb_hidden");
     }
   }
 
   private _createThumb(userClass: string) {
-    const thumb = $("<span>", { class: `alexandr__thumb ${userClass}` });
+    const thumb = $("<span>", { class: `slider__thumb ${userClass}` });
     thumb[0].addEventListener("pointerdown", this.handler);
 
     return thumb;
@@ -98,7 +98,7 @@ class ThumbView extends Observer<TThumbViewEvents> implements IThumbView {
       }
 
       const options: TUpdateThumbData = {
-        type: $currentThumb.prop("classList").contains("alexandr__thumb--max")
+        type: $currentThumb.prop("classList").contains("slider__thumb--max")
           ? "max"
           : "min",
         thumbCoords,
@@ -125,11 +125,11 @@ class ThumbView extends Observer<TThumbViewEvents> implements IThumbView {
   setOrientation(orientation: "vertical" | "horizontal") {
     this.orientation = orientation;
     if (orientation === "vertical") {
-      this.minThumb?.addClass("alexandr__thumb_type_vertical");
-      this.maxThumb?.addClass("alexandr__thumb_type_vertical");
+      this.minThumb?.addClass("slider__thumb_type_vertical");
+      this.maxThumb?.addClass("slider__thumb_type_vertical");
     } else {
-      this.minThumb?.removeClass("alexandr__thumb_type_vertical");
-      this.maxThumb?.removeClass("alexandr__thumb_type_vertical");
+      this.minThumb?.removeClass("slider__thumb_type_vertical");
+      this.maxThumb?.removeClass("slider__thumb_type_vertical");
     }
     this.minThumb?.removeAttr("style");
     this.maxThumb?.removeAttr("style");
@@ -159,9 +159,9 @@ class ThumbView extends Observer<TThumbViewEvents> implements IThumbView {
     this.type = type;
 
     if (this.type === "single") {
-      this.maxThumb.addClass("alexandr__thumb_hidden");
+      this.maxThumb.addClass("slider__thumb_hidden");
     } else {
-      this.maxThumb.removeClass("alexandr__thumb_hidden");
+      this.maxThumb.removeClass("slider__thumb_hidden");
     }
   }
 

@@ -78,7 +78,7 @@ function onSliderValueChange(options: TSliderSettings) {
 function initSliderComplex(slider: string, options: TSliderSettings) {
   initSlider(slider, options);
   setValueToPanel(slider);
-  $(slider).on("change.alexandr", onChangePanelValue);
+  $(slider).on("change.slider", onChangePanelValue);
 }
 
 export default initSliderComplex;

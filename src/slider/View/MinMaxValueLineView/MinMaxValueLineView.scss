@@ -1,11 +1,11 @@
-.alexandr__values {
-    display: flex;
-    justify-content: space-between;
-    color: var(--color-light);
+.slider__values {
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-light);
 
-    &_type {
-        &_vertical {
-            flex-direction: column;
-        }
+  &_type {
+    &_vertical {
+      flex-direction: column;
     }
   }
+}

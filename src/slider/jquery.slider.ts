@@ -49,7 +49,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
     clearPlugin(target: HTMLElement) {
       const $target = $(target);
       $target.removeData("slider");
-      $target.find(".alexandr").remove();
+      $target.find(".slider").remove();
       return target;
     }
 

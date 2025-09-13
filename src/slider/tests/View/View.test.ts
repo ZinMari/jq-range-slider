@@ -110,15 +110,13 @@ describe("Вид:", () => {
 
     test("Добавляется класс на кнопки:", () => {
       expect(view.thumbs.minThumb[0]).toHaveClass(
-        "alexandr__thumb_type_vertical",
+        "slider__thumb_type_vertical",
       );
     });
 
     test("При установке горизонтальной ориентации, на линейке нет класса для установки вертикальной ориентации:", () => {
       view.updateOrientation({ orientation: "horizontal" });
-      expect(view.ruler.item[0]).not.toHaveClass(
-        "alexandr__ruler_type_vertical",
-      );
+      expect(view.ruler.item[0]).not.toHaveClass("slider__ruler_type_vertical");
     });
   });
   describe("Линейка устанавливает значения:", () => {
@@ -155,7 +153,7 @@ describe("Вид:", () => {
     view.setInitialValues();
     $("body").append(container);
 
-    const line = container.find(".alexandr__line")[0];
+    const line = container.find(".slider__line")[0];
 
     test("добавляется в DOM:", () => {
       expect(line).not.toBe(null);
@@ -163,7 +161,7 @@ describe("Вид:", () => {
 
     test("Для линии устанавливается вертикальная ориентация", () => {
       view.updateOrientation({ orientation: "vertical" });
-      expect(line).toHaveClass("alexandr__line_type_vertical");
+      expect(line).toHaveClass("slider__line_type_vertical");
     });
     container.remove();
   });

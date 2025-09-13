@@ -25,7 +25,7 @@ describe("Кнопки:", () => {
   });
   test("Меняют ориентацию", () => {
     thumbs.setOrientation("vertical");
-    expect(thumbs.maxThumb[0]).toHaveClass("alexandr__thumb_type_vertical");
+    expect(thumbs.maxThumb[0]).toHaveClass("slider__thumb_type_vertical");
   });
   test("Скрывают флажки", () => {
     thumbs.hideFlag();

@@ -12,11 +12,11 @@ class RulerView extends Observer<TSubViewEvents> implements IRulerView {
 
   constructor() {
     super();
-    this.item = $("<div>", { class: "alexandr__ruler" });
+    this.item = $("<div>", { class: "slider__ruler" });
     this.divisions = new Array(this.countDivisions);
 
     for (let i = 0; i < this.countDivisions; i++) {
-      this.divisions[i] = $("<span>", { class: "alexandr__dividing" });
+      this.divisions[i] = $("<span>", { class: "slider__dividing" });
       this.item.append(this.divisions[i]);
     }
 
@@ -33,11 +33,11 @@ class RulerView extends Observer<TSubViewEvents> implements IRulerView {
   }
 
   showRuler(): void {
-    this.item.removeClass("alexandr__ruler_none");
+    this.item.removeClass("slider__ruler_none");
   }
 
   hideRuler(): void {
-    this.item.addClass("alexandr__ruler_none");
+    this.item.addClass("slider__ruler_none");
   }
 
   handler = (event: PointerEvent) => {
@@ -52,17 +52,17 @@ class RulerView extends Observer<TSubViewEvents> implements IRulerView {
 
   setVerticalOrientation() {
     this.orientation = "vertical";
-    this.item.addClass("alexandr__ruler_type_vertical");
+    this.item.addClass("slider__ruler_type_vertical");
     this.divisions.forEach((elem: JQuery<HTMLElement>) => {
-      elem.addClass("alexandr__dividing_type_vertical");
+      elem.addClass("slider__dividing_type_vertical");
     });
   }
 
   setHorizontalOrientation() {
     this.orientation = "horizontal";
-    this.item.removeClass("alexandr__ruler_type_vertical");
+    this.item.removeClass("slider__ruler_type_vertical");
     this.divisions.forEach((elem: JQuery<HTMLElement>) => {
-      elem.removeClass("alexandr__dividing_type_vertical");
+      elem.removeClass("slider__dividing_type_vertical");
     });
   }
 }

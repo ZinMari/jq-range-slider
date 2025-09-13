@@ -15,7 +15,7 @@ const handlerClickOnSlider = (
   const target = event.currentTarget;
 
   if (target instanceof HTMLElement) {
-    if (target.classList.contains("alexandr__thumb")) {
+    if (target.classList.contains("slider__thumb")) {
       return;
     }
   }

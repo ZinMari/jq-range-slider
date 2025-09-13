@@ -1,16 +1,16 @@
-.alexandr {
-    min-width: 100%;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    touch-action: pan-y;
+.slider {
+  min-width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  touch-action: pan-y;
 
-    &_type {
-        &_vertical {
-            flex-direction: row;
-        }
+  &_type {
+    &_vertical {
+      flex-direction: row;
     }
+  }
 }
