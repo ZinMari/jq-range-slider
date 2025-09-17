@@ -2,7 +2,7 @@ import Model from "../../Model/Model";
 import getRandomInteger from "../../utils/getRandomInteger";
 
 import type { TSliderSettings } from "../../type";
-import type { TElementsCoords } from "../../utils/getCoords";
+import type { TElementsCoordinates } from "../../utils/getCoordinates";
 import type { TUpdateThumbData } from "../../View/ThumbView/type";
 
 describe("Модель:", () => {
@@ -18,7 +18,7 @@ describe("Модель:", () => {
     maxPosition: 0,
   };
 
-  const coords: TElementsCoords = {
+  const coords: TElementsCoordinates = {
     left: getRandomInteger(),
     width: getRandomInteger(),
     top: getRandomInteger(),

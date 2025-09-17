@@ -1,4 +1,4 @@
-import getCoords from "./getCoords";
+import getCoordinates from "./getCoordinates";
 
 const handlerClickOnSlider = (
   event: PointerEvent,
@@ -20,7 +20,7 @@ const handlerClickOnSlider = (
     }
   }
 
-  const sliderLineCoords = getCoords(line);
+  const sliderLineCoords = getCoordinates(line);
 
   // на скольких пикселях от линии произошел клик
   const pixelClick =

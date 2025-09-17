@@ -1,5 +1,5 @@
 import Observer from "../../Observer/Observer";
-import getCoords from "../../utils/getCoords";
+import getCoordinates from "../../utils/getCoordinates";
 
 import type { ILineView } from "../LineView/type";
 import type { TModelEvents } from "../../Model/type";
@@ -67,8 +67,8 @@ class ThumbView extends Observer<TThumbViewEvents> implements IThumbView {
     const clickPageX = event.pageX;
     const clickPageY = event.pageY;
 
-    const thumbCoords = getCoords($currentThumb);
-    const lineCoords = getCoords(this.line.item);
+    const thumbCoords = getCoordinates($currentThumb);
+    const lineCoords = getCoordinates(this.line.item);
 
     // разница между кликом и началок кнопки
     const shiftClickThumb: number = this._getShiftThumb({
