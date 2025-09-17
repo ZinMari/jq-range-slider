@@ -1,7 +1,7 @@
 import type { IObserver } from "../Observer/type";
 import type { TSliderSettings } from "../type";
 import type { TUpdateThumbData } from "../View/ThumbView/type";
-import type { TViewCoords } from "../View/View/type";
+import type { TViewCoordinates } from "../View/View/type";
 
 export interface IModel extends IObserver<TModelEvents> {
   minValue: number;
@@ -19,7 +19,7 @@ export interface IModel extends IObserver<TModelEvents> {
   setStepValue: (value: number) => void;
   updateThumbPosition: (options: TUpdateThumbData) => void;
   clickOnSlider: (options: { pixelClick: number }) => void;
-  modelGetCordsView: (viewCoords: TViewCoords) => void;
+  modelGetCordsView: (viewCoordinates: TViewCoordinates) => void;
   setProgressBarSize: () => void;
   setInitialValues: () => void;
   setOrientation: (orientation: "vertical" | "horizontal") => void;
@@ -61,8 +61,8 @@ export type TModelEvents = {
 
 export type GetNewThumbCordData = {
   clientEvent: number;
-  clientLineCoordsOffset: number;
-  clientLineCoordsSize: number;
-  clientThumbCoordsSize: number;
+  clientLineCoordinatesOffset: number;
+  clientLineCoordinatesSize: number;
+  clientThumbCoordinatesSize: number;
   shiftClickThumb: number;
 };

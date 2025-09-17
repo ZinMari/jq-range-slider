@@ -2,7 +2,7 @@ import Observer from "../Observer/Observer";
 import ValueConverter from "../utils/ValueConverter/ValueConverter";
 
 import type { TUpdateThumbData } from "../View/ThumbView/type";
-import type { TViewCoords } from "../View/View/type";
+import type { TViewCoordinates } from "../View/View/type";
 import type { GetNewThumbCordData, IModel, TModelEvents } from "./type";
 import type { TSliderSettings } from "../type";
 
@@ -146,7 +146,7 @@ class Model extends Observer<TModelEvents> implements IModel {
     minThumbHeight,
     maxThumbWidth,
     maxThumbHeight,
-  }: TViewCoords) => {
+  }: TViewCoordinates) => {
     this.sliderLength = sliderLength;
     this.minThumbWidth = minThumbWidth;
     this.minThumbHeight = minThumbHeight;
@@ -338,9 +338,9 @@ class Model extends Observer<TModelEvents> implements IModel {
   updateThumbPosition = (options: TUpdateThumbData) => {
     let value: number = this._getNewThumbCord({
       clientEvent: options.clientEvent,
-      clientLineCoordsOffset: options.clientLineCoordsOffset,
-      clientLineCoordsSize: options.clientLineCoordsSize,
-      clientThumbCoordsSize: options.clientThumbCoordsSize,
+      clientLineCoordinatesOffset: options.clientLineCoordinatesOffset,
+      clientLineCoordinatesSize: options.clientLineCoordinatesSize,
+      clientThumbCoordinatesSize: options.clientThumbCoordinatesSize,
       shiftClickThumb: options.shiftClickThumb,
     });
 
@@ -413,12 +413,12 @@ class Model extends Observer<TModelEvents> implements IModel {
 
   private _getNewThumbCord({
     clientEvent,
-    clientLineCoordsOffset,
-    clientLineCoordsSize,
-    clientThumbCoordsSize,
+    clientLineCoordinatesOffset,
+    clientLineCoordinatesSize,
+    clientThumbCoordinatesSize,
     shiftClickThumb,
   }: GetNewThumbCordData): number {
-    let newLeft = clientEvent - shiftClickThumb - clientLineCoordsOffset;
+    let newLeft = clientEvent - shiftClickThumb - clientLineCoordinatesOffset;
 
     //подгоним движение под шаг
     newLeft = this._equatePixelValueToStep(newLeft);
@@ -427,7 +427,7 @@ class Model extends Observer<TModelEvents> implements IModel {
     if (newLeft < 0) {
       newLeft = 0;
     }
-    const rightEdge = clientLineCoordsSize - clientThumbCoordsSize;
+    const rightEdge = clientLineCoordinatesSize - clientThumbCoordinatesSize;
 
     if (newLeft > rightEdge) {
       newLeft = rightEdge;

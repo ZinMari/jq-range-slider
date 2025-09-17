@@ -42,10 +42,10 @@ export type TViewEvents = {
   clickOnSlider: {
     pixelClick: number;
   };
-  viewInit: TViewCoords;
+  viewInit: TViewCoordinates;
 };
 
-export type TViewCoords = {
+export type TViewCoordinates = {
   sliderLength: number;
   minThumbWidth: number;
   minThumbHeight: number;

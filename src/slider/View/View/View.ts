@@ -51,7 +51,7 @@ class View extends Observer<TViewEvents> implements IView {
     this._createBaseDOM();
     this._initSubViews();
     this._appendToDOM();
-    this._notifyInitialCoords();
+    this._notifyInitialCoordinates();
     this._addSubscribersToSubViews();
   }
 
@@ -88,7 +88,7 @@ class View extends Observer<TViewEvents> implements IView {
     );
   };
 
-  private _notifyInitialCoords = () => {
+  private _notifyInitialCoordinates = () => {
     this.notify("viewInit", {
       sliderLength:
         this.slider.outerWidth() - this.thumbs.minThumb.outerWidth(),

@@ -67,47 +67,47 @@ class ThumbView extends Observer<TThumbViewEvents> implements IThumbView {
     const clickPageX = event.pageX;
     const clickPageY = event.pageY;
 
-    const thumbCoords = getCoordinates($currentThumb);
-    const lineCoords = getCoordinates(this.line.item);
+    const thumbCoordinates = getCoordinates($currentThumb);
+    const lineCoordinates = getCoordinates(this.line.item);
 
     // разница между кликом и началок кнопки
     const shiftClickThumb: number = this._getShiftThumb({
       clickPageX,
       clickPageY,
-      topClickThumbCoords: thumbCoords.top,
-      leftClickThumbCoords: thumbCoords.left,
+      topClickThumbCoordinates: thumbCoordinates.top,
+      leftClickThumbCoordinates: thumbCoordinates.left,
       orientation: this.orientation,
     });
 
     const onMouseMove = (event: PointerEvent): void => {
       let clientEvent;
-      let clientLineCoordsOffset;
-      let clientLineCoordsSize;
-      let clientThumbCoordsSize;
+      let clientLineCoordinatesOffset;
+      let clientLineCoordinatesSize;
+      let clientThumbCoordinatesSize;
 
       if (this.orientation === "vertical") {
         clientEvent = event.pageY;
-        clientLineCoordsOffset = lineCoords.top;
-        clientLineCoordsSize = lineCoords.height;
-        clientThumbCoordsSize = thumbCoords.height;
+        clientLineCoordinatesOffset = lineCoordinates.top;
+        clientLineCoordinatesSize = lineCoordinates.height;
+        clientThumbCoordinatesSize = thumbCoordinates.height;
       } else {
         clientEvent = event.pageX;
-        clientLineCoordsOffset = lineCoords.left;
-        clientLineCoordsSize = lineCoords.width;
-        clientThumbCoordsSize = thumbCoords.width;
+        clientLineCoordinatesOffset = lineCoordinates.left;
+        clientLineCoordinatesSize = lineCoordinates.width;
+        clientThumbCoordinatesSize = thumbCoordinates.width;
       }
 
       const options: TUpdateThumbData = {
         type: $currentThumb.prop("classList").contains("slider__thumb--max")
           ? "max"
           : "min",
-        thumbCoords,
-        lineCoords,
+        thumbCoordinates,
+        lineCoordinates,
         shiftClickThumb: shiftClickThumb,
         clientEvent,
-        clientLineCoordsOffset,
-        clientLineCoordsSize,
-        clientThumbCoordsSize,
+        clientLineCoordinatesOffset,
+        clientLineCoordinatesSize,
+        clientThumbCoordinatesSize,
       };
 
       this.notify("updateThumbPosition", options);
@@ -168,20 +168,20 @@ class ThumbView extends Observer<TThumbViewEvents> implements IThumbView {
   private _getShiftThumb({
     clickPageX,
     clickPageY,
-    topClickThumbCoords,
-    leftClickThumbCoords,
+    topClickThumbCoordinates,
+    leftClickThumbCoordinates,
     orientation,
   }: {
     clickPageX: number;
     clickPageY: number;
-    topClickThumbCoords: number;
-    leftClickThumbCoords: number;
+    topClickThumbCoordinates: number;
+    leftClickThumbCoordinates: number;
     orientation: string;
   }): number {
     if (orientation === "vertical") {
-      return clickPageY - topClickThumbCoords;
+      return clickPageY - topClickThumbCoordinates;
     } else {
-      return clickPageX - leftClickThumbCoords;
+      return clickPageX - leftClickThumbCoordinates;
     }
   }
 }

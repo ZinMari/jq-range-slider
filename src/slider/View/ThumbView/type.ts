@@ -23,10 +23,10 @@ export type TThumbViewEvents = {
 export type TUpdateThumbData = {
   type: "max" | "min";
   shiftClickThumb: number;
-  lineCoords: TElementsCoordinates;
-  thumbCoords: TElementsCoordinates;
+  lineCoordinates: TElementsCoordinates;
+  thumbCoordinates: TElementsCoordinates;
   clientEvent: number;
-  clientLineCoordsOffset: number;
-  clientLineCoordsSize: number;
-  clientThumbCoordsSize: number;
+  clientLineCoordinatesOffset: number;
+  clientLineCoordinatesSize: number;
+  clientThumbCoordinatesSize: number;
 };

@@ -20,13 +20,13 @@ const handlerClickOnSlider = (
     }
   }
 
-  const sliderLineCoords = getCoordinates(line);
+  const sliderLineCoordinates = getCoordinates(line);
 
   // на скольких пикселях от линии произошел клик
   const pixelClick =
     orientation === "horizontal"
-      ? event.pageX - sliderLineCoords.left
-      : event.pageY - sliderLineCoords.top;
+      ? event.pageX - sliderLineCoordinates.left
+      : event.pageY - sliderLineCoordinates.top;
 
   notify("clickOnSlider", {
     pixelClick,

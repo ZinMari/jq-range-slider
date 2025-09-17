@@ -119,8 +119,8 @@ class Presenter extends Observer<TPresenterEvents> {
     });
   };
 
-  private viewInit = (viewCoords: TViewEvents["viewInit"]) => {
-    this.model.modelGetCordsView(viewCoords);
+  private viewInit = (viewCoordinates: TViewEvents["viewInit"]) => {
+    this.model.modelGetCordsView(viewCoordinates);
   };
 
   private viewThumbsPositionChanged = (

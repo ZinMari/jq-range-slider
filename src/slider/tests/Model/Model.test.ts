@@ -18,7 +18,7 @@ describe("Модель:", () => {
     maxPosition: 0,
   };
 
-  const coords: TElementsCoordinates = {
+  const coordinates: TElementsCoordinates = {
     left: getRandomInteger(),
     width: getRandomInteger(),
     top: getRandomInteger(),
@@ -86,12 +86,12 @@ describe("Модель:", () => {
     const options: TUpdateThumbData = {
       type: "max",
       shiftClickThumb: getRandomInteger(),
-      lineCoords: coords,
-      thumbCoords: coords,
+      lineCoordinates: coordinates,
+      thumbCoordinates: coordinates,
       clientEvent: getRandomInteger(),
-      clientLineCoordsOffset: getRandomInteger(),
-      clientLineCoordsSize: getRandomInteger(),
-      clientThumbCoordsSize: getRandomInteger(),
+      clientLineCoordinatesOffset: getRandomInteger(),
+      clientLineCoordinatesSize: getRandomInteger(),
+      clientThumbCoordinatesSize: getRandomInteger(),
     };
     const oldThumbPosition = model.maxThumbPixelPosition;
     model.updateThumbPosition(options);
