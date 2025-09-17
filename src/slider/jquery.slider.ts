@@ -1,10 +1,5 @@
-import View from "./View/View/View";
-import Presenter from "./Presenter/Presenter";
-import Model from "./Model/Model";
-import Observer from "./Observer/Observer";
-
-import type { TPresenterEvents } from "./Presenter/type";
-import type { ISlider, TSliderEvents, TSliderSettings } from "./type";
+import Slider from "./Slider/Slider";
+import { TSliderSettings } from "./Slider/type";
 
 function requireAll(r: __WebpackModuleApi.RequireContext) {
   return r.keys().map(r);
@@ -13,60 +8,6 @@ function requireAll(r: __WebpackModuleApi.RequireContext) {
 requireAll(require.context("./", true, /\.(scss)$/));
 
 (function ($) {
-  class Slider extends Observer<TSliderEvents> implements ISlider {
-    private presenter: Presenter;
-    sliderData: Partial<TSliderSettings> | null = null;
-
-    constructor(options: TSliderSettings) {
-      super();
-      this.presenter = new Presenter(
-        new View({ ...options }),
-        new Model({ ...options }),
-      );
-
-      this.presenter.addSubscriber("updateOptions", this.update);
-    }
-
-    update = (dataOptions: TPresenterEvents["updateOptions"]) => {
-      this.sliderData = Object.assign(this.sliderData, dataOptions);
-      this.notify("sliderUpdated", this.sliderData);
-    };
-
-    initPlugin(
-      target: HTMLElement,
-      options: TSliderSettings,
-    ): JQuery<HTMLElement> {
-      options.container = $(target);
-
-      const slider = new Slider(options);
-      slider.sliderData = options;
-
-      $(target).data("slider", slider);
-
-      return $(target);
-    }
-
-    clearPlugin(target: HTMLElement) {
-      const $target = $(target);
-      $target.removeData("slider");
-      $target.find(".slider").remove();
-      return target;
-    }
-
-    refreshPlugin(options: TSliderSettings) {
-      this.presenter.refreshOptions(options);
-    }
-
-    destroyPlugin(target: HTMLElement) {
-      $(target).data("slider").presenter.destroy();
-      $(target).removeData("slider");
-    }
-
-    connectToPluginData(fn: (options: TSliderEvents["sliderUpdated"]) => void) {
-      this.addSubscriber("sliderUpdated", fn);
-    }
-  }
-
   function isSliderInitialized(elem: JQuery<HTMLElement>): boolean {
     return elem.data("slider");
   }

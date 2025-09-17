@@ -1,12 +1,12 @@
-import type { IObserver } from "./Observer/type";
+import { TSliderSettings } from "./Slider/type";
 
 declare global {
   interface JQuery {
-    slider: SliderFunction;
+    slider: ISliderFunction;
   }
 }
 
-interface SliderFunction {
+interface ISliderFunction {
   (
     options: string | TSliderSettings,
     newOptions?: TSliderSettings | JQuery<HTMLElement> | TSliderConnect,
@@ -15,36 +15,4 @@ interface SliderFunction {
 }
 
 type TSliderConnect = (options: TSliderSettings) => void;
-
-export interface ISlider extends IObserver<TSliderEvents> {
-  update: (observerInfoObject: {
-    [K in keyof TSliderSettings]: TSliderSettings[K];
-  }) => void;
-  sliderData: Partial<Record<keyof TSliderSettings, unknown>>;
-}
-
-export type TSliderSettings = {
-  minValue?: number;
-  maxValue?: number;
-  container?: JQuery<HTMLElement>;
-  stepValue?: number;
-  showMinMaxValue?: boolean;
-  showValueFlag?: boolean;
-  showRuler?: boolean;
-  minPosition?: number;
-  maxPosition?: number;
-  elemForShowValueMin?: JQuery<HTMLElement>;
-  elemForShowValueMax?: JQuery<HTMLElement>;
-  lineClass?: string;
-  progressBarClass?: string;
-  thumbMinClass?: string;
-  thumbMaxClass?: string;
-  showMinValueClass?: string;
-  showMaxValueClass?: string;
-  orientation?: "horizontal" | "vertical";
-  type?: "single" | "double";
-};
-
-export type TSliderEvents = {
-  sliderUpdated: Partial<Record<keyof TSliderSettings, unknown>> | null;
-};
+export { TSliderSettings };
