@@ -25,20 +25,6 @@ export default class Slider extends Observer<TSliderEvents> implements ISlider {
     this.notify("sliderUpdated", this.sliderData);
   };
 
-  initPlugin(
-    target: HTMLElement,
-    options: TSliderSettings,
-  ): JQuery<HTMLElement> {
-    options.container = $(target);
-
-    const slider = new Slider(options);
-    slider.sliderData = options;
-
-    $(target).data("slider", slider);
-
-    return $(target);
-  }
-
   clearPlugin(target: HTMLElement) {
     const $target = $(target);
     $target.removeData("slider");
