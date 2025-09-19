@@ -22,7 +22,7 @@ export default class ValueConverter{
     return Math.round((value / pixelInOneStep) * stepValue + minValue);
   }
 
-  convertUnitsToPixels({
+  static convertUnitsToPixels({
     value,
     pixelInOneStep,
     minValue,

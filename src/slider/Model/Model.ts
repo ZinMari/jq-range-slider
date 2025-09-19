@@ -23,7 +23,6 @@ class Model extends Observer<TModelEvents> implements IModel {
   minThumbHeight: number;
   maxThumbWidth: number;
   maxThumbHeight: number;
-  valueConverter: ValueConverter;
   showRuler: boolean;
   showValueFlag: boolean;
 
@@ -238,7 +237,7 @@ class Model extends Observer<TModelEvents> implements IModel {
       this._normalizeMinMaxPositions();
 
       this[`${typeThumb}ThumbPixelPosition`] =
-        this.valueConverter.convertUnitsToPixels({
+        ValueConverter.convertUnitsToPixels({
           value: this[`${typeThumb}Position`],
           minValue: this.minValue,
           pixelInOneStep: this.pixelInOneStep,
