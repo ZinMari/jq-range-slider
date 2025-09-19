@@ -345,7 +345,7 @@ class Model extends Observer<TModelEvents> implements IModel {
 
     this.setThumbsPosition(
       options.type,
-      this.valueConverter.convertPixelToUnits({
+      ValueConverter.convertPixelToUnits({
         value,
         pixelInOneStep: this.pixelInOneStep,
         stepValue: this.stepValue,
@@ -360,7 +360,7 @@ class Model extends Observer<TModelEvents> implements IModel {
     if (this.type === "single") {
       this.setThumbsPosition(
         "min",
-        this.valueConverter.convertPixelToUnits({
+        ValueConverter.convertPixelToUnits({
           value: stepLeft,
           pixelInOneStep: this.pixelInOneStep,
           stepValue: this.stepValue,
@@ -377,7 +377,7 @@ class Model extends Observer<TModelEvents> implements IModel {
       if (stepLeft < middlePixels) {
         this.setThumbsPosition(
           "min",
-          this.valueConverter.convertPixelToUnits({
+          ValueConverter.convertPixelToUnits({
             value: stepLeft,
             pixelInOneStep: this.pixelInOneStep,
             stepValue: this.stepValue,
@@ -387,7 +387,7 @@ class Model extends Observer<TModelEvents> implements IModel {
       } else {
         this.setThumbsPosition(
           "max",
-          this.valueConverter.convertPixelToUnits({
+          ValueConverter.convertPixelToUnits({
             value: stepLeft,
             pixelInOneStep: this.pixelInOneStep,
             stepValue: this.stepValue,

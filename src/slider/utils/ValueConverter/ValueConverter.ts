@@ -13,7 +13,7 @@ export default class ValueConverter{
     return (sliderLength / (max - min)) * step || 1;
   };
 
-  convertPixelToUnits({
+  static convertPixelToUnits({
     value,
     pixelInOneStep,
     minValue,
