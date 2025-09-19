@@ -39,7 +39,6 @@ class Model extends Observer<TModelEvents> implements IModel {
     showValueFlag,
   }: TSliderSettings) {
     super();
-    this.valueConverter = new ValueConverter();
 
     this.type = type;
     this.orientation = orientation;
@@ -153,7 +152,7 @@ class Model extends Observer<TModelEvents> implements IModel {
     this.maxThumbWidth = maxThumbWidth;
     this.maxThumbHeight = maxThumbHeight;
 
-    this.pixelInOneStep = this.valueConverter.pixelInOneStep({
+    this.pixelInOneStep = ValueConverter.pixelInOneStep({
       sliderLength: this.sliderLength,
       max: this.maxValue,
       min: this.minValue,
@@ -290,7 +289,7 @@ class Model extends Observer<TModelEvents> implements IModel {
         ? this.maxValue - this.stepValue
         : minValue;
 
-    this.pixelInOneStep = this.valueConverter.pixelInOneStep({
+    this.pixelInOneStep = ValueConverter.pixelInOneStep({
       sliderLength: this.sliderLength,
       max: this.maxValue,
       min: this.minValue,
@@ -309,7 +308,7 @@ class Model extends Observer<TModelEvents> implements IModel {
       maxValue <= this.minValue || Number.isNaN(maxValue)
         ? this.minValue + this.stepValue
         : maxValue;
-    this.pixelInOneStep = this.valueConverter.pixelInOneStep({
+    this.pixelInOneStep = ValueConverter.pixelInOneStep({
       sliderLength: this.sliderLength,
       max: this.maxValue,
       min: this.minValue,
@@ -325,7 +324,7 @@ class Model extends Observer<TModelEvents> implements IModel {
   setStepValue(stepValue: number): void {
     this.stepValue = stepValue;
     this._normalizeStepValue();
-    this.pixelInOneStep = this.valueConverter.pixelInOneStep({
+    this.pixelInOneStep = ValueConverter.pixelInOneStep({
       sliderLength: this.sliderLength,
       max: this.maxValue,
       min: this.minValue,

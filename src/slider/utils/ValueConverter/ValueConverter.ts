@@ -1,11 +1,10 @@
 import type {
   TConvertData,
-  TPixelInOneStepData,
-  IValueConverter,
+  TPixelInOneStepData
 } from "./type";
 
-export default class ValueConverter implements IValueConverter {
-  pixelInOneStep = ({
+export default class ValueConverter{
+  static pixelInOneStep = ({
     sliderLength,
     max,
     min,

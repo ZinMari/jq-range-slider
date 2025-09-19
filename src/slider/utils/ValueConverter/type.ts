@@ -1,9 +1,3 @@
-export interface IValueConverter {
-  pixelInOneStep: (data: TPixelInOneStepData) => number;
-  convertPixelToUnits: (data: TConvertData) => number;
-  convertUnitsToPixels: (data: TConvertData) => number;
-}
-
 export type TConvertData = {
   value: number;
   pixelInOneStep: number;
