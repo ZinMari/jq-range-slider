@@ -1,5 +1,5 @@
 import Observer from "../../Observer/Observer";
-import handlerClickOnSlider from "../../utils/handlerClickOnSlider";
+import getClickOnSliderHandler from "../../utils/getClickOnSliderHandler";
 
 import type { TSubViewEvents } from "../type";
 import type { IRulerView } from "./type";
@@ -41,7 +41,7 @@ class RulerView extends Observer<TSubViewEvents> implements IRulerView {
   }
 
   handler = (event: PointerEvent) => {
-    handlerClickOnSlider.call(
+    getClickOnSliderHandler.call(
       this,
       event,
       this.item,
