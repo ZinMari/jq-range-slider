@@ -42,7 +42,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
     }
 
     if (isSliderInitialized($(this)) && options === "destroy") {
-      $(this).data("slider").destroyPlugin(this);
+      Slider.destroyPlugin(this);
       return $(this);
     }
 

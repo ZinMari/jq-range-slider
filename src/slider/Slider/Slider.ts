@@ -36,12 +36,12 @@ export default class Slider extends Observer<TSliderEvents> implements ISlider {
     this.presenter.refreshOptions(options);
   }
 
-  destroyPlugin(target: HTMLElement) {
-    $(target).data("slider").presenter.destroy();
-    $(target).removeData("slider");
-  }
-
   connectToPluginData(fn: (options: TSliderEvents["sliderUpdated"]) => void) {
     this.addSubscriber("sliderUpdated", fn);
+  }
+
+  static destroyPlugin(target: HTMLElement) {
+    $(target).data("slider").presenter.destroy();
+    $(target).removeData("slider");
   }
 }
