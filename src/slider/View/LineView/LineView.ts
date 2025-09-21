@@ -10,8 +10,8 @@ class LineView extends Observer<TSubViewEvents> implements ILineView {
 
   constructor(lineClass: string) {
     super();
+    this.orientation = "horizontal";
     this.item = $("<div>", { class: `slider__line ${lineClass}` });
-
     this.item[0].addEventListener("pointerdown", this.handler);
   }
 
@@ -28,7 +28,11 @@ class LineView extends Observer<TSubViewEvents> implements ILineView {
   setVerticalOrientation() {
     this.orientation = "vertical";
     this.item.addClass("slider__line_type_vertical");
-    this.item.height(this.item.parent().outerWidth());
+
+    const parentWidth = this.item.parent().outerWidth();
+    if (parentWidth) {
+      this.item.height(parentWidth);
+    }
   }
 
   setHorizontalOrientation() {
