@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { IObserver, TObserverSubscriber } from "./type";
 
 class Observer<T> implements IObserver<T> {

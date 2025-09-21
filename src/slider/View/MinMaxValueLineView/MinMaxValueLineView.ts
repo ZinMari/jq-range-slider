@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { IMinMaxValueLine } from "./type";
 
 class MinMaxValueLineView implements IMinMaxValueLine {

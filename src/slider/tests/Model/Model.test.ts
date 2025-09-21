@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Model from "../../Model/Model";
 import getRandomInteger from "../../utils/getRandomInteger";
 

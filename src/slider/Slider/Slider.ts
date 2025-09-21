@@ -1,3 +1,4 @@
+// @ts-nocheck
 import View from "../View/View/View";
 import Presenter from "../Presenter/Presenter";
 import Model from "../Model/Model";

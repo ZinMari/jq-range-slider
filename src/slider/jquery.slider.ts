@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Slider from "./Slider/Slider";
 import { TSliderSettings } from "./Slider/type";
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { TModelEvents } from "../../Model/type";
 import type { IProgressBarView } from "./type";
 

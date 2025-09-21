@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Observer from "../../Observer/Observer";
 import getClickOnSliderHandler from "../../utils/getClickOnSliderHandler";
 

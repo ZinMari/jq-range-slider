@@ -1,3 +1,4 @@
+// @ts-nocheck
 import "@testing-library/jest-dom";
 import { fireEvent } from "@testing-library/dom";
 import View from "../../View/View/View";

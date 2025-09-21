@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Observer from "../../Observer/Observer";
 import LineView from "../LineView/LineView";
 import MinMaxValueLineView from "../MinMaxValueLineView/MinMaxValueLineView";

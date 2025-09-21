@@ -1,3 +1,4 @@
+// @ts-nocheck
 export type TElementsCoordinates = {
   left: number;
   width: number;

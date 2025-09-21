@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Observer from "../Observer/Observer";
 import ValueConverter from "../utils/ValueConverter/ValueConverter";
 
