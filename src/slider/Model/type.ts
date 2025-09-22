@@ -1,5 +1,5 @@
 import type { IObserver } from "../Observer/type";
-import type { TSliderSettings } from "../Slider/type";
+import type { TUserSliderSettings } from "../Slider/type";
 import type { TUpdateThumbData } from "../View/ThumbView/type";
 import type { TViewCoordinates } from "../View/View/type";
 
@@ -23,7 +23,7 @@ export interface IModel extends IObserver<TModelEvents> {
   setProgressBarSize: () => void;
   setInitialValues: () => void;
   setOrientation: (orientation: "vertical" | "horizontal") => void;
-  refreshOptions: (options: TSliderSettings) => void;
+  refreshOptions: (options: TUserSliderSettings) => void;
 }
 
 export type TModelEvents = {

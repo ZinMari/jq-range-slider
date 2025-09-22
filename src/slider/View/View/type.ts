@@ -10,7 +10,7 @@ export interface IView extends IObserver<TViewEvents> {
   sliderMinMaxValueLine: IMinMaxValueLine;
   ruler: IRulerView;
   progressbar: IProgressBarView;
-  updateProgressBar: (data: { from: number; to: number }) => void;
+  updateProgressBar: (data: TModelEvents["modelProgressbarUpdated"]) => void;
   updateRuler: ({ min, max }: TModelEvents["modelMinMaxValuesChanged"]) => void;
   updateShowRuler: (dataObject: TModelEvents["modelSetRulerChanged"]) => void;
   updateOrientation: (

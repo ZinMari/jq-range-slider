@@ -1,4 +1,3 @@
-// @ts-nocheck
 import View from "../View/View/View";
 import Presenter from "../Presenter/Presenter";
 import Model from "../Model/Model";
@@ -27,7 +26,7 @@ export default class Slider extends Observer<TSliderEvents> implements ISlider {
   }
 
   update = (dataOptions: TPresenterEvents["updateOptions"]) => {
-    this.sliderData = Object.assign(this.sliderData, dataOptions);
+    this.sliderData = Object.assign(this.sliderData || {}, dataOptions);
     this.notify("sliderUpdated", this.sliderData);
   };
 
