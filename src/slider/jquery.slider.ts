@@ -1,6 +1,7 @@
 // @ts-nocheck
+
 import Slider from "./Slider/Slider";
-import { TSliderSettings } from "./Slider/type";
+import { TSliderSettings, TUserSliderSettings } from "./Slider/type";
 
 function requireAll(r: __WebpackModuleApi.RequireContext) {
   return r.keys().map(r);
@@ -17,7 +18,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
     return argument === "options";
   }
 
-  function isSetOptions(option: string | TSliderSettings) {
+  function isSetOptions(option: string | TUserSliderSettings) {
     return option === "update";
   }
 
@@ -27,7 +28,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
 
   $.fn.slider = function (
     options: string | TSliderSettings,
-  ): JQuery<HTMLElement> {
+  ): JQuery<HTMLElement> | undefined {
     if (!isSliderInitialized($(this)) && isSetOptions(options)) {
       return;
     }

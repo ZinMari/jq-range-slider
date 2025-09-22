@@ -4,7 +4,7 @@ export interface ISlider extends IObserver<TSliderEvents> {
   update: (observerInfoObject: {
     [K in keyof TSliderSettings]: TSliderSettings[K];
   }) => void;
-  sliderData: Partial<Record<keyof TSliderSettings, unknown>>;
+  sliderData: Partial<Record<keyof TSliderSettings, unknown>> | null;
 }
 
 export type TSliderSettings = {
@@ -32,3 +32,5 @@ export type TSliderSettings = {
 export type TSliderEvents = {
   sliderUpdated: Partial<Record<keyof TSliderSettings, unknown>> | null;
 };
+
+export type TUserSliderSettings = Partial<TSliderSettings>;

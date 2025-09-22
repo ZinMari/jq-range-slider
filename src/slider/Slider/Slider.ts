@@ -5,7 +5,12 @@ import Model from "../Model/Model";
 import Observer from "../Observer/Observer";
 
 import type { TPresenterEvents } from "../Presenter/type";
-import { ISlider, TSliderEvents, TSliderSettings } from "./type";
+import {
+  ISlider,
+  TSliderEvents,
+  TSliderSettings,
+  TUserSliderSettings,
+} from "./type";
 
 export default class Slider extends Observer<TSliderEvents> implements ISlider {
   private presenter: Presenter;
@@ -26,7 +31,7 @@ export default class Slider extends Observer<TSliderEvents> implements ISlider {
     this.notify("sliderUpdated", this.sliderData);
   };
 
-  refreshPlugin(options: TSliderSettings) {
+  refreshPlugin(options: TUserSliderSettings) {
     this.presenter.refreshOptions(options);
   }
 

@@ -1,4 +1,4 @@
-import { TSliderSettings } from "./Slider/type";
+import { TSliderSettings, TUserSliderSettings } from "./Slider/type";
 
 declare global {
   interface JQuery {
@@ -9,11 +9,9 @@ declare global {
 interface ISliderFunction {
   (
     options: string | TUserSliderSettings,
-    newOptions?: TSliderSettings | JQuery<HTMLElement> | TSliderConnect,
+    newOptions?: TUserSliderSettings | JQuery<HTMLElement> | TSliderConnect,
   ): JQuery<HTMLElement>;
   defaults: TSliderSettings;
 }
 
 type TSliderConnect = (options: TSliderSettings) => void;
-
-type TUserSliderSettings = Partial<TSliderSettings>;

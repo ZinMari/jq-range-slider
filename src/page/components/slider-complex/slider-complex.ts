@@ -1,6 +1,6 @@
-import type { TSliderSettings } from "../../../slider/type";
+import { TUserSliderSettings } from "../../../slider/Slider/type";
 
-function initSlider(slider: string, options: TSliderSettings): void {
+function initSlider(slider: string, options: TUserSliderSettings): void {
   $(slider)
     .children(".slider-complex__slider")
     .slider(options)
@@ -12,9 +12,9 @@ function setValueToPanel(slider: string): void {
     ".js-slider-complex__panel",
   );
 
-  const sliderOptions: TSliderSettings = $(slider)
+  const sliderOptions: TUserSliderSettings = $(slider)
     .find(".js-slider-complex__slider")
-    .slider("options") as TSliderSettings;
+    .slider("options") as TUserSliderSettings;
 
   const $radio: JQuery<HTMLElement> = $panel.find("input[type=radio]");
   const $checkbox: JQuery<HTMLElement> = $panel.find("input[type=checkbox]");
@@ -23,7 +23,8 @@ function setValueToPanel(slider: string): void {
   $.each($radio, function () {
     const attrName: string | undefined = $(this).attr("name");
     if (
-      $(this).attr("value") === sliderOptions[attrName as keyof TSliderSettings]
+      $(this).attr("value") ===
+      sliderOptions[attrName as keyof TUserSliderSettings]
     ) {
       $(this).prop("checked", "true");
     }
@@ -32,7 +33,7 @@ function setValueToPanel(slider: string): void {
   $.each($number, function () {
     const attrName: string | undefined = $(this).attr("name");
     if (attrName && sliderOptions) {
-      const value = sliderOptions[attrName as keyof TSliderSettings];
+      const value = sliderOptions[attrName as keyof TUserSliderSettings];
       if (value !== undefined) {
         $(this).attr("value", value.toString());
       }
@@ -41,7 +42,10 @@ function setValueToPanel(slider: string): void {
 
   $.each($checkbox, function () {
     const attrName: string | undefined = $(this).attr("name");
-    $(this).prop("checked", sliderOptions[attrName as keyof TSliderSettings]);
+    $(this).prop(
+      "checked",
+      sliderOptions[attrName as keyof TUserSliderSettings],
+    );
   });
 }
 
@@ -73,7 +77,7 @@ function onChangePanelValue(event: Event) {
   }
 }
 
-function onSliderValueChange(options: TSliderSettings) {
+function onSliderValueChange(options: TUserSliderSettings) {
   const $panel = options.container?.parent().find(".js-slider-complex__panel");
   if ($panel) {
     $panel.find(".js-form__controlMinThumb").val(options.minPosition ?? 0);
@@ -86,7 +90,7 @@ function onSliderValueChange(options: TSliderSettings) {
   }
 }
 
-function initSliderComplex(slider: string, options: TSliderSettings) {
+function initSliderComplex(slider: string, options: TUserSliderSettings) {
   initSlider(slider, options);
   setValueToPanel(slider);
   $(slider).on("change.slider", onChangePanelValue);
