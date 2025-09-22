@@ -1,5 +1,4 @@
 // @ts-nocheck
-
 import Slider from "./Slider/Slider";
 import { TSliderSettings, TUserSliderSettings } from "./Slider/type";
 
@@ -23,7 +22,9 @@ requireAll(require.context("./", true, /\.(scss)$/));
   }
 
   function isGetOption(slider: Slider, optionName: string | TSliderSettings) {
-    return typeof optionName === "string" && optionName in slider.sliderData;
+    if (slider.sliderData) {
+      return typeof optionName === "string" && optionName in slider.sliderData;
+    }
   }
 
   $.fn.slider = function (

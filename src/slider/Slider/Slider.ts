@@ -39,8 +39,8 @@ export default class Slider extends Observer<TSliderEvents> implements ISlider {
     this.addSubscriber("sliderUpdated", fn);
   }
 
-  static destroyPlugin(target: HTMLElement) {
-    $(target).data("slider").presenter.destroy();
-    $(target).removeData("slider");
+  static destroyPlugin(target: JQuery<HTMLElement>) {
+    target.data("slider").presenter.destroy();
+    target.removeData("slider");
   }
 }
