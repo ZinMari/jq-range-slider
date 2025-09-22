@@ -1,4 +1,3 @@
-// @ts-nocheck
 export type TElementsCoordinates = {
   left: number;
   width: number;
@@ -9,15 +8,18 @@ export type TElementsCoordinates = {
 export default function getCoordinates(
   elem: JQuery<EventTarget>,
 ): TElementsCoordinates {
-  const boxLeft = elem.offset().left;
-  const boxRight = boxLeft + elem.outerWidth();
-  const boxTop = elem.offset().top;
-  const boxBottom = boxTop + elem.outerHeight();
+  const offset = elem.offset();
+  const width = elem.outerWidth();
+  const height = elem.outerHeight();
+
+  if (!offset || !width || !height) {
+    throw new Error();
+  }
 
   return {
-    left: boxLeft + window.scrollX,
-    width: boxRight - boxLeft,
-    top: boxTop + window.scrollY,
-    height: boxBottom - boxTop,
+    left: offset.left + window.scrollX,
+    width,
+    top: offset.top + window.scrollY,
+    height,
   };
 }
