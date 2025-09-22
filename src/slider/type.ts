@@ -8,11 +8,12 @@ declare global {
 
 interface ISliderFunction {
   (
-    options: string | TSliderSettings,
+    options: string | TUserSliderSettings,
     newOptions?: TSliderSettings | JQuery<HTMLElement> | TSliderConnect,
   ): JQuery<HTMLElement>;
-  defaults?: TSliderSettings;
+  defaults: TSliderSettings;
 }
 
 type TSliderConnect = (options: TSliderSettings) => void;
-export { TSliderSettings };
+
+type TUserSliderSettings = Partial<TSliderSettings>;

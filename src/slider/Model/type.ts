@@ -1,5 +1,5 @@
 import type { IObserver } from "../Observer/type";
-import type { TSliderSettings } from "../type";
+import type { TSliderSettings } from "../Slider/type";
 import type { TUpdateThumbData } from "../View/ThumbView/type";
 import type { TViewCoordinates } from "../View/View/type";
 
@@ -7,7 +7,7 @@ export interface IModel extends IObserver<TModelEvents> {
   minValue: number;
   maxValue: number;
   minPosition: number;
-  maxPosition: number;
+  maxPosition: number | null;
   stepValue: number;
   pixelInOneStep: number;
   type: "single" | "double";
@@ -29,8 +29,8 @@ export interface IModel extends IObserver<TModelEvents> {
 export type TModelEvents = {
   modelThumbsPositionChanged: {
     type: "min" | "max";
-    currentValue: number;
-    pixelPosition: number;
+    currentValue: number | null;
+    pixelPosition: number | null;
     moveDirection: "top" | "left";
   };
   modelStepValueChanged: {

@@ -1,9 +1,6 @@
-import type {
-  TConvertData,
-  TPixelInOneStepData
-} from "./type";
+import type { TConvertData, TPixelInOneStepData } from "./type";
 
-export default class ValueConverter{
+export default class ValueConverter {
   static pixelInOneStep = ({
     sliderLength,
     max,
@@ -19,6 +16,9 @@ export default class ValueConverter{
     minValue,
     stepValue,
   }: TConvertData): number {
+    if (value === null) {
+      throw new Error();
+    }
     return Math.round((value / pixelInOneStep) * stepValue + minValue);
   }
 
@@ -28,6 +28,9 @@ export default class ValueConverter{
     minValue,
     stepValue,
   }: TConvertData): number {
+    if (value === null) {
+      throw new Error();
+    }
     const withMinValue = value - minValue;
     const pixels = withMinValue * (pixelInOneStep / stepValue);
     return pixels;

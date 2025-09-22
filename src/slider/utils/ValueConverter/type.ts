@@ -1,5 +1,5 @@
 export type TConvertData = {
-  value: number;
+  value: number | null;
   pixelInOneStep: number;
   minValue: number;
   stepValue: number;

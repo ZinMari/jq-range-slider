@@ -1,29 +1,28 @@
-// @ts-nocheck
 import Observer from "../Observer/Observer";
 import ValueConverter from "../utils/ValueConverter/ValueConverter";
 
 import type { TUpdateThumbData } from "../View/ThumbView/type";
 import type { TViewCoordinates } from "../View/View/type";
 import type { GetNewThumbCordData, IModel, TModelEvents } from "./type";
-import type { TSliderSettings } from "../type";
+import type { TSliderSettings } from "../Slider/type";
 
 class Model extends Observer<TModelEvents> implements IModel {
   minValue: number;
   maxValue: number;
   minPosition: number;
-  maxPosition: number;
+  maxPosition: number | null;
   stepValue: number;
   type: "single" | "double";
   orientation: "horizontal" | "vertical";
-  pixelInOneStep: number;
+  pixelInOneStep!: number;
   moveDirection: "top" | "left";
-  minThumbPixelPosition: number;
-  maxThumbPixelPosition: number;
-  sliderLength: number;
-  minThumbWidth: number;
-  minThumbHeight: number;
-  maxThumbWidth: number;
-  maxThumbHeight: number;
+  minThumbPixelPosition!: number;
+  maxThumbPixelPosition!: number | null;
+  sliderLength!: number;
+  minThumbWidth!: number;
+  minThumbHeight!: number;
+  maxThumbWidth!: number;
+  maxThumbHeight!: number;
   showRuler: boolean;
   showValueFlag: boolean;
 
@@ -88,8 +87,10 @@ class Model extends Observer<TModelEvents> implements IModel {
       const min = this.minPosition;
       const max = this.maxPosition;
 
-      this.minPosition = Math.min(min, max);
-      this.maxPosition = Math.max(min, max);
+      if (typeof max === "number") {
+        this.minPosition = Math.min(min, max);
+        this.maxPosition = Math.max(min, max);
+      }
     }
 
     //проверю на пограничные минимальное
@@ -99,7 +100,7 @@ class Model extends Observer<TModelEvents> implements IModel {
     this.minPosition =
       this.minPosition > this.maxValue ? this.maxValue : this.minPosition;
 
-    if (this.type === "double") {
+    if (this.type === "double" && typeof this.maxPosition === "number") {
       //проверю на пограничные максимальное
       this.maxPosition =
         this.maxPosition > this.maxValue ? this.maxValue : this.maxPosition;
@@ -149,8 +150,8 @@ class Model extends Observer<TModelEvents> implements IModel {
     this.sliderLength = sliderLength;
     this.minThumbWidth = minThumbWidth;
     this.minThumbHeight = minThumbHeight;
-    this.maxThumbWidth = maxThumbWidth;
-    this.maxThumbHeight = maxThumbHeight;
+    this.maxThumbWidth = maxThumbWidth ?? 0;
+    this.maxThumbHeight = maxThumbHeight ?? 0;
 
     this.pixelInOneStep = ValueConverter.pixelInOneStep({
       sliderLength: this.sliderLength,
@@ -202,7 +203,10 @@ class Model extends Observer<TModelEvents> implements IModel {
     });
 
     this.setThumbsPosition("min", this.minPosition);
-    this.setThumbsPosition("max", this.maxPosition);
+
+    if (this.maxPosition != null) {
+      this.setThumbsPosition("max", this.maxPosition);
+    }
   };
 
   setOrientation = (orientation: "vertical" | "horizontal") => {
@@ -213,7 +217,7 @@ class Model extends Observer<TModelEvents> implements IModel {
       orientation,
     });
     this.setThumbsPosition("min", this.minPosition);
-    if (this.type === "double") {
+    if (this.type === "double" && this.maxPosition != null) {
       this.setThumbsPosition("max", this.maxPosition);
     }
   };
@@ -270,15 +274,18 @@ class Model extends Observer<TModelEvents> implements IModel {
     let from =
       this.type === "single" ? 0 : this.minThumbPixelPosition + halfMinThumb;
 
-    let to =
-      this.type === "single"
-        ? this.minThumbPixelPosition + halfMinThumb
-        : this.maxThumbPixelPosition - this.minThumbPixelPosition;
+    let to;
+
+    if (this.type === "single") {
+      to = this.minThumbPixelPosition + halfMinThumb;
+    } else if (this.type === "double" && this.maxThumbPixelPosition) {
+      to = this.maxThumbPixelPosition - this.minThumbPixelPosition;
+    }
 
     this.notify("modelProgressbarUpdated", {
       orientation: this.orientation,
       from,
-      to,
+      to: to as number,
     });
   };
 
@@ -369,7 +376,7 @@ class Model extends Observer<TModelEvents> implements IModel {
       );
     }
 
-    if (this.type === "double") {
+    if (this.type === "double" && this.maxThumbPixelPosition) {
       const middlePixels =
         this.minThumbPixelPosition +
         (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
@@ -398,16 +405,21 @@ class Model extends Observer<TModelEvents> implements IModel {
     }
   }
 
-  private _validateDoublePosition(type: "min" | "max", value: number): number {
-    if (type === "min" && value >= this.maxPosition) {
-      return this.maxPosition - this.stepValue;
-    }
+  private _validateDoublePosition(
+    type: "min" | "max",
+    value: number | null,
+  ): number {
+    if (value === null) {
+      throw new Error();
+    } else {
+      if (this.maxPosition) {
+        if (type === "max" && value <= this.minPosition) {
+          return this.minPosition + this.stepValue;
+        }
+      }
 
-    if (type === "max" && value <= this.minPosition) {
-      return this.minPosition + this.stepValue;
+      return value;
     }
-
-    return value;
   }
 
   private _getNewThumbCord({
@@ -442,7 +454,10 @@ class Model extends Observer<TModelEvents> implements IModel {
     return Math.round(value / this.pixelInOneStep) * this.pixelInOneStep;
   }
 
-  private _equateValueToStep(value: number): number {
+  private _equateValueToStep(value: number | null): number {
+    if (value === null) {
+      throw new Error();
+    }
     return Math.round(value / this.stepValue) * this.stepValue;
   }
 }
