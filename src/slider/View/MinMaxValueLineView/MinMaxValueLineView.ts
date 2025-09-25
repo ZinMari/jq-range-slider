@@ -1,4 +1,3 @@
-// @ts-nocheck
 import type { IMinMaxValueLine } from "./type";
 
 class MinMaxValueLineView implements IMinMaxValueLine {
@@ -25,7 +24,10 @@ class MinMaxValueLineView implements IMinMaxValueLine {
 
   setVerticalOrientation() {
     this.item.addClass("slider__values_type_vertical");
-    this.item.height(this.item.parent().outerWidth());
+    const width = this.item.parent().outerWidth();
+    if (width) {
+      this.item.height(width);
+    }
   }
   setHorizontalOrientation() {
     this.item.removeClass("slider__values_type_vertical");
