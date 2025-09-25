@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Observer from "../../Observer/Observer";
 import getClickOnSliderHandler from "../../utils/getClickOnSliderHandler";
 
@@ -7,7 +6,7 @@ import type { IRulerView } from "./type";
 
 class RulerView extends Observer<TSubViewEvents> implements IRulerView {
   item: JQuery<HTMLElement>;
-  orientation: "horizontal" | "vertical";
+  orientation!: "horizontal" | "vertical";
   divisions: JQuery<HTMLElement>[];
   countDivisions: number = 4;
 
