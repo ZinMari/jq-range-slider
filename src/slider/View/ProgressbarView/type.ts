@@ -1,4 +1,6 @@
+import { TModelEvents } from "../../Model/type";
+
 export interface IProgressBarView {
   item: JQuery<HTMLElement>;
-  update: (data: { from: number; to: number }) => void;
+  update: (dataObject: TModelEvents["modelProgressbarUpdated"]) => void;
 }

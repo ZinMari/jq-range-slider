@@ -1,10 +1,9 @@
-// @ts-nocheck
 import type { TModelEvents } from "../../Model/type";
 import type { IProgressBarView } from "./type";
 
 class ProgressBarView implements IProgressBarView {
   item: JQuery<HTMLElement>;
-  orientation: "vertical" | "horizontal";
+  orientation!: "vertical" | "horizontal";
 
   constructor(progressBarClass: string) {
     this.item = $("<span>", {
