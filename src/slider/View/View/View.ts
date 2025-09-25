@@ -12,16 +12,16 @@ import type { TModelEvents } from "../../Model/type";
 import type { IView, TViewEvents } from "./type";
 import type { TSubViewEvents } from "../type";
 import type { TUpdateThumbData } from "../ThumbView/type";
-import type { TSliderSettings } from "../../type";
+import { TSliderSettings } from "../../Slider/type";
 
 class View extends Observer<TViewEvents> implements IView {
-  ruler: RulerView;
-  sliderMinMaxValueLine: MinMaxValueLineView;
-  thumbs: ThumbView;
-  progressbar: IProgressBarView;
-  private slider: JQuery<HTMLElement>;
+  ruler!: RulerView;
+  sliderMinMaxValueLine!: MinMaxValueLineView;
+  thumbs!: ThumbView;
+  progressbar!: IProgressBarView;
+  private slider!: JQuery<HTMLElement>;
   private container: JQuery<HTMLElement>;
-  private line: ILineView;
+  private line!: ILineView;
   private thumbMinClass: string;
   private thumbMaxClass: string;
   private showMinValueClass: string;
@@ -82,22 +82,27 @@ class View extends Observer<TViewEvents> implements IView {
       this.line.item,
       this.ruler.item,
     );
-    this.line.item.append(
-      this.progressbar.item,
-      this.thumbs.minThumb,
-      this.thumbs?.maxThumb,
-    );
+    this.line.item.append(this.progressbar.item, this.thumbs.minThumb);
+
+    if (this.thumbs.maxThumb) {
+      this.line.item.append(this.thumbs.maxThumb);
+    }
   };
 
   private _notifyInitialCoordinates = () => {
-    this.notify("viewInit", {
-      sliderLength:
-        this.slider.outerWidth() - this.thumbs.minThumb.outerWidth(),
-      minThumbWidth: this.thumbs.minThumb.outerWidth(),
-      minThumbHeight: this.thumbs.minThumb.outerHeight(),
-      maxThumbWidth: this.thumbs.maxThumb?.outerWidth(),
-      maxThumbHeight: this.thumbs.maxThumb?.outerHeight(),
-    });
+    const sliderWidth = this.slider.outerWidth();
+    const minThumbWidth = this.thumbs.minThumb.outerWidth();
+    const minThumbHeight = this.thumbs.minThumb.outerHeight();
+
+    if (sliderWidth && minThumbWidth && minThumbHeight) {
+      this.notify("viewInit", {
+        sliderLength: sliderWidth - minThumbWidth,
+        minThumbWidth: minThumbWidth,
+        minThumbHeight: minThumbHeight,
+        maxThumbWidth: this.thumbs.maxThumb?.outerWidth(),
+        maxThumbHeight: this.thumbs.maxThumb?.outerHeight(),
+      });
+    }
   };
 
   updateType(dataObject: TModelEvents["modelTypeChanged"]): void {
@@ -170,8 +175,11 @@ class View extends Observer<TViewEvents> implements IView {
   };
 
   private _setVerticalOrientation(): void {
+    const width = this.slider.outerWidth();
+    if (width) {
+      this.slider.height(width);
+    }
     this.slider.addClass("slider_type_vertical");
-    this.slider.height(this.slider.outerWidth());
     this.line.setVerticalOrientation();
     this.thumbs.setOrientation("vertical");
     this.ruler.setVerticalOrientation();
