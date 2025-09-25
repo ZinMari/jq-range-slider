@@ -11,7 +11,7 @@ class Observer<T> implements IObserver<T> {
     subscriber: (infoObject: T[K]) => void,
   ): void {
     if (typeEvent in this.subscribers) {
-      this.subscribers[typeEvent].add(subscriber);
+      this.subscribers[typeEvent]?.add(subscriber);
     } else {
       this.subscribers[typeEvent] = new Set([subscriber]);
     }
@@ -21,11 +21,11 @@ class Observer<T> implements IObserver<T> {
     typeEvent: K,
     subscriber: (infoObject: T[K]) => void,
   ): void {
-    this.subscribers[typeEvent].delete(subscriber);
+    this.subscribers[typeEvent]?.delete(subscriber);
   }
 
   removeAllSubscribers(typeEvent: keyof T) {
-    this.subscribers[typeEvent].clear();
+    this.subscribers[typeEvent]?.clear();
   }
 
   notify<K extends keyof T>(typeEvent: K, observerInfoObject: T[K]): void {
