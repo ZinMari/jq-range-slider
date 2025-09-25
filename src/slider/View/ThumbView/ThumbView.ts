@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Observer from "../../Observer/Observer";
 import getCoordinates from "../../utils/getCoordinates";
 
@@ -7,11 +6,11 @@ import type { TModelEvents } from "../../Model/type";
 import type { IThumbView, TThumbViewEvents, TUpdateThumbData } from "./type";
 
 class ThumbView extends Observer<TThumbViewEvents> implements IThumbView {
-  item: JQuery<HTMLElement>;
+  item!: JQuery<HTMLElement>;
   line: ILineView;
-  orientation: "vertical" | "horizontal";
-  type: "single" | "double";
-  minThumb: JQuery<HTMLElement>;
+  orientation!: "vertical" | "horizontal";
+  type!: "single" | "double";
+  minThumb!: JQuery<HTMLElement>;
   maxThumb: JQuery<HTMLElement> | undefined;
 
   constructor({
@@ -63,64 +62,66 @@ class ThumbView extends Observer<TThumbViewEvents> implements IThumbView {
 
   private handler = (event: PointerEvent) => {
     event.preventDefault();
-    const $currentThumb = $(event.target);
+    if (event.target) {
+      const $currentThumb = $(event.target);
 
-    const clickPageX = event.pageX;
-    const clickPageY = event.pageY;
+      const clickPageX = event.pageX;
+      const clickPageY = event.pageY;
 
-    const thumbCoordinates = getCoordinates($currentThumb);
-    const lineCoordinates = getCoordinates(this.line.item);
+      const thumbCoordinates = getCoordinates($currentThumb);
+      const lineCoordinates = getCoordinates(this.line.item);
 
-    // разница между кликом и началок кнопки
-    const shiftClickThumb: number = ThumbView._getShiftThumb({
-      clickPageX,
-      clickPageY,
-      topClickThumbCoordinates: thumbCoordinates.top,
-      leftClickThumbCoordinates: thumbCoordinates.left,
-      orientation: this.orientation,
-    });
+      // разница между кликом и началок кнопки
+      const shiftClickThumb: number = ThumbView._getShiftThumb({
+        clickPageX,
+        clickPageY,
+        topClickThumbCoordinates: thumbCoordinates.top,
+        leftClickThumbCoordinates: thumbCoordinates.left,
+        orientation: this.orientation,
+      });
 
-    const onMouseMove = (event: PointerEvent): void => {
-      let clientEvent;
-      let clientLineCoordinatesOffset;
-      let clientLineCoordinatesSize;
-      let clientThumbCoordinatesSize;
+      const onMouseMove = (event: PointerEvent): void => {
+        let clientEvent;
+        let clientLineCoordinatesOffset;
+        let clientLineCoordinatesSize;
+        let clientThumbCoordinatesSize;
 
-      if (this.orientation === "vertical") {
-        clientEvent = event.pageY;
-        clientLineCoordinatesOffset = lineCoordinates.top;
-        clientLineCoordinatesSize = lineCoordinates.height;
-        clientThumbCoordinatesSize = thumbCoordinates.height;
-      } else {
-        clientEvent = event.pageX;
-        clientLineCoordinatesOffset = lineCoordinates.left;
-        clientLineCoordinatesSize = lineCoordinates.width;
-        clientThumbCoordinatesSize = thumbCoordinates.width;
-      }
+        if (this.orientation === "vertical") {
+          clientEvent = event.pageY;
+          clientLineCoordinatesOffset = lineCoordinates.top;
+          clientLineCoordinatesSize = lineCoordinates.height;
+          clientThumbCoordinatesSize = thumbCoordinates.height;
+        } else {
+          clientEvent = event.pageX;
+          clientLineCoordinatesOffset = lineCoordinates.left;
+          clientLineCoordinatesSize = lineCoordinates.width;
+          clientThumbCoordinatesSize = thumbCoordinates.width;
+        }
 
-      const options: TUpdateThumbData = {
-        type: $currentThumb.prop("classList").contains("slider__thumb--max")
-          ? "max"
-          : "min",
-        thumbCoordinates,
-        lineCoordinates,
-        shiftClickThumb: shiftClickThumb,
-        clientEvent,
-        clientLineCoordinatesOffset,
-        clientLineCoordinatesSize,
-        clientThumbCoordinatesSize,
+        const options: TUpdateThumbData = {
+          type: $currentThumb.prop("classList").contains("slider__thumb--max")
+            ? "max"
+            : "min",
+          thumbCoordinates,
+          lineCoordinates,
+          shiftClickThumb: shiftClickThumb,
+          clientEvent,
+          clientLineCoordinatesOffset,
+          clientLineCoordinatesSize,
+          clientThumbCoordinatesSize,
+        };
+
+        this.notify("updateThumbPosition", options);
       };
 
-      this.notify("updateThumbPosition", options);
-    };
+      function onMouseUp() {
+        document.removeEventListener("pointerup", onMouseUp);
+        document.removeEventListener("pointermove", onMouseMove);
+      }
 
-    function onMouseUp() {
-      document.removeEventListener("pointerup", onMouseUp);
-      document.removeEventListener("pointermove", onMouseMove);
+      document.addEventListener("pointermove", onMouseMove);
+      document.addEventListener("pointerup", onMouseUp);
     }
-
-    document.addEventListener("pointermove", onMouseMove);
-    document.addEventListener("pointerup", onMouseUp);
   };
 
   setOrientation(orientation: "vertical" | "horizontal") {
@@ -140,7 +141,7 @@ class ThumbView extends Observer<TThumbViewEvents> implements IThumbView {
     if (thumb === "min") {
       this.minThumb.attr("data-value", currentValue);
     } else if (this.type === "double" && thumb === "max") {
-      this.maxThumb.attr("data-value", currentValue);
+      this.maxThumb?.attr("data-value", currentValue);
     }
   }
 
@@ -152,7 +153,7 @@ class ThumbView extends Observer<TThumbViewEvents> implements IThumbView {
     if (thumb === "min") {
       this.minThumb.css({ [moveDirection]: position });
     } else if (this.type === "double" && thumb === "max") {
-      this.maxThumb.css({ [moveDirection]: position });
+      this.maxThumb?.css({ [moveDirection]: position });
     }
   }
 
@@ -160,9 +161,9 @@ class ThumbView extends Observer<TThumbViewEvents> implements IThumbView {
     this.type = type;
 
     if (this.type === "single") {
-      this.maxThumb.addClass("slider__thumb_hidden");
+      this.maxThumb?.addClass("slider__thumb_hidden");
     } else {
-      this.maxThumb.removeClass("slider__thumb_hidden");
+      this.maxThumb?.removeClass("slider__thumb_hidden");
     }
   }
 
