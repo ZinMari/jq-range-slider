@@ -1,10 +1,9 @@
-// @ts-nocheck
 import "@testing-library/jest-dom";
 import { fireEvent } from "@testing-library/dom";
 import View from "../../View/View/View";
 import getRandomInteger from "../../utils/getRandomInteger";
 
-import type { TSliderSettings } from "../../type";
+import type { TSliderSettings } from "../../Slider/type";
 
 describe("Вид:", () => {
   const settingsDefault: TSliderSettings = {
@@ -26,6 +25,7 @@ describe("Вид:", () => {
     thumbMaxClass: "",
     showMinValueClass: "",
     showMaxValueClass: "",
+    showMinMaxValue: true,
   };
   describe("Создает сабвью:", () => {
     const view: View = new View(settingsDefault);
@@ -51,11 +51,11 @@ describe("Вид:", () => {
     view.addSubscriber("viewThumbsPositionChanged", subscriber);
     view.addSubscriber("viewThumbsPositionChanged", subscriber2);
     test("Добавляет пописчиков:", () => {
-      expect(view.subscribers["viewThumbsPositionChanged"].size).toBe(2);
+      expect(view.subscribers["viewThumbsPositionChanged"]?.size).toBe(2);
     });
     test("Удаляет пописчиков:", () => {
       view.removeSubscriber("viewThumbsPositionChanged", subscriber);
-      expect(view.subscribers["viewThumbsPositionChanged"].size).toBe(1);
+      expect(view.subscribers["viewThumbsPositionChanged"]?.size).toBe(1);
     });
   });
   describe("Вызывет функции обновления в сабвью:", () => {
