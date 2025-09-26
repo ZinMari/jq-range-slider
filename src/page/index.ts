@@ -1,4 +1,4 @@
-import "./style.scss";
+import "./styles/main.scss";
 
 import initSliderComplex from "./components/slider-complex/slider-complex";
 

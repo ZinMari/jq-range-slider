@@ -1,6 +1,8 @@
+@use "../../styles/variables" as vars;
+
 .slider-complex {
   display: flex;
-  border: 1px solid var(--color-light);
+  border: 1px solid vars.$color-light;
   gap: 50px;
   padding: 50px 10px;
 

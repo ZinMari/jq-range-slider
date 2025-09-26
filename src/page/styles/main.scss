@@ -1,19 +1,12 @@
-@use "./components/slider-complex/slider-complex";
-
-:root {
-  --color-bg: rgb(39 38 43);
-  --color-light: rgb(255 255 255);
-  --bg-gradient: linear-gradient(135deg, #353535 0%, #000 50%, #666 100%);
-  --z-index-base: 1;
-  --z-index-container: 10;
-}
+@use "_variables" as vars;
+@use "../components/slider-complex/slider-complex";
 
 .page {
-  background-color: var(--color-bg);
+  background-color: vars.$color-bg;
   min-height: 100vh;
   font-size: 16px;
   font-family: Arial, sans-serif;
-  color: var(--color-light);
+  color: vars.$color-light;
 
   &__body {
     margin: 0;
@@ -30,15 +23,15 @@
     display: flex;
     flex-direction: column;
     gap: 50px;
-    z-index: var(--z-index-container);
+    z-index: vars.$z-index-container;
   }
 
   &__gradient {
     position: absolute;
-    background: var(--bg-gradient);
+    background: vars.$bg-gradient;
     background-size: 400%;
     inset: 0;
-    z-index: var(--z-index-base);
+    z-index: vars.$z-index-base;
     animation-name: gradient;
     animation-duration: 10s;
     animation-iteration-count: infinite;
