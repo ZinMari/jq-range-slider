@@ -1,10 +1,9 @@
-// @ts-nocheck
 import Model from "../../Model/Model";
 import getRandomInteger from "../../utils/getRandomInteger";
 
-import type { TSliderSettings } from "../../type";
 import type { TElementsCoordinates } from "../../utils/getCoordinates";
 import type { TUpdateThumbData } from "../../View/ThumbView/type";
+import type { TSliderSettings } from "../../Slider/type";
 
 describe("Модель:", () => {
   const settingsDefault: TSliderSettings = {
@@ -17,6 +16,16 @@ describe("Модель:", () => {
     showRuler: true,
     minPosition: 0,
     maxPosition: 0,
+    elemForShowValueMin: $(".min"),
+    elemForShowValueMax: $(".max"),
+    lineClass: "",
+    progressBarClass: "",
+    thumbMinClass: "",
+    thumbMaxClass: "",
+    showMinValueClass: "",
+    showMaxValueClass: "",
+    container: $("<div></div>"),
+    showMinMaxValue: true,
   };
 
   const coordinates: TElementsCoordinates = {
@@ -120,13 +129,13 @@ describe("Модель:", () => {
     test("при минползунке 300 и максползунке 100", () => {
       model.setThumbsPosition("min", 300);
       model.setThumbsPosition("max", 100);
-      expect(model.minPosition).toBeLessThan(model.maxPosition);
+      expect(model.minPosition).toBeLessThan(model.maxPosition as number);
     });
 
     test("при минползунке 300 и максползунке 300", () => {
       model.setThumbsPosition("min", 300);
       model.setThumbsPosition("max", 300);
-      expect(model.minPosition).toBeLessThan(model.maxPosition);
+      expect(model.minPosition).toBeLessThan(model.maxPosition as number);
     });
   });
   describe("При установке нового максимального значения слайдера оно больше минимального:", () => {
@@ -164,7 +173,7 @@ describe("Модель:", () => {
       const fn = jest.fn();
       model.addSubscriber("modelShowFlagChanged", fn);
       model.removeSubscriber("modelShowFlagChanged", fn);
-      expect(model.subscribers.modelShowFlagChanged.size).toBe(0);
+      expect(model.subscribers.modelShowFlagChanged?.size).toBe(0);
     });
   });
 });
