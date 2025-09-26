@@ -1,4 +1,3 @@
-// @ts-nocheck
 import type { IObserver, TObserverSubscriber } from "./type";
 
 class Observer<T> implements IObserver<T> {
@@ -8,7 +7,7 @@ class Observer<T> implements IObserver<T> {
 
   addSubscriber<K extends keyof T>(
     typeEvent: K,
-    subscriber: (infoObject: T[K]) => void,
+    subscriber: TObserverSubscriber<T>,
   ): void {
     if (typeEvent in this.subscribers) {
       this.subscribers[typeEvent]?.add(subscriber);
@@ -19,7 +18,7 @@ class Observer<T> implements IObserver<T> {
 
   removeSubscriber<K extends keyof T>(
     typeEvent: K,
-    subscriber: (infoObject: T[K]) => void,
+    subscriber: TObserverSubscriber<T>,
   ): void {
     this.subscribers[typeEvent]?.delete(subscriber);
   }
