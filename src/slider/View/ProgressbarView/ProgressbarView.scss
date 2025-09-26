@@ -1,5 +1,7 @@
+@use "../../styles/variables" as vars;
+
 .slider__progressbar {
   display: block;
   position: absolute;
-  background-color: var(--color-white);
+  background-color: vars.$color-white;
 }

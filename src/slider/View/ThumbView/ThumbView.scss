@@ -1,3 +1,5 @@
+@use "../../styles/variables" as vars;
+
 .slider__thumb {
   margin: 0;
   padding: 0;
@@ -7,8 +9,8 @@
   display: block;
   width: 30px;
   height: 30px;
-  background-color: var(--color-white);
-  border: 10px solid var(--color-gray);
+  background-color: vars.$color-white;
+  border: 10px solid vars.$color-gray;
   top: 50%;
   transform: translateY(-50%);
   border-radius: 50%;
@@ -30,8 +32,8 @@
     justify-content: center;
     align-items: center;
     border-radius: 20%;
-    border: 3px solid var(--color-white);
-    color: var(--color-white);
+    border: 3px solid vars.$color-white;
+    color: vars.$color-white;
   }
 
   &_type {

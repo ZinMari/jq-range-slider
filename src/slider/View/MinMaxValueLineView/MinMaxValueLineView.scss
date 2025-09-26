@@ -1,7 +1,9 @@
+@use "../../styles/variables" as vars;
+
 .slider__values {
   display: flex;
   justify-content: space-between;
-  color: var(--color-light);
+  color: vars.$color-light;
 
   &_type {
     &_vertical {
