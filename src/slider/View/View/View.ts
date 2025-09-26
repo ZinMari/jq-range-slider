@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Observer from "../../Observer/Observer";
 import LineView from "../LineView/LineView";
 import MinMaxValueLineView from "../MinMaxValueLineView/MinMaxValueLineView";
@@ -143,14 +142,18 @@ class View extends Observer<TViewEvents> implements IView {
     pixelPosition,
     moveDirection,
   }: Partial<TModelEvents["modelThumbsPositionChanged"]>): void {
-    this.thumbs.updateThumbsPosition(type, pixelPosition, moveDirection);
+    if (type && pixelPosition != undefined && moveDirection) {
+      this.thumbs.updateThumbsPosition(type, pixelPosition, moveDirection);
+    }
   }
 
   updateFlagValues({
     type,
     currentValue,
   }: Partial<TModelEvents["modelThumbsPositionChanged"]>): void {
-    this.thumbs.updateFlagValues(type, currentValue);
+    if (type && currentValue != undefined) {
+      this.thumbs.updateFlagValues(type, currentValue);
+    }
   }
 
   private _addSubscribersToSubViews() {
