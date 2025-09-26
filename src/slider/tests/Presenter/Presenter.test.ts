@@ -1,9 +1,7 @@
-// @ts-nocheck
 import Presenter from "../../Presenter/Presenter";
 import Model from "../../Model/Model";
 import View from "../../View/View/View";
-
-import type { TSliderSettings } from "../../type";
+import { TSliderSettings } from "../../Slider/type";
 
 describe("Презентер:", () => {
   const settingsDefault: TSliderSettings = {
@@ -25,6 +23,7 @@ describe("Презентер:", () => {
     thumbMaxClass: "",
     showMinValueClass: "",
     showMaxValueClass: "",
+    showMinMaxValue: true,
   };
   const presenter: Presenter = new Presenter(
     new View(settingsDefault),
