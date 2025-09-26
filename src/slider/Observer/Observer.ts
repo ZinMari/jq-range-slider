@@ -2,12 +2,12 @@ import type { IObserver, TObserverSubscriber } from "./type";
 
 class Observer<T> implements IObserver<T> {
   subscribers: {
-    [K in keyof T]?: Set<TObserverSubscriber<T>>;
+    [K in keyof T]?: Set<TObserverSubscriber<T, K>>;
   } = {};
 
   addSubscriber<K extends keyof T>(
     typeEvent: K,
-    subscriber: TObserverSubscriber<T>,
+    subscriber: TObserverSubscriber<T, K>,
   ): void {
     if (typeEvent in this.subscribers) {
       this.subscribers[typeEvent]?.add(subscriber);
@@ -18,7 +18,7 @@ class Observer<T> implements IObserver<T> {
 
   removeSubscriber<K extends keyof T>(
     typeEvent: K,
-    subscriber: TObserverSubscriber<T>,
+    subscriber: TObserverSubscriber<T, K>,
   ): void {
     this.subscribers[typeEvent]?.delete(subscriber);
   }

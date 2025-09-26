@@ -1,17 +1,21 @@
 export interface IObserver<T> {
-  subscribers: { [K in keyof T]?: Set<TObserverSubscriber<T>> };
+  subscribers: { [K in keyof T]?: Set<TObserverSubscriber<T, K>> };
+
   addSubscriber<K extends keyof T>(
     typeEvent: K,
-    subscriber: TObserverSubscriber<T>,
+    subscriber: TObserverSubscriber<T, K>,
   ): void;
-  removeSubscriber: (
-    typeEvent: keyof T,
-    subscriber: TObserverSubscriber<T>,
-  ) => void;
-  removeAllSubscribers: (typeEvent: keyof T) => void;
+
+  removeSubscriber<K extends keyof T>(
+    typeEvent: K,
+    subscriber: TObserverSubscriber<T, K>,
+  ): void;
+
+  removeAllSubscribers(typeEvent: keyof T): void;
+
   notify<K extends keyof T>(typeEvent: K, observerInfoObject: T[K]): void;
 }
 
-export type TObserverSubscriber<T> = {
-  (infoObject: T[keyof T]): void;
-};
+export type TObserverSubscriber<T, K extends keyof T> = (
+  infoObject: T[K],
+) => void;
