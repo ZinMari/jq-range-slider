@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Slider from "./Slider/Slider";
 import { TSliderSettings, TUserSliderSettings } from "./Slider/type";
 
@@ -79,6 +78,7 @@ requireAll(require.context("./", true, /\.(scss)$/));
     type: "double",
     showValueFlag: true,
     showRuler: true,
+    showMinMaxValue: true,
     minPosition: 0,
     maxPosition: 0,
     elemForShowValueMin: $(".min"),

@@ -10,7 +10,7 @@ export interface ISlider extends IObserver<TSliderEvents> {
 export type TSliderSettings = {
   minValue: number;
   maxValue: number;
-  container: JQuery<HTMLElement>;
+  container?: JQuery<HTMLElement>;
   stepValue: number;
   showMinMaxValue: boolean;
   showValueFlag: boolean;
