@@ -19,7 +19,7 @@ class View extends Observer<TViewEvents> implements IView {
   thumbs!: ThumbView;
   progressbar!: IProgressBarView;
   private slider!: JQuery<HTMLElement>;
-  private container: JQuery<HTMLElement>;
+  private container: JQuery<HTMLElement> | undefined;
   private line!: ILineView;
   private thumbMinClass: string;
   private thumbMaxClass: string;
@@ -75,7 +75,7 @@ class View extends Observer<TViewEvents> implements IView {
   };
 
   private _appendToDOM = () => {
-    this.container.append(this.slider);
+    this.container?.append(this.slider);
     this.slider.append(
       this.sliderMinMaxValueLine.item,
       this.line.item,

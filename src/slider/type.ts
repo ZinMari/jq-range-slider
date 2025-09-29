@@ -6,7 +6,7 @@ declare global {
   }
 }
 
-interface ISliderFunction {
+export interface ISliderFunction {
   (
     options: string | TUserSliderSettings,
     newOptions?: TUserSliderSettings | JQuery<HTMLElement> | TSliderConnect,
