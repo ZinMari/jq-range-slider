@@ -23,7 +23,7 @@ export interface IView extends IObserver<TViewEvents> {
   updateThumbsPosition: ({
     type,
     pixelPosition,
-    moveDirection,
+    orientation,
   }: Partial<TModelEvents["modelThumbsPositionChanged"]>) => void;
   updateType: (dataObject: TModelEvents["modelTypeChanged"]) => void;
   updateShowFlag: ({

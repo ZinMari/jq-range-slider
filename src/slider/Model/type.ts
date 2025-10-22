@@ -11,7 +11,6 @@ export interface IModel extends IObserver<TModelEvents> {
   stepValue: number;
   pixelInOneStep: number;
   type: "single" | "double";
-  moveDirection: "top" | "left";
   orientation: "horizontal" | "vertical";
   setThumbsPosition: (thumbType: "min" | "max", value: number) => void;
   setMinValue: (minValue: number) => void;
@@ -31,7 +30,7 @@ export type TModelEvents = {
     type: "min" | "max";
     currentValue: number | null;
     pixelPosition: number | null;
-    moveDirection: "top" | "left";
+    orientation: "vertical" | "horizontal";
   };
   modelStepValueChanged: {
     stepValue: number;

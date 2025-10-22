@@ -15,7 +15,6 @@ class Model extends Observer<TModelEvents> implements IModel {
   type: "single" | "double";
   orientation: "horizontal" | "vertical";
   pixelInOneStep!: number;
-  moveDirection: "top" | "left";
   minThumbPixelPosition!: number;
   maxThumbPixelPosition!: number | null;
   sliderLength!: number;
@@ -41,7 +40,6 @@ class Model extends Observer<TModelEvents> implements IModel {
 
     this.type = type;
     this.orientation = orientation;
-    this.moveDirection = this.orientation === "vertical" ? "top" : "left";
 
     this.minValue = minValue;
     this.maxValue = maxValue;
@@ -211,7 +209,6 @@ class Model extends Observer<TModelEvents> implements IModel {
 
   setOrientation = (orientation: "vertical" | "horizontal") => {
     this.orientation = orientation;
-    this.moveDirection = this.orientation === "vertical" ? "top" : "left";
 
     this.notify("modelOrientationChanged", {
       orientation,
@@ -255,7 +252,7 @@ class Model extends Observer<TModelEvents> implements IModel {
         type: typeThumb,
         currentValue: this[`${typeThumb}Position`],
         pixelPosition: this[`${typeThumb}ThumbPixelPosition`],
-        moveDirection: this.moveDirection,
+        orientation: this.orientation,
       });
     }
   };

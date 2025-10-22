@@ -7,7 +7,7 @@ export interface IThumbView {
   updateThumbsPosition: (
     thumb: "min" | "max",
     position: number,
-    moveDirection: "top" | "left",
+    orientation: "vertical" | "horizontal",
   ) => void;
 }
 
@@ -15,7 +15,7 @@ export type TThumbViewEvents = {
   thumbsPositionChanged: {
     type: "max" | "min";
     currentValue: number;
-    moveDirection: "top" | "left";
+    orientation: "vertical" | "horizontal";
   };
   updateThumbPosition: TUpdateThumbData;
 };

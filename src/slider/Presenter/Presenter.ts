@@ -96,9 +96,9 @@ class Presenter extends Observer<TPresenterEvents> {
     type,
     currentValue,
     pixelPosition,
-    moveDirection,
+    orientation,
   }: TModelEvents["modelThumbsPositionChanged"]) => {
-    this.view.updateThumbsPosition({ type, pixelPosition, moveDirection });
+    this.view.updateThumbsPosition({ type, pixelPosition, orientation });
     this.view.updateFlagValues({ type, currentValue });
 
     this.notify("updateOptions", {

@@ -140,10 +140,10 @@ class View extends Observer<TViewEvents> implements IView {
   updateThumbsPosition({
     type,
     pixelPosition,
-    moveDirection,
+    orientation,
   }: Partial<TModelEvents["modelThumbsPositionChanged"]>): void {
-    if (type && pixelPosition != undefined && moveDirection) {
-      this.thumbs.updateThumbsPosition(type, pixelPosition, moveDirection);
+    if (type && pixelPosition != undefined && orientation) {
+      this.thumbs.updateThumbsPosition(type, pixelPosition, orientation);
     }
   }
 

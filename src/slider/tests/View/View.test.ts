@@ -75,7 +75,7 @@ describe("Вид:", () => {
       view.updateThumbsPosition({
         type: "min",
         pixelPosition: getRandomInteger(),
-        moveDirection: "left",
+        orientation: "horizontal",
       });
       expect(spy).toHaveBeenCalled();
     });

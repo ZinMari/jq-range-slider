@@ -148,8 +148,9 @@ class ThumbView extends Observer<TThumbViewEvents> implements IThumbView {
   updateThumbsPosition(
     thumb: "min" | "max",
     position: number,
-    moveDirection: "top" | "left",
+    orientation: "horizontal" | "vertical",
   ): void {
+    const moveDirection = orientation === "vertical" ? "top" : "left";
     if (thumb === "min") {
       this.minThumb.css({ [moveDirection]: position });
     } else if (this.type === "double" && thumb === "max") {

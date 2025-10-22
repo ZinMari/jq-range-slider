@@ -38,7 +38,7 @@ describe("Кнопки:", () => {
     expect(thumbs.minThumb[0]).toHaveClass("flag");
   });
   test("Обновляют позицию", () => {
-    thumbs.updateThumbsPosition("max", 100, "left");
+    thumbs.updateThumbsPosition("max", 100, "horizontal");
     if (thumbs.maxThumb) {
       expect(thumbs.maxThumb[0]).toHaveStyle({ left: "100px" });
     }
