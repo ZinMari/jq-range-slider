@@ -32,8 +32,21 @@ export default defineConfig([
   { files: ["**/*.{js,mjs,cjs,ts}"], rules: { ...eslintConfigPrettier.rules } },
   {
     rules: {
-      "prefer-rest-params": null,
-      "prefer-spread": null,
+      "prefer-rest-params": 0,
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_$",
+          caughtErrorsIgnorePattern: "^_$",
+          destructuredArrayIgnorePattern: "^_$",
+          varsIgnorePattern: "^_$",
+        },
+      ],
+      "@typescript-eslint/no-unused-expressions": [
+        "error",
+        { allowTernary: true },
+      ],
     },
   },
 ]);
