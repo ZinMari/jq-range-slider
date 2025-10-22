@@ -266,12 +266,7 @@ class Model extends Observer<TModelEvents> implements IModel {
         ? this.minThumbHeight / 2
         : this.minThumbWidth / 2;
 
-    const halfMaxThumb =
-      this.orientation === "vertical"
-        ? this.maxThumbHeight / 2
-        : this.maxThumbWidth / 2;
-
-    let from =
+    const from =
       this.type === "single" ? 0 : this.minThumbPixelPosition + halfMinThumb;
 
     let to;
@@ -342,7 +337,7 @@ class Model extends Observer<TModelEvents> implements IModel {
   }
 
   updateThumbPosition = (options: TUpdateThumbData) => {
-    let value: number = this._getNewThumbCord({
+    const value: number = this._getNewThumbCord({
       clientEvent: options.clientEvent,
       clientLineCoordinatesOffset: options.clientLineCoordinatesOffset,
       clientLineCoordinatesSize: options.clientLineCoordinatesSize,
