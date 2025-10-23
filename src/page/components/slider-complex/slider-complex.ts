@@ -32,12 +32,12 @@ function setValueToPanel(slider: string): void {
 
   $.each($number, function () {
     const attrName: string | undefined = $(this).attr("name");
-    if (attrName && sliderOptions) {
-      const value = sliderOptions[attrName as keyof TUserSliderSettings];
-      if (value !== undefined) {
-        $(this).attr("value", value.toString());
-      }
-    }
+    if (!attrName || !sliderOptions) return;
+
+    const value = sliderOptions[attrName as keyof TUserSliderSettings];
+    if (value === undefined) return;
+
+    $(this).attr("value", value.toString());
   });
 
   $.each($checkbox, function () {
@@ -54,26 +54,26 @@ function onChangePanelValue(event: Event) {
 
   const targetElement = event.target as HTMLElement | null;
 
-  if (targetElement) {
-    const $target: JQuery<EventTarget> = $(targetElement);
-    const attrType = $target.attr("type");
-    const nameAttr = $target.attr("name");
+  if (!targetElement) return;
 
-    if (nameAttr) {
-      if (attrType === "radio" || attrType === "number") {
-        $target
-          .closest(".js-slider-complex")
-          .find(".js-slider-complex__slider")
-          .slider("update", { [nameAttr]: $target.val() });
-      }
+  const $target: JQuery<EventTarget> = $(targetElement);
+  const attrType = $target.attr("type");
+  const nameAttr = $target.attr("name");
 
-      if (attrType === "checkbox") {
-        $target
-          .closest(".js-slider-complex")
-          .find(".js-slider-complex__slider")
-          .slider("update", { [nameAttr]: $target.prop("checked") });
-      }
-    }
+  if (!nameAttr) return;
+
+  if (attrType === "radio" || attrType === "number") {
+    $target
+      .closest(".js-slider-complex")
+      .find(".js-slider-complex__slider")
+      .slider("update", { [nameAttr]: $target.val() });
+  }
+
+  if (attrType === "checkbox") {
+    $target
+      .closest(".js-slider-complex")
+      .find(".js-slider-complex__slider")
+      .slider("update", { [nameAttr]: $target.prop("checked") });
   }
 }
 
