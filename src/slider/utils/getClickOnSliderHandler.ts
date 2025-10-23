@@ -14,10 +14,11 @@ const getClickOnSliderHandler = (
   event.preventDefault();
   const target = event.currentTarget;
 
-  if (target instanceof HTMLElement) {
-    if (target.classList.contains("slider__thumb")) {
-      return;
-    }
+  if (
+    target instanceof HTMLElement &&
+    target.classList.contains("slider__thumb")
+  ) {
+    return;
   }
 
   const sliderLineCoordinates = getCoordinates(line);
