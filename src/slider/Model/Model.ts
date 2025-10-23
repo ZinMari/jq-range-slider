@@ -81,14 +81,12 @@ class Model extends Observer<TModelEvents> implements IModel {
   }
 
   private _normalizeMinMaxPositions() {
-    if (this.type === "double") {
+    if (this.type === "double" && typeof this.maxPosition === "number") {
       const min = this.minPosition;
       const max = this.maxPosition;
 
-      if (typeof max === "number") {
-        this.minPosition = Math.min(min, max);
-        this.maxPosition = Math.max(min, max);
-      }
+      this.minPosition = Math.min(min, max);
+      this.maxPosition = Math.max(min, max);
     }
 
     //проверю на пограничные минимальное
@@ -361,27 +359,15 @@ class Model extends Observer<TModelEvents> implements IModel {
         this.minThumbPixelPosition +
         (this.maxThumbPixelPosition - this.minThumbPixelPosition) / 2;
 
-      if (stepLeft < middlePixels) {
-        this.setThumbsPosition(
-          "min",
-          ValueConverter.convertPixelToUnits({
-            value: stepLeft,
-            pixelInOneStep: this.pixelInOneStep,
-            stepValue: this.stepValue,
-            minValue: this.minValue,
-          }),
-        );
-      } else {
-        this.setThumbsPosition(
-          "max",
-          ValueConverter.convertPixelToUnits({
-            value: stepLeft,
-            pixelInOneStep: this.pixelInOneStep,
-            stepValue: this.stepValue,
-            minValue: this.minValue,
-          }),
-        );
-      }
+      this.setThumbsPosition(
+        stepLeft < middlePixels ? "min" : "max",
+        ValueConverter.convertPixelToUnits({
+          value: stepLeft,
+          pixelInOneStep: this.pixelInOneStep,
+          stepValue: this.stepValue,
+          minValue: this.minValue,
+        }),
+      );
     }
   }
 
@@ -391,15 +377,13 @@ class Model extends Observer<TModelEvents> implements IModel {
   ): number {
     if (value === null) {
       throw new Error();
-    } else {
-      if (this.maxPosition) {
-        if (type === "max" && value <= this.minPosition) {
-          return this.minPosition + this.stepValue;
-        }
-      }
-
-      return value;
     }
+
+    if (this.maxPosition && type === "max" && value <= this.minPosition) {
+      return this.minPosition + this.stepValue;
+    }
+
+    return value;
   }
 
   private _getNewThumbCord({
