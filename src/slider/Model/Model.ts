@@ -220,41 +220,29 @@ class Model extends Observer<TModelEvents> implements IModel {
   };
 
   setThumbsPosition = (typeThumb: "min" | "max", value: number): void => {
-    if (value === null) {
-      return;
-    } else {
-      this[`${typeThumb}Position`] = value;
+    if (value === null) return;
 
-      this[`${typeThumb}Position`] = this._equateValueToStep(
-        this[`${typeThumb}Position`],
-      );
+    const positionProperty = `${typeThumb}Position` as const;
+    const pixelPositionProperty = `${typeThumb}ThumbPixelPosition` as const;
 
-      if (this.type === "double") {
-        this[`${typeThumb}Position`] = this._validateDoublePosition(
-          typeThumb,
-          this[`${typeThumb}Position`],
-        );
-      }
+    this[positionProperty] = this._calculatePosition(typeThumb, value);
+    this._normalizeMinMaxPositions();
 
-      this._normalizeMinMaxPositions();
+    this[pixelPositionProperty] = ValueConverter.convertUnitsToPixels({
+      value: this[positionProperty],
+      minValue: this.minValue,
+      pixelInOneStep: this.pixelInOneStep,
+      stepValue: this.stepValue,
+    });
 
-      this[`${typeThumb}ThumbPixelPosition`] =
-        ValueConverter.convertUnitsToPixels({
-          value: this[`${typeThumb}Position`],
-          minValue: this.minValue,
-          pixelInOneStep: this.pixelInOneStep,
-          stepValue: this.stepValue,
-        });
+    this.setProgressBarSize();
 
-      this.setProgressBarSize();
-
-      this.notify("modelThumbsPositionChanged", {
-        type: typeThumb,
-        currentValue: this[`${typeThumb}Position`],
-        pixelPosition: this[`${typeThumb}ThumbPixelPosition`],
-        orientation: this.orientation,
-      });
-    }
+    this.notify("modelThumbsPositionChanged", {
+      type: typeThumb,
+      currentValue: this[positionProperty],
+      pixelPosition: this[pixelPositionProperty],
+      orientation: this.orientation,
+    });
   };
 
   setProgressBarSize = (): void => {
@@ -451,6 +439,15 @@ class Model extends Observer<TModelEvents> implements IModel {
       throw new Error();
     }
     return Math.round(value / this.stepValue) * this.stepValue;
+  }
+
+  private _calculatePosition(typeThumb: "min" | "max", value: number): number {
+    let position = this._equateValueToStep(value);
+
+    if (this.type === "double") {
+      position = this._validateDoublePosition(typeThumb, position);
+    }
+    return position;
   }
 }
 export default Model;
