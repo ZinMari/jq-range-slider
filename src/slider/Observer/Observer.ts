@@ -9,7 +9,7 @@ class Observer<T> implements IObserver<T> {
     typeEvent: K,
     subscriber: TObserverSubscriber<T, K>,
   ): void {
-    if (typeEvent in this.subscribers) {
+    if (this.subscribers[typeEvent]) {
       this.subscribers[typeEvent]?.add(subscriber);
     } else {
       this.subscribers[typeEvent] = new Set([subscriber]);
