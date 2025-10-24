@@ -1,5 +1,5 @@
 import Observer from "../Observer/Observer";
-import ValueConverter from "../utils/ValueConverter/ValueConverter";
+import ValueConverter from "./ValueConverter/ValueConverter";
 
 import type { TUpdateThumbData } from "../View/ThumbView/type";
 import type { TViewCoordinates } from "../View/View/type";
