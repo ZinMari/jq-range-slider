@@ -1,5 +1,5 @@
 import Observer from "../../Observer/Observer";
-import getClickOnSliderHandler from "../../utils/getClickOnSliderHandler";
+import clickOnSliderHelper from "../../utils/clickOnSliderHelper";
 
 import type { TSubViewEvents } from "../type";
 import type { ILineView } from "./type";
@@ -16,9 +16,20 @@ class LineView extends Observer<TSubViewEvents> implements ILineView {
   }
 
   handler = (event: PointerEvent) => {
-    getClickOnSliderHandler.call(
+    event.preventDefault();
+    const target = event.currentTarget;
+
+    if (
+      target instanceof HTMLElement &&
+      target.classList.contains("slider__thumb")
+    ) {
+      return;
+    }
+
+    clickOnSliderHelper.call(
       this,
-      event,
+      event.pageX,
+      event.pageY,
       this.item,
       this.orientation,
       this.notify.bind(this),

@@ -1,7 +1,8 @@
 import getCoordinates from "./getCoordinates";
 
-const getClickOnSliderHandler = (
-  event: PointerEvent,
+const clickOnSliderHelper = (
+  pageX: number,
+  pageY: number,
   line: JQuery<HTMLElement>,
   orientation: "horizontal" | "vertical",
   notify: (
@@ -11,27 +12,17 @@ const getClickOnSliderHandler = (
     },
   ) => void,
 ) => {
-  event.preventDefault();
-  const target = event.currentTarget;
-
-  if (
-    target instanceof HTMLElement &&
-    target.classList.contains("slider__thumb")
-  ) {
-    return;
-  }
-
   const sliderLineCoordinates = getCoordinates(line);
 
   // на скольких пикселях от линии произошел клик
   const pixelClick =
     orientation === "horizontal"
-      ? event.pageX - sliderLineCoordinates.left
-      : event.pageY - sliderLineCoordinates.top;
+      ? pageX - sliderLineCoordinates.left
+      : pageY - sliderLineCoordinates.top;
 
   notify("clickOnSlider", {
     pixelClick,
   });
 };
 
-export default getClickOnSliderHandler;
+export default clickOnSliderHelper;
