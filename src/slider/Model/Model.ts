@@ -393,22 +393,16 @@ class Model extends Observer<TModelEvents> implements IModel {
     clientThumbCoordinatesSize,
     shiftClickThumb,
   }: GetNewThumbCordData): number {
-    let newLeft = clientEvent - shiftClickThumb - clientLineCoordinatesOffset;
+    const rawPosition = this._equatePixelValueToStep(
+      clientEvent - shiftClickThumb - clientLineCoordinatesOffset,
+    );
+    if (rawPosition < 0) return 0;
 
-    //подгоним движение под шаг
-    newLeft = this._equatePixelValueToStep(newLeft);
+    const maxPosition = clientLineCoordinatesSize - clientThumbCoordinatesSize;
 
-    // курсор вышел из слайдера => оставить бегунок в его границах.
-    if (newLeft < 0) {
-      newLeft = 0;
-    }
-    const rightEdge = clientLineCoordinatesSize - clientThumbCoordinatesSize;
+    if (rawPosition > maxPosition) return maxPosition;
 
-    if (newLeft > rightEdge) {
-      newLeft = rightEdge;
-    }
-
-    return newLeft;
+    return rawPosition;
   }
 
   private _equatePixelValueToStep(value: number): number {
