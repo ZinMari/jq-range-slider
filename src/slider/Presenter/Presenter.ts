@@ -130,7 +130,7 @@ class Presenter extends Observer<TPresenterEvents> {
   };
 
   private clickOnSlider = (options: TViewEvents["clickOnSlider"]) => {
-    this.model.clickOnSlider(options);
+    this.model.updateThumbPositionFromPixels(options);
   };
 }
 

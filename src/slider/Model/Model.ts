@@ -339,7 +339,7 @@ class Model extends Observer<TModelEvents> implements IModel {
     );
   };
 
-  clickOnSlider({ pixelClick }: { pixelClick: number }) {
+  updateThumbPositionFromPixels({ pixelClick }: { pixelClick: number }) {
     const stepLeft = this._equatePixelValueToStep(pixelClick);
 
     if (this.type === "single") {

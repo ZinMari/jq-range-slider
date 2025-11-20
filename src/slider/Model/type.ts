@@ -17,7 +17,7 @@ export interface IModel extends IObserver<TModelEvents> {
   setMaxValue: (maxValue: number) => void;
   setStepValue: (value: number) => void;
   updateThumbPosition: (options: TUpdateThumbData) => void;
-  clickOnSlider: (options: { pixelClick: number }) => void;
+  updateThumbPositionFromPixels: (options: { pixelClick: number }) => void;
   modelGetCordsView: (viewCoordinates: TViewCoordinates) => void;
   setProgressBarSize: () => void;
   setInitialValues: () => void;

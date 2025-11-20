@@ -163,7 +163,7 @@ describe("Модель:", () => {
     test("вызывается функции установки нового значения ползунка:", () => {
       const model: Model = new Model(settingsDefault);
       const spy = jest.spyOn(model, "setThumbsPosition");
-      model.clickOnSlider({ pixelClick: getRandomInteger() });
+      model.updateThumbPositionFromPixels({ pixelClick: getRandomInteger() });
       expect(spy).toHaveBeenCalled();
     });
   });
