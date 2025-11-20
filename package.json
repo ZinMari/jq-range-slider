@@ -14,8 +14,8 @@
     "test:view": "jest ./src/slider/tests/View/View.test.ts --coverage",
     "test:line": "jest ./src/slider/tests/View/LineView.test.ts --coverage",
     "test:thumbs": "jest ./src/slider/tests/View/ThumbView.test.ts --coverage",
-    "lint": "npx stylelint **/*.css",
-    "lint:f": "npx stylelint **/*.css --fix"
+    "stylelint": "npx stylelint **/*.css",
+    "stylelint:fix": "npx stylelint **/*.css --fix"
   },
   "keywords": [],
   "author": "",
