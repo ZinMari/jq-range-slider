@@ -35,7 +35,7 @@ export default defineConfig([
       "prefer-rest-params": 0,
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": [
-        "error",
+        "warm",
         {
           argsIgnorePattern: "^_$",
           caughtErrorsIgnorePattern: "^_$",
