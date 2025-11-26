@@ -1,9 +1,12 @@
 import type { IObserver } from "../Observer/type";
 
 export interface ISlider extends IObserver<TSliderEvents> {
-  update: (observerInfoObject: {
-    [K in keyof TSliderSettings]: TSliderSettings[K];
-  }) => void;
+  update: (
+    typeEvent: "updateOptions",
+    observerInfoObject: {
+      [K in keyof TSliderSettings]: TSliderSettings[K];
+    },
+  ) => void;
   sliderData: Partial<Record<keyof TSliderSettings, unknown>> | null;
 }
 

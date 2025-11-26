@@ -25,7 +25,10 @@ export default class Slider extends Observer<TSliderEvents> implements ISlider {
     this.presenter.addSubscriber("updateOptions", this.update);
   }
 
-  update = (dataOptions: TPresenterEvents["updateOptions"]) => {
+  update = (
+    typeEvent: "updateOptions",
+    dataOptions: TPresenterEvents["updateOptions"],
+  ) => {
     this.sliderData = Object.assign(this.sliderData || {}, dataOptions);
     this.notify("sliderUpdated", this.sliderData);
   };
@@ -34,7 +37,12 @@ export default class Slider extends Observer<TSliderEvents> implements ISlider {
     this.presenter.refreshOptions(options);
   }
 
-  connectToPluginData(fn: (options: TSliderEvents["sliderUpdated"]) => void) {
+  connectToPluginData(
+    fn: (
+      typeEvent: "sliderUpdated",
+      options: TSliderEvents["sliderUpdated"],
+    ) => void,
+  ) {
     this.addSubscriber("sliderUpdated", fn);
   }
 
