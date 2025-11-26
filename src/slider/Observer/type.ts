@@ -17,5 +17,6 @@ export interface IObserver<T> {
 }
 
 export type TObserverSubscriber<T, K extends keyof T> = (
+  typeEvent: K,
   infoObject: T[K],
 ) => void;
