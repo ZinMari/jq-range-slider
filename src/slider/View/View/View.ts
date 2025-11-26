@@ -165,13 +165,17 @@ class View extends Observer<TViewEvents> implements IView {
     );
   }
 
-  private _handlerUpdateThumbPosition = (options: TUpdateThumbData) => {
+  private _handlerUpdateThumbPosition = (
+    typeEvent: "updateThumbPosition",
+    options: TUpdateThumbData,
+  ) => {
     this.notify("viewThumbsPositionChanged", options);
   };
 
-  private _handlerClickOnSlider = ({
-    pixelClick,
-  }: TSubViewEvents["clickOnSlider"]) => {
+  private _handlerClickOnSlider = (
+    typeEvent: "clickOnSlider",
+    { pixelClick }: TSubViewEvents["clickOnSlider"],
+  ) => {
     this.notify("clickOnSlider", {
       pixelClick,
     });
