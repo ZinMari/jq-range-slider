@@ -64,40 +64,50 @@ class Presenter extends Observer<TPresenterEvents> {
     this.model.refreshOptions(options);
   }
 
-  private modelTypeChanged = (dataObject: TModelEvents["modelTypeChanged"]) => {
+  private modelTypeChanged = (
+    typeEvent: "modelTypeChanged",
+    dataObject: TModelEvents["modelTypeChanged"],
+  ) => {
     this.view.updateType(dataObject);
   };
 
   private modelOrientationChanged = (
+    typeEvent: "modelOrientationChanged",
     dataObject: TModelEvents["modelOrientationChanged"],
   ) => {
     this.view.updateOrientation(dataObject);
   };
 
   private modelSetRulerChanged = (
+    typeEvent: "modelSetRulerChanged",
     dataObject: TModelEvents["modelSetRulerChanged"],
   ) => {
     this.view.updateShowRuler(dataObject);
   };
 
   private modelShowFlagChanged = (
+    typeEvent: "modelShowFlagChanged",
     dataObject: TModelEvents["modelShowFlagChanged"],
   ) => {
     this.view.updateShowFlag(dataObject);
   };
 
   private modelProgressbarUpdated = (
+    typeEvent: "modelProgressbarUpdated",
     dataObject: TModelEvents["modelProgressbarUpdated"],
   ) => {
     this.view.updateProgressBar(dataObject);
   };
 
-  private modelThumbsPositionChanged = ({
-    type,
-    currentValue,
-    pixelPosition,
-    orientation,
-  }: TModelEvents["modelThumbsPositionChanged"]) => {
+  private modelThumbsPositionChanged = (
+    typeEvent: "modelThumbsPositionChanged",
+    {
+      type,
+      currentValue,
+      pixelPosition,
+      orientation,
+    }: TModelEvents["modelThumbsPositionChanged"],
+  ) => {
     this.view.updateThumbsPosition({ type, pixelPosition, orientation });
     this.view.updateFlagValues({ type, currentValue });
 
@@ -106,10 +116,10 @@ class Presenter extends Observer<TPresenterEvents> {
     });
   };
 
-  private modelMinMaxValuesChanged = ({
-    min,
-    max,
-  }: TModelEvents["modelMinMaxValuesChanged"]) => {
+  private modelMinMaxValuesChanged = (
+    typeEvent: "modelMinMaxValuesChanged",
+    { min, max }: TModelEvents["modelMinMaxValuesChanged"],
+  ) => {
     this.view.updateMinMaxValueLine({ min, max });
     this.view.updateRuler({ min, max });
 
@@ -119,17 +129,24 @@ class Presenter extends Observer<TPresenterEvents> {
     });
   };
 
-  private viewInit = (viewCoordinates: TViewEvents["viewInit"]) => {
+  private viewInit = (
+    typeEvent: "viewInit",
+    viewCoordinates: TViewEvents["viewInit"],
+  ) => {
     this.model.modelGetCordsView(viewCoordinates);
   };
 
   private viewThumbsPositionChanged = (
+    typeEvent: "viewThumbsPositionChanged",
     options: TViewEvents["viewThumbsPositionChanged"],
   ) => {
     this.model.updateThumbPosition(options);
   };
 
-  private clickOnSlider = (options: TViewEvents["clickOnSlider"]) => {
+  private clickOnSlider = (
+    typeEvent: "clickOnSlider",
+    options: TViewEvents["clickOnSlider"],
+  ) => {
     this.model.updateThumbPositionFromPixels(options);
   };
 }
