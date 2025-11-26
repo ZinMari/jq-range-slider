@@ -29,7 +29,7 @@ class Observer<T> implements IObserver<T> {
 
   notify<K extends keyof T>(typeEvent: K, observerInfoObject: T[K]): void {
     this.subscribers[typeEvent]?.forEach(updateSubscriber =>
-      updateSubscriber(observerInfoObject),
+      updateSubscriber(typeEvent, observerInfoObject),
     );
   }
 }
