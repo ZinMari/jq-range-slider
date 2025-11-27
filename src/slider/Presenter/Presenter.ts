@@ -31,35 +31,23 @@ class Presenter extends Observer<TPresenterEvents> {
       "clickOnSlider",
     ];
 
+    const modelEvents: (keyof TModelEvents)[] = [
+      "modelThumbsPositionChanged",
+      "modelMinMaxValuesChanged",
+      "modelProgressbarUpdated",
+      "modelSetRulerChanged",
+      "modelShowFlagChanged",
+      "modelOrientationChanged",
+      "modelTypeChanged",
+    ];
+
     viewEvents.forEach(event =>
       this.view.addSubscriber(event, this.handleViewEvent),
     );
 
-    this.model.addSubscriber(
-      "modelThumbsPositionChanged",
-      this.modelThumbsPositionChanged,
+    modelEvents.forEach(event =>
+      this.model.addSubscriber(event, this.handleModelEvent),
     );
-
-    this.model.addSubscriber(
-      "modelMinMaxValuesChanged",
-      this.modelMinMaxValuesChanged,
-    );
-
-    this.model.addSubscriber(
-      "modelProgressbarUpdated",
-      this.modelProgressbarUpdated,
-    );
-
-    this.model.addSubscriber("modelSetRulerChanged", this.modelSetRulerChanged);
-
-    this.model.addSubscriber("modelShowFlagChanged", this.modelShowFlagChanged);
-
-    this.model.addSubscriber(
-      "modelOrientationChanged",
-      this.modelOrientationChanged,
-    );
-
-    this.model.addSubscriber("modelTypeChanged", this.modelTypeChanged);
   }
 
   refreshOptions(options: TUserSliderSettings): void {
