@@ -65,9 +65,9 @@ class Presenter extends Observer<TPresenterEvents> {
     this.model.refreshOptions(options);
   }
 
-  private updateModelFunctions(): {
+  private updateModelFunctions = (): {
     [K in keyof TViewEvents]: (data: TViewEvents[K]) => void;
-  } {
+  } => {
     return {
       viewInit: (data: TViewEvents["viewInit"]) => {
         this.model.modelGetCordsView(data);
@@ -81,11 +81,11 @@ class Presenter extends Observer<TPresenterEvents> {
         this.model.updateThumbPositionFromPixels(data);
       },
     };
-  }
+  };
 
-  private updateViewFunctions(): {
+  private updateViewFunctions = (): {
     [K in keyof TModelEvents]: (data: TModelEvents[K]) => void;
-  } {
+  } => {
     return {
       modelThumbsPositionChanged: ({
         type,
@@ -135,7 +135,23 @@ class Presenter extends Observer<TPresenterEvents> {
         data: TModelEvents["modelStepValueChanged"],
       ) => {},
     };
-  }
+  };
+
+  private handleModelEvent = <K extends keyof TModelEvents>(
+    typeEvent: K,
+    data: TModelEvents[K],
+  ) => {
+    const handler = this.updateViewFunctions()[typeEvent];
+    handler(data);
+  };
+
+  private handleViewEvent = <K extends keyof TViewEvents>(
+    typeEvent: K,
+    data: TViewEvents[K],
+  ) => {
+    const handler = this.updateModelFunctions()[typeEvent];
+    handler(data);
+  };
 
   private modelTypeChanged = (
     typeEvent: "modelTypeChanged",
