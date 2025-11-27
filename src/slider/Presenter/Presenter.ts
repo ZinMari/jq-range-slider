@@ -25,14 +25,15 @@ class Presenter extends Observer<TPresenterEvents> {
   }
 
   bindSubscribers() {
-    this.view.addSubscriber("viewInit", this.viewInit);
-
-    this.view.addSubscriber(
+    const viewEvents: (keyof TViewEvents)[] = [
+      "viewInit",
       "viewThumbsPositionChanged",
-      this.viewThumbsPositionChanged,
-    );
+      "clickOnSlider",
+    ];
 
-    this.view.addSubscriber("clickOnSlider", this.clickOnSlider);
+    viewEvents.forEach(event =>
+      this.view.addSubscriber(event, this.handleViewEvent),
+    );
 
     this.model.addSubscriber(
       "modelThumbsPositionChanged",
