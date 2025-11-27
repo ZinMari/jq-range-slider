@@ -9,8 +9,7 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "noImplicitAny": true,
-    "noUnusedParameters": false
+    "noImplicitAny": true
   },
   "ts-node": {
     "compilerOptions": {
