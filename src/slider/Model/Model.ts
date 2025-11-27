@@ -315,8 +315,6 @@ class Model extends Observer<TModelEvents> implements IModel {
       min: this.minValue,
       step: this.stepValue,
     });
-
-    this.notify("modelStepValueChanged", { stepValue: this.stepValue });
   }
 
   updateThumbPosition = (options: TUpdateThumbData) => {

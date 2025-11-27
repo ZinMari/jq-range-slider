@@ -122,9 +122,6 @@ class Presenter extends Observer<TPresenterEvents> {
       modelTypeChanged: (data: TModelEvents["modelTypeChanged"]) => {
         this.view.updateType(data);
       },
-      modelStepValueChanged: (
-        data: TModelEvents["modelStepValueChanged"],
-      ) => {},
     };
   };
 

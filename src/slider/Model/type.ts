@@ -32,9 +32,6 @@ export type TModelEvents = {
     pixelPosition: number | null;
     orientation: "vertical" | "horizontal";
   };
-  modelStepValueChanged: {
-    stepValue: number;
-  };
   modelMinMaxValuesChanged: {
     min: number;
     max: number;
