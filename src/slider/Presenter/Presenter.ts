@@ -4,6 +4,7 @@ import type { IModel, TModelEvents } from "../Model/type";
 import type { IView, TViewEvents } from "../View/View/type";
 import type { TPresenterEvents } from "./type";
 import { TUserSliderSettings } from "../Slider/type";
+import { TViewData, TViewEntity } from "../utils/updateFunc";
 
 class Presenter extends Observer<TPresenterEvents> {
   constructor(
@@ -62,6 +63,24 @@ class Presenter extends Observer<TPresenterEvents> {
 
   refreshOptions(options: TUserSliderSettings): void {
     this.model.refreshOptions(options);
+  }
+
+  private updateModelFunctions(): {
+    [K in keyof TViewEvents]: (data: TViewEvents[K]) => void;
+  } {
+    return {
+      viewInit: (data: TViewEvents["viewInit"]) => {
+        this.model.modelGetCordsView(data);
+      },
+      viewThumbsPositionChanged: (
+        data: TViewEvents["viewThumbsPositionChanged"],
+      ) => {
+        this.model.updateThumbPosition(data);
+      },
+      clickOnSlider: (data: TViewEvents["clickOnSlider"]) => {
+        this.model.updateThumbPositionFromPixels(data);
+      },
+    };
   }
 
   private modelTypeChanged = (
