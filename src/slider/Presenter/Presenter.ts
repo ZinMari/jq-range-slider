@@ -4,7 +4,7 @@ import type { IModel, TModelEvents } from "../Model/type";
 import type { IView, TViewEvents } from "../View/View/type";
 import type { TPresenterEvents } from "./type";
 import { TUserSliderSettings } from "../Slider/type";
-import { TViewData, TViewEntity } from "../utils/updateFunc";
+import updateFunction from "../utils/updateFunction";
 
 class Presenter extends Observer<TPresenterEvents> {
   constructor(
@@ -53,6 +53,8 @@ class Presenter extends Observer<TPresenterEvents> {
   refreshOptions(options: TUserSliderSettings): void {
     this.model.refreshOptions(options);
   }
+
+  private updateFunction = updateFunction;
 
   private updateModelFunctions = (): {
     [K in keyof TViewEvents]: (data: TViewEvents[K]) => void;
@@ -126,21 +128,13 @@ class Presenter extends Observer<TPresenterEvents> {
     };
   };
 
-  private handleModelEvent = <K extends keyof TModelEvents>(
-    typeEvent: K,
-    data: TModelEvents[K],
-  ) => {
-    const handler = this.updateViewFunctions()[typeEvent];
-    handler(data);
-  };
+  private handleModelEvent = this.updateFunction<TModelEvents>(() =>
+    this.updateViewFunctions(),
+  );
 
-  private handleViewEvent = <K extends keyof TViewEvents>(
-    typeEvent: K,
-    data: TViewEvents[K],
-  ) => {
-    const handler = this.updateModelFunctions()[typeEvent];
-    handler(data);
-  };
+  private handleViewEvent = this.updateFunction<TViewEvents>(() =>
+    this.updateModelFunctions(),
+  );
 }
 
 export default Presenter;
