@@ -83,6 +83,60 @@ class Presenter extends Observer<TPresenterEvents> {
     };
   }
 
+  private updateViewFunctions(): {
+    [K in keyof TModelEvents]: (data: TModelEvents[K]) => void;
+  } {
+    return {
+      modelThumbsPositionChanged: ({
+        type,
+        pixelPosition,
+        orientation,
+        currentValue,
+      }: TModelEvents["modelThumbsPositionChanged"]) => {
+        this.view.updateThumbsPosition({ type, pixelPosition, orientation });
+        this.view.updateFlagValues({ type, currentValue });
+
+        this.notify("updateOptions", {
+          [`${type}Position`]: currentValue,
+        });
+      },
+      modelMinMaxValuesChanged: ({
+        min,
+        max,
+      }: TModelEvents["modelMinMaxValuesChanged"]) => {
+        this.view.updateMinMaxValueLine({ min, max });
+        this.view.updateRuler({ min, max });
+
+        this.notify("updateOptions", {
+          [`minValue`]: min,
+          [`maxValue`]: max,
+        });
+      },
+      modelProgressbarUpdated: (
+        data: TModelEvents["modelProgressbarUpdated"],
+      ) => {
+        this.view.updateProgressBar(data);
+      },
+      modelSetRulerChanged: (data: TModelEvents["modelSetRulerChanged"]) => {
+        this.view.updateShowRuler(data);
+      },
+      modelShowFlagChanged: (data: TModelEvents["modelShowFlagChanged"]) => {
+        this.view.updateShowFlag(data);
+      },
+      modelOrientationChanged: (
+        data: TModelEvents["modelOrientationChanged"],
+      ) => {
+        this.view.updateOrientation(data);
+      },
+      modelTypeChanged: (data: TModelEvents["modelTypeChanged"]) => {
+        this.view.updateType(data);
+      },
+      modelStepValueChanged: (
+        data: TModelEvents["modelStepValueChanged"],
+      ) => {},
+    };
+  }
+
   private modelTypeChanged = (
     typeEvent: "modelTypeChanged",
     dataObject: TModelEvents["modelTypeChanged"],
