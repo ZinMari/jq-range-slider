@@ -1,16 +1,17 @@
 import Observer from "../Observer/Observer";
 
-import type { IModel, TModelEvents } from "../Model/type";
-import type { IView, TViewEvents } from "../View/View/type";
-import type { TData, TEntity, TPresenterEvents } from "./type";
+import type { IModel } from "../Model/type";
+import type { IView } from "../View/View/type";
 import { TUserSliderSettings } from "../Slider/type";
 import { MODEL_EVENTS, VIEW_EVENTS } from "./constants";
+import { updateFunction } from "./updateFunc";
+import { TPresenterEvents } from "./type";
 
 class Presenter extends Observer<TPresenterEvents> {
-  constructor(
-    private view: IView,
-    private model: IModel,
-  ) {
+  view: IView;
+  model: IModel;
+
+  constructor(view: IView, model: IModel) {
     super();
     this.view = view;
     this.model = model;
@@ -23,6 +24,8 @@ class Presenter extends Observer<TPresenterEvents> {
   destroy() {
     this.view.destroy();
   }
+
+  updateFunction = updateFunction.bind(this);
 
   bindSubscribers() {
     VIEW_EVENTS.forEach(event =>
@@ -37,71 +40,6 @@ class Presenter extends Observer<TPresenterEvents> {
   refreshOptions(options: TUserSliderSettings): void {
     this.model.refreshOptions(options);
   }
-
-  updateFunction = (entity: TEntity, data: TData): void => {
-    switch (entity) {
-      case "viewInit":
-        this.model.modelGetCordsView(data as TViewEvents["viewInit"]);
-        break;
-      case "viewThumbsPositionChanged":
-        this.model.updateThumbPosition(
-          data as TViewEvents["viewThumbsPositionChanged"],
-        );
-        break;
-      case "clickOnSlider":
-        this.model.updateThumbPositionFromPixels(
-          data as TViewEvents["clickOnSlider"],
-        );
-        break;
-      case "modelThumbsPositionChanged": {
-        const { type, pixelPosition, orientation, currentValue } =
-          data as TModelEvents["modelThumbsPositionChanged"];
-
-        this.view.updateThumbsPosition({ type, pixelPosition, orientation });
-        this.view.updateFlagValues({ type, currentValue });
-
-        this.notify("updateOptions", {
-          [`${type}Position`]: currentValue,
-        });
-        break;
-      }
-      case "modelMinMaxValuesChanged": {
-        const { min, max } = data as TModelEvents["modelMinMaxValuesChanged"];
-        this.view.updateMinMaxValueLine({ min, max });
-        this.view.updateRuler({ min, max });
-
-        this.notify("updateOptions", {
-          [`minValue`]: min,
-          [`maxValue`]: max,
-        });
-        break;
-      }
-      case "modelProgressbarUpdated": {
-        this.view.updateProgressBar(
-          data as TModelEvents["modelProgressbarUpdated"],
-        );
-        break;
-      }
-      case "modelSetRulerChanged": {
-        this.view.updateShowRuler(data as TModelEvents["modelSetRulerChanged"]);
-        break;
-      }
-      case "modelShowFlagChanged": {
-        this.view.updateShowFlag(data as TModelEvents["modelShowFlagChanged"]);
-        break;
-      }
-      case "modelOrientationChanged": {
-        this.view.updateOrientation(
-          data as TModelEvents["modelOrientationChanged"],
-        );
-        break;
-      }
-      case "modelTypeChanged": {
-        this.view.updateType(data as TModelEvents["modelTypeChanged"]);
-        break;
-      }
-    }
-  };
 }
 
 export default Presenter;
