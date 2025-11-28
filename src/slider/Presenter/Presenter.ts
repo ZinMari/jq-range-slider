@@ -5,6 +5,7 @@ import type { IView, TViewEvents } from "../View/View/type";
 import type { TPresenterEvents } from "./type";
 import { TUserSliderSettings } from "../Slider/type";
 import updateFunction from "../utils/updateFunction";
+import { MODEL_EVENTS, VIEW_EVENTS } from "./constants";
 
 class Presenter extends Observer<TPresenterEvents> {
   constructor(
@@ -25,27 +26,11 @@ class Presenter extends Observer<TPresenterEvents> {
   }
 
   bindSubscribers() {
-    const viewEvents: (keyof TViewEvents)[] = [
-      "viewInit",
-      "viewThumbsPositionChanged",
-      "clickOnSlider",
-    ];
-
-    const modelEvents: (keyof TModelEvents)[] = [
-      "modelThumbsPositionChanged",
-      "modelMinMaxValuesChanged",
-      "modelProgressbarUpdated",
-      "modelSetRulerChanged",
-      "modelShowFlagChanged",
-      "modelOrientationChanged",
-      "modelTypeChanged",
-    ];
-
-    viewEvents.forEach(event =>
+    VIEW_EVENTS.forEach(event =>
       this.view.addSubscriber(event, this.handleViewEvent),
     );
 
-    modelEvents.forEach(event =>
+    MODEL_EVENTS.forEach(event =>
       this.model.addSubscriber(event, this.handleModelEvent),
     );
   }
