@@ -13,7 +13,7 @@ export default defineConfig([
     },
   },
   {
-    ignores: ["node_modules", "build", "coverage"],
+    ignores: ["node_modules", "build", "coverage", "config"],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
