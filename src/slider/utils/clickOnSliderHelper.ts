@@ -14,7 +14,6 @@ const clickOnSliderHelper = (
 ) => {
   const sliderLineCoordinates = getCoordinates(line);
 
-  // на скольких пикселях от линии произошел клик
   const pixelClick =
     orientation === "horizontal"
       ? pageX - sliderLineCoordinates.left

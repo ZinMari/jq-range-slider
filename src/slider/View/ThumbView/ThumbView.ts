@@ -73,7 +73,6 @@ class ThumbView extends Observer<TThumbViewEvents> implements IThumbView {
     const thumbCoordinates = getCoordinates($currentThumb);
     const lineCoordinates = getCoordinates(this.line.item);
 
-    // разница между кликом и началок кнопки
     const shiftClickThumb: number = ThumbView._getShiftThumb({
       clickPageX,
       clickPageY,
