@@ -1,4 +1,6 @@
 @use "_variables" as vars;
+
+@use "_reset";
 @use "../components/slider-complex/slider-complex";
 
 .page {
