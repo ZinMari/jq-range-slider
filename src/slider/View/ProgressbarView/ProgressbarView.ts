@@ -15,7 +15,7 @@ class ProgressBarView implements IProgressBarView {
     this.item.removeAttr("style");
     if (dataObject.orientation === "vertical") {
       this.item.css({
-        top: dataObject.from,
+        transform: `translateY(${dataObject.from}px)`,
         width: "100%",
         height: dataObject.to,
       });
@@ -23,7 +23,7 @@ class ProgressBarView implements IProgressBarView {
 
     if (dataObject.orientation === "horizontal") {
       this.item.css({
-        left: dataObject.from,
+        transform: `translateX(${dataObject.from}px)`,
         height: "100%",
         width: dataObject.to,
       });
