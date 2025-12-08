@@ -50,8 +50,6 @@ function setValueToPanel(slider: string): void {
 }
 
 function onChangePanelValue(event: Event) {
-  event.preventDefault();
-
   const targetElement = event.target as HTMLElement | null;
 
   if (!targetElement) return;
