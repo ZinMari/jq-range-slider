@@ -16,7 +16,7 @@ class LineView extends Observer<TSubViewEvents> implements ILineView {
   }
 
   handler = (event: PointerEvent) => {
-    event.preventDefault();
+    event.stopPropagation();
     const target = event.currentTarget;
 
     if (
