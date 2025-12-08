@@ -41,7 +41,6 @@ class RulerView extends Observer<TSubViewEvents> implements IRulerView {
   }
 
   handler = (event: PointerEvent) => {
-    event.preventDefault();
     const target = event.currentTarget;
 
     if (
