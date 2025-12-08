@@ -150,12 +150,11 @@ class ThumbView extends Observer<TThumbViewEvents> implements IThumbView {
     position: number,
     orientation: "horizontal" | "vertical",
   ): void {
-    const moveDirection = orientation === "vertical" ? "top" : "left";
-    if (thumb === "min") {
-      this.minThumb.css({ [moveDirection]: position });
-    } else if (this.type === "double" && thumb === "max") {
-      this.maxThumb?.css({ [moveDirection]: position });
-    }
+    const moveDirection = orientation === "vertical" ? "Y" : "X";
+    const transform = `translate${moveDirection}(${position}px)`;
+
+    const element = thumb === "min" ? this.minThumb : this.maxThumb!;
+    element.css({ transform });
   }
 
   updateType({ type }: TModelEvents["modelTypeChanged"]) {

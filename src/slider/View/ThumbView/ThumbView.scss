@@ -1,16 +1,18 @@
 @use "../../styles/variables" as vars;
 
 .slider__thumb {
+  --thumb-width: 30px;
+  --thumb-height: 30px;
+
   box-sizing: border-box;
   position: absolute;
   left: 0;
   display: block;
-  width: 30px;
-  height: 30px;
+  width: var(--thumb-width);
+  height: var(--thumb-height);
+  top: calc(50% - (var(--thumb-height) / 2));
   background-color: vars.$color-white;
   border: 10px solid vars.$color-gray;
-  top: 50%;
-  transform: translateY(-50%);
   border-radius: 50%;
   cursor: pointer;
 
@@ -37,9 +39,7 @@
   &_type {
     &_vertical {
       top: 0;
-      transform: translateY(0);
-      left: 50%;
-      transform: translateX(-50%);
+      left: calc(50% - (var(--thumb-width) / 2));
 
       &.flag::before {
         left: -50px;
