@@ -26,28 +26,4 @@
     gap: 50px;
     z-index: vars.$z-index-container;
   }
-
-  &__gradient {
-    position: absolute;
-    background: vars.$bg-gradient;
-    background-size: 400%;
-    inset: 0;
-    z-index: vars.$z-index-base;
-    animation-name: gradient;
-    animation-duration: 10s;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-  }
-}
-
-@keyframes gradient {
-  // 0% {
-  //   background-position: 0 0;
-  // }
-  // 50% {
-  //   background-position: 20% 100%;
-  // }
-  // 100% {
-  //   background-position: 80% 0;
-  // }
 }
