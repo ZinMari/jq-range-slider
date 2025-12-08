@@ -13,14 +13,36 @@
   &__slider {
     flex-basis: 50%;
   }
+
+  &__panel {
+    flex-basis: 50%;
+  }
 }
 
 .form {
   display: flex;
+  width: 100%;
   flex-direction: column;
   gap: 20px;
 
+  &__block {
+    border: 1px solid #ffffff;
+  }
+
+  &__legend {
+    padding: 10px;
+  }
+
   &__label {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
     cursor: pointer;
+  }
+
+  &__input {
+    padding: 2px;
+    color: vars.$color-bg;
+    background-color: vars.$color-light;
   }
 }
