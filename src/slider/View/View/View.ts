@@ -195,7 +195,6 @@ class View extends Observer<TViewEvents> implements IView {
 
   private _setHorizontalOrientation(): void {
     this.slider.removeClass("slider_type_vertical");
-    this.slider.width("100%");
     this.line.setHorizontalOrientation();
     this.thumbs.setOrientation("horizontal");
     this.ruler.setHorizontalOrientation();
