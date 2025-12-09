@@ -3,7 +3,6 @@ import type { IProgressBarView } from "./type";
 
 class ProgressBarView implements IProgressBarView {
   item: JQuery<HTMLElement>;
-  orientation!: "vertical" | "horizontal";
 
   constructor(progressBarClass: string) {
     this.item = $("<span>", {
