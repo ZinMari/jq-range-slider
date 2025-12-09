@@ -89,7 +89,6 @@ class Model extends Observer<TModelEvents> implements IModel {
       this.maxPosition = Math.max(min, max);
     }
 
-    //проверю на пограничные минимальное
     this.minPosition =
       this.minPosition < this.minValue ? this.minValue : this.minPosition;
 
@@ -97,7 +96,6 @@ class Model extends Observer<TModelEvents> implements IModel {
       this.minPosition > this.maxValue ? this.maxValue : this.minPosition;
 
     if (this.type === "double" && typeof this.maxPosition === "number") {
-      //проверю на пограничные максимальное
       this.maxPosition =
         this.maxPosition > this.maxValue ? this.maxValue : this.maxPosition;
 
