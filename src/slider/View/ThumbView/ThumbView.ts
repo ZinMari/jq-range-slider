@@ -61,7 +61,7 @@ class ThumbView extends Observer<TThumbViewEvents> implements IThumbView {
   }
 
   private handler = (event: PointerEvent) => {
-    event.preventDefault();
+    event.stopPropagation();
     if (!event.target) {
       return;
     }
