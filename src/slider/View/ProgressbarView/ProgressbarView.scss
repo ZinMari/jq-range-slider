@@ -1,11 +1,11 @@
-@use "../../styles/variables" as vars;
+@use "../../styles/variables" as *;
 
 .slider__progressbar {
   display: block;
   position: absolute;
   top: 0;
   left: 0;
-  background-color: vars.$color-white;
+  background-color: $color-white;
   height: 100%;
 
   &_type {

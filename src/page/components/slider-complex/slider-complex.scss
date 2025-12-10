@@ -1,8 +1,8 @@
-@use "../../styles/variables" as vars;
+@use "../../styles/variables" as *;
 
 .slider-complex {
   display: flex;
-  border: 1px solid vars.$color-light;
+  border: 1px solid $color-light;
   gap: 50px;
   padding: 50px 10px;
 
@@ -42,7 +42,7 @@
 
   &__input {
     padding: 2px;
-    color: vars.$color-bg;
-    background-color: vars.$color-light;
+    color: $color-bg;
+    background-color: $color-light;
   }
 }

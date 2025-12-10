@@ -1,14 +1,14 @@
-@use "_variables" as vars;
+@use "_variables" as *;
 
 @use "_reset";
 @use "../components/slider-complex/slider-complex";
 
 .page {
-  background-color: vars.$color-bg;
+  background-color: $color-bg;
   min-height: 100vh;
   font-size: 16px;
   font-family: Arial, sans-serif;
-  color: vars.$color-light;
+  color: $color-light;
 
   &__body {
     min-width: 360px;
@@ -24,6 +24,6 @@
     display: flex;
     flex-direction: column;
     gap: 50px;
-    z-index: vars.$z-index-container;
+    z-index: $z-index-container;
   }
 }

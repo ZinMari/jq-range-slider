@@ -1,9 +1,9 @@
-@use "../../styles/variables" as vars;
+@use "../../styles/variables" as *;
 
 .slider__values {
   display: flex;
   justify-content: space-between;
-  color: vars.$color-light;
+  color: $color-light;
 
   &_type {
     &_vertical {

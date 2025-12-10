@@ -1,9 +1,9 @@
-@use "../../styles/variables" as vars;
+@use "../../styles/variables" as *;
 
 .slider__line {
   position: relative;
   height: 15px;
-  border: 1px solid vars.$color-gray;
+  border: 1px solid $color-gray;
 
   &_type {
     &_vertical {
