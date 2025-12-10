@@ -39,11 +39,6 @@ class LineView extends Observer<TSubViewEvents> implements ILineView {
   setVerticalOrientation() {
     this.orientation = "vertical";
     this.item.addClass("slider__line_type_vertical");
-
-    const parentWidth = this.item.parent().outerWidth();
-    if (parentWidth) {
-      this.item.height(parentWidth);
-    }
   }
 
   setHorizontalOrientation() {
