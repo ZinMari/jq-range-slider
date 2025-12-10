@@ -12,18 +12,21 @@ class ProgressBarView implements IProgressBarView {
 
   update = (dataObject: TModelEvents["modelProgressbarUpdated"]): void => {
     this.item.removeAttr("style");
+
     if (dataObject.orientation === "vertical") {
+      this.item.addClass("slider__progressbar_type_vertical");
+
       this.item.css({
         transform: `translateY(${dataObject.from}px)`,
-        width: "100%",
         height: dataObject.to,
       });
     }
 
     if (dataObject.orientation === "horizontal") {
+      this.item.removeClass("slider__progressbar_type_vertical");
+
       this.item.css({
         transform: `translateX(${dataObject.from}px)`,
-        height: "100%",
         width: dataObject.to,
       });
     }

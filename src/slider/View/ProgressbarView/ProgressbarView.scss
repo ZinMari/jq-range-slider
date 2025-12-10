@@ -6,4 +6,11 @@
   top: 0;
   left: 0;
   background-color: vars.$color-white;
+  height: 100%;
+
+  &_type {
+    &_vertical {
+      width: 100%;
+    }
+  }
 }
