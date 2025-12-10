@@ -182,10 +182,6 @@ class View extends Observer<TViewEvents> implements IView {
   };
 
   private _setVerticalOrientation(): void {
-    const width = this.slider.outerWidth();
-    if (width) {
-      this.slider.height(width);
-    }
     this.slider.addClass("slider_type_vertical");
     this.line.setVerticalOrientation();
     this.thumbs.setOrientation("vertical");

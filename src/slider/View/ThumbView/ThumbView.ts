@@ -61,10 +61,12 @@ class ThumbView extends Observer<TThumbViewEvents> implements IThumbView {
   }
 
   private handler = (event: PointerEvent) => {
-    event.stopPropagation();
     if (!event.target) {
       return;
     }
+
+    event.stopPropagation();
+
     const $currentThumb = $(event.target);
 
     const clickPageX = event.pageX;

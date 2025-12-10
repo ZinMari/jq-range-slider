@@ -1,5 +1,6 @@
 .slider {
   min-width: 100%;
+  aspect-ratio: 1/1;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -8,6 +9,7 @@
 
   &_type {
     &_vertical {
+      max-height: 100%;
       flex-direction: row;
     }
   }
