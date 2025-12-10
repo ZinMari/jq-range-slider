@@ -24,15 +24,9 @@ class MinMaxValueLineView implements IMinMaxValueLine {
 
   setVerticalOrientation() {
     this.item.addClass("slider__values_type_vertical");
-    const width = this.item.parent().outerWidth();
-    if (!width) {
-      return;
-    }
-    this.item.height(width);
   }
   setHorizontalOrientation() {
     this.item.removeClass("slider__values_type_vertical");
-    this.item.removeAttr("style");
   }
 }
 
